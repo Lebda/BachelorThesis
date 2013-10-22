@@ -1,0 +1,58 @@
+﻿<Fluent:RibbonWindow x:Class="SectionCheck.ShellView"                    
+	                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	                 xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+	                 Title="Section check"
+	                 Background="#FFEBEDF0"
+                    xmlns:infrastructure="clr-namespace:SectionCheckInterfaces.Infrastucture;assembly=SectionCheckInterfaces"
+                    xmlns:prism="http://www.codeplex.com/prism">
+   
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+         <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Fluent:Ribbon>
+         <!--Contextual Tab Groups-->
+         <Fluent:Ribbon.ContextualGroups>
+            <Fluent:RibbonContextualTabGroup x:Name="toolsGroup" 
+					                             Header="Tools" 
+					                             Visibility="Visible" 
+					                             Background="Green" 
+					                             BorderBrush="Green" />
+         </Fluent:Ribbon.ContextualGroups>
+
+         <!--Quick Access Toolbar Items-->
+         <Fluent:Ribbon.QuickAccessItems>
+            <!--Use Content or Target Property to set QAT item-->
+            <Fluent:QuickAccessMenuItem IsChecked="true">
+               <Fluent:Button Header="Pink"
+					               Icon="Images\Pink.png" />
+            </Fluent:QuickAccessMenuItem>
+
+            <!--You Can Just Bind with Any Control-->
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=buttonGreen}" />
+         </Fluent:Ribbon.QuickAccessItems>
+
+         <!--Tabs-->
+
+         <!--Contextual Tabs-->
+
+         <!--Backstage-->
+         <Fluent:Ribbon.Menu>
+            <Fluent:Backstage>
+               <Fluent:BackstageTabControl>
+                  <Fluent:BackstageTabItem Header="New" />
+                  <Fluent:BackstageTabItem Header="Print" />
+                  <Fluent:Button Header="Blue" 
+						               Icon="Images\Blue.png" />
+               </Fluent:BackstageTabControl>
+            </Fluent:Backstage>
+         </Fluent:Ribbon.Menu>
+
+      </Fluent:Ribbon>
+      <ContentControl Grid.Row ="1"
+            prism:RegionManager.RegionName="{x:Static infrastructure:Constants.MainContentRegionName}" />
+   </Grid>
+</Fluent:RibbonWindow>
