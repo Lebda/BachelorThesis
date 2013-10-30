@@ -15,7 +15,6 @@ namespace SectionCheck.ViewModels
         public MainViewModel(IDialogService dialogService)
         {
             this._dialogService = dialogService;
-            int i = 20;
         }
 
         /// <summary>

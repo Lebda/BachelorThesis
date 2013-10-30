@@ -1,0 +1,10 @@
+﻿<Window x:Class="Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lib="clr-namespace:TestControl;assembly=TestControl"        
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+      <lib:UserControl1  Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+        x:Name="sectionDrawing" Margin="2" Padding="3" ></lib:UserControl1>
+   </Grid>
+</Window>

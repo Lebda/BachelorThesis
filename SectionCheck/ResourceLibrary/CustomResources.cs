@@ -8,15 +8,15 @@ namespace ResourceLibrary
 {
     public static class CustomResources
     {
-        public static ComponentResourceKey ExpressionDark
+        public static ComponentResourceKey CompressionPartBrush
         {
             get
             {
                 ResourceDictionary resourceDictionary = new ResourceDictionary();
                 resourceDictionary.Source = new Uri(
-                  "ResourceLibrary;component/ExpressionDark.xaml", UriKind.Relative);
+                  "ResourceLibrary;component/Themes/SciaCheck.xaml", UriKind.Relative);
                 return new ComponentResourceKey(
-                    typeof(ResourceDictionary), "ExpressionDark");
+                    typeof(ComponentResourceKey), "CompressionPartBrush");
             }
         }
     }

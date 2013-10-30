@@ -150,7 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastucture\" />
-    <Folder Include="Models\" />
+    <Folder Include="Model\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
@@ -168,6 +169,10 @@
     <ProjectReference Include="..\SectionCheckInterfaces\SectionCheckInterfaces.csproj">
       <Project>{AED4B374-6537-4AF8-A3FD-3E2DA8AFA51D}</Project>
       <Name>SectionCheckInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SectionDrawerControl\SectionDrawerControl.csproj">
+      <Project>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</Project>
+      <Name>SectionDrawerControl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

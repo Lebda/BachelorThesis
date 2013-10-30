@@ -13,19 +13,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SectionDrawUI.ViewModels;
 using Microsoft.Practices.Unity;
+using System.Windows.Media.Media3D;
 
 namespace SectionDrawUI
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
     public partial class DrawSectionView : UserControl
     {
         [Dependency]
         public DrawSectionViewModel ViewModel
         {
             get { return this.DataContext as DrawSectionViewModel; }
-            set { this.DataContext = value; }
+            set { this.DataContext = value;}
         }
 
         public DrawSectionView()

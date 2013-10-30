@@ -33,10 +33,11 @@ namespace SectionCheck
             return new AggregateModuleCatalog();
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog() 
         {
             Type mainModule = typeof(MainModule);
             ModuleCatalog.AddModule(new ModuleInfo(mainModule.Name, mainModule.AssemblyQualifiedName));
+
 
 //             Type sectionDrawModule = typeof(SectionDrawModule);
 //             ModuleCatalog.AddModule(new ModuleInfo(sectionDrawModule.Name, sectionDrawModule.AssemblyQualifiedName));

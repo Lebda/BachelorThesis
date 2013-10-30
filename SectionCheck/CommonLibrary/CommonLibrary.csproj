@@ -51,6 +51,7 @@
     <Compile Include="Services\DialogEnums.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\ModalDialogService.cs" />
+    <Compile Include="Utility\CanvasDataContext.cs" />
     <Compile Include="Utility\DeepCopy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

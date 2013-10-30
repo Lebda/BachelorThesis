@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionCheckInterfaces", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionDrawUI", "SectionDrawUI\SectionDrawUI.csproj", "{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionDrawerControl", "SectionDrawerControl\SectionDrawerControl.csproj", "{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,45 @@
 ﻿<UserControl x:Class="SectionDrawUI.DrawSectionView"
+             xmlns:local="clr-namespace:SectionDrawUI.ViewModels"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
+             xmlns:lib="clr-namespace:SectionDrawerControl;assembly=SectionDrawerControl"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Background="Red">
+             d:DesignHeight="300" d:DesignWidth="400"
+             Background="#FFEBD84E">
    <UserControl.Resources>
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/ResourceLibrary;Component/Themes/ExpressionDark.xaml" />
          </ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary>
+      </ResourceDictionary>    
    </UserControl.Resources>
    <Grid>
-      <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="74,34,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-      <Calendar Height="170" HorizontalAlignment="Left" Margin="74,82,0,0" Name="calendar1" VerticalAlignment="Top" Width="180" />
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="*"></RowDefinition>
+         <RowDefinition Height="6*"></RowDefinition>
+         <RowDefinition Height="*"></RowDefinition>
+      </Grid.RowDefinitions>
+      
+      <!--First Row-->
+      <Button Grid.Row ="0" Content="Button" Height="23" Name="button2" Width="75" />
+      
+      <!--Second Row drawing-->
+      <Viewbox Grid.Row="1">
+      <lib:SectionDrawer Width="500" Height="300" SnapsToDevicePixels="True" Margin="2" Padding="3"
+                         CssShape4Draw="{Binding Path=CssShape}"
+                         CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
+                         >
+         
+      </lib:SectionDrawer>
+      </Viewbox>
+
+      <!--Third Row text-->
+      <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" />
    </Grid>
 </UserControl>

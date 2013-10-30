@@ -36,8 +36,22 @@
          </Fluent:Ribbon.QuickAccessItems>
 
          <!--Tabs-->
+         <Fluent:RibbonTabItem Header="Tab">
+            <Fluent:RibbonGroupBox Header="Group">
+               <Fluent:Button x:Name="buttonGreen" 
+					               Header="Green" 
+					               Icon="Images\Green.png" 
+					               LargeIcon="Images\GreenLarge.png" />
+               <Fluent:Button x:Name="buttonGray" 
+					               Header="Grey" 
+					               Icon="Images\Gray.png" 
+					               LargeIcon="Images\GrayLarge.png" />
+            </Fluent:RibbonGroupBox>
+         </Fluent:RibbonTabItem>
 
          <!--Contextual Tabs-->
+         <Fluent:RibbonTabItem Header="Contextual Tab" 
+				                  Group="{Binding ElementName=toolsGroup}" />
 
          <!--Backstage-->
          <Fluent:Ribbon.Menu>

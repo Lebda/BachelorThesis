@@ -7,6 +7,9 @@ using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
 using SectionCheckInterfaces.Infrastucture;
 using Microsoft.Practices.Prism.Modularity;
+using SectionCheckInterfaces.Interfaces;
+using SectionDrawUI.Services;
+using SectionDrawUI.Models;
 
 namespace SectionDrawUI.ModuleDefinitions
 {
@@ -20,7 +23,12 @@ namespace SectionDrawUI.ModuleDefinitions
 
         public override void Initialize()
         {
-            _regionManager.RegisterViewWithRegion(Constants.MiddleContentRegionName, () => _container.Resolve<DrawSectionView>());
+            // Services
+            _container.RegisterType<ISectionShapeService, SectionShapeService>();
+            _container.RegisterType<ISectionShape, SectionShapeModel>();
+
+            // Regions
+           _regionManager.RegisterViewWithRegion(Constants.MiddleContentRegionName, () => _container.Resolve<DrawSectionView>());
         }
     }
 }
