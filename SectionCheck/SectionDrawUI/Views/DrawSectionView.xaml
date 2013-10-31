@@ -8,7 +8,7 @@
              xmlns:lib="clr-namespace:SectionDrawerControl;assembly=SectionDrawerControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
-             Background="#FFEBD84E">
+            >
    <UserControl.Resources>
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
@@ -34,6 +34,7 @@
       <lib:SectionDrawer Width="500" Height="300" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
+                         CssCompressPart4Draw="{Binding Path=CssCompressPart}"
                          >
          
       </lib:SectionDrawer>

@@ -38,10 +38,13 @@ namespace SectionDrawerControl
                        visual.CallBack4ShapeChange += CalculateAxisVerticalFromCssShape;
                        break;
                    case eUsedVisuals.eCssAxisHorizontalVisual:
-                       visual.Delagate4Draw = DrawCssAxisHorizontal;
+                       visual.Delagate4Draw += DrawCssAxisHorizontal;
                        break;
                    case eUsedVisuals.eCssAxisVerticalVisual:
-                       visual.Delagate4Draw = DrawCssAxisVertical;
+                       visual.Delagate4Draw += DrawCssAxisVertical;
+                       break;
+                   case eUsedVisuals.eCssCompressPartVisual:
+                       visual.Delagate4Draw += DrawCssCompressPart;
                        break;
                    default:
                        throw new ApplicationException();
@@ -56,6 +59,16 @@ namespace SectionDrawerControl
             using (DrawingContext dc = visual.RenderOpen())
             {
                 dc.DrawGeometry(null, drawingPen, VisualObjectData.CreateGeometryFromPolygon(shape));
+            }
+        }
+        private void DrawCssCompressPart(VisualObjectData visual)
+        {
+            using (DrawingContext dc = visual.VisualObject.RenderOpen())
+            {
+                if (visual.ShapeRendered != null && visual.ShapeRendered.Count > 0)
+                {
+                    dc.DrawGeometry(compressionPartBrush, drawingPen, VisualObjectData.CreateGeometryFromPolygon(visual.ShapeRendered[CssDataCompressPart.CssCompressPartPos]));
+                }
             }
         }
         private void DrawCssShape(VisualObjectData visual)
@@ -104,46 +117,79 @@ namespace SectionDrawerControl
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAxisHorizontalChanged)));
             CssAxisVerticalDrawProperty = DependencyProperty.Register(CssAxisVertical4DrawPropertyName, typeof(CssDataAxis), typeof(SectionDrawer),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAxisVerticalChanged)));
+            CssCompressPart4DrawProperty = DependencyProperty.Register(CssCompressPart4DrawPropertyName, typeof(CssDataCompressPart), typeof(SectionDrawer),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCompressPartChanged)));
             //
             ResourceDictionary resourceDictionary = new ResourceDictionary();
             resourceDictionary.Source = new Uri(
               "ResourceLibrary;component/Themes/generic.xaml", UriKind.Relative);
             compressionPartBrush = (Brush)resourceDictionary["CompressionPartBrush"];
         }
-
+#region PROPERTY CALLBACKS
+        private static void OnCompressPartChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            OnChangedGeneric<CssDataCompressPart>(sender, e, value => ((SectionDrawer)sender).CssCompressPart4Draw = value, eUsedVisuals.eCssCompressPartVisual);
+        }
         private static void OnAxisVerticalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SectionDrawer drawignControl = (SectionDrawer)sender;
-            drawignControl.CssAxisHorizontal4Draw = (CssDataAxis)e.NewValue;
-            drawignControl.OnChangedInternal(e, eUsedVisuals.eCssAxisVerticalVisual, false);
-            RenderAll(drawignControl);
+            OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisVerticalVisual);
         }
         private static void OnAxisHorizontalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SectionDrawer drawignControl = (SectionDrawer)sender;
-            drawignControl.CssAxisHorizontal4Draw = (CssDataAxis)e.NewValue;
-            drawignControl.OnChangedInternal(e, eUsedVisuals.eCssAxisHorizontalVisual, false);
-            RenderAll(drawignControl);
+            OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisHorizontalVisual);
         }
         private static void OnShapeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
+            OnChangedGeneric<CssDataShape>(sender, e, value => ((SectionDrawer)sender).CssShape4Draw = value, eUsedVisuals.eCssShapeVisual);
+        }
+        //
+        private static void OnChangedGeneric<T>(DependencyObject sender, DependencyPropertyChangedEventArgs e, Action<T> targetCall, eUsedVisuals visualType)
+        {
             SectionDrawer drawignControl = (SectionDrawer)sender;
-            drawignControl.CssShape4Draw = (CssDataShape)e.NewValue;
-            drawignControl.OnChangedInternal(e, eUsedVisuals.eCssShapeVisual);
+            SetProperty<T>(e, targetCall);
+            drawignControl.OnChangedInternal(e, visualType);
             RenderAll(drawignControl);
         }
-
-        private void OnChangedInternal(DependencyPropertyChangedEventArgs e, eUsedVisuals visualType, bool setShapes = true)
+        private static void SetProperty<T>(DependencyPropertyChangedEventArgs source, Action<T> targetCall)
+        {
+            targetCall((T)source.NewValue);
+        }
+        private void OnChangedInternal(DependencyPropertyChangedEventArgs e, eUsedVisuals visualType)
         {
             VisualObjectData visual = drawingSurface.GetVisual((int)visualType);
             CssDataBase newShape = (CssDataBase)e.NewValue;
-            if (setShapes)
+            if (newShape.ShapeObjetcs.Count > 0)
             {
                 visual.SetShapesAndCreateGeometry(newShape.ShapeObjetcs);
             }
             visual.CallBack4ShapeChanged();
         }
+        private static void RenderAll(SectionDrawer drawignControl)
+        {
+            Rect bounds = drawignControl.drawingSurface.RecalculateBounds();
+            // recalculate scale
+            Matrix conventer = GetTransformMatrix(ref bounds, drawignControl.drawingSurface);
+            // transform all
+            drawignControl.drawingSurface.TransformAll(conventer);
+            // render all
+            drawignControl.drawingSurface.DrawAll();
+        }
+        private static Matrix GetTransformMatrix(ref Rect bounds, DrawingCanvas drawingSurface)
+        {
+            Matrix conventer = new Matrix();
+            conventer.Translate(-bounds.TopLeft.X, -bounds.TopLeft.Y);
+            double widthInPixel = drawingSurface.ActualWidth;
+            double heightInPixels = drawingSurface.ActualHeight;
+            double scaleX = widthInPixel / bounds.Width;
+            double scaleY = heightInPixels / bounds.Height;
+            double scale = (scaleX > scaleY) ? (scaleY) : (scaleX);
+            scale *= 1;
+            conventer.ScaleAt(scale, scale, 0.0, 0.0);
+            return conventer;
+        }
+#endregion
 
+#region GEOMETRY CALCULATIONS
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {
             VisualObjectData visualAxis = drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisHorizontalVisual);
@@ -194,30 +240,16 @@ namespace SectionDrawerControl
             visualAxis.SetShapesAndCreateGeometry(shapes, FillRule.EvenOdd, false);
         }
 
-        private static void RenderAll(SectionDrawer drawignControl)
-        {
-            Rect bounds = drawignControl.drawingSurface.RecalculateBounds();
-            // recalculate scale
-            Matrix conventer = GetTransformMatrix(ref bounds, drawignControl.drawingSurface);
-            // transform all
-            drawignControl.drawingSurface.TransformAll(conventer);
-            // render all
-            drawignControl.drawingSurface.DrawAll();
-        }
-        private static Matrix GetTransformMatrix(ref Rect bounds, DrawingCanvas drawingSurface)
-        {
-            Matrix conventer = new Matrix();
-            conventer.Translate(-bounds.TopLeft.X, -bounds.TopLeft.Y);
-            double widthInPixel = drawingSurface.ActualWidth;
-            double heightInPixels = drawingSurface.ActualHeight;
-            double scaleX = widthInPixel / bounds.Width;
-            double scaleY = heightInPixels / bounds.Height;
-            double scale = (scaleX > scaleY) ? (scaleY) : (scaleX);
-            scale *= 1;
-            conventer.ScaleAt(scale, scale, 0.0, 0.0);
-            return conventer;
-        }
+#endregion
+
         //
+        private static string CssCompressPart4DrawPropertyName = "CssCompressPart4Draw";
+        public static DependencyProperty CssCompressPart4DrawProperty;
+        public CssDataCompressPart CssCompressPart4Draw
+        {
+            get { return (CssDataCompressPart)GetValue(CssCompressPart4DrawProperty); }
+            set { SetValue(CssCompressPart4DrawProperty, value); }
+        }
         private static string CssShape4DrawPropertyName = "CssShape4Draw";
         public static DependencyProperty CssShape4DrawProperty;
         public CssDataShape CssShape4Draw

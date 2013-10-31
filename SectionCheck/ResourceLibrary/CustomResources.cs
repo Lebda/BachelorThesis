@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ResourceLibrary
 {
-    public static class CustomResources
+    public class CustomResources 
     {
-        public static ComponentResourceKey CompressionPartBrush
+        public static ComponentResourceKey SadTileBrushKey
         {
             get
             {
-                ResourceDictionary resourceDictionary = new ResourceDictionary();
-                resourceDictionary.Source = new Uri(
-                  "ResourceLibrary;component/Themes/SciaCheck.xaml", UriKind.Relative);
                 return new ComponentResourceKey(
-                    typeof(ComponentResourceKey), "CompressionPartBrush");
+                  typeof(CustomResources), "SadTileBrush");
             }
         }
     }

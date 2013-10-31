@@ -53,6 +53,38 @@ namespace SectionDrawUI.ViewModels
             }
         }
 
+        public const string CssCompressPartPropertyName = "CssCompressPart";
+
+        private CssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart();
+
+        /// <summary>
+        /// Sets and gets the OuterCompressPartPath property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public CssDataCompressPart CssCompressPart
+        {
+            get
+            {
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.25));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.15));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                return _cssCompressPartProperty;
+            }
+
+            set
+            {
+                if (_cssCompressPartProperty == value)
+                {
+                    return;
+                }
+                _cssCompressPartProperty = value;
+                RaisePropertyChanged(CssCompressPartPropertyName);
+            }
+        }
+
+
         /// <summary>
         /// The <see cref="OuterShapePath" /> property's name.
         /// </summary>
