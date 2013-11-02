@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows;
 using SectionDrawerControl.Infrastructure;
 using SectionDrawerControl.Utility;
+using CommonLibrary.Utility;
 
 namespace SectionDrawerControl
 {
@@ -38,31 +39,37 @@ namespace SectionDrawerControl
         }
         public void DrawAll()
         {
+            Exceptions.CheckNullArgument(null, _visuals);
             foreach (VisualObjectData iter in _visuals)
             {
+                Exceptions.CheckNullArgument(null, iter);
                 iter.Draw();
             }
         }
-        public void TransformAll(Matrix conventer)
+        public void TransformAll(MatrixTransform conventer)
         {
+            Exceptions.CheckNullArgument(null, conventer, _conventer);
             if (_conventer.Equals(conventer))
             {
                 return;
-            }
+            }   
             foreach (VisualObjectData iter in _visuals)
             {
-                iter.Transform(conventer);
+                Exceptions.CheckNullArgument(null, iter);
+                Exceptions.CheckNullArgument(null, iter.VisualShape);
+                iter.VisualShape.UpdateRenderedGeometry(conventer);
             }
         }
         public Rect RecalculateBounds()
         {
+            Exceptions.CheckNullArgument(null, _wholeGeometry, _visuals);
             _wholeGeometry.Clear();
             foreach (VisualObjectData iter in _visuals)
             {
-                foreach(Geometry iterGeometry in iter.ShapeGeometry)
-                {
-                    _wholeGeometry.AddGeometry(iterGeometry);
-                }
+                Exceptions.CheckNullArgument(null, iter);
+                Exceptions.CheckNullArgument(null, iter.VisualShape);
+                Exceptions.CheckNullArgument(null, iter.VisualShape.BaseGeo);
+                _wholeGeometry.AddGeometry(iter.VisualShape.BaseGeo);
             }
             return _wholeGeometry.Bounds;
         }

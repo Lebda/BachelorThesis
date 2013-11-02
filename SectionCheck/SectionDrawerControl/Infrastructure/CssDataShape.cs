@@ -5,13 +5,21 @@ using System.Text;
 using System.Windows.Media;
 using CommonLibrary.Infrastructure;
 using CommonLibrary.Utility;
+using System.Windows;
+using System.Windows.Shapes;
+using SectionDrawerControl.Utility;
 
 namespace SectionDrawerControl.Infrastructure
 {
     public class CssDataShape : CssDataBase
     {
-        public CssDataShape() : base(2)
+        public override PathGeometry Create()
         {
+            PathGeometry myPathGeometry = new PathGeometry();
+            myPathGeometry.Figures.Add(GeometryOperations.Create(_cssShapeOuter));
+            myPathGeometry.Figures.Add(GeometryOperations.Create(_cssShapeInner));
+            myPathGeometry.FillRule = FillRule.Nonzero;
+            return myPathGeometry;
         }
 
         /// <summary>
@@ -19,6 +27,7 @@ namespace SectionDrawerControl.Infrastructure
         /// </summary>
         public const string CssShapeOuterPropertyName = "CssShapeOuter";
         public static readonly int CssShapeOuterPos = 0;
+        PointCollection _cssShapeOuter = new PointCollection();
         /// <summary>
         /// Sets and gets the CssShapeOuter property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -27,16 +36,16 @@ namespace SectionDrawerControl.Infrastructure
         {
             get
             {
-                return _shapeObjetcs[CssShapeOuterPos];
+                return _cssShapeOuter;
             }
 
             set
             {
-                if (_shapeObjetcs[CssShapeOuterPos] == value)
+                if (_cssShapeOuter == value)
                 {
                     return;
                 }
-                _shapeObjetcs[CssShapeOuterPos] = value;
+                _cssShapeOuter = value;
                 RaisePropertyChanged(CssShapeOuterPropertyName);
             }
         }
@@ -46,6 +55,7 @@ namespace SectionDrawerControl.Infrastructure
         /// </summary>
         public const string CssShapeInnerPropertyName = "CssShapeInner";
         public static readonly int CssShapeInnerPos = 1;
+        PointCollection _cssShapeInner = new PointCollection();
         /// <summary>
         /// Sets and gets the CssShapeInner property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -54,16 +64,16 @@ namespace SectionDrawerControl.Infrastructure
         {
             get
             {
-                return _shapeObjetcs[CssShapeInnerPos];
+                return _cssShapeInner;
             }
 
             set
             {
-                if (_shapeObjetcs[CssShapeInnerPos] == value)
+                if (_cssShapeInner == value)
                 {
                     return;
                 }
-                _shapeObjetcs[CssShapeInnerPos] = value;
+                _cssShapeInner = value;
                 RaisePropertyChanged(CssShapeInnerPropertyName);
             }
         }

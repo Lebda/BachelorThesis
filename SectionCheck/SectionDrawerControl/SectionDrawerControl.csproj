@@ -53,7 +53,10 @@
     <Compile Include="Infrastructure\CssDataAxis.cs" />
     <Compile Include="Infrastructure\CssDataBase.cs" />
     <Compile Include="Infrastructure\CssDataCompressPart.cs" />
+    <Compile Include="Infrastructure\CssDataReinforcement.cs" />
     <Compile Include="Infrastructure\CssDataShape.cs" />
+    <Compile Include="Infrastructure\Interfaces.cs" />
+    <Compile Include="Infrastructure\IVisualShapeImpl.cs" />
     <Compile Include="Infrastructure\VisualObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -73,10 +76,12 @@
     </Compile>
     <Compile Include="SectionDrawerEnums.cs" />
     <Compile Include="Utility\GeometryOperations.cs" />
+    <Compile Include="Utility\SectionDrawerConventer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

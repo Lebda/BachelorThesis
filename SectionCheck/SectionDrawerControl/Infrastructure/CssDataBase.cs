@@ -5,36 +5,85 @@ using System.Text;
 using CommonLibrary.Infrastructure;
 using System.Windows.Media;
 using CommonLibrary.Utility;
-using ShapeType = System.Collections.Generic.List<System.Windows.Media.PointCollection>;
 
 namespace SectionDrawerControl.Infrastructure
 {
-    public abstract class CssDataBase : ObservableObject
+    public abstract class CssDataBase : ObservableObject, IPathGeometryCreator, IVisualObejctDrawingData
     {
-        protected ShapeType _shapeObjetcs = null;
-        public ShapeType ShapeObjetcs
+        #region IPathGeometryCreator Members
+
+        public abstract PathGeometry Create();
+
+        #endregion
+
+        #region IVisualObejctDrawingData Members
+
+        Pen IVisualObejctDrawingData.GetPen()
         {
-            get { return _shapeObjetcs; }
-            protected set { _shapeObjetcs = value; }
+            return _visualPenProperty;
         }
-        //
-        protected CssDataBase(int shapesCount)
+
+        Brush IVisualObejctDrawingData.GetBrush()
         {
-            _shapeObjetcs = new ShapeType();
-            for (int counter = 0; counter < shapesCount; ++counter)
+            return _visualBrushProperty;
+        }
+
+        #endregion
+        /// <summary>
+        /// The <see cref="VisualBrush" /> property's name.
+        /// </summary>
+        public const string BrushPropertyName = "VisualBrush";
+
+        private Brush _visualBrushProperty = Brushes.AliceBlue;
+
+        /// <summary>
+        /// Sets and gets the Brush property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public Brush VisualBrush
+        {
+            get
             {
-                _shapeObjetcs.Add(new PointCollection());
+                return _visualBrushProperty;
+            }
+            set
+            {
+                if (_visualBrushProperty == value)
+                {
+                    return;
+                }
+                _visualBrushProperty = value;
+                RaisePropertyChanged(BrushPropertyName);
             }
         }
-        //
-        protected ShapeType GetAllShapesDeepCopy()
+
+        /// <summary>
+        /// The <see cref="VisualPen" /> property's name.
+        /// </summary>
+        public const string PenPropertyName = "VisualPen";
+
+        private Pen _visualPenProperty = new Pen(Brushes.Brown, 3);
+
+        /// <summary>
+        /// Sets and gets the Pen property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public Pen VisualPen
         {
-            ShapeType deepCopy = new ShapeType();
-            foreach (PointCollection iter in _shapeObjetcs)
+            get
             {
-                deepCopy.Add(new PointCollection(iter));
+                return _visualPenProperty;
             }
-            return deepCopy;
+
+            set
+            {
+                if (_visualPenProperty == value)
+                {
+                    return;
+                }
+                _visualPenProperty = value;
+                RaisePropertyChanged(PenPropertyName);
+            }
         }
     }
 }

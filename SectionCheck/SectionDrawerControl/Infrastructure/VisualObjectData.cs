@@ -5,8 +5,6 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using ShapeType = System.Collections.Generic.List<System.Windows.Media.PointCollection>;
-using ShapeGeometry = System.Collections.Generic.List<System.Windows.Media.Geometry>;
 using SectionDrawerControl.Utility;
 
 namespace SectionDrawerControl.Infrastructure
@@ -27,55 +25,25 @@ namespace SectionDrawerControl.Infrastructure
             get { return _delagate4Draw; }
             set { _delagate4Draw = value; }
         }
-        Visual _visual = null;
+        IVisualShapes _visualShape = VisualFactory.Instance().CreateShapes();
+        public IVisualShapes VisualShape
+        {
+            get { return _visualShape; }
+            set { _visualShape = value; }
+        }
+        Visual _visual = new DrawingVisual();
         public System.Windows.Media.DrawingVisual VisualObject
         {
             get { return (DrawingVisual)_visual; }
             set { _visual = value; }
         }
-        ShapeType _shapeObjects = new ShapeType();
-        public ShapeType ShapeObjects
-        {
-            get { return _shapeObjects; }
-        }
-        ShapeType _shapeRendered = new ShapeType();
-        public ShapeType ShapeRendered
-        {
-            get { return _shapeRendered; }
-        }
-        ShapeGeometry _shapeGeometry = new ShapeGeometry();
-        public ShapeGeometry ShapeGeometry
-        {
-          get { return _shapeGeometry; }
-        }
         //
-        public VisualObjectData(Visual visual, ShapeType shapeObject, ShapeGeometry shapeGeometry)
-        {
-            _visual = visual;
-            _shapeObjects = shapeObject; 
-            _shapeGeometry = shapeGeometry;
-        }
         public VisualObjectData(Visual visual)
         {
             _visual = visual;
         }
-        public VisualObjectData(Visual visual, DrawDelegate delegate4Draw)
-        {
-            _visual = visual;
-            _delagate4Draw = delegate4Draw;
-        }
         public VisualObjectData()
         {
-            _visual = new DrawingVisual();
-        }
-        //
-        public void SetShapesAndCreateGeometry(ShapeType shapeObject, FillRule rule = FillRule.Nonzero, bool isCLosed = true)
-        {
-            foreach(PointCollection iter in shapeObject)
-            {
-                _shapeObjects.Add(iter);
-                _shapeGeometry.Add(CreateGeometryFromPolygon(iter, rule, isCLosed));
-            }
         }
         //
         public void Draw()
@@ -96,44 +64,24 @@ namespace SectionDrawerControl.Infrastructure
             CallBack4ShapeChange(this);
         }
         //
-        public void Transform(Matrix convemter)
-        {
-            _shapeRendered.Clear();
-            foreach (PointCollection shape in _shapeObjects)
-            {
-                PointCollection renderedShape = new PointCollection(shape);
-                GeometryOperations.TransformOne(convemter, renderedShape);
-                _shapeRendered.Add(renderedShape);
-            }
-        }
-        //
-        public static PathGeometry CreateGeometryFromPolygon(PointCollection polygon, FillRule rule = FillRule.Nonzero, 
-            bool isCLosed = true)
-        {
-            if (polygon == null ||polygon.Count == 0)
-            {
-                return null;
-            }
-            PathFigure myPathFigure = new PathFigure();
-            myPathFigure.IsClosed = isCLosed;
-            myPathFigure.StartPoint = new Point(polygon[0].X, polygon[0].Y);
-            //
-            PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
-            int countStop = polygon.Count;
-            for (int counter = 1; counter < countStop; ++counter)
-            {
-                LineSegment myLineSegment = new LineSegment();
-                myLineSegment.Point = new Point(polygon[counter].X, polygon[counter].Y);
-                myPathSegmentCollection.Add(myLineSegment);
-            }
-            myPathFigure.Segments = myPathSegmentCollection;
-            PathFigureCollection myPathFigureCollection = new PathFigureCollection();
-            myPathFigureCollection.Add(myPathFigure);
-            PathGeometry myPathGeometry = new PathGeometry();
-            myPathGeometry.Figures = myPathFigureCollection;
-            myPathGeometry.FillRule = rule;
-            return myPathGeometry;
-        }
-
+//         public Geometry CreateRenderedGeometry(int pos, FillRule rule = FillRule.Nonzero, bool isCLosed = true)
+//         {
+//             if (_visualShape == null)
+//             {
+//                 return null;
+//             }
+//             return _visualShape.CreateRenderedGeometry(pos, rule, isCLosed);
+//         }
+//         //
+//         public Geometry CreateRenderedGeometry(int pos1, int pos2, FillRule rule = FillRule.Nonzero, bool isCLosed = true, GeometryCombineMode mode = GeometryCombineMode.Exclude)
+//         {
+//             if (_visualShape == null)
+//             {
+//                 return null;
+//             }
+//             CombinedGeometry combinedGeometry = new CombinedGeometry(_visualShape.CreateRenderedGeometry(pos1, rule, isCLosed), _visualShape.CreateRenderedGeometry(pos2, rule, isCLosed));
+//             combinedGeometry.GeometryCombineMode = mode;
+//             return combinedGeometry;
+//         }
     }
 }

@@ -15,43 +15,79 @@ namespace SectionDrawUI.ViewModels
 {
     public class DrawSectionViewModel : ObservableObject
     {
-        ISectionShapeService _sectionShapeService;
+        //ISectionShapeService _sectionShapeService;
 
         public DrawSectionViewModel(ISectionShapeService sectionShapeService, ISectionShape sectionShape)
         {
-            _sectionShapeService = sectionShapeService;
-            _sectionShapeService.CanvasData = new CanvasDataContext();
-            ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
+//             _sectionShapeService = sectionShapeService;
+//             _sectionShapeService.CanvasData = new CanvasDataContext();
+//             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
         }
 
+//         /// <summary>
+//         /// The <see cref="ShapeViewModelProperty" /> property's name.
+//         /// </summary>
+//         public const string ShapeViewModelPropertyPropertyName = "ShapeViewModel";
+// 
+//         private SectionShapeViewModel _shapeViewModelProperty = null;
+// 
+//         /// <summary>
+//         /// Sets and gets the ShapeModelProperty property.
+//         /// Changes to that property's value raise the PropertyChanged event. 
+//         /// </summary>
+//         public SectionShapeViewModel ShapeViewModel
+//         {
+//             get
+//             {
+//                 return _shapeViewModelProperty;
+//             }
+// 
+//             set
+//             {
+//                 if (_shapeViewModelProperty == value)
+//                 {
+//                     return;
+//                 }
+//                 _shapeViewModelProperty = value;
+//                 RaisePropertyChanged(ShapeViewModelPropertyPropertyName);
+//             }
+//         }
+
         /// <summary>
-        /// The <see cref="ShapeViewModelProperty" /> property's name.
+        /// The <see cref="CssReinforcement" /> property's name.
         /// </summary>
-        public const string ShapeViewModelPropertyPropertyName = "ShapeViewModel";
+        public const string CssReinforcementPropertyName = "CssReinforcement";
 
-        private SectionShapeViewModel _shapeViewModelProperty = null;
+        private CssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement();
 
         /// <summary>
-        /// Sets and gets the ShapeModelProperty property.
+        /// Sets and gets the CssReinforcement property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public SectionShapeViewModel ShapeViewModel
+        public CssDataReinforcement CssReinforcement
         {
             get
             {
-                return _shapeViewModelProperty;
+                double barDiameter = 0.02;
+                _cssReinforcementProperty.BarData.Add(new CssDataOneReinf(-0.1, -0.2, barDiameter));
+                _cssReinforcementProperty.BarData.Add(new CssDataOneReinf(-0.1, 0.2, barDiameter));
+                _cssReinforcementProperty.BarData.Add(new CssDataOneReinf(0.1, -0.2, barDiameter));
+                _cssReinforcementProperty.BarData.Add(new CssDataOneReinf(0.1, 0.2, barDiameter));
+                return _cssReinforcementProperty;
             }
-
             set
             {
-                if (_shapeViewModelProperty == value)
+                if (_cssReinforcementProperty == value)
                 {
                     return;
                 }
-                _shapeViewModelProperty = value;
-                RaisePropertyChanged(ShapeViewModelPropertyPropertyName);
+                _cssReinforcementProperty = value;
+                RaisePropertyChanged(CssReinforcementPropertyName);
             }
         }
+
+
+
 
         public const string CssCompressPartPropertyName = "CssCompressPart";
 
@@ -107,9 +143,9 @@ namespace SectionDrawUI.ViewModels
                 _cssShapeProperty.CssShapeOuter.Add(new Point(0.15, -0.25));
                 //
                 _cssShapeProperty.CssShapeInner.Add(new Point(0.05, -0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(0.05, 0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(-0.05, 0.05));
                 _cssShapeProperty.CssShapeInner.Add(new Point(-0.05, -0.05));
+                _cssShapeProperty.CssShapeInner.Add(new Point(-0.05, 0.05));
+                _cssShapeProperty.CssShapeInner.Add(new Point(0.05, 0.05));
                 _cssShapeProperty.CssShapeInner.Add(new Point(0.05, -0.05));
                 return _cssShapeProperty;
             }

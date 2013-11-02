@@ -31,15 +31,14 @@
       
       <!--Second Row drawing-->
       <Viewbox Grid.Row="1">
-      <lib:SectionDrawer Width="500" Height="300" SnapsToDevicePixels="True" Margin="2" Padding="3"
+      <lib:SectionDrawer Width="400" Height="400" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
                          CssCompressPart4Draw="{Binding Path=CssCompressPart}"
+                         CssReinforcement4Draw="{Binding Path=CssReinforcement}"                         
                          >
-         
-      </lib:SectionDrawer>
+         </lib:SectionDrawer>
       </Viewbox>
-
       <!--Third Row text-->
       <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" />
    </Grid>

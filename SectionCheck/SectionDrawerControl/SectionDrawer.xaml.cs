@@ -14,8 +14,8 @@ using System.Windows.Shapes;
 using CommonLibrary.Infrastructure;
 using SectionDrawerControl.Infrastructure;
 using ResourceLibrary;
-using ShapeType = System.Collections.Generic.List<System.Windows.Media.PointCollection>;
 using SectionDrawerControl.Utility;
+using CommonLibrary.Utility;
 
 namespace SectionDrawerControl
 {
@@ -34,18 +34,22 @@ namespace SectionDrawerControl
                {
                    case eUsedVisuals.eCssShapeVisual:
                        visual.Delagate4Draw = DrawCssShape;
-                       visual.CallBack4ShapeChange += CalculateAxisHorizontalFromCssShape;
-                       visual.CallBack4ShapeChange += CalculateAxisVerticalFromCssShape;
-                       break;
-                   case eUsedVisuals.eCssAxisHorizontalVisual:
-                       visual.Delagate4Draw += DrawCssAxisHorizontal;
-                       break;
-                   case eUsedVisuals.eCssAxisVerticalVisual:
-                       visual.Delagate4Draw += DrawCssAxisVertical;
+                       //visual.CallBack4ShapeChange += CalculateAxisHorizontalFromCssShape;
+                       //visual.CallBack4ShapeChange += CalculateAxisVerticalFromCssShape;
                        break;
                    case eUsedVisuals.eCssCompressPartVisual:
                        visual.Delagate4Draw += DrawCssCompressPart;
                        break;
+                   case eUsedVisuals.eCssReinforcementVisual:
+                       visual.Delagate4Draw += DrawCssReinforcemnt;
+                       break;
+
+//                    case eUsedVisuals.eCssAxisHorizontalVisual:
+//                       visual.Delagate4Draw += DrawCssAxisHorizontal;
+//                        break;
+//                    case eUsedVisuals.eCssAxisVerticalVisual:
+//                       visual.Delagate4Draw += DrawCssAxisVertical;
+//                        break;
                    default:
                        throw new ApplicationException();
                }
@@ -54,61 +58,74 @@ namespace SectionDrawerControl
         }
 
     #region Drawing functions
-        private void DrawPointCollection(DrawingVisual visual, PointCollection shape)
+        private static void DrawInternal(VisualObjectData visual, Func<IVisualObejctDrawingData> propertyGetter, 
+            params Func<IVisualObejctDrawingData>[] neededPropertyGetters)
         {
-            using (DrawingContext dc = visual.RenderOpen())
+            IVisualObejctDrawingData obejctPropertyGetter = (IVisualObejctDrawingData)propertyGetter();
+            if (obejctPropertyGetter == null)
             {
-                dc.DrawGeometry(null, drawingPen, VisualObjectData.CreateGeometryFromPolygon(shape));
+                return;
             }
-        }
-        private void DrawCssCompressPart(VisualObjectData visual)
-        {
+            foreach (var iter in neededPropertyGetters)
+            {
+                if (iter() == null)
+                {
+                    return;
+                }
+            }
+            Exceptions.CheckNullArgument(null, visual);
+            Exceptions.CheckNullArgument(null, visual.VisualObject);
+            Exceptions.CheckNullArgument(null, obejctPropertyGetter.GetPen());
+            Exceptions.CheckNullArgument(null, obejctPropertyGetter.GetBrush());
             using (DrawingContext dc = visual.VisualObject.RenderOpen())
             {
-                if (visual.ShapeRendered != null && visual.ShapeRendered.Count > 0)
-                {
-                    dc.DrawGeometry(compressionPartBrush, drawingPen, VisualObjectData.CreateGeometryFromPolygon(visual.ShapeRendered[CssDataCompressPart.CssCompressPartPos]));
-                }
+                Exceptions.CheckNullArgument(null, visual.VisualShape);
+                dc.DrawGeometry(obejctPropertyGetter.GetBrush(), obejctPropertyGetter.GetPen(), visual.VisualShape.RenderedGeo);
             }
         }
         private void DrawCssShape(VisualObjectData visual)
         {
-            using (DrawingContext dc = visual.VisualObject.RenderOpen())
-            {
-                dc.DrawGeometry(compressionPartBrush, drawingPen, CreateGeometryFromPolygons(visual.ShapeRendered[CssDataShape.CssShapeOuterPos], visual.ShapeRendered[CssDataShape.CssShapeInnerPos]));
-            }
+            DrawInternal(visual, () => CssShape4Draw);
         }
+        private void DrawCssCompressPart(VisualObjectData visual)
+        {
+            DrawInternal(visual, () => CssCompressPart4Draw, () => CssShape4Draw);
+        }
+        private void DrawCssReinforcemnt(VisualObjectData visual)
+        {
+            DrawInternal(visual, () => CssReinforcement4Draw, () => CssShape4Draw);
+        }
+//         private void DrawPointCollection(DrawingVisual visual, PointCollection shape)
+//         {
+//             using (DrawingContext dc = visual.RenderOpen())
+//             {
+//                 dc.DrawGeometry(null, drawingPen, VisualObjectData.CreateGeometryFromPolygon(shape));
+//             }
+//         }
         private void DrawCssAxisHorizontal(VisualObjectData visual)
         {
-            if (CssAxisHorizontal4Draw == null)
-            {
-                return;
-            }
-            using (DrawingContext dc = visual.VisualObject.RenderOpen())
-            {
-                dc.DrawGeometry(Brushes.IndianRed, new Pen(Brushes.IndianRed, 2), VisualObjectData.CreateGeometryFromPolygon(visual.ShapeRendered[CssDataShape.CssShapeOuterPos], FillRule.Nonzero, false));
-            }
+//             if (CssAxisHorizontal4Draw == null)
+//             {
+//                 return;
+//             }
+//             using (DrawingContext dc = visual.VisualObject.RenderOpen())
+//             {
+//                 dc.DrawGeometry(Brushes.IndianRed, new Pen(Brushes.IndianRed, 2), visual.CreateRenderedGeometry(CssDataShape.CssShapeOuterPos, FillRule.Nonzero, false));
+//             }
         }
         private void DrawCssAxisVertical(VisualObjectData visual)
         {
-            if (CssAxisHorizontal4Draw == null)
-            {
-                return;
-            }
-            using (DrawingContext dc = visual.VisualObject.RenderOpen())
-            {
-                dc.DrawGeometry(Brushes.BlueViolet, new Pen(Brushes.BlueViolet, 2), VisualObjectData.CreateGeometryFromPolygon(visual.ShapeRendered[CssDataShape.CssShapeOuterPos], FillRule.Nonzero, false));
-            }
-        }
-        static CombinedGeometry CreateGeometryFromPolygons(PointCollection polygon, PointCollection polygon2nd, GeometryCombineMode mode = GeometryCombineMode.Exclude)
-        {
-            CombinedGeometry combinedGeometry = new CombinedGeometry(VisualObjectData.CreateGeometryFromPolygon(polygon), VisualObjectData.CreateGeometryFromPolygon(polygon2nd));
-            combinedGeometry.GeometryCombineMode = mode;
-            return combinedGeometry;
+//             if (CssAxisHorizontal4Draw == null)
+//             {
+//                 return;
+//             }
+//             using (DrawingContext dc = visual.VisualObject.RenderOpen())
+//             {
+//                 dc.DrawGeometry(Brushes.IndianRed, new Pen(Brushes.IndianRed, 2), visual.CreateRenderedGeometry(CssDataShape.CssShapeOuterPos, FillRule.Nonzero, false));
+//             }
         }
     #endregion
 
-        #region DEPENDENCY PROPERTY
         static SectionDrawer()
         {
             CssShape4DrawProperty = DependencyProperty.Register(CssShape4DrawPropertyName, typeof(CssDataShape), typeof(SectionDrawer),
@@ -119,6 +136,8 @@ namespace SectionDrawerControl
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAxisVerticalChanged)));
             CssCompressPart4DrawProperty = DependencyProperty.Register(CssCompressPart4DrawPropertyName, typeof(CssDataCompressPart), typeof(SectionDrawer),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCompressPartChanged)));
+            CssReinforcement4DrawProperty = DependencyProperty.Register(CssReinforcement4DrawPropertyName, typeof(CssDataReinforcement), typeof(SectionDrawer),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnReinforcementChanged)));
             //
             ResourceDictionary resourceDictionary = new ResourceDictionary();
             resourceDictionary.Source = new Uri(
@@ -126,17 +145,21 @@ namespace SectionDrawerControl
             compressionPartBrush = (Brush)resourceDictionary["CompressionPartBrush"];
         }
 #region PROPERTY CALLBACKS
+        private static void OnReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+           OnChangedGeneric<CssDataReinforcement>(sender, e, value => ((SectionDrawer)sender).CssReinforcement4Draw = value, eUsedVisuals.eCssReinforcementVisual);
+        }
         private static void OnCompressPartChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             OnChangedGeneric<CssDataCompressPart>(sender, e, value => ((SectionDrawer)sender).CssCompressPart4Draw = value, eUsedVisuals.eCssCompressPartVisual);
         }
         private static void OnAxisVerticalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisVerticalVisual);
+            //OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisVerticalVisual);
         }
         private static void OnAxisHorizontalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisHorizontalVisual);
+            //OnChangedGeneric<CssDataAxis>(sender, e, value => ((SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisHorizontalVisual);
         }
         private static void OnShapeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -157,24 +180,24 @@ namespace SectionDrawerControl
         private void OnChangedInternal(DependencyPropertyChangedEventArgs e, eUsedVisuals visualType)
         {
             VisualObjectData visual = drawingSurface.GetVisual((int)visualType);
+            Exceptions.CheckNullAplication(null, visual);
+            Exceptions.CheckNullAplication(null, visual.VisualShape);
             CssDataBase newShape = (CssDataBase)e.NewValue;
-            if (newShape.ShapeObjetcs.Count > 0)
-            {
-                visual.SetShapesAndCreateGeometry(newShape.ShapeObjetcs);
-            }
+            Exceptions.CheckNullAplication(null, newShape);
+            visual.VisualShape.BaseGeo = newShape.Create();
             visual.CallBack4ShapeChanged();
         }
         private static void RenderAll(SectionDrawer drawignControl)
         {
             Rect bounds = drawignControl.drawingSurface.RecalculateBounds();
             // recalculate scale
-            Matrix conventer = GetTransformMatrix(ref bounds, drawignControl.drawingSurface);
+            MatrixTransform conventer = GetTransformMatrix(ref bounds, drawignControl.drawingSurface);
             // transform all
-            drawignControl.drawingSurface.TransformAll(conventer);
+            drawignControl.drawingSurface.TransformAll(conventer); // to do scale !!
             // render all
             drawignControl.drawingSurface.DrawAll();
         }
-        private static Matrix GetTransformMatrix(ref Rect bounds, DrawingCanvas drawingSurface)
+        private static MatrixTransform GetTransformMatrix(ref Rect bounds, DrawingCanvas drawingSurface)
         {
             Matrix conventer = new Matrix();
             conventer.Translate(-bounds.TopLeft.X, -bounds.TopLeft.Y);
@@ -185,64 +208,72 @@ namespace SectionDrawerControl
             double scale = (scaleX > scaleY) ? (scaleY) : (scaleX);
             scale *= 1;
             conventer.ScaleAt(scale, scale, 0.0, 0.0);
-            return conventer;
+            MatrixTransform convetProvider = new MatrixTransform(conventer);
+            return convetProvider;
         }
 #endregion
 
 #region GEOMETRY CALCULATIONS
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {
-            VisualObjectData visualAxis = drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisHorizontalVisual);
-            if (visualCssShape.ShapeGeometry == null || visualCssShape.ShapeGeometry.Count == 0)
-            {
-                return;
-            }
-            Rect bounds = visualCssShape.ShapeGeometry[CssDataShape.CssShapeOuterPos].Bounds;
-            List<PointCollection> shapes = new List<PointCollection>();
-            PointCollection axisHorizontal = new PointCollection();
-            double overLap = bounds.Height * _axisOverLap;
-            double extremeLeft = GeometryOperations.Add4Sign(bounds.Left, overLap);
-            axisHorizontal.Add(new Point(extremeLeft, 0.0));
-            double exteremeRight = GeometryOperations.Add4Sign(bounds.Right, overLap);
-            axisHorizontal.Add(new Point(exteremeRight, 0.0));
-            double arrowOverLap = bounds.Height * _axisArrowSize;
-            // arrow
-            axisHorizontal.Add(new Point(exteremeRight, arrowOverLap));
-            axisHorizontal.Add(new Point(exteremeRight + 2 * arrowOverLap, 0.0));
-            axisHorizontal.Add(new Point(exteremeRight, -arrowOverLap));
-            axisHorizontal.Add(new Point(exteremeRight, 0.0));
-            shapes.Add(axisHorizontal);
-            visualAxis.SetShapesAndCreateGeometry(shapes, FillRule.EvenOdd, false);
+//             VisualObjectData visualAxis = drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisHorizontalVisual);
+//             if (visualCssShape.VisualShape == null || visualCssShape.VisualShape.ItemsGeometry == null || visualCssShape.VisualShape.ItemsGeometry.Count == 0)
+//             {
+//                 return;
+//             }
+//             Rect bounds = visualCssShape.VisualShape.ItemsGeometry[CssDataShape.CssShapeOuterPos].Bounds;
+//             List<IVisualShape> shapes = new List<IVisualShape>();
+//             IVisualShape axisHorizontal = VisualFactory.Instance().CreateShape();
+//             double overLap = bounds.Height * _axisOverLap;
+//             double extremeLeft = GeometryOperations.Add4Sign(bounds.Left, overLap);
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(extremeLeft, 0.0));
+//             double exteremeRight = GeometryOperations.Add4Sign(bounds.Right, overLap);
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(exteremeRight, 0.0));
+//             double arrowOverLap = bounds.Height * _axisArrowSize;
+//             // arrow
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(exteremeRight, arrowOverLap));
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(exteremeRight + 2 * arrowOverLap, 0.0));
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(exteremeRight, -arrowOverLap));
+//             axisHorizontal.Items.Add(VisualFactory.Instance().CreateItem(exteremeRight, 0.0));
+//             shapes.Add(axisHorizontal);
+//             visualAxis.VisualShape.SetShapeAndCreateGeometry(shapes, FillRule.EvenOdd, false);
         }
 
         private void CalculateAxisVerticalFromCssShape(VisualObjectData visualCssShape)
         {
-            VisualObjectData visualAxis = drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisVerticalVisual);
-            if (visualCssShape.ShapeGeometry == null || visualCssShape.ShapeGeometry.Count == 0)
-            {
-                return;
-            }
-            Rect bounds = visualCssShape.ShapeGeometry[CssDataShape.CssShapeOuterPos].Bounds;
-            List<PointCollection> shapes = new List<PointCollection>();
-            PointCollection axisVertical = new PointCollection();
-            double overLap = bounds.Height * _axisOverLap;
-            double extremeBotton = GeometryOperations.Add4Sign(bounds.Bottom, overLap);
-            axisVertical.Add(new Point(0.0, extremeBotton));
-            double exteremeTop = GeometryOperations.Add4Sign(bounds.Top, overLap);
-            axisVertical.Add(new Point(0.0, exteremeTop));
-            double arrowOverLap = bounds.Height * _axisArrowSize;
-            // arrow
-            axisVertical.Add(new Point(arrowOverLap, exteremeTop));
-            axisVertical.Add(new Point(0.0, exteremeTop - 2 * arrowOverLap));
-            axisVertical.Add(new Point(-arrowOverLap, exteremeTop));
-            axisVertical.Add(new Point(0.0, exteremeTop));
-            shapes.Add(axisVertical);
-            visualAxis.SetShapesAndCreateGeometry(shapes, FillRule.EvenOdd, false);
+//             VisualObjectData visualAxis = drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisVerticalVisual);
+//             if (visualCssShape.VisualShape == null || visualCssShape.VisualShape.ItemsGeometry == null || visualCssShape.VisualShape.ItemsGeometry.Count == 0)
+//             {
+//                 return;
+//             }
+//             Rect bounds = visualCssShape.VisualShape.ItemsGeometry[CssDataShape.CssShapeOuterPos].Bounds;
+//             List<IVisualShape> shapes = new List<IVisualShape>();
+//             IVisualShape axisVertical = VisualFactory.Instance().CreateShape();
+//             double overLap = bounds.Height * _axisOverLap;
+//             double extremeBotton = GeometryOperations.Add4Sign(bounds.Bottom, overLap);
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(0.0, extremeBotton));
+//             double exteremeTop = GeometryOperations.Add4Sign(bounds.Top, overLap);
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(0.0, exteremeTop));
+//             double arrowOverLap = bounds.Height * _axisArrowSize;
+//             // arrow
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(arrowOverLap, exteremeTop));
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(0.0, exteremeTop - 2 * arrowOverLap));
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(-arrowOverLap, exteremeTop));
+//             axisVertical.Items.Add(VisualFactory.Instance().CreateItem(0.0, exteremeTop));
+//             shapes.Add(axisVertical);
+//             visualAxis.VisualShape.SetShapeAndCreateGeometry(shapes, FillRule.EvenOdd, false);
         }
 
 #endregion
 
-        //
+#region DEPENDENCY PROPERTY DEFINITIONS
+        private static string CssReinforcement4DrawPropertyName = "CssReinforcement4Draw";
+        public static DependencyProperty CssReinforcement4DrawProperty;
+        public CssDataReinforcement CssReinforcement4Draw
+        {
+            get { return (CssDataReinforcement)GetValue(CssReinforcement4DrawProperty); }
+            set { SetValue(CssReinforcement4DrawProperty, value); }
+        }
         private static string CssCompressPart4DrawPropertyName = "CssCompressPart4Draw";
         public static DependencyProperty CssCompressPart4DrawProperty;
         public CssDataCompressPart CssCompressPart4Draw
@@ -271,8 +302,8 @@ namespace SectionDrawerControl
             get { return (CssDataAxis)GetValue(CssAxisVerticalDrawProperty); }
             set { SetValue(CssAxisVerticalDrawProperty, value); }
         }
-        //
-        #endregion
+#endregion
+
 
 
 

@@ -10,8 +10,9 @@ namespace SectionDrawerControl.Infrastructure
 {
     public class CssDataAxis : CssDataBase
     {
-        public CssDataAxis() : base(0)
+        public override PathGeometry Create()
         {
+            throw new NotImplementedException();
         }
 
         /// <summary>
