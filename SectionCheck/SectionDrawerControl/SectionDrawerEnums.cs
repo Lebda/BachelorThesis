@@ -10,8 +10,8 @@ namespace SectionDrawerControl
         eCssShapeVisual = 0,
         eCssCompressPartVisual,
         eCssReinforcementVisual,
-//         eCssAxisHorizontalVisual,
-//         eCssAxisVerticalVisual,
+        eCssAxisHorizontalVisual,
+        eCssAxisVerticalVisual,
         eUsedVisualEnd // has to be last
     }
 }

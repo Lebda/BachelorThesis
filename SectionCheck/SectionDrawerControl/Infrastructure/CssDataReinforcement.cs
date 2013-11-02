@@ -6,11 +6,15 @@ using System.Windows.Media;
 using CommonLibrary.Infrastructure;
 using System.Windows;
 using SectionDrawerControl.Utility;
+using CommonLibrary.Utility;
 
 namespace SectionDrawerControl.Infrastructure
 {
-    public class CssDataOneReinf : ObservableObject
+    public class CssDataOneReinf : ObservableObject, ICloneable
     {
+        public CssDataOneReinf()
+        {
+        }
         public CssDataOneReinf(double horPos, double verPos, double diam)
         {
             _barPointProperty.X = horPos;
@@ -98,27 +102,36 @@ namespace SectionDrawerControl.Infrastructure
                 RaisePropertyChanged(BarAreaPropertyName);
             }
         }
+
+        #region ICloneable Members
+        public object Clone()
+        {
+            CssDataOneReinf clone = new CssDataOneReinf();
+            clone._diameterProperty = _diameterProperty;
+            clone._barAreaProperty = _barAreaProperty;
+            clone._barPointProperty = GeometryOperations.Copy(_barPointProperty);
+            return clone;
+        }
+        #endregion
     }
     public class CssDataReinforcement : CssDataBase
     {
+        public CssDataReinforcement()
+        {
+            VisualBrush = Brushes.IndianRed;
+        }
         public override PathGeometry Create()
         {
             PathGeometry myPathGeometry = new PathGeometry();
-            PathFigure pathFigure1 = new PathFigure();
-
-            pathFigure1.StartPoint = new Point(0.0, 0.0);
+            if (Common.IsEmpty(_barDataProperty))
+            {
+                return myPathGeometry;
+            }
             foreach(CssDataOneReinf iter in _barDataProperty)
             {
-                pathFigure1.Segments.Add(
-                    new ArcSegment(
-                        GeometryOperations.Copy(iter.BarPoint),
-                        new Size(iter.Diam, iter.Diam),
-                        0,
-                        true, /* IsLargeArc */
-                        SweepDirection.Clockwise,
-                        true /* IsStroked */ ));
+                EllipseGeometry circle = new EllipseGeometry(iter.BarPoint, iter.Diam / 2, iter.Diam / 2);
+                myPathGeometry.AddGeometry(circle);
             }
-            myPathGeometry.Figures.Add(pathFigure1);
             myPathGeometry.FillRule = FillRule.Nonzero;
             return myPathGeometry;
         }

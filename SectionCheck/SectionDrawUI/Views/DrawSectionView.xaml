@@ -34,6 +34,7 @@
       <lib:SectionDrawer Width="400" Height="400" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
+                         CssAxisVertical4Draw="{Binding Path=CssAxisVertical}"
                          CssCompressPart4Draw="{Binding Path=CssCompressPart}"
                          CssReinforcement4Draw="{Binding Path=CssReinforcement}"                         
                          >

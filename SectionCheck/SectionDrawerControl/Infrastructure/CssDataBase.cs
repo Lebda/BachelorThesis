@@ -10,6 +10,14 @@ namespace SectionDrawerControl.Infrastructure
 {
     public abstract class CssDataBase : ObservableObject, IPathGeometryCreator, IVisualObejctDrawingData
     {
+        public CssDataBase()
+        {
+        }
+        public CssDataBase(Brush newBrush, Pen newPen)
+        {
+            _visualBrushProperty = newBrush;
+            _visualPenProperty = newPen;
+        }
         #region IPathGeometryCreator Members
 
         public abstract PathGeometry Create();
@@ -29,6 +37,7 @@ namespace SectionDrawerControl.Infrastructure
         }
 
         #endregion
+
         /// <summary>
         /// The <see cref="VisualBrush" /> property's name.
         /// </summary>

@@ -10,21 +10,21 @@
   <Class Name="SectionDrawerControl.SectionDrawer" Collapsed="true">
     <Position X="11.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACEAIQEBAihADAIgEBGAKKCCEAhQIpyEBAABBAAMQ=</HashCode>
+      <HashCode>AAACEAIQEBAihADAIgEBGAKKDCEAhQIpyEBAABBAAMQ=</HashCode>
       <FileName>SectionDrawer.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.CssDataAxis" Collapsed="true">
     <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAEAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAEEACAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\CssDataAxis.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.CssDataBase" Collapsed="true">
     <Position X="3.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAgAAAQAABAAAAAAAAAAAAABAAAEAAAIAAABAAEEA=</HashCode>
       <FileName>Infrastructure\CssDataBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -32,58 +32,36 @@
   <Class Name="SectionDrawerControl.Infrastructure.CssDataCompressPart" Collapsed="true">
     <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACAAAAAAgAAAAAAAAAAAAABAQAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAgAAAAAAAEAAAAABAQAAAAA=</HashCode>
       <FileName>Infrastructure\CssDataCompressPart.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.CssDataOneReinf" Collapsed="true">
     <Position X="11.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAEAAAAAAgAAAAAAMhCAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAEAAIAAAgAAAAAAMhCAAAAAAAAAABAAA=</HashCode>
       <FileName>Infrastructure\CssDataReinforcement.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.CssDataReinforcement" Collapsed="true">
     <Position X="2.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAAACBAAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAA=</HashCode>
       <FileName>Infrastructure\CssDataReinforcement.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.CssDataShape">
     <Position X="7.25" Y="2" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAIAAAAAAAAAAAEAAAAIAAABBAQgAAAAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAIAAAAAAAAAAAEAAAAIEAABBAQgAAAAAA=</HashCode>
       <FileName>Infrastructure\CssDataShape.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="SectionDrawerControl.Infrastructure.ContextVisualShape" Collapsed="true">
-    <Position X="9.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAMAACAAAAAAAAAAAQBAAAAAACAABAAAAAAA=</HashCode>
-      <FileName>Infrastructure\Interfaces.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SectionDrawerControl.Infrastructure.VisualShapeItem" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAUAAAAAAAQAAACAAAAAAAAAAAAAABA=</HashCode>
-      <FileName>Infrastructure\IVisualShapeImpl.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SectionDrawerControl.Infrastructure.VisualShape" BaseTypeListCollapsed="true">
-    <Position X="5.25" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAABAAAAAAAgAAAAAAABA=</HashCode>
-      <FileName>Infrastructure\IVisualShapeImpl.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SectionDrawerControl.Infrastructure.VisualShapes" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="9.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAAhgAAACKAggAAAQAAAA=</HashCode>
+      <HashCode>ACAAAAAAAAAQAAAAAAAAAIEAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\IVisualShapeImpl.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -91,7 +69,7 @@
   <Class Name="SectionDrawerControl.Infrastructure.VisualFactory" Collapsed="true">
     <Position X="9.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAABAAAAAAAAAAAAAAAAAAAQAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAQAAgAAAAAAA=</HashCode>
       <FileName>Infrastructure\IVisualShapeImpl.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -105,7 +83,7 @@
       </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAgAEAAgAhAAAAAgAAAAAgAAACKAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAgAEAAgAhAAAAAgAAAAAgAAAAKAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\VisualObjectData.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -124,7 +102,7 @@
   <Class Name="SectionDrawerControl.Utility.GeometryOperations" Collapsed="true">
     <Position X="15" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAACAAAAAAEAAgAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAACAAAAAAAAAAAAACAgAAAEEAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\GeometryOperations.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -135,31 +113,17 @@
       <FileName>Utility\SectionDrawerConventer.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="SectionDrawerControl.Infrastructure.IVisualShapeItem" Collapsed="true">
-    <Position X="11.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAEAAAAAAAQAAACAAAAAAAAAAAAAABA=</HashCode>
-      <FileName>Infrastructure\Interfaces.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="SectionDrawerControl.Infrastructure.IVisualShape" Collapsed="true">
-    <Position X="9.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAAAAAAAAAAgAAAAAAABA=</HashCode>
-      <FileName>Infrastructure\Interfaces.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="SectionDrawerControl.Infrastructure.IVisualShapes" Collapsed="true">
     <Position X="13.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAAgAAAAAKAggAAAQAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAQAAIAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Interfaces.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="SectionDrawerControl.eUsedVisuals" Collapsed="true">
     <Position X="9.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAABAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
       <FileName>SectionDrawerEnums.cs</FileName>
     </TypeIdentifier>
   </Enum>

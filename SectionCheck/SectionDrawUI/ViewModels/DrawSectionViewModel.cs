@@ -10,6 +10,7 @@ using SectionCheckInterfaces.Interfaces;
 using SectionDrawUI.Model;
 using CommonLibrary.Utility;
 using SectionDrawerControl.Infrastructure;
+using ResourceLibrary;
 
 namespace SectionDrawUI.ViewModels
 {
@@ -166,8 +167,9 @@ namespace SectionDrawUI.ViewModels
         /// </summary>
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
 
-        private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis();
-
+        private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(
+            Application.Current.TryFindResource(CustomResources.HorAxisBrush1Key) as Brush,
+            Application.Current.TryFindResource(CustomResources.HorAxisPen1Key) as Pen);
         /// <summary>
         /// Sets and gets the CssAxisHorizontal property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -187,6 +189,37 @@ namespace SectionDrawUI.ViewModels
                 }
                 _cssAxisHorizontalProperty = value;
                 RaisePropertyChanged(CssAxisHorizontalPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CssAxisHorizontal" /> property's name.
+        /// </summary>
+        public const string CssAxisVerticalPropertyName = "CssAxisVertical";
+
+        private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(
+            Application.Current.TryFindResource(CustomResources.VerAxisBrush1Key) as Brush,
+            Application.Current.TryFindResource(CustomResources.VerAxisPen1Key) as Pen);
+
+        /// <summary>
+        /// Sets and gets the CssAxisVertical property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public CssDataAxis CssAxisVertical
+        {
+            get
+            {
+                return _cssAxisVerticalProperty;
+            }
+
+            set
+            {
+                if (_cssAxisVerticalProperty == value)
+                {
+                    return;
+                }
+                _cssAxisVerticalProperty = value;
+                RaisePropertyChanged(CssAxisVerticalPropertyName);
             }
         }
     }

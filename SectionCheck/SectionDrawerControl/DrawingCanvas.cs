@@ -15,18 +15,17 @@ namespace SectionDrawerControl
     {
         public DrawingCanvas()
         {
-            _visuals = new List<VisualObjectData>();
+            _visuals = Exceptions.CheckNull(new List<VisualObjectData>());
         }
         private List<VisualObjectData> _visuals = null;
-        private PathGeometry _wholeGeometry = new PathGeometry();
-        private Matrix _conventer = new Matrix();
+        private PathGeometry _wholeGeometry = Exceptions.CheckNull(new PathGeometry());
+        private Matrix _conventer = Exceptions.CheckNull(new Matrix());
 
         protected override Visual GetVisualChild(int index)
         {
-            if (index < 0 || index >= _visuals.Count)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+            Exceptions.CheckNull(_visuals);
+            Exceptions.CheckPredicate<int>("Invalid index of visual child !", index, (start => start < 0));
+            Exceptions.CheckPredicate<int, int>("Invalid index of visual child !", index, _visuals.Count, (start, itemCount) => itemCount <= start);
             return _visuals[index].VisualObject;
         }
 
@@ -34,16 +33,15 @@ namespace SectionDrawerControl
         {
             get
             {
+                Exceptions.CheckNull(_visuals);
                 return _visuals.Count;
             }
         }
         public void DrawAll()
         {
-            Exceptions.CheckNullArgument(null, _visuals);
-            foreach (VisualObjectData iter in _visuals)
+            foreach (VisualObjectData iter in Exceptions.CheckNull<List<VisualObjectData>>(_visuals))
             {
-                Exceptions.CheckNullArgument(null, iter);
-                iter.Draw();
+                Exceptions.CheckNull<VisualObjectData>(iter).Draw();
             }
         }
         public void TransformAll(MatrixTransform conventer)
@@ -52,12 +50,10 @@ namespace SectionDrawerControl
             if (_conventer.Equals(conventer))
             {
                 return;
-            }   
-            foreach (VisualObjectData iter in _visuals)
+            }
+            foreach (VisualObjectData iter in Exceptions.CheckNull<List<VisualObjectData>>(_visuals))
             {
-                Exceptions.CheckNullArgument(null, iter);
-                Exceptions.CheckNullArgument(null, iter.VisualShape);
-                iter.VisualShape.UpdateRenderedGeometry(conventer);
+                Exceptions.CheckNull<IVisualShapes>(Exceptions.CheckNull<VisualObjectData>(iter).VisualShape).UpdateRenderedGeometry(conventer);
             }
         }
         public Rect RecalculateBounds()
@@ -66,16 +62,14 @@ namespace SectionDrawerControl
             _wholeGeometry.Clear();
             foreach (VisualObjectData iter in _visuals)
             {
-                Exceptions.CheckNullArgument(null, iter);
-                Exceptions.CheckNullArgument(null, iter.VisualShape);
-                Exceptions.CheckNullArgument(null, iter.VisualShape.BaseGeo);
-                _wholeGeometry.AddGeometry(iter.VisualShape.BaseGeo);
+                _wholeGeometry.AddGeometry(
+                    Exceptions.CheckNull<PathGeometry>(Exceptions.CheckNull<IVisualShapes>(Exceptions.CheckNull<VisualObjectData>(iter).VisualShape).BaseGeo));
             }
             return _wholeGeometry.Bounds;
         }
         public Rect GetBounds()
         {
-            return _wholeGeometry.Bounds;
+            return Exceptions.CheckNull<PathGeometry>(_wholeGeometry).Bounds;
         }
 
         public List<VisualObjectData> GetVisualObjects()
@@ -85,18 +79,12 @@ namespace SectionDrawerControl
 
         public void AddVisual(VisualObjectData visual)
         {
+            Exceptions.CheckNull(_visuals, _conventer);
             _visuals.Add(visual);
-            _conventer = new Matrix();
+            _conventer = Exceptions.CheckNull<Matrix>(new Matrix());
 
             base.AddVisualChild(visual.VisualObject);
             base.AddLogicalChild(visual.VisualObject);
-        }
-        public void AddVisual(Visual visual)
-        {
-            _visuals.Add(new VisualObjectData(visual));
-
-            base.AddVisualChild(visual);
-            base.AddLogicalChild(visual);
         }
 
         public void DeleteVisual(VisualObjectData visual)
@@ -105,6 +93,7 @@ namespace SectionDrawerControl
             base.RemoveVisualChild(visual.VisualObject);
             base.RemoveLogicalChild(visual.VisualObject);
         }
+
         public void DeleteVisual(Visual visual)
         {
             foreach (VisualObjectData iter in _visuals)

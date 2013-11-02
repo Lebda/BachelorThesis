@@ -7,32 +7,52 @@ namespace CommonLibrary.Utility
 {
     public static class Exceptions
     {
-        public static void CheckNullArgument(string _errorMessage, params Object[] _references)
+        public static void CheckNull(params Object[] parameters)
         {
-            if (_errorMessage == null)
+            foreach (var iter in parameters)
             {
-                _errorMessage = "Argument(s) is(are) null";
-            }
-            foreach (var reference in _references)
-            {
-                if (reference == null)
+                if (iter == null)
                 {
-                    throw new ArgumentException(_errorMessage);
+                    throw new ArgumentException("Argument is null");
                 }
             }
         }
         //
-        public static void CheckNullAplication(string _errorMessage, params Object[] _references)
+        public static T CheckNull<T>(T param)
         {
-            if (_errorMessage == null)
+            if (param == null)
             {
-                _errorMessage = "Argument(s) is(are) null";
+                throw new ArgumentException("Argument is null");
             }
-            foreach (var reference in _references)
+            return param;
+        }
+        //
+        public static void CheckNullArgument(string errorMessage, params Object[] parameters)
+        {
+            if (errorMessage == null)
             {
-                if (reference == null)
+                errorMessage = "Argument(s) is(are) null";
+            }
+            foreach (var iter in parameters)
+            {
+                if (iter == null)
                 {
-                    throw new ApplicationException(_errorMessage);
+                    throw new ArgumentException(errorMessage);
+                }
+            }
+        }
+        //
+        public static void CheckNullAplication(string errorMessage, params Object[] parameters)
+        {
+            if (errorMessage == null)
+            {
+                errorMessage = "Argument(s) is(are) null";
+            }
+            foreach (var iter in parameters)
+            {
+                if (iter == null)
+                {
+                    throw new ApplicationException(errorMessage);
                 }
             }
         }

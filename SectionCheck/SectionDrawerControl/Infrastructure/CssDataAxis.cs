@@ -5,43 +5,24 @@ using System.Text;
 using CommonLibrary.Infrastructure;
 using System.Windows;
 using System.Windows.Media;
+using ResourceLibrary;
 
 namespace SectionDrawerControl.Infrastructure
 {
     public class CssDataAxis : CssDataBase
     {
+        public CssDataAxis()
+            : base( Application.Current.TryFindResource(CustomResources.HorAxisBrush1Key) as Brush, 
+                    Application.Current.TryFindResource(CustomResources.HorAxisPen1Key) as Pen)
+        {
+        }
+        public CssDataAxis(Brush newBrush, Pen newPen)
+            : base(newBrush, newPen)
+        {
+        }
         public override PathGeometry Create()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// The <see cref="AxisYPen" /> property's name.
-        /// </summary>
-        public const string AxisPenPropertyName = "AxisPen";
-
-        private Pen _axisPenProperty = new Pen(Brushes.IndianRed, 2);
-
-        /// <summary>
-        /// Sets and gets the AxisXPen property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public Pen AxisPen
-        {
-            get
-            {
-                return _axisPenProperty;
-            }
-
-            set
-            {
-                if (_axisPenProperty == value)
-                {
-                    return;
-                }
-                _axisPenProperty = value;
-                RaisePropertyChanged(AxisPenPropertyName);
-            }
+            return null;
         }
     }
 }

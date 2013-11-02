@@ -3,9 +3,60 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
-  xmlns:local="clr-namespace:ResourceLibrary"  
+  xmlns:local="clr-namespace:ResourceLibrary" 
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
-  
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=SadTileBrush}"
+                        RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+      <GradientStop Color="White" Offset="0" />
+      <GradientStop Color="Blue" Offset="1" />
+   </RadialGradientBrush>
+
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=HorAxisBrush1}" 
+    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+      <GradientStop Color="#FFF56868" Offset="0" />
+      <GradientStop Color="Red" Offset="1" />
+   </RadialGradientBrush>
+   
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=HorAxisPen1}" 
+                  Thickness="2" 
+                  LineJoin="Round"
+                  EndLineCap="Triangle"
+                  StartLineCap="Round">
+      <Pen.Brush>
+         <RadialGradientBrush RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+            <GradientStop Color="#FFF56868" Offset="0" />
+            <GradientStop Color="Red" Offset="1" />
+         </RadialGradientBrush>
+      </Pen.Brush>
+   </Pen>
+
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=VerAxisBrush1}" 
+    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+      <GradientStop Color="BlueViolet" Offset="0" />
+      <GradientStop Color="Blue" Offset="1" />
+   </RadialGradientBrush>
+   
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=VerAxisPen1}" 
+                  Thickness="2" 
+                  LineJoin="Round"
+                  EndLineCap="Triangle"
+                  StartLineCap="Round">
+      <Pen.Brush>
+         <RadialGradientBrush  
+    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+            <GradientStop Color="BlueViolet" Offset="0" />
+            <GradientStop Color="Blue" Offset="1" />
+         </RadialGradientBrush>
+      </Pen.Brush>
+   </Pen>
+
+
+   <RadialGradientBrush        
+    x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=CompressionPartBrush}" 
+    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+      <GradientStop Color="White" Offset="0" />
+      <GradientStop Color="#FFEBD84E" Offset="1" />
+   </RadialGradientBrush>
 
 </ResourceDictionary>
