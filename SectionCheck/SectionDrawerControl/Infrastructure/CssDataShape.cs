@@ -8,11 +8,22 @@ using CommonLibrary.Utility;
 using System.Windows;
 using System.Windows.Shapes;
 using SectionDrawerControl.Utility;
+using ResourceLibrary;
 
 namespace SectionDrawerControl.Infrastructure
 {
     public class CssDataShape : CssDataBase
     {
+         public CssDataShape()
+            : base(Application.Current.TryFindResource(CustomResources.CssBrush1_SCkey) as Brush,
+                    Application.Current.TryFindResource(CustomResources.CssPen1_SCkey) as Pen)
+        {
+        }
+         public CssDataShape(Brush newBrush, Pen newPen)
+            : base(newBrush, newPen)
+        {
+        }
+
         public override PathGeometry Create()
         {
             PathGeometry myPathGeometry = new PathGeometry();

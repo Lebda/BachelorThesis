@@ -7,12 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"
-             Background="{DynamicResource {x:Static res:CustomResources.SadTileBrushKey}}">
+             >
    <Grid>
       <Border Grid.Column="1" Margin="3">
-         <local:DrawingCanvas x:Name="drawingSurface" 
-                              Background="{DynamicResource {x:Static res:CustomResources.SadTileBrushKey}}" 
-                              ClipToBounds="True"></local:DrawingCanvas>
+         <local:DrawingCanvas x:Name="drawingSurface" ClipToBounds="True"></local:DrawingCanvas>
       </Border>
    </Grid>
 </UserControl>

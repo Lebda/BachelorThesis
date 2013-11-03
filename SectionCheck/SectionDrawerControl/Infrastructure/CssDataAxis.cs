@@ -12,8 +12,8 @@ namespace SectionDrawerControl.Infrastructure
     public class CssDataAxis : CssDataBase
     {
         public CssDataAxis()
-            : base( Application.Current.TryFindResource(CustomResources.HorAxisBrush1Key) as Brush, 
-                    Application.Current.TryFindResource(CustomResources.HorAxisPen1Key) as Pen)
+            : base( Application.Current.TryFindResource(CustomResources.HorAxisBrush1_SCkey) as Brush, 
+                    Application.Current.TryFindResource(CustomResources.HorAxisPen1_SCkey) as Pen)
         {
         }
         public CssDataAxis(Brush newBrush, Pen newPen)

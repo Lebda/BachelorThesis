@@ -8,6 +8,8 @@
              xmlns:lib="clr-namespace:SectionDrawerControl;assembly=SectionDrawerControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
+             xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"             
+             Background="{DynamicResource {x:Static res:CustomResources.LightGrayBackgroundBrush_SCkey}}"
             >
    <UserControl.Resources>
       <ResourceDictionary>
@@ -31,7 +33,7 @@
       
       <!--Second Row drawing-->
       <Viewbox Grid.Row="1">
-      <lib:SectionDrawer Width="400" Height="400" SnapsToDevicePixels="True" Margin="2" Padding="3"
+         <lib:SectionDrawer x:Name="drawingScene" Width="600" Height="600" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
                          CssAxisVertical4Draw="{Binding Path=CssAxisVertical}"

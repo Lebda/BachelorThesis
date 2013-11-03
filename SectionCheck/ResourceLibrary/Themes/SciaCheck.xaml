@@ -4,56 +4,82 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
   xmlns:local="clr-namespace:ResourceLibrary" 
+  xmlns:core="clr-namespace:System;assembly=mscorlib"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
-   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=SadTileBrush}"
+   <Color x:Key="GradientStartColor_SC">White</Color>
+   <core:Double x:Key="radiusX_SC">1</core:Double>
+   <core:Double x:Key="radiusY_SC">1</core:Double>
+   <core:Double x:Key="penShapeThickness_SC">2.5</core:Double>
+   <core:Double x:Key="penAxisThickness_SC">2</core:Double>
+   <core:String x:Key="gradientOrigin_SC">0.7,0.3</core:String>
+
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=LightGrayBackgroundBrush_SC}"
+                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
+      <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
+      <GradientStop Color="LightGray" Offset="1" />
+   </RadialGradientBrush>
+
+   <!--<RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartBrush1_SC}"
+                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.7,0.3">
+      <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
+      <GradientStop Color="LimeGreen" Offset="1" />
+   </RadialGradientBrush>-->
+
+   <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartBrush1_SC}" 
+                        StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect">
+      <GradientStop Color="LimeGreen" Offset="0"/>
+      <GradientStop Color="White" Offset="0.75" />
+   </LinearGradientBrush>
+   
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartPen1_SC}" 
+                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush> <SolidColorBrush Color="DarkOliveGreen" /> </Pen.Brush>
+   </Pen>
+
+   <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssBrush1_SC}" 
+                        StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect">
+      <GradientStop Color="DimGray" Offset="0"/>
+      <GradientStop Color="White" Offset="1" />
+   </LinearGradientBrush>
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssPen1_SC}" 
+                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush> <SolidColorBrush Color="DimGray" /> </Pen.Brush>
+   </Pen>
+
+   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=HorAxisBrush1_SC}" Color="#FFEF2222" />
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=HorAxisPen1_SC}" 
+                  Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush> <SolidColorBrush Color="#FFEF2222" /> </Pen.Brush>
+   </Pen>
+
+   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=VerAxisBrush1_SC}" Color="DodgerBlue" />
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=VerAxisPen1_SC}" 
+                  Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush> <SolidColorBrush Color="DodgerBlue" /> </Pen.Brush>
+   </Pen>
+
+   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=ReinfBrush1_SC}" Color="SaddleBrown" />
+   
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfPen1_SC}" 
+                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="SaddleBrown" />
+      </Pen.Brush>
+   </Pen>
+
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=SadTileBrush_SC}"
                         RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
       <GradientStop Color="White" Offset="0" />
       <GradientStop Color="Blue" Offset="1" />
    </RadialGradientBrush>
 
-   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=HorAxisBrush1}" 
-    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
-      <GradientStop Color="#FFF56868" Offset="0" />
-      <GradientStop Color="Red" Offset="1" />
-   </RadialGradientBrush>
-   
-   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=HorAxisPen1}" 
-                  Thickness="2" 
-                  LineJoin="Round"
-                  EndLineCap="Triangle"
-                  StartLineCap="Round">
-      <Pen.Brush>
-         <RadialGradientBrush RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
-            <GradientStop Color="#FFF56868" Offset="0" />
-            <GradientStop Color="Red" Offset="1" />
-         </RadialGradientBrush>
-      </Pen.Brush>
-   </Pen>
-
-   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=VerAxisBrush1}" 
-    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
-      <GradientStop Color="BlueViolet" Offset="0" />
-      <GradientStop Color="Blue" Offset="1" />
-   </RadialGradientBrush>
-   
-   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=VerAxisPen1}" 
-                  Thickness="2" 
-                  LineJoin="Round"
-                  EndLineCap="Triangle"
-                  StartLineCap="Round">
-      <Pen.Brush>
-         <RadialGradientBrush  
-    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
-            <GradientStop Color="BlueViolet" Offset="0" />
-            <GradientStop Color="Blue" Offset="1" />
-         </RadialGradientBrush>
-      </Pen.Brush>
-   </Pen>
-
-
    <RadialGradientBrush        
-    x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=CompressionPartBrush}" 
+    x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=CompressionPartBrush_SC}" 
     RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
       <GradientStop Color="White" Offset="0" />
       <GradientStop Color="#FFEBD84E" Offset="1" />

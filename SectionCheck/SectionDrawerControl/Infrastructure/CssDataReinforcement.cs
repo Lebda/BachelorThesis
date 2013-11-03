@@ -7,6 +7,7 @@ using CommonLibrary.Infrastructure;
 using System.Windows;
 using SectionDrawerControl.Utility;
 using CommonLibrary.Utility;
+using ResourceLibrary;
 
 namespace SectionDrawerControl.Infrastructure
 {
@@ -117,9 +118,15 @@ namespace SectionDrawerControl.Infrastructure
     public class CssDataReinforcement : CssDataBase
     {
         public CssDataReinforcement()
+            : base( Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush, 
+                    Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen)
         {
-            VisualBrush = Brushes.IndianRed;
         }
+        public CssDataReinforcement(Brush newBrush, Pen newPen)
+            : base(newBrush, newPen)
+        {
+        }
+
         public override PathGeometry Create()
         {
             PathGeometry myPathGeometry = new PathGeometry();

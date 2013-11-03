@@ -4,11 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using SectionDrawerControl.Utility;
+using System.Windows;
+using ResourceLibrary;
 
 namespace SectionDrawerControl.Infrastructure
 {
     public class CssDataCompressPart : CssDataBase
     {
+        public CssDataCompressPart()
+            : base(Application.Current.TryFindResource(CustomResources.CompressPartBrush1_SCkey) as Brush,
+                    Application.Current.TryFindResource(CustomResources.CompressPartPen1_SCkey) as Pen)
+        {
+        }
+        public CssDataCompressPart(Brush newBrush, Pen newPen)
+            : base(newBrush, newPen)
+        {
+        }
+
         public override PathGeometry Create()
         {
             PathGeometry myPathGeometry = new PathGeometry();

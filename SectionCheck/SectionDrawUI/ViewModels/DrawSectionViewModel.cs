@@ -25,41 +25,14 @@ namespace SectionDrawUI.ViewModels
 //             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
         }
 
-//         /// <summary>
-//         /// The <see cref="ShapeViewModelProperty" /> property's name.
-//         /// </summary>
-//         public const string ShapeViewModelPropertyPropertyName = "ShapeViewModel";
-// 
-//         private SectionShapeViewModel _shapeViewModelProperty = null;
-// 
-//         /// <summary>
-//         /// Sets and gets the ShapeModelProperty property.
-//         /// Changes to that property's value raise the PropertyChanged event. 
-//         /// </summary>
-//         public SectionShapeViewModel ShapeViewModel
-//         {
-//             get
-//             {
-//                 return _shapeViewModelProperty;
-//             }
-// 
-//             set
-//             {
-//                 if (_shapeViewModelProperty == value)
-//                 {
-//                     return;
-//                 }
-//                 _shapeViewModelProperty = value;
-//                 RaisePropertyChanged(ShapeViewModelPropertyPropertyName);
-//             }
-//         }
-
         /// <summary>
         /// The <see cref="CssReinforcement" /> property's name.
         /// </summary>
         public const string CssReinforcementPropertyName = "CssReinforcement";
 
-        private CssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement();
+        private CssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement(
+            Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen);
 
         /// <summary>
         /// Sets and gets the CssReinforcement property.
@@ -92,7 +65,9 @@ namespace SectionDrawUI.ViewModels
 
         public const string CssCompressPartPropertyName = "CssCompressPart";
 
-        private CssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart();
+        private CssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart(
+            Application.Current.TryFindResource(CustomResources.CompressPartBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.CompressPartPen1_SCkey) as Pen);
 
         /// <summary>
         /// Sets and gets the OuterCompressPartPath property.
@@ -127,7 +102,9 @@ namespace SectionDrawUI.ViewModels
         /// </summary>
         public const string CssShapePropertyName = "CssShape";
 
-        private CssDataShape _cssShapeProperty = new CssDataShape();
+        private CssDataShape _cssShapeProperty = new CssDataShape(
+            Application.Current.TryFindResource(CustomResources.CssBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.CssPen1_SCkey) as Pen);
 
         /// <summary>
         /// Sets and gets the OuterShapePath property.
@@ -168,8 +145,8 @@ namespace SectionDrawUI.ViewModels
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
 
         private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(
-            Application.Current.TryFindResource(CustomResources.HorAxisBrush1Key) as Brush,
-            Application.Current.TryFindResource(CustomResources.HorAxisPen1Key) as Pen);
+            Application.Current.TryFindResource(CustomResources.HorAxisBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.HorAxisPen1_SCkey) as Pen);
         /// <summary>
         /// Sets and gets the CssAxisHorizontal property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -198,8 +175,8 @@ namespace SectionDrawUI.ViewModels
         public const string CssAxisVerticalPropertyName = "CssAxisVertical";
 
         private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(
-            Application.Current.TryFindResource(CustomResources.VerAxisBrush1Key) as Brush,
-            Application.Current.TryFindResource(CustomResources.VerAxisPen1Key) as Pen);
+            Application.Current.TryFindResource(CustomResources.VerAxisBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.VerAxisPen1_SCkey) as Pen);
 
         /// <summary>
         /// Sets and gets the CssAxisVertical property.
