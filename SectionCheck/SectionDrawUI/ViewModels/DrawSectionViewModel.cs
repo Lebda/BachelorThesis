@@ -26,6 +26,79 @@ namespace SectionDrawUI.ViewModels
         }
 
         /// <summary>
+        /// The <see cref="FibersConcrete" /> property's name.
+        /// </summary>
+        public const string FibersConcretePropertyName = "FibersConcrete";
+
+        private CssDataFibers _fibersConcreteProperty = new CssDataFibers(
+            Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
+
+        /// <summary>
+        /// Sets and gets the FibersConcrete property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public CssDataFibers FibersConcrete
+        {
+            get
+            {
+                double test = 1e-4;
+//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
+//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, 20 * test, 0.25));
+//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 20 * test, 0.25));
+//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, -20 * test, -0.25));
+//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
+                //
+                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, 57.0204 * test, -0.30285));
+                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, -14.919 * test, 0.07949));
+                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 21.37 * test, -0.11384));
+                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, 92.81 * test, -0.49617));
+                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, 57.0204 * test, -0.30285));
+                return _fibersConcreteProperty;
+            }
+
+            set
+            {
+                if (_fibersConcreteProperty == value)
+                {
+                    return;
+                }
+                _fibersConcreteProperty = value;
+                RaisePropertyChanged(FibersConcretePropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="FibersReinforcement" /> property's name.
+        /// </summary>
+        public const string FibersReinforcementPropertyName = "FibersReinforcement";
+
+        private CssDataFibers _fibersReinforcementProperty = new CssDataFibers();
+
+        /// <summary>
+        /// Sets and gets the FibersReinforcement property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public CssDataFibers FibersReinforcement
+        {
+            get
+            {
+                return _fibersReinforcementProperty;
+            }
+
+            set
+            {
+                if (_fibersReinforcementProperty == value)
+                {
+                    return;
+                }
+                _fibersReinforcementProperty = value;
+                RaisePropertyChanged(FibersReinforcementPropertyName);
+            }
+        }
+
+
+        /// <summary>
         /// The <see cref="CssReinforcement" /> property's name.
         /// </summary>
         public const string CssReinforcementPropertyName = "CssReinforcement";
@@ -77,11 +150,15 @@ namespace SectionDrawUI.ViewModels
         {
             get
             {
-                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
+//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.25));
+//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.15));
+//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.1460493));
                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
-                _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.25));
-                _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.15));
-                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.026653, 0.25));
+                _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.1460493));
                 return _cssCompressPartProperty;
             }
 

@@ -38,7 +38,8 @@
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
                          CssAxisVertical4Draw="{Binding Path=CssAxisVertical}"
                          CssCompressPart4Draw="{Binding Path=CssCompressPart}"
-                         CssReinforcement4Draw="{Binding Path=CssReinforcement}"                         
+                         CssReinforcement4Draw="{Binding Path=CssReinforcement}"
+                         CssFibersConcrete4Draw ="{Binding Path=FibersConcrete}"
                          >
          </lib:SectionDrawer>
       </Viewbox>

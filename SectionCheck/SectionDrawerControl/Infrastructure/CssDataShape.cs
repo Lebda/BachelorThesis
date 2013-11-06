@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using SectionDrawerControl.Utility;
 using ResourceLibrary;
+using CommonLibrary.Geometry;
 
 namespace SectionDrawerControl.Infrastructure
 {

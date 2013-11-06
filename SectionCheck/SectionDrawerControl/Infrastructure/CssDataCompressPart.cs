@@ -6,6 +6,7 @@ using System.Windows.Media;
 using SectionDrawerControl.Utility;
 using System.Windows;
 using ResourceLibrary;
+using CommonLibrary.Geometry;
 
 namespace SectionDrawerControl.Infrastructure
 {

@@ -13,11 +13,11 @@ namespace SectionDrawerControl.Infrastructure
     {
         public delegate void DrawDelegate(VisualObjectData visual);
 
-        DrawDelegate _callBack4ShapeChange = null;
-        public DrawDelegate CallBack4ShapeChange
+        DrawDelegate _callBack4Change = null;
+        public DrawDelegate CallBack4Change
         {
-            get { return _callBack4ShapeChange; }
-            set { _callBack4ShapeChange = value; }
+            get { return _callBack4Change; }
+            set { _callBack4Change = value; }
         }
         DrawDelegate _delagate4Draw = null;
         public DrawDelegate Delagate4Draw
@@ -57,31 +57,11 @@ namespace SectionDrawerControl.Infrastructure
         //
         public void CallBack4ShapeChanged()
         {
-            if (CallBack4ShapeChange == null)
+            if (CallBack4Change == null)
             {
                 return;
             }
-            CallBack4ShapeChange(this);
+            CallBack4Change(this);
         }
-        //
-//         public Geometry CreateRenderedGeometry(int pos, FillRule rule = FillRule.Nonzero, bool isCLosed = true)
-//         {
-//             if (_visualShape == null)
-//             {
-//                 return null;
-//             }
-//             return _visualShape.CreateRenderedGeometry(pos, rule, isCLosed);
-//         }
-//         //
-//         public Geometry CreateRenderedGeometry(int pos1, int pos2, FillRule rule = FillRule.Nonzero, bool isCLosed = true, GeometryCombineMode mode = GeometryCombineMode.Exclude)
-//         {
-//             if (_visualShape == null)
-//             {
-//                 return null;
-//             }
-//             CombinedGeometry combinedGeometry = new CombinedGeometry(_visualShape.CreateRenderedGeometry(pos1, rule, isCLosed), _visualShape.CreateRenderedGeometry(pos2, rule, isCLosed));
-//             combinedGeometry.GeometryCombineMode = mode;
-//             return combinedGeometry;
-//         }
     }
 }

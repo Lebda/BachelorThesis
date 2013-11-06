@@ -8,9 +8,11 @@ using System.Windows;
 using SectionDrawerControl.Utility;
 using CommonLibrary.Utility;
 using ResourceLibrary;
+using CommonLibrary.Geometry;
 
 namespace SectionDrawerControl.Infrastructure
 {
+    [Serializable]
     public class CssDataOneReinf : ObservableObject, ICloneable
     {
         public CssDataOneReinf()

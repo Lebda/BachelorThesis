@@ -20,11 +20,24 @@
       <GradientStop Color="LightGray" Offset="1" />
    </RadialGradientBrush>
 
-   <!--<RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartBrush1_SC}"
-                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.7,0.3">
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainBrush1_SC}"
+                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
       <GradientStop Color="LimeGreen" Offset="1" />
-   </RadialGradientBrush>-->
+   </RadialGradientBrush>
+   
+<!--    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainBrush1_SC}"  -->
+   <!--                         StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect"> -->
+   <!--       <GradientStop Color="LimeGreen" Offset="0"/> -->
+   <!--       <GradientStop Color="White" Offset="1.0" /> -->
+   <!--    </LinearGradientBrush> -->
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainPen1_SC}" 
+                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="DimGray" />
+      </Pen.Brush>
+   </Pen>
 
    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartBrush1_SC}" 
                         StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect">

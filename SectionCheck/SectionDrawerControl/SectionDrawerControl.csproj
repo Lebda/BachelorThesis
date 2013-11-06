@@ -55,6 +55,7 @@
     <Compile Include="Infrastructure\CssDataCompressPart.cs" />
     <Compile Include="Infrastructure\CssDataReinforcement.cs" />
     <Compile Include="Infrastructure\CssDataShape.cs" />
+    <Compile Include="Infrastructure\CssDataStressStrain.cs" />
     <Compile Include="Infrastructure\Interfaces.cs" />
     <Compile Include="Infrastructure\IVisualShapeImpl.cs" />
     <Compile Include="Infrastructure\VisualObjectData.cs" />
@@ -75,7 +76,6 @@
       <DependentUpon>SectionDrawer.xaml</DependentUpon>
     </Compile>
     <Compile Include="SectionDrawerEnums.cs" />
-    <Compile Include="Utility\GeometryOperations.cs" />
     <Compile Include="Utility\SectionDrawerConventer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

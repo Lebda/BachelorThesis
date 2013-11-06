@@ -9,6 +9,8 @@ namespace ResourceLibrary
 {
     public static class CustomResources 
     {
+        public static ComponentResourceKey ConcreteStrainPen1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "ConcreteStrainPen1_SC"); } }
+        public static ComponentResourceKey ConcreteStrainBrush1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "ConcreteStrainBrush1_SC"); } }
         public static ComponentResourceKey ReinfPen1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "ReinfPen1_SC"); } }
         public static ComponentResourceKey ReinfBrush1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "ReinfBrush1_SC"); } }
         public static ComponentResourceKey LightGrayBackgroundBrush_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "LightGrayBackgroundBrush_SC"); } }

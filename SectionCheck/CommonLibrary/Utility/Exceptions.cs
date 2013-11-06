@@ -17,6 +17,26 @@ namespace CommonLibrary.Utility
                 }
             }
         }
+        public static T CheckNullRet<T>(params Object[] parameters)
+        {
+            CheckNull(parameters);
+            if (parameters.Count() == 0)
+            {
+                throw new ArgumentException("Empty params");
+            }
+            foreach (var iter in parameters)
+            {
+                if (iter == null)
+                {
+                    throw new ArgumentException("Argument is null");
+                }
+            }
+            if (!(parameters[parameters.Count() - 1] is T))
+            {
+                throw new ArgumentException("Wrong type of last parameter !");
+            }
+            return (T)parameters[parameters.Count() - 1];
+        }
         //
         public static T CheckNull<T>(T param)
         {
