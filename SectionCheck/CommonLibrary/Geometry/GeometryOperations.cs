@@ -160,5 +160,10 @@ namespace CommonLibrary.Geometry
         {
             return MathUtils.ToRad(Vector.AngleBetween(s_oneUnitHorVector, vec));
         }
+
+        public static Vector GetPerpendicularVector(Vector vec)
+        {
+            return new Vector(vec.Y, -vec.X);
+        }
     }
 }

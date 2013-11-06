@@ -7,6 +7,34 @@ using CommonLibrary.Utility;
 
 namespace CommonLibrary.Geometry
 {
+    public class Line2DFactory
+    {
+        static Line2DFactory _visualFactory = new Line2DFactory();
+        public static Line2DFactory Instance()
+        {
+            if (_visualFactory == null)
+            {
+                _visualFactory = new Line2DFactory();
+            }
+            return _visualFactory;
+        }
+        protected Line2DFactory()
+        {
+        }
+        public ILine2D Create (Point start, Vector direction)
+        {
+            return new Line2D(start, direction);
+        }
+        public ILine2D Create(Point start, double direction)
+        {
+            return new Line2D(start, direction);
+        }
+        public ILine2D Create(Point start, Point end)
+        {
+            return new Line2D(start, end);
+        }
+    }
+
     public interface ILine2D
     {
         /// <summary>
@@ -15,6 +43,15 @@ namespace CommonLibrary.Geometry
         /// <param name="other"></param>
         /// <returns></returns>
         Point? Intersection(ILine2D other);
+        ILine2D GetPerpendicularLine(Point pointOnNewLine);
+        ILine2D GetParallelLine(Point pointOnNewLine);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromStartPoint"></param>
+        /// <param name="angle">in [rad]</param>
+        /// <returns></returns>
+        ILine2D GetLineInAngle(Point pointOnNewLine, double angle);
         double LinePointDistance(Point testPoint);
         bool IsPointOnLine(Point testPoint);
         double Lenght();
@@ -219,6 +256,29 @@ namespace CommonLibrary.Geometry
             return 0.0;
         }
 
+        /// <summary>
+        /// Create perpendicular line in start point
+        /// </summary>
+        /// <returns></returns>
+        ILine2D ILine2D.GetPerpendicularLine(Point pointOnNewLine)
+        {
+            return CreateLineInAngleInternal(pointOnNewLine, GeometryOperations.GetPerpendicularVector(_lineVector));
+        }
+
+        ILine2D ILine2D.GetLineInAngle(Point pointOnNewLine, double angle)
+        {
+            return CreateLineInAngleInternal(pointOnNewLine, GeometryOperations.RotateVector(_lineVector, angle));
+        }
+
+        ILine2D ILine2D.GetParallelLine(Point pointOnNewLine)
+        {
+            return new Line2D(pointOnNewLine, pointOnNewLine+_lineVector);
+        }
         #endregion
+
+        private ILine2D CreateLineInAngleInternal(Point pointOnNewLine, Vector normVector)
+        {
+            return new Line2D(pointOnNewLine, pointOnNewLine + normVector);
+        }
     }
 }

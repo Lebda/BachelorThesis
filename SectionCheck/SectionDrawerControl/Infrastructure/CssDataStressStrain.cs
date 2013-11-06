@@ -269,7 +269,18 @@ namespace SectionDrawerControl.Infrastructure
             }
             fibers.Sort(predicate);
             PointCollection strainShape = Exceptions.CheckNull<PointCollection>(new PointCollection());
-            strainShape.Add(Exceptions.CheckNull<Point>(new Point(0.0, fibers[0].DistanceFromNeuAxis)));
+            Point actualPoint = GeometryOperations.Copy(fibers[0].FiberPoint);
+            strainShape.Add(actualPoint);
+            ILine2D line1 = _neuAxisProperty.GetParallelLine(fibers[0].FiberPoint);
+            ILine2D line2 = line1.GetPerpendicularLine(fibers[fibers.Count-1].FiberPoint);
+            Point? test = line1.Intersection(line2);
+            if (test == null)
+            {
+            }
+            // Second point
+            //Vector move1 = GeometryOperations.Create(fibers[0].GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain, _neuAxisAngleProperty);
+            //actualPoint = Point.Add(actualPoint, move1);
+            strainShape.Add(Exceptions.CheckNull<Point>(new Point(fibers[0].FiberPoint.X, fibers[0].FiberPoint.Y)));
             double previousNeuAxisDistance = fibers[0].DistanceFromNeuAxis;
             for (int counter = 0; counter < fibers.Count; ++counter)
             {
@@ -319,31 +330,32 @@ namespace SectionDrawerControl.Infrastructure
         }
 
         /// <summary>
-        /// The <see cref="NeuAxisAngle" /> property's name.
+        /// The <see cref="NeuAxis" /> property's name.
         /// </summary>
-        public const string NeuAxisAnglePropertyName = "NeuAxisAngle";
+        public const string NeuAxisPropertyName = "NeuAxis";
 
-        private double _neuAxisAngleProperty = 0.0;
+        private ILine2D _neuAxisProperty = null;
 
         /// <summary>
+        /// value in [rad]
         /// Sets and gets the NeuAxisAngle property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public double NeuAxisAngle
+        public ILine2D NeuAxis
         {
             get
             {
-                return _neuAxisAngleProperty;
+                return _neuAxisProperty;
             }
 
             set
             {
-                if (_neuAxisAngleProperty == value)
+                if (_neuAxisProperty == value)
                 {
                     return;
                 }
-                _neuAxisAngleProperty = value;
-                RaisePropertyChanged(NeuAxisAnglePropertyName);
+                _neuAxisProperty = value;
+                RaisePropertyChanged(NeuAxisPropertyName);
             }
         }
     }

@@ -72,17 +72,17 @@ namespace Line2D_UT
         {
             Point start = new Point(0.0, 0.0);
             Point end = new Point(150.0, 150.0);
-            ILine2D target = new Line2D(start, end);
+            ILine2D target = Line2DFactory.Instance().Create(start, end);
             start = new Point(200.0, -200.0);
             end = new Point(-50.0, 350.0);
-            ILine2D other = new Line2D(start, end);
+            ILine2D other = Line2DFactory.Instance().Create(start, end);
             Point expected = new Point(75.0, 75.0);
             Point? actual = null;
             actual = target.Intersection(other);
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
             //
-            other = new Line2D(start, new Point(150.0, 350.0));
+            other = Line2DFactory.Instance().Create(start, new Point(150.0, 350.0));
             other.IsLineSegment = true;
             target.IsLineSegment = true;
             actual = target.Intersection(other);
@@ -104,7 +104,7 @@ namespace Line2D_UT
         [DeploymentItem("CommonLibrary.dll")]
         public void IsPointOnLineTest()
         {
-            ILine2D target = new Line2D(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
             bool expected = true;
             bool actual = target.IsPointOnLine(new Point(100.0, 100.0));
             Assert.AreEqual(expected, actual);
@@ -122,7 +122,7 @@ namespace Line2D_UT
         [DeploymentItem("CommonLibrary.dll")]
         public void LenghtTest()
         {
-            ILine2D target = new Line2D(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
             double expected = 0.0;
             double actual = target.Lenght();
             Assert.AreEqual(expected, actual);
@@ -139,7 +139,7 @@ namespace Line2D_UT
         [DeploymentItem("CommonLibrary.dll")]
         public void LinePointDistanceTest()
         {
-            ILine2D target = new Line2D(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
             double expected = 35.3553390593274;
             double actual;
             actual = target.LinePointDistance(new Point(100.0, 150.0));
@@ -159,7 +159,7 @@ namespace Line2D_UT
         [DeploymentItem("CommonLibrary.dll")]
         public void RecreateVectorTest()
         {
-            //PrivateObject param0 = (PrivateObject)new Line2D(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            //PrivateObject param0 = (PrivateObject)Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
             Line2D_Accessor target = new Line2D_Accessor(new Point(0.0, 0.0), new Point(150.0, 150.0));
             target.RecreateVector();
             double actual = MathUtils.ToDeg(GeometryOperations.AngleFromHorLine(target.LineVector));
@@ -169,6 +169,51 @@ namespace Line2D_UT
             actual = MathUtils.ToDeg(GeometryOperations.AngleFromHorLine(target.LineVector));
             expected = -135.0;
             Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for CommonLibrary.Geometry.ILine2D.GetPerpendicularLine
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("CommonLibrary.dll")]
+        public void GetPerpendicularLineTest()
+        {
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            ILine2D expected = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, -150.0));
+            ILine2D actual = target.GetPerpendicularLine(target.StartPoint);
+            Assert.AreEqual(expected, actual);
+            expected = Line2DFactory.Instance().Create(new Point(150.0, 150.0), new Point(300.0, 0.0));
+            actual = target.GetPerpendicularLine(target.EndPoint);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for CommonLibrary.Geometry.ILine2D.GetLineInAngle
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("CommonLibrary.dll")]
+        public void GetLineInAngleTest()
+        {
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            ILine2D expected = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(212.132034355964, 0.0));
+            ILine2D actual = target.GetLineInAngle(target.StartPoint, MathUtils.ToRad(-45.0));
+            Assert.AreEqual(expected.StartPoint.X, actual.StartPoint.X, 1e-6);
+            Assert.AreEqual(expected.StartPoint.Y, actual.StartPoint.Y, 1e-6);
+        }
+
+        /// <summary>
+        ///A test for CommonLibrary.Geometry.ILine2D.GetParallelLine
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("CommonLibrary.dll")]
+        public void GetParallelLineTest()
+        {
+            ILine2D target = Line2DFactory.Instance().Create(new Point(0.0, 0.0), new Point(150.0, 150.0));
+            Point pointOnNewLine = new Point(0.0, 150.0);
+            ILine2D expected = Line2DFactory.Instance().Create(new Point(0.0, 150.0), new Point(150.0, 300.0));
+            ILine2D actual = target.GetParallelLine(pointOnNewLine);
+            Assert.AreEqual(expected.StartPoint.X, actual.StartPoint.X, 1e-6);
+            Assert.AreEqual(expected.StartPoint.Y, actual.StartPoint.Y, 1e-6);
         }
     }
 }
