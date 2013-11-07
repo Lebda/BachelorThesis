@@ -186,7 +186,10 @@ namespace SectionDrawerControl
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
             Rect boundStrain = visualFibersConcreteStain.VisualShape.BaseGeo.Bounds;
             double scaleX = boundCss.Width / boundStrain.Width;
-            GeometryOperations.TransformOne(new Matrix(scaleX, 0.0, 0.0, 1.0, 0.0/*2*boundCss.Width*/, 0.0), visualFibersConcreteStain.VisualShape.BaseGeo.Figures);
+
+
+
+            //GeometryOperations.TransformOne(new Matrix(scaleX, scaleX, 0.0, 1.0, 0.0/*2*boundCss.Width*/, 0.0), visualFibersConcreteStain.VisualShape.BaseGeo.Figures);
         }
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {

@@ -10,6 +10,7 @@ using SectionDrawerControl.Utility;
 using CommonLibrary.Utility;
 using System.Windows.Shapes;
 using CommonLibrary.Geometry;
+using CommonLibrary.Interfaces;
 
 namespace SectionDrawerControl.Infrastructure
 {
@@ -268,33 +269,34 @@ namespace SectionDrawerControl.Infrastructure
                 return null;
             }
             fibers.Sort(predicate);
-            PointCollection strainShape = Exceptions.CheckNull<PointCollection>(new PointCollection());
-            Point actualPoint = GeometryOperations.Copy(fibers[0].FiberPoint);
-            strainShape.Add(actualPoint);
-            ILine2D line1 = _neuAxisProperty.GetParallelLine(fibers[0].FiberPoint);
-            ILine2D line2 = line1.GetPerpendicularLine(fibers[fibers.Count-1].FiberPoint);
-            Point? test = line1.Intersection(line2);
-            if (test == null)
+            Int32 index = 0;
+            while (index < fibers.Count - 1)
             {
+                if (MathUtils.CompareDouble(fibers[index].DistanceFromNeuAxis, fibers[index + 1].DistanceFromNeuAxis, 1e-6))
+                {
+                    fibers.RemoveAt(index);
+                }
+                else
+                {
+                    index++;
+                }
             }
-            // Second point
-            //Vector move1 = GeometryOperations.Create(fibers[0].GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain, _neuAxisAngleProperty);
-            //actualPoint = Point.Add(actualPoint, move1);
-            strainShape.Add(Exceptions.CheckNull<Point>(new Point(fibers[0].FiberPoint.X, fibers[0].FiberPoint.Y)));
-            double previousNeuAxisDistance = fibers[0].DistanceFromNeuAxis;
+            PointCollection strainShape = Exceptions.CheckNull<PointCollection>(new PointCollection());
+            ILine2D line1 = _neuAxisProperty.GetParallelLine(fibers[0].FiberPoint);
+            ILine2D basicLine = line1.GetPerpendicularLine(fibers[fibers.Count-1].FiberPoint);
+            Point test = (Point)Exceptions.CheckNull(line1.Intersection(basicLine));
+            basicLine.EndPoint = test;
+            strainShape.Add(test);
             for (int counter = 0; counter < fibers.Count; ++counter)
             {
-                if (counter != 0 && MathUtils.CompareDouble(fibers[counter-1].DistanceFromNeuAxis, fibers[counter].DistanceFromNeuAxis))
-                {
-                    continue;
-                }
-                strainShape.Add(Exceptions.CheckNull<Point>(new Point(fibers[counter].GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain, fibers[counter].DistanceFromNeuAxis)));
+                CssDataFiber fiber = fibers[counter];
+                ILine2D lineInFiber = _neuAxisProperty.GetParallelLine(fiber.FiberPoint);
+                Point intersectionWithBaseLine = (Point)Exceptions.CheckNull(lineInFiber.Intersection(basicLine));
+                Vector moveVec = GeometryOperations.Create(fiber.GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain, _neuAxisProperty.GetAngle());
+                strainShape.Add(Point.Add(intersectionWithBaseLine, moveVec));
             }
-            if (strainShape.Count > 0)
-            {
-                strainShape.Add(Exceptions.CheckNull<Point>(new Point(0.0, strainShape[strainShape.Count - 1].Y)));
-            }
-            strainShape.Add(Exceptions.CheckNull<Point>(new Point(strainShape[0].X, strainShape[0].Y)));
+            strainShape.Add(fibers[fibers.Count - 1].FiberPoint);
+            strainShape.Add(strainShape[0]);
             myPathGeometry.Figures.Add(GeometryOperations.Create(strainShape));
             myPathGeometry.FillRule = FillRule.Nonzero;
             return myPathGeometry;

@@ -43,7 +43,7 @@ namespace SectionDrawUI.ViewModels
         {
             get
             {
-                double test = 1e-4;
+                double test = 1e-3;
 //                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
 //                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, 20 * test, 0.25));
 //                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 20 * test, 0.25));

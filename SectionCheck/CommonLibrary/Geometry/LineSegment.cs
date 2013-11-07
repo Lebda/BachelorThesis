@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using CommonLibrary.Utility;
+using CommonLibrary.Interfaces;
 
 namespace CommonLibrary.Geometry
 {
@@ -33,35 +34,6 @@ namespace CommonLibrary.Geometry
         {
             return new Line2D(start, end);
         }
-    }
-
-    public interface ILine2D
-    {
-        /// <summary>
-        /// return null for no intersection
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        Point? Intersection(ILine2D other);
-        ILine2D GetPerpendicularLine(Point pointOnNewLine);
-        ILine2D GetParallelLine(Point pointOnNewLine);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fromStartPoint"></param>
-        /// <param name="angle">in [rad]</param>
-        /// <returns></returns>
-        ILine2D GetLineInAngle(Point pointOnNewLine, double angle);
-        double LinePointDistance(Point testPoint);
-        bool IsPointOnLine(Point testPoint);
-        double Lenght();
-        Vector LineVector { get;}
-        Point StartPoint { get; set; }
-        Point EndPoint { get; set; }
-        bool IsLineSegment { get; set; }
-        double A { get; }
-        double B { get; }
-        double C { get; }
     }
 
     /// <summary>
@@ -273,6 +245,11 @@ namespace CommonLibrary.Geometry
         ILine2D ILine2D.GetParallelLine(Point pointOnNewLine)
         {
             return new Line2D(pointOnNewLine, pointOnNewLine+_lineVector);
+        }
+
+        double ILine2D.GetAngle()
+        {
+            return GeometryOperations.AngleFromHorLine(_lineVector);
         }
         #endregion
 
