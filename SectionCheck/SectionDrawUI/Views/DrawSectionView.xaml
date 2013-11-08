@@ -29,21 +29,21 @@
       </Grid.RowDefinitions>
       
       <!--First Row-->
-      <Button Grid.Row ="0" Content="Button" Height="23" Name="button2" Width="75" />
+      <Button Grid.Row ="0" Content="TestComand" Command="{Binding Path=TestComand}" Height="23" Name="button2" Width="75" />
       
       <!--Second Row drawing-->
       <Viewbox Grid.Row="1">
          <lib:SectionDrawer x:Name="drawingScene" Width="600" Height="600" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
-                         CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal}"
-                         CssAxisVertical4Draw="{Binding Path=CssAxisVertical}"
-                         CssCompressPart4Draw="{Binding Path=CssCompressPart}"
-                         CssReinforcement4Draw="{Binding Path=CssReinforcement}"
-                         CssFibersConcrete4Draw ="{Binding Path=FibersConcrete}"
+                         CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal, Mode=TwoWay}"
+                         CssAxisVertical4Draw="{Binding Path=CssAxisVertical, Mode=TwoWay}"
+                         CssCompressPart4Draw="{Binding Path=CssCompressPart, Mode=TwoWay}"
+                         CssReinforcement4Draw="{Binding Path=CssReinforcement, Mode=TwoWay}"
+                         CssFibersConcrete4Draw ="{Binding Path=FibersConcrete, Mode=TwoWay}"
                          >
          </lib:SectionDrawer>
       </Viewbox>
       <!--Third Row text-->
-      <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" />
+      <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" Click="button1_Click" />
    </Grid>
 </UserControl>

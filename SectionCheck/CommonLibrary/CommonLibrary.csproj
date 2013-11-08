@@ -45,11 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawingGraph\StrainStressShape.cs" />
+    <Compile Include="Factories\Factories.cs" />
     <Compile Include="Geometry\GeometryOperations.cs" />
     <Compile Include="Geometry\LineSegment.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\PropertySupport.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Interfaces\InterfaceObjects.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DialogEnums.cs" />

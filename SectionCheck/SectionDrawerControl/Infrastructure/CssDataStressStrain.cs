@@ -11,6 +11,7 @@ using CommonLibrary.Utility;
 using System.Windows.Shapes;
 using CommonLibrary.Geometry;
 using CommonLibrary.Interfaces;
+using CommonLibrary.Factories;
 
 namespace SectionDrawerControl.Infrastructure
 {
@@ -249,6 +250,8 @@ namespace SectionDrawerControl.Infrastructure
     [Serializable]
     public class CssDataFibers : CssDataBase
     {
+        public static readonly double s_moveStressStrain = 1.5;
+        public static readonly double s_maxCssWidthStressStrain = 0.5;
          public CssDataFibers()
             : base(Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush, 
                     Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen)
@@ -259,49 +262,63 @@ namespace SectionDrawerControl.Infrastructure
             : base(newBrush, newPen)
         {
         }
+        #region STRAIN STRESS GEOMETRY
+         public PathGeometry GetStrainGeometry(double CssWidth, bool move = true)
+         {
+             IStrainStressShape shape = StrainStressShapeFactory.Instance().Create();
+             Exceptions.CheckNull(shape);
+             shape.NeuAxis = _neuAxisProperty;
+             List<StrainStressItem> items = CreateStressStrainItems(_fibersProperty, true);
+             shape.SetPointValues4MaxWidth(items, s_maxCssWidthStressStrain * CssWidth);
+             if (move)
+             {
+                 shape.TranslateInDirNeuAxis(s_moveStressStrain * CssWidth);
+             }
+             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
+             myPathGeometry.Figures.Add(GeometryOperations.Create(shape.WholeShape));
+             myPathGeometry.FillRule = FillRule.Nonzero;
+             return myPathGeometry;
+         }
+        //
+         public PathGeometry GetStressGeometry(double CssWidth, bool move = true)
+         {
+             IStrainStressShape shape = StrainStressShapeFactory.Instance().Create();
+             Exceptions.CheckNull(shape);
+             shape.NeuAxis = _neuAxisProperty;
+             List<StrainStressItem> items = CreateStressStrainItems(_fibersProperty, false);
+             shape.SetPointValues4MaxWidth(items, s_maxCssWidthStressStrain * CssWidth);
+             if (move)
+             {
+                 shape.TranslateInDirNeuAxis(2 * s_moveStressStrain * CssWidth);
+             }
+             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
+             myPathGeometry.Figures.Add(GeometryOperations.Create(shape.WholeShape));
+             myPathGeometry.FillRule = FillRule.Nonzero;
+             return myPathGeometry;
+         }
+        #endregion
+
         public override PathGeometry Create()
         {
-            PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
-            Comparison<CssDataFiber> predicate = CssDataFiber.ComparePosition;
-            List<CssDataFiber> fibers = DeepCopy.Make<List<CssDataFiber>>(_fibersProperty);
-            if (Common.IsEmpty<CssDataFiber>(fibers))
+            return null;
+        }
+
+        private List<StrainStressItem> CreateStressStrainItems(List<CssDataFiber> fibers, bool strain = true)
+        {
+            List<StrainStressItem> items = new List<StrainStressItem>();
+            foreach (CssDataFiber fiber in fibers)
             {
-                return null;
-            }
-            fibers.Sort(predicate);
-            Int32 index = 0;
-            while (index < fibers.Count - 1)
-            {
-                if (MathUtils.CompareDouble(fibers[index].DistanceFromNeuAxis, fibers[index + 1].DistanceFromNeuAxis, 1e-6))
+                if (strain)
                 {
-                    fibers.RemoveAt(index);
+                    items.Add(new StrainStressItem(fiber.FiberPoint, fiber.DistanceFromNeuAxis, fiber.GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain));
                 }
                 else
                 {
-                    index++;
+                    items.Add(new StrainStressItem(fiber.FiberPoint, fiber.DistanceFromNeuAxis, fiber.GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStress));
                 }
             }
-            PointCollection strainShape = Exceptions.CheckNull<PointCollection>(new PointCollection());
-            ILine2D line1 = _neuAxisProperty.GetParallelLine(fibers[0].FiberPoint);
-            ILine2D basicLine = line1.GetPerpendicularLine(fibers[fibers.Count-1].FiberPoint);
-            Point test = (Point)Exceptions.CheckNull(line1.Intersection(basicLine));
-            basicLine.EndPoint = test;
-            strainShape.Add(test);
-            for (int counter = 0; counter < fibers.Count; ++counter)
-            {
-                CssDataFiber fiber = fibers[counter];
-                ILine2D lineInFiber = _neuAxisProperty.GetParallelLine(fiber.FiberPoint);
-                Point intersectionWithBaseLine = (Point)Exceptions.CheckNull(lineInFiber.Intersection(basicLine));
-                Vector moveVec = GeometryOperations.Create(fiber.GetFiberData<StressStrainFiber>(StressStrainFiber.s_dataInFiberName).FiberStrain, _neuAxisProperty.GetAngle());
-                strainShape.Add(Point.Add(intersectionWithBaseLine, moveVec));
-            }
-            strainShape.Add(fibers[fibers.Count - 1].FiberPoint);
-            strainShape.Add(strainShape[0]);
-            myPathGeometry.Figures.Add(GeometryOperations.Create(strainShape));
-            myPathGeometry.FillRule = FillRule.Nonzero;
-            return myPathGeometry;
+            return items;
         }
-
         /// <summary>
         /// The <see cref="Fibers" /> property's name.
         /// </summary>
@@ -336,7 +353,7 @@ namespace SectionDrawerControl.Infrastructure
         /// </summary>
         public const string NeuAxisPropertyName = "NeuAxis";
 
-        private ILine2D _neuAxisProperty = null;
+        private ILine2D _neuAxisProperty = Line2DFactory.Instance().Create();
 
         /// <summary>
         /// value in [rad]

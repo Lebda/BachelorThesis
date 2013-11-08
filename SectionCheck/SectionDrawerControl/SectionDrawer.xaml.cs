@@ -48,6 +48,10 @@ namespace SectionDrawerControl
                        visual.Delagate4Draw += DrawFibersConcreteStrain;
                        visual.CallBack4Change += CalculateStrainShape;
                        break;
+                   case eUsedVisuals.eCssFibersConcreteStressVisual:
+                       visual.Delagate4Draw += DrawFibersConcreteStress;
+                       visual.CallBack4Change += CalculateStressShape;
+                       break;
                    case eUsedVisuals.eCssAxisHorizontalVisual:
                       visual.Delagate4Draw += DrawCssAxisHorizontal;
                        break;
@@ -84,6 +88,10 @@ namespace SectionDrawerControl
                 dc.DrawGeometry(obejctPropertyGetter.GetBrush(), obejctPropertyGetter.GetPen(), visual.VisualShape.RenderedGeo);
             }
         }
+        private void DrawFibersConcreteStress(VisualObjectData visual)
+        {
+            DrawInternal(visual, () => CssFibersConcrete4Draw);
+        }
         private void DrawFibersConcreteStrain(VisualObjectData visual)
         {
             DrawInternal(visual, () => CssFibersConcrete4Draw);
@@ -114,6 +122,7 @@ namespace SectionDrawerControl
         private static void OnFibersConcreteChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStrainVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStressVisual);
         }
         private static void OnReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -167,12 +176,7 @@ namespace SectionDrawerControl
         {
             Matrix conventer = Exceptions.CheckNull<Matrix>(new Matrix());
             conventer.Translate(-bounds.TopLeft.X, -bounds.TopLeft.Y);
-            double widthInPixel = drawingSurface.ActualWidth;
-            double heightInPixels = drawingSurface.ActualHeight;
-            double scaleX = widthInPixel / bounds.Width;
-            double scaleY = heightInPixels / bounds.Height;
-            double scale = (scaleX > scaleY) ? (scaleY) : (scaleX);
-            scale *= 1;
+            double scale = Math.Min(Math.Abs(drawingSurface.ActualWidth / bounds.Width), Math.Abs(drawingSurface.ActualHeight / bounds.Height));
             conventer.ScaleAt(scale, scale, 0.0, 0.0);
             return Exceptions.CheckNull<MatrixTransform>(new MatrixTransform(conventer));
         }
@@ -184,12 +188,14 @@ namespace SectionDrawerControl
             Exceptions.CheckNull(visualFibersConcreteStain);
             VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
-            Rect boundStrain = visualFibersConcreteStain.VisualShape.BaseGeo.Bounds;
-            double scaleX = boundCss.Width / boundStrain.Width;
-
-
-
-            //GeometryOperations.TransformOne(new Matrix(scaleX, scaleX, 0.0, 1.0, 0.0/*2*boundCss.Width*/, 0.0), visualFibersConcreteStain.VisualShape.BaseGeo.Figures);
+            visualFibersConcreteStain.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStrainGeometry(boundCss.Width);
+        }
+        private void CalculateStressShape(VisualObjectData visualFibersConcreteStain)
+        {
+            Exceptions.CheckNull(visualFibersConcreteStain);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
+            visualFibersConcreteStain.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
         }
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {

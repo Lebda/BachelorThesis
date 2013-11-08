@@ -9,6 +9,7 @@ using SectionDrawerControl.Utility;
 using CommonLibrary.Utility;
 using ResourceLibrary;
 using CommonLibrary.Geometry;
+using System.Collections.ObjectModel;
 
 namespace SectionDrawerControl.Infrastructure
 {
@@ -150,13 +151,13 @@ namespace SectionDrawerControl.Infrastructure
         /// </summary>
         public const string BarDataPropertyName = "BarData";
 
-        private List<CssDataOneReinf> _barDataProperty = new List<CssDataOneReinf>();
+        private ObservableCollection<CssDataOneReinf> _barDataProperty = new ObservableCollection<CssDataOneReinf>();
 
         /// <summary>
         /// Sets and gets the BarData property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public List<CssDataOneReinf> BarData
+        public ObservableCollection<CssDataOneReinf> BarData
         {
             get
             {

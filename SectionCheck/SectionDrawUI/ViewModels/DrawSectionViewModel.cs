@@ -12,6 +12,8 @@ using CommonLibrary.Utility;
 using SectionDrawerControl.Infrastructure;
 using ResourceLibrary;
 using CommonLibrary.Geometry;
+using CommonLibrary.Factories;
+using System.Windows.Input;
 
 namespace SectionDrawUI.ViewModels
 {
@@ -25,6 +27,31 @@ namespace SectionDrawUI.ViewModels
 //             _sectionShapeService.CanvasData = new CanvasDataContext();
 //             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
         }
+        #region COMMANDS
+        public ICommand TestComand
+        {
+            get { return new RelayCommand(TestExecute, CanTestExecute); }
+        }
+        Boolean CanTestExecute()
+        {
+            return true;
+        }
+        long counter1 = 0;
+        void TestExecute()
+        {
+            if (counter1 % 2 == 0)
+            {
+                this.FibersConcrete = Test1(1e-4);
+            }
+            else
+            {
+                this.FibersConcrete = Test2(1e-4);
+            }
+            counter1++;
+
+        }
+        #endregion
+
 
         /// <summary>
         /// The <see cref="FibersConcrete" /> property's name.
@@ -43,19 +70,11 @@ namespace SectionDrawUI.ViewModels
         {
             get
             {
-                double test = 1e-3;
-//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
-//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, 20 * test, 0.25));
-//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 20 * test, 0.25));
-//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, -20 * test, -0.25));
-//                 _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
-                //
-                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, 57.0204 * test, -0.30285));
-                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, -14.919 * test, 0.07949));
-                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 21.37 * test, -0.11384));
-                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, 92.81 * test, -0.49617));
-                _fibersConcreteProperty.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, 57.0204 * test, -0.30285));
-                _fibersConcreteProperty.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
+//                 if (counter == 0)
+//                 {
+//                     _fibersConcreteProperty = Test2(1e-4);
+//                 }
+//                 counter++;
                 return _fibersConcreteProperty;
             }
 
@@ -69,7 +88,29 @@ namespace SectionDrawUI.ViewModels
                 RaisePropertyChanged(FibersConcretePropertyName);
             }
         }
-
+        long counter = 0;
+        public CssDataFibers Test2(double test)
+        {
+            CssDataFibers data = new CssDataFibers();
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), 2600000, 57.0204 * test, -0.30285));
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), -2600000, -14.919 * test, 0.07949));
+            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 21.37 * test, -0.11384));
+            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), 2600000, 92.81 * test, -0.49617));
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), 2600000, 57.0204 * test, -0.30285));
+            data.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
+            return data;
+        }
+        public CssDataFibers Test1(double test)
+        {
+            CssDataFibers data = new CssDataFibers();
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, 20 * test, 0.25));
+            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 20 * test, 0.25));
+            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, -20 * test, -0.25));
+            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
+            data.NeuAxis = Line2DFactory.Instance().Create(new Point(-0.15, 0.0), new Point(0.150, 0.0));
+            return data;
+        }
         /// <summary>
         /// The <see cref="FibersReinforcement" /> property's name.
         /// </summary>

@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using CommonLibrary.Utility;
 using CommonLibrary.Interfaces;
+using CommonLibrary.Factories;
 
 namespace Line2D_UT
 {

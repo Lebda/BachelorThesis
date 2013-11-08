@@ -11,6 +11,7 @@ namespace SectionDrawerControl
         eCssCompressPartVisual,
         eCssReinforcementVisual,
         eCssFibersConcreteStrainVisual,
+        eCssFibersConcreteStressVisual,
         eCssAxisHorizontalVisual,
         eCssAxisVerticalVisual,
         eUsedVisualEnd // has to be last

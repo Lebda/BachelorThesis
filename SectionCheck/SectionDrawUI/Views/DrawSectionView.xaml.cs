@@ -30,5 +30,19 @@ namespace SectionDrawUI
         {
             InitializeComponent();
         }
+        long counter = 0;
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            if (counter%2 == 0)
+            {
+                ViewModel.FibersConcrete = ViewModel.Test1(1e-4);
+            }
+            else
+            {
+                ViewModel.FibersConcrete = ViewModel.Test2(1e-4);
+            }
+            counter++;
+            drawingScene.CssFibersConcrete4Draw = ViewModel.FibersConcrete;
+        }
     }
 }

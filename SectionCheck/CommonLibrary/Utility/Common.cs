@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace CommonLibrary.Utility
 {
     static public class Common
     {
         public static bool IsEmpty<T>(List<T> list4check)
+        {
+            if (list4check != null && list4check.Count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool IsEmpty<T>(ObservableCollection<T> list4check)
         {
             if (list4check != null && list4check.Count > 0)
             {

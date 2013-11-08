@@ -10,12 +10,21 @@ namespace CommonLibrary.Interfaces
     public interface IStrainStressShape
     {
         ILine2D NeuAxis { get; set; }
-        ILine2D BaseLine { get; set; }
-        PointCollection StrainShape { get; set; }
-        List<Tuple<Point, double>> ValuesWithPos { get; set; }
-        PointCollection GetWholeShape();
+        ILine2D BaseLine { get;}
+        PointCollection WholeShape { get;}
+        PointCollection ValueShape { get; }
+        List<StrainStressItem> Items { get; }
+        // Methods
+        double GetMaxValue(List<StrainStressItem> items);
         void ScaleValues(double scale);
+        /// <summary>
+        /// Translate shape in direction of neutral axis
+        /// </summary>
+        /// <param name="offset"></param>
+        void TranslateInDirNeuAxis(double offset);
         void Transform(Matrix conventer);
+        void SetPointValues(List<StrainStressItem> data, double valueScale);
+        void SetPointValues4MaxWidth(List<StrainStressItem> data, double maxValue);
     }
 
     public interface ILine2D
