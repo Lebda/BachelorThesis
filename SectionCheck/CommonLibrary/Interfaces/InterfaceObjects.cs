@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using CommonLibrary.Geometry;
 
-namespace CommonLibrary.Interfaces
+namespace CommonLibrary.InterfaceObjects
 {
     [Serializable]
     public class StrainStressItem

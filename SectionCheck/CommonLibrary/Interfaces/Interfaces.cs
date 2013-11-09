@@ -4,16 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using CommonLibrary.InterfaceObjects;
 
 namespace CommonLibrary.Interfaces
 {
+    public interface IStressStrainShapeLoop
+    {
+        void Prepare(IStrainStressShape shape);
+        void DoLoop(double valueScale);
+    }
+
     public interface IStrainStressShape
     {
         ILine2D NeuAxis { get; set; }
         ILine2D BaseLine { get;}
+        List<ILine2D> LinesInFibers { get; }
         PointCollection WholeShape { get;}
         PointCollection ValueShape { get; }
         List<StrainStressItem> Items { get; }
+        IStressStrainShapeLoop Loop { get; set; }
         // Methods
         double GetMaxValue(List<StrainStressItem> items);
         void ScaleValues(double scale);
@@ -60,5 +69,22 @@ namespace CommonLibrary.Interfaces
         double A { get; }
         double B { get; }
         double C { get; }
+    }
+
+    public interface IDataInFiber
+    {
+    }
+
+    public interface ICssDataFiber
+    {
+        Dictionary<string, IDataInFiber> Data{get; set;}
+        Point Point {get; set;}
+        int Index{get; set;}
+        double DistanceFromNeuAxis{get; set;}
+        // Methods
+        void AddFiberData(string dataName, IDataInFiber fiberData);
+        void SetFiberData(string dataName, IDataInFiber fiberData);
+        T GetFiberData<T>(string dataName) where T : class;
+
     }
 }

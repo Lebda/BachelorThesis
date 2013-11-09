@@ -14,6 +14,8 @@ using ResourceLibrary;
 using CommonLibrary.Geometry;
 using CommonLibrary.Factories;
 using System.Windows.Input;
+using CommonLibrary.Interfaces;
+using CommonLibrary.DrawingGraph;
 
 namespace SectionDrawUI.ViewModels
 {
@@ -88,26 +90,41 @@ namespace SectionDrawUI.ViewModels
                 RaisePropertyChanged(FibersConcretePropertyName);
             }
         }
-        long counter = 0;
         public CssDataFibers Test2(double test)
         {
             CssDataFibers data = new CssDataFibers();
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), 2600000, 57.0204 * test, -0.30285));
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), -2600000, -14.919 * test, 0.07949));
-            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 21.37 * test, -0.11384));
-            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), 2600000, 92.81 * test, -0.49617));
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), 2600000, 57.0204 * test, -0.30285));
+            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.30285, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 57.0204 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.07949, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -14.919 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), -0.11384, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 21.37 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.49617, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 92.81 * test));
+            data.Fibers.Add(fiber);
+            data.Fibers.Add(data.Fibers.First());
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
             return data;
         }
         public CssDataFibers Test1(double test)
         {
             CssDataFibers data = new CssDataFibers();
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, 0.25), 2600000, 20 * test, 0.25));
-            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, 0.25), 2600000, 20 * test, 0.25));
-            data.Fibers.Add(new CssDataFiber(0, new Point(-0.15, -0.25), -2600000, -20 * test, -0.25));
-            data.Fibers.Add(new CssDataFiber(0, new Point(0.15, -0.25), -2600000, -20 * test, -0.25));
+            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.25, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.25, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 20 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), 0.25, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 20 * test));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.25, eFiberType.eConcrete);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
+            data.Fibers.Add(fiber);
+            data.Fibers.Add(data.Fibers.First());
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(-0.15, 0.0), new Point(0.150, 0.0));
             return data;
         }

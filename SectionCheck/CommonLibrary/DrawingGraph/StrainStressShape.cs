@@ -8,13 +8,58 @@ using System.Windows.Media;
 using System.Windows;
 using CommonLibrary.Utility;
 using CommonLibrary.Factories;
+using CommonLibrary.InterfaceObjects;
 
 namespace CommonLibrary.DrawingGraph
 {
+    public class StressStrainShapeLoop : IStressStrainShapeLoop
+    {
+        protected IStrainStressShape _shape = null;
+        void IStressStrainShapeLoop.Prepare(IStrainStressShape shape)
+        {
+            _shape = shape;
+            Exceptions.CheckNull(_shape.Items, _shape.BaseLine, _shape.NeuAxis, _shape.WholeShape, _shape.ValueShape, _shape.LinesInFibers);
+            ILine2D line1 = _shape.NeuAxis.GetParallelLine(_shape.Items.First().Position);
+            ILine2D newBaseLine = line1.GetPerpendicularLine(_shape.Items.Last().Position);
+            Point test = (Point)Exceptions.CheckNull(line1.Intersection(newBaseLine));
+            _shape.BaseLine.StartPoint = newBaseLine.StartPoint;
+            _shape.BaseLine.EndPoint = test;
+            _shape.WholeShape.Add(test);
+        }
+        public void DoLoop(double valueScale)
+        {
+            Exceptions.CheckNull(_shape.Items, _shape.BaseLine, _shape.NeuAxis, _shape.WholeShape, _shape.ValueShape, _shape.LinesInFibers);
+            for (int counter = 0; counter < _shape.Items.Count; ++counter)
+            {
+                StrainStressItem item = _shape.Items[counter];
+                ILine2D lineInFiber = _shape.NeuAxis.GetParallelLine(item.Position);
+                Point intersectionWithBaseLine = (Point)Exceptions.CheckNull(lineInFiber.Intersection(_shape.BaseLine));
+                Vector moveVec = GeometryOperations.Create(item.ValueInPos * valueScale, _shape.NeuAxis.GetAngle());
+                Point pos = Point.Add(intersectionWithBaseLine, moveVec);
+                _shape.LinesInFibers.Add(Line2DFactory.Instance().Create(intersectionWithBaseLine, pos));
+                _shape.WholeShape.Add(pos);
+                _shape.ValueShape.Add(GeometryOperations.Copy(pos));
+            }
+            _shape.WholeShape.Add(_shape.Items.Last().Position);
+            _shape.WholeShape.Add(_shape.WholeShape.First());
+        }
+    }
 
     public class StrainStressShape : IStrainStressShape
     {
         #region IStrainStressShape Members
+        List<ILine2D> _linesInFibers = new List<ILine2D>();
+        public List<ILine2D> LinesInFibers
+        {
+            get { return _linesInFibers; }
+            set { _linesInFibers = value; }
+        }
+        IStressStrainShapeLoop _loop = new StressStrainShapeLoop();
+        public IStressStrainShapeLoop Loop
+        {
+            get { return _loop; }
+            set { _loop = value; }
+        }
         ILine2D _baseLine = Line2DFactory.Instance().Create();
         public ILine2D BaseLine
         {
@@ -113,6 +158,7 @@ namespace CommonLibrary.DrawingGraph
                     index++;
                 }
             }
+            _linesInFibers.Clear();
             _valueShape.Clear();
             _wholeShape.Clear();
             if (Common.IsEmpty(_items))
@@ -127,23 +173,9 @@ namespace CommonLibrary.DrawingGraph
                     valueScale = maxValue / maxValueInPos; 
                 }
             }
-            ILine2D line1 = _neuAxis.GetParallelLine(_items.First().Position);
-            _baseLine = line1.GetPerpendicularLine(_items.Last().Position);
-            Point test = (Point)Exceptions.CheckNull(line1.Intersection(_baseLine));
-            _baseLine.EndPoint = test;
-            _wholeShape.Add(test);
-            for (int counter = 0; counter < _items.Count; ++counter)
-            {
-                StrainStressItem item = _items[counter];
-                ILine2D lineInFiber = _neuAxis.GetParallelLine(item.Position);
-                Point intersectionWithBaseLine = (Point)Exceptions.CheckNull(lineInFiber.Intersection(_baseLine));
-                Vector moveVec = GeometryOperations.Create(item.ValueInPos * valueScale, _neuAxis.GetAngle());
-                Point pos = Point.Add(intersectionWithBaseLine, moveVec);
-                _wholeShape.Add(pos);
-                _valueShape.Add(GeometryOperations.Copy(pos));
-            }
-            _wholeShape.Add(_items.Last().Position);
-            _wholeShape.Add(_wholeShape.First());
+            Exceptions.CheckNull(_loop);
+            _loop.Prepare(this);
+            _loop.DoLoop(valueScale);
         }
     }
 }
