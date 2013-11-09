@@ -37,6 +37,9 @@ namespace SectionDrawerControl
                        visual.Delagate4Draw = DrawCssShape;
                        visual.CallBack4Change += CalculateAxisHorizontalFromCssShape;
                        visual.CallBack4Change += CalculateAxisVerticalFromCssShape;
+                       visual.CallBack4Change += CalculateStrainShapeConcrete;
+                       visual.CallBack4Change += CalculateStressShapeConcrete;
+                       visual.CallBack4Change += CalculateStrainShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssCompressPartVisual:
                        visual.Delagate4Draw += DrawCssCompressPart;
@@ -45,12 +48,16 @@ namespace SectionDrawerControl
                        visual.Delagate4Draw += DrawCssReinforcemnt;
                        break;
                    case eUsedVisuals.eCssFibersConcreteStrainVisual:
-                       visual.Delagate4Draw += DrawFibersConcreteStrain;
-                       visual.CallBack4Change += CalculateStrainShape;
+                       visual.Delagate4Draw += DrawFibersStrainConcrete;
+                       visual.CallBack4Change += CalculateStrainShapeConcrete;
                        break;
                    case eUsedVisuals.eCssFibersConcreteStressVisual:
-                       visual.Delagate4Draw += DrawFibersConcreteStress;
-                       visual.CallBack4Change += CalculateStressShape;
+                       visual.Delagate4Draw += DrawFibersStressConcrete;
+                       visual.CallBack4Change += CalculateStressShapeConcrete;
+                       break;
+                   case eUsedVisuals.eCssFibersReinforcementStrainVisual:
+                       visual.Delagate4Draw += DrawFibersStrainReinforcement;
+                       visual.CallBack4Change += CalculateStrainShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssAxisHorizontalVisual:
                       visual.Delagate4Draw += DrawCssAxisHorizontal;
@@ -88,11 +95,15 @@ namespace SectionDrawerControl
                 dc.DrawGeometry(obejctPropertyGetter.GetBrush(), obejctPropertyGetter.GetPen(), visual.VisualShape.RenderedGeo);
             }
         }
-        private void DrawFibersConcreteStress(VisualObjectData visual)
+        private void DrawFibersStrainReinforcement(VisualObjectData visual)
+        {
+            DrawInternal(visual, () => CssFibersReinforcement4Draw);
+        }
+        private void DrawFibersStressConcrete(VisualObjectData visual)
         {
             DrawInternal(visual, () => CssFibersConcrete4Draw);
         }
-        private void DrawFibersConcreteStrain(VisualObjectData visual)
+        private void DrawFibersStrainConcrete(VisualObjectData visual)
         {
             DrawInternal(visual, () => CssFibersConcrete4Draw);
         }
@@ -118,7 +129,11 @@ namespace SectionDrawerControl
         }
 #endregion
 
-#region PROPERTY CALLBACKS
+        #region PROPERTY CALLBACKS
+        private static void OnFibersReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStrainVisual);
+        }
         private static void OnFibersConcreteChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStrainVisual);
@@ -180,22 +195,43 @@ namespace SectionDrawerControl
             conventer.ScaleAt(scale, scale, 0.0, 0.0);
             return Exceptions.CheckNull<MatrixTransform>(new MatrixTransform(conventer));
         }
-#endregion
+        #endregion
 
-#region GEOMETRY CALCULATIONS
-        private void CalculateStrainShape(VisualObjectData visualFibersConcreteStain)
+        #region GEOMETRY CALCULATIONS
+        private void CalculateStrainShapeConcrete(VisualObjectData visualFibersConcreteStain)
         {
+            if (CssFibersConcrete4Draw == null)
+            {
+                return;
+            }
             Exceptions.CheckNull(visualFibersConcreteStain);
             VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
             visualFibersConcreteStain.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStrainGeometry(boundCss.Width);
         }
-        private void CalculateStressShape(VisualObjectData visualFibersConcreteStain)
+
+        private void CalculateStrainShapeReinforcement(VisualObjectData visualFibersReinfStrain)
         {
-            Exceptions.CheckNull(visualFibersConcreteStain);
+            if (CssFibersReinforcement4Draw == null)
+            {
+                return;
+            }
+            Exceptions.CheckNull(visualFibersReinfStrain);
             VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
-            visualFibersConcreteStain.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
+            visualFibersReinfStrain.VisualShape.BaseGeo = CssFibersReinforcement4Draw.GetStrainGeometry(boundCss.Width);
+        }
+
+        private void CalculateStressShapeConcrete(VisualObjectData visualFibersConcreteStress)
+        {
+            if (CssFibersConcrete4Draw == null)
+            {
+                return;
+            }
+            Exceptions.CheckNull(visualFibersConcreteStress);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
+            visualFibersConcreteStress.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
         }
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {
@@ -245,9 +281,9 @@ namespace SectionDrawerControl
             visualAxis.VisualShape.BaseGeo = myPathGeometry;
         }
 
-#endregion
+        #endregion
 
-#region DEPENDENCY PROPERTY DEFINITIONS
+         #region DEPENDENCY PROPERTY DEFINITIONS
         static SectionDrawer()
         {
             CssShape4DrawProperty = DependencyProperty.Register(CssShape4DrawPropertyName, typeof(CssDataShape), typeof(SectionDrawer),
@@ -262,8 +298,16 @@ namespace SectionDrawerControl
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnReinforcementChanged)));
             CssFibersConcrete4DrawProperty = DependencyProperty.Register(CssFibersConcrete4DrawPropertyName, typeof(CssDataFibers), typeof(SectionDrawer),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnFibersConcreteChanged)));
+            CssFibersReinforcement4DrawProperty = DependencyProperty.Register(CssFibersReinforcement4DrawPropertyName, typeof(CssDataFibers), typeof(SectionDrawer),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnFibersReinforcementChanged)));
         }
-
+        private static string CssFibersReinforcement4DrawPropertyName = "CssFibersReinforcement4Draw";
+        public static DependencyProperty CssFibersReinforcement4DrawProperty;
+        public CssDataFibers CssFibersReinforcement4Draw
+        {
+            get { return (CssDataFibers)GetValue(CssFibersReinforcement4DrawProperty); }
+            set { SetValue(CssFibersReinforcement4DrawProperty, value); }
+        }
         private static string CssFibersConcrete4DrawPropertyName = "CssFibersConcrete4Draw";
         public static DependencyProperty CssFibersConcrete4DrawProperty;
         public CssDataFibers CssFibersConcrete4Draw
@@ -306,6 +350,6 @@ namespace SectionDrawerControl
             get { return (CssDataAxis)GetValue(CssAxisVerticalDrawProperty); }
             set { SetValue(CssAxisVerticalDrawProperty, value); }
         }
-#endregion
+        #endregion
     }
 }

@@ -32,62 +32,40 @@ namespace SectionDrawerControl.Infrastructure
             : base(newBrush, newPen)
         {
         }
+
+         IGeometryMaker _geometryMaker = GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete);
+         public IGeometryMaker GeometryMaker
+         {
+             get { return _geometryMaker; }
+             set { _geometryMaker = value; }
+         }
+
         #region STRAIN STRESS GEOMETRY
          public PathGeometry GetStrainGeometry(double CssWidth, bool move = true)
          {
-             IStrainStressShape shape = StrainStressShapeFactory.Instance().Create();
-             Exceptions.CheckNull(shape);
-             shape.NeuAxis = _neuAxisProperty;
-             List<StrainStressItem> items = CreateStressStrainItems(_fibersProperty, true);
-             shape.SetPointValues4MaxWidth(items, s_maxCssWidthStressStrain * CssWidth);
-             if (move)
-             {
-                 shape.TranslateInDirNeuAxis(s_moveStressStrain * CssWidth);
-             }
-             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
-             myPathGeometry.Figures.Add(GeometryOperations.Create(shape.WholeShape));
-             myPathGeometry.FillRule = FillRule.Nonzero;
-             return myPathGeometry;
+             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, s_moveStressStrain * CssWidth, true);
          }
-        //
          public PathGeometry GetStressGeometry(double CssWidth, bool move = true)
          {
-             IStrainStressShape shape = StrainStressShapeFactory.Instance().Create();
-             Exceptions.CheckNull(shape);
-             shape.NeuAxis = _neuAxisProperty;
-             List<StrainStressItem> items = CreateStressStrainItems(_fibersProperty, false);
-             shape.SetPointValues4MaxWidth(items, s_maxCssWidthStressStrain * CssWidth);
-             if (move)
-             {
-                 shape.TranslateInDirNeuAxis(1.75 * s_moveStressStrain * CssWidth);
-             }
-             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
-             myPathGeometry.Figures.Add(GeometryOperations.Create(shape.WholeShape));
-             myPathGeometry.FillRule = FillRule.Nonzero;
-             return myPathGeometry;
+             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, 1.75 * s_moveStressStrain * CssWidth, false);
          }
+         private PathGeometry DoWorkGeometryMaker(bool move, double maxWidth, double moveSize, bool isStrain)
+         {
+             Exceptions.CheckNull(_geometryMaker);
+             _geometryMaker.IsMove = move;
+             _geometryMaker.MaxWidth = maxWidth;
+             _geometryMaker.MoveSize = moveSize;
+             _geometryMaker.IsStrain = isStrain;
+             _geometryMaker.ShapeMaker = Exceptions.CheckNull<IStrainStressShape>(StrainStressShapeFactory.Instance().Create());
+             _geometryMaker.ShapeMaker.NeuAxis = _neuAxisProperty;
+             return _geometryMaker.CreateGeometry(_fibersProperty);
+         }
+        //
         #endregion
 
         public override PathGeometry Create()
         {
             return null;
-        }
-
-        private List<StrainStressItem> CreateStressStrainItems(List<ICssDataFiber> fibers, bool strain = true)
-        {
-            List<StrainStressItem> items = new List<StrainStressItem>();
-            foreach (CssDataFiberCon fiber in fibers)
-            {
-                if (strain)
-                {
-                    items.Add(new StrainStressItem(fiber.Point, fiber.DistanceFromNeuAxis, fiber.GetFiberData<SSInFiber>(SSInFiber.s_name).Strain));
-                }
-                else
-                {
-                    items.Add(new StrainStressItem(fiber.Point, fiber.DistanceFromNeuAxis, fiber.GetFiberData<SSInFiber>(SSInFiber.s_name).Stress));
-                }
-            }
-            return items;
         }
 
         #region OBSERVABLE MEMBERS

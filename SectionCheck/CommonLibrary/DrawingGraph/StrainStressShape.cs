@@ -113,6 +113,11 @@ namespace CommonLibrary.DrawingGraph
         {
             GeometryOperations.TransformOne(conventer, _wholeShape);
             GeometryOperations.TransformOne(conventer, _valueShape);
+            foreach (ILine2D iter in _linesInFibers)
+            {
+                iter.StartPoint = conventer.Transform(iter.StartPoint);
+                iter.EndPoint = conventer.Transform(iter.EndPoint);
+            }
         }
 
         void IStrainStressShape.TranslateInDirNeuAxis(double offset)
@@ -121,6 +126,11 @@ namespace CommonLibrary.DrawingGraph
             for (int counter = 0; counter < _wholeShape.Count; ++counter)
             {
                 _wholeShape[counter] = Point.Add(_wholeShape[counter], move);
+            }
+            foreach (ILine2D iter in _linesInFibers)
+            {
+                iter.StartPoint = Point.Add(iter.StartPoint, move);
+                iter.EndPoint = Point.Add(iter.EndPoint, move);
             }
         }
 

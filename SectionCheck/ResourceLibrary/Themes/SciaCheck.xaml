@@ -14,6 +14,19 @@
    <core:Double x:Key="penAxisThickness_SC">2</core:Double>
    <core:String x:Key="gradientOrigin_SC">0.7,0.3</core:String>
 
+   <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfStrainBrush1_SC}"
+                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
+      <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
+      <GradientStop Color="BlueViolet" Offset="1" />
+   </RadialGradientBrush>
+   
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfStrainPen1_SC}" 
+                  Thickness="4" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="Maroon" />
+      </Pen.Brush>
+   </Pen>
+   
    <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=LightGrayBackgroundBrush_SC}"
                         RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
@@ -25,12 +38,6 @@
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
       <GradientStop Color="LimeGreen" Offset="1" />
    </RadialGradientBrush>
-   
-<!--    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainBrush1_SC}"  -->
-   <!--                         StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect"> -->
-   <!--       <GradientStop Color="LimeGreen" Offset="0"/> -->
-   <!--       <GradientStop Color="White" Offset="1.0" /> -->
-   <!--    </LinearGradientBrush> -->
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainPen1_SC}" 
                   Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">

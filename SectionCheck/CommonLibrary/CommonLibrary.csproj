@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawingGraph\Fibers.cs" />
+    <Compile Include="DrawingGraph\GeometryMaker.cs" />
     <Compile Include="DrawingGraph\StrainStressShape.cs" />
     <Compile Include="Factories\Factories.cs" />
     <Compile Include="Geometry\GeometryOperations.cs" />

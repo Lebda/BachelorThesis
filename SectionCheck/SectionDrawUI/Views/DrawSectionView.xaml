@@ -40,6 +40,7 @@
                          CssCompressPart4Draw="{Binding Path=CssCompressPart, Mode=TwoWay}"
                          CssReinforcement4Draw="{Binding Path=CssReinforcement, Mode=TwoWay}"
                          CssFibersConcrete4Draw ="{Binding Path=FibersConcrete, Mode=TwoWay}"
+                         CssFibersReinforcement4Draw ="{Binding Path=FibersReinforcement, Mode=TwoWay}"
                          >
          </lib:SectionDrawer>
       </Viewbox>

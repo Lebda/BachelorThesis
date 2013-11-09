@@ -8,6 +8,18 @@ using CommonLibrary.InterfaceObjects;
 
 namespace CommonLibrary.Interfaces
 {
+    public interface IGeometryMaker
+    {
+        FillRule Rule4File { get; set; }
+        IStrainStressShape ShapeMaker { get; set; }
+        List<StrainStressItem> CreateStressStrainItems(List<ICssDataFiber> fibers, bool strain = true);
+        double MoveSize { get; set; }
+        double MaxWidth { get; set; }
+        bool IsMove { get; set; }
+        bool IsStrain { get; set; }
+        PathGeometry CreateGeometry(List<ICssDataFiber> fibers);
+    }
+
     public interface IStressStrainShapeLoop
     {
         void Prepare(IStrainStressShape shape);

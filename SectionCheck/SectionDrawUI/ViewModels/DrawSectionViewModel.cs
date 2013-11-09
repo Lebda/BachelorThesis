@@ -28,6 +28,10 @@ namespace SectionDrawUI.ViewModels
 //             _sectionShapeService = sectionShapeService;
 //             _sectionShapeService.CanvasData = new CanvasDataContext();
 //             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
+            _fibersReinforcementProperty = new CssDataFibers(
+             Application.Current.TryFindResource(CustomResources.ReinfStrainBrush1_SCkey) as Brush,
+             Application.Current.TryFindResource(CustomResources.ReinfStrainPen1_SCkey) as Pen);
+            _fibersReinforcementProperty.GeometryMaker = GeometryMakerFactory.Instance().Create(eCssComponentType.eReinforcement);
         }
         #region COMMANDS
         public ICommand TestComand
@@ -44,42 +48,28 @@ namespace SectionDrawUI.ViewModels
             if (counter1 % 2 == 0)
             {
                 this.FibersConcrete = Test1(1e-4);
+                this.FibersReinforcement = Test3(this.FibersReinforcement, 1e-4);
             }
             else
             {
                 this.FibersConcrete = Test2(1e-4);
+                this.FibersReinforcement = Test3(this.FibersReinforcement, 1e-4);
             }
             counter1++;
 
         }
         #endregion
 
-
-        /// <summary>
-        /// The <see cref="FibersConcrete" /> property's name.
-        /// </summary>
         public const string FibersConcretePropertyName = "FibersConcrete";
-
         private CssDataFibers _fibersConcreteProperty = new CssDataFibers(
             Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
-
-        /// <summary>
-        /// Sets and gets the FibersConcrete property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataFibers FibersConcrete
         {
             get
             {
-//                 if (counter == 0)
-//                 {
-//                     _fibersConcreteProperty = Test2(1e-4);
-//                 }
-//                 counter++;
                 return _fibersConcreteProperty;
             }
-
             set
             {
                 if (_fibersConcreteProperty == value)
@@ -93,16 +83,16 @@ namespace SectionDrawUI.ViewModels
         public CssDataFibers Test2(double test)
         {
             CssDataFibers data = new CssDataFibers();
-            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.30285, eFiberType.eConcrete);
+            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.30285, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 57.0204 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.07949, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.07949, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -14.919 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), -0.11384, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), -0.11384, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 21.37 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.49617, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.49617, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 92.81 * test));
             data.Fibers.Add(fiber);
             data.Fibers.Add(data.Fibers.First());
@@ -112,40 +102,31 @@ namespace SectionDrawUI.ViewModels
         public CssDataFibers Test1(double test)
         {
             CssDataFibers data = new CssDataFibers();
-            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.25, eFiberType.eConcrete);
+            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.25, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, 0.25), 0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 20 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), 0.25, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, 0.25), 0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 20 * test));
             data.Fibers.Add(fiber);
-            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.25, eFiberType.eConcrete);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(-0.15, -0.25), -0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
             data.Fibers.Add(fiber);
             data.Fibers.Add(data.Fibers.First());
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(-0.15, 0.0), new Point(0.150, 0.0));
             return data;
         }
-        /// <summary>
-        /// The <see cref="FibersReinforcement" /> property's name.
-        /// </summary>
+
         public const string FibersReinforcementPropertyName = "FibersReinforcement";
-
-        private CssDataFibers _fibersReinforcementProperty = new CssDataFibers();
-
-        /// <summary>
-        /// Sets and gets the FibersReinforcement property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        private CssDataFibers _fibersReinforcementProperty = null;
         public CssDataFibers FibersReinforcement
         {
             get
             {
                 return _fibersReinforcementProperty;
             }
-
             set
             {
                 if (_fibersReinforcementProperty == value)
@@ -156,21 +137,27 @@ namespace SectionDrawUI.ViewModels
                 RaisePropertyChanged(FibersReinforcementPropertyName);
             }
         }
+        private CssDataFibers Test3(CssDataFibers fibers, double test)
+        {
+            CssDataFibers data = new CssDataFibers(fibers.VisualBrush, fibers.VisualPen);
+            data.GeometryMaker = fibers.GeometryMaker;
+            data.NeuAxis = fibers.NeuAxis;
+            ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(-0.1, -0.2), -0.4257188, eCssComponentType.eReinforcement);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(302600000, 79.5265 * test));
+            fiber.SetFiberData(BarData.s_name, new BarData(0.000314, 0.02));
+            data.Fibers.Add(fiber);
+            fiber = CssFiberFactory.Instance().Create(0, new Point(0.1, 0.2), 0.0090329, eCssComponentType.eReinforcement);
+            fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-302600000, -1.7337 * test));
+            fiber.SetFiberData(BarData.s_name, new BarData(0.000314, 0.02));
+            data.Fibers.Add(fiber);
+            data.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
+            return data;
+        }
 
-
-        /// <summary>
-        /// The <see cref="CssReinforcement" /> property's name.
-        /// </summary>
         public const string CssReinforcementPropertyName = "CssReinforcement";
-
         private CssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement(
             Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen);
-
-        /// <summary>
-        /// Sets and gets the CssReinforcement property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataReinforcement CssReinforcement
         {
             get
@@ -193,19 +180,10 @@ namespace SectionDrawUI.ViewModels
             }
         }
 
-
-
-
         public const string CssCompressPartPropertyName = "CssCompressPart";
-
         private CssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart(
             Application.Current.TryFindResource(CustomResources.CompressPartBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.CompressPartPen1_SCkey) as Pen);
-
-        /// <summary>
-        /// Sets and gets the OuterCompressPartPath property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataCompressPart CssCompressPart
         {
             get
@@ -233,20 +211,10 @@ namespace SectionDrawUI.ViewModels
             }
         }
 
-
-        /// <summary>
-        /// The <see cref="OuterShapePath" /> property's name.
-        /// </summary>
         public const string CssShapePropertyName = "CssShape";
-
         private CssDataShape _cssShapeProperty = new CssDataShape(
             Application.Current.TryFindResource(CustomResources.CssBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.CssPen1_SCkey) as Pen);
-
-        /// <summary>
-        /// Sets and gets the OuterShapePath property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataShape CssShape
         {
             get
@@ -264,7 +232,6 @@ namespace SectionDrawUI.ViewModels
                 _cssShapeProperty.CssShapeInner.Add(new Point(0.05, -0.05));
                 return _cssShapeProperty;
             }
-
             set
             {
                 if (_cssShapeProperty == value)
@@ -276,25 +243,16 @@ namespace SectionDrawUI.ViewModels
             }
         }
 
-        /// <summary>
-        /// The <see cref="CssAxisHorizontal" /> property's name.
-        /// </summary>
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
-
         private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(
             Application.Current.TryFindResource(CustomResources.HorAxisBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.HorAxisPen1_SCkey) as Pen);
-        /// <summary>
-        /// Sets and gets the CssAxisHorizontal property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataAxis CssAxisHorizontal
         {
             get
             {
                 return _cssAxisHorizontalProperty;
             }
-
             set
             {
                 if (_cssAxisHorizontalProperty == value)
@@ -306,19 +264,10 @@ namespace SectionDrawUI.ViewModels
             }
         }
 
-        /// <summary>
-        /// The <see cref="CssAxisHorizontal" /> property's name.
-        /// </summary>
         public const string CssAxisVerticalPropertyName = "CssAxisVertical";
-
         private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(
             Application.Current.TryFindResource(CustomResources.VerAxisBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.VerAxisPen1_SCkey) as Pen);
-
-        /// <summary>
-        /// Sets and gets the CssAxisVertical property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public CssDataAxis CssAxisVertical
         {
             get

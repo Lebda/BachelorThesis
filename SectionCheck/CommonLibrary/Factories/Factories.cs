@@ -67,7 +67,7 @@ namespace CommonLibrary.Factories
         }
     }
 
-    public enum eFiberType
+    public enum eCssComponentType
     {
         eConcrete,
         eReinforcement
@@ -87,15 +87,15 @@ namespace CommonLibrary.Factories
         {
         }
 
-        public ICssDataFiber Create(int index, Point pos, double neuAxisDistance, eFiberType type)
+        public ICssDataFiber Create(int index, Point pos, double neuAxisDistance, eCssComponentType type)
         {
             ICssDataFiber fiber = null;
             switch (type)
             {
-                case eFiberType.eConcrete:
+                case eCssComponentType.eConcrete:
                     fiber = new CssDataFiberCon(index, pos, neuAxisDistance);
                     break;
-                case eFiberType.eReinforcement:
+                case eCssComponentType.eReinforcement:
                     fiber = new CssDataFiberReinf(index, pos, neuAxisDistance);
                     break;
                 default:
@@ -104,15 +104,15 @@ namespace CommonLibrary.Factories
             }
             return fiber;
         }
-        public ICssDataFiber Create(int index, Point pos, double neuAxisDistance, Dictionary<string, IDataInFiber> data, eFiberType type)
+        public ICssDataFiber Create(int index, Point pos, double neuAxisDistance, Dictionary<string, IDataInFiber> data, eCssComponentType type)
         {
             ICssDataFiber fiber = null;
             switch (type)
             {
-                case eFiberType.eConcrete:
+                case eCssComponentType.eConcrete:
                     fiber = new CssDataFiberCon(index, pos, neuAxisDistance, data);
                     break;
-                case eFiberType.eReinforcement:
+                case eCssComponentType.eReinforcement:
                     fiber = new CssDataFiberReinf(index, pos, neuAxisDistance, data);
                     break;
                 default:
@@ -120,6 +120,40 @@ namespace CommonLibrary.Factories
                     break;
             }
             return fiber;
+        }
+    }
+
+    public class GeometryMakerFactory
+    {
+        static GeometryMakerFactory _factory = null;
+        public static GeometryMakerFactory Instance()
+        {
+            if (_factory == null)
+            {
+                _factory = new GeometryMakerFactory();
+            }
+            return _factory;
+        }
+        protected GeometryMakerFactory()
+        {
+        }
+
+        public IGeometryMaker Create(eCssComponentType type)
+        {
+            IGeometryMaker newObject = null;
+            switch (type)
+            {
+                case eCssComponentType.eConcrete:
+                    newObject = new GeometryMaker();
+                    break;
+                case eCssComponentType.eReinforcement:
+                    newObject = new GeometryMakerReinf();
+                    break;
+                default:
+                    Exceptions.CheckNull(null);
+                    break;
+            }
+            return newObject;
         }
     }
 }
