@@ -17,6 +17,8 @@ using ResourceLibrary;
 using SectionDrawerControl.Utility;
 using CommonLibrary.Utility;
 using CommonLibrary.Geometry;
+using CommonLibrary.Interfaces;
+using CommonLibrary.InterfaceObjects;
 
 namespace SectionDrawerControl
 {
@@ -50,6 +52,7 @@ namespace SectionDrawerControl
                    case eUsedVisuals.eCssFibersConcreteStrainVisual:
                        visual.Delagate4Draw += DrawFibersStrainConcrete;
                        visual.CallBack4Change += CalculateStrainShapeConcrete;
+                       visual.CallBack4Change += CalculateStrainShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssFibersConcreteStressVisual:
                        visual.Delagate4Draw += DrawFibersStressConcrete;
@@ -198,44 +201,45 @@ namespace SectionDrawerControl
         #endregion
 
         #region GEOMETRY CALCULATIONS
-        private void CalculateStrainShapeConcrete(VisualObjectData visualFibersConcreteStain)
+        private void CalculateStrainShapeConcrete(VisualObjectData visualAct)
         {
-            if (CssFibersConcrete4Draw == null)
-            {
-                return;
-            }
-            Exceptions.CheckNull(visualFibersConcreteStain);
-            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
-            Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
-            visualFibersConcreteStain.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStrainGeometry(boundCss.Width);
+            if (!Exceptions.CheckIsNull(CssFibersConcrete4Draw, CssShape4Draw)) { return; }
+            Exceptions.CheckNull(visualAct);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            VisualObjectData visualStrainConcrete = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssFibersConcreteStrainVisual));
+            visualStrainConcrete.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStrainGeometry(visualCssShape.VisualShape.BaseGeo.Bounds.Width);
         }
 
-        private void CalculateStrainShapeReinforcement(VisualObjectData visualFibersReinfStrain)
+        private void CalculateStrainShapeReinforcement(VisualObjectData visualAct)
         {
-            if (CssFibersReinforcement4Draw == null)
-            {
-                return;
-            }
-            Exceptions.CheckNull(visualFibersReinfStrain);
-            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            if (!Exceptions.CheckIsNull(CssFibersReinforcement4Draw, CssFibersConcrete4Draw, CssShape4Draw)) { return; }
+            Exceptions.CheckNull(visualAct);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            VisualObjectData visualStrainReinf = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssFibersReinforcementStrainVisual));
+            // Recalc it for strain
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
-            visualFibersReinfStrain.VisualShape.BaseGeo = CssFibersReinforcement4Draw.GetStrainGeometry(boundCss.Width);
+            CssFibersConcrete4Draw.GetStrainGeometry(boundCss.Width);
+            IStrainStressShape shapeMaker = Exceptions.CheckNull(CssFibersConcrete4Draw.GeometryMaker.ShapeMaker);
+            visualStrainReinf.VisualShape.BaseGeo = CssFibersReinforcement4Draw.GetStrainGeometry(boundCss.Width, true, shapeMaker);
         }
 
-        private void CalculateStressShapeConcrete(VisualObjectData visualFibersConcreteStress)
+        private void CalculateStressShapeConcrete(VisualObjectData visualAct)
         {
-            if (CssFibersConcrete4Draw == null)
-            {
-                return;
-            }
-            Exceptions.CheckNull(visualFibersConcreteStress);
-            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            if (!Exceptions.CheckIsNull(CssFibersConcrete4Draw, CssShape4Draw)) { return; }
+            Exceptions.CheckNull(visualAct);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual)); 
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
-            visualFibersConcreteStress.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
+            VisualObjectData visualStressConcrete = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssFibersConcreteStressVisual));
+            visualStressConcrete.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
         }
+
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
         {
-            VisualObjectData visualAxis = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssAxisHorizontalVisual));
+            if (CssShape4Draw == null)
+            {
+                return;
+            }
+            VisualObjectData visualAxis = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisHorizontalVisual));
             PathGeometry baseGeoCssShape = Exceptions.CheckNull<PathGeometry>(Exceptions.CheckNull<IVisualShapes>(Exceptions.CheckNull<VisualObjectData>(visualCssShape).VisualShape).BaseGeo);
             Rect bounds = baseGeoCssShape.Bounds;
             // axis line
@@ -259,7 +263,11 @@ namespace SectionDrawerControl
 
         private void CalculateAxisVerticalFromCssShape(VisualObjectData visualCssShape)
         {
-            VisualObjectData visualAxis = Exceptions.CheckNull<VisualObjectData>(Exceptions.CheckNull<DrawingCanvas>(drawingSurface).GetVisual((int)eUsedVisuals.eCssAxisVerticalVisual));
+            if (CssShape4Draw == null)
+            {
+                return;
+            }
+            VisualObjectData visualAxis = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssAxisVerticalVisual));
             PathGeometry baseGeoCssShape = Exceptions.CheckNull<PathGeometry>(Exceptions.CheckNull<IVisualShapes>(Exceptions.CheckNull<VisualObjectData>(visualCssShape).VisualShape).BaseGeo);
             Rect bounds = baseGeoCssShape.Bounds;
             // axis line

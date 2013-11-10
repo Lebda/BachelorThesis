@@ -22,18 +22,19 @@ namespace SectionDrawerControl.Infrastructure
     {
         public static readonly double s_moveStressStrain = 1.25;
         public static readonly double s_maxCssWidthStressStrain = 0.5;
-         public CssDataFibers()
+         public CssDataFibers(IGeometryMaker geometryMaker)
             : base(Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush, 
                     Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen)
         {
-
+            _geometryMaker = Exceptions.CheckNull(geometryMaker);
         }
-         public CssDataFibers(Brush newBrush, Pen newPen)
+         public CssDataFibers(IGeometryMaker geometryMaker, Brush newBrush, Pen newPen)
             : base(newBrush, newPen)
         {
+            _geometryMaker = Exceptions.CheckNull(geometryMaker);
         }
 
-         IGeometryMaker _geometryMaker = GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete);
+         IGeometryMaker _geometryMaker = null;
          public IGeometryMaker GeometryMaker
          {
              get { return _geometryMaker; }
@@ -41,24 +42,24 @@ namespace SectionDrawerControl.Infrastructure
          }
 
         #region STRAIN STRESS GEOMETRY
-         public PathGeometry GetStrainGeometry(double CssWidth, bool move = true)
+         public PathGeometry GetStrainGeometry(double CssWidth, bool move = true, IStrainStressShape dataDependentObject = null)
          {
-             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, s_moveStressStrain * CssWidth, true);
+             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, s_moveStressStrain * CssWidth, true, dataDependentObject);
          }
-         public PathGeometry GetStressGeometry(double CssWidth, bool move = true)
+         public PathGeometry GetStressGeometry(double CssWidth, bool move = true, IStrainStressShape baseLineFromDependentObject = null)
          {
-             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, 1.75 * s_moveStressStrain * CssWidth, false);
+             return DoWorkGeometryMaker(move, s_maxCssWidthStressStrain * CssWidth, 1.75 * s_moveStressStrain * CssWidth, false, baseLineFromDependentObject);
          }
-         private PathGeometry DoWorkGeometryMaker(bool move, double maxWidth, double moveSize, bool isStrain)
+         private PathGeometry DoWorkGeometryMaker(bool move, double maxWidth, double moveSize, bool isStrain, IStrainStressShape dataDependentObject = null)
          {
              Exceptions.CheckNull(_geometryMaker);
              _geometryMaker.IsMove = move;
              _geometryMaker.MaxWidth = maxWidth;
              _geometryMaker.MoveSize = moveSize;
              _geometryMaker.IsStrain = isStrain;
-             _geometryMaker.ShapeMaker = Exceptions.CheckNull<IStrainStressShape>(StrainStressShapeFactory.Instance().Create());
+             Exceptions.CheckNull(_geometryMaker.ShapeMaker);
              _geometryMaker.ShapeMaker.NeuAxis = _neuAxisProperty;
-             return _geometryMaker.CreateGeometry(_fibersProperty);
+             return _geometryMaker.CreateGeometry(_fibersProperty, dataDependentObject);
          }
         //
         #endregion

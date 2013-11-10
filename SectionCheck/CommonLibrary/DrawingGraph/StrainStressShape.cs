@@ -15,17 +15,18 @@ namespace CommonLibrary.DrawingGraph
     public class StressStrainShapeLoop : IStressStrainShapeLoop
     {
         protected IStrainStressShape _shape = null;
-        void IStressStrainShapeLoop.Prepare(IStrainStressShape shape)
+        public virtual void Prepare(IStrainStressShape shape, IStrainStressShape dataDependentObject)
         {
-            _shape = shape;
+            _shape = Exceptions.CheckNull(shape);
             Exceptions.CheckNull(_shape.Items, _shape.BaseLine, _shape.NeuAxis, _shape.WholeShape, _shape.ValueShape, _shape.LinesInFibers);
-            ILine2D line1 = _shape.NeuAxis.GetParallelLine(_shape.Items.First().Position);
-            ILine2D newBaseLine = line1.GetPerpendicularLine(_shape.Items.Last().Position);
-            Point test = (Point)Exceptions.CheckNull(line1.Intersection(newBaseLine));
+            ILine2D lineIn1stFiberParalel2NeuAxis = _shape.NeuAxis.GetParallelLine(_shape.Items.First().Position);
+            ILine2D newBaseLine = lineIn1stFiberParalel2NeuAxis.GetPerpendicularLine(_shape.Items.Last().Position);
+            Point intersection = (Point)Exceptions.CheckNull(lineIn1stFiberParalel2NeuAxis.Intersection(newBaseLine));
             _shape.BaseLine.StartPoint = newBaseLine.StartPoint;
-            _shape.BaseLine.EndPoint = test;
-            _shape.WholeShape.Add(test);
+            _shape.BaseLine.EndPoint = intersection;
+            _shape.WholeShape.Add(intersection);
         }
+
         public void DoLoop(double valueScale)
         {
             Exceptions.CheckNull(_shape.Items, _shape.BaseLine, _shape.NeuAxis, _shape.WholeShape, _shape.ValueShape, _shape.LinesInFibers);
@@ -45,8 +46,26 @@ namespace CommonLibrary.DrawingGraph
         }
     }
 
+    public class StressStrainShapeLoopReinf : StressStrainShapeLoop
+    {
+        public override void Prepare(IStrainStressShape shape, IStrainStressShape dataDependentObject)
+        {
+            _shape = Exceptions.CheckNull(shape);
+            Exceptions.CheckNull(_shape.Items, _shape.BaseLine, _shape.NeuAxis, _shape.WholeShape, _shape.ValueShape, _shape.LinesInFibers, dataDependentObject);
+            ILine2D lineIn1stFiberParalel2NeuAxis = _shape.NeuAxis.GetParallelLine(_shape.Items.First().Position);
+            _shape.BaseLine.StartPoint = dataDependentObject.BaseLine.StartPoint;
+            _shape.BaseLine.EndPoint = dataDependentObject.BaseLine.EndPoint;
+            Point intersection = (Point)Exceptions.CheckNull(lineIn1stFiberParalel2NeuAxis.Intersection(_shape.BaseLine));
+            _shape.WholeShape.Add(intersection);
+        }
+    }
+
     public class StrainStressShape : IStrainStressShape
     {
+        public StrainStressShape(IStressStrainShapeLoop loop)
+        {
+            _loop = Exceptions.CheckNull(loop);
+        }
         #region IStrainStressShape Members
         List<ILine2D> _linesInFibers = new List<ILine2D>();
         public List<ILine2D> LinesInFibers
@@ -54,7 +73,7 @@ namespace CommonLibrary.DrawingGraph
             get { return _linesInFibers; }
             set { _linesInFibers = value; }
         }
-        IStressStrainShapeLoop _loop = new StressStrainShapeLoop();
+        IStressStrainShapeLoop _loop = null;
         public IStressStrainShapeLoop Loop
         {
             get { return _loop; }
@@ -92,21 +111,21 @@ namespace CommonLibrary.DrawingGraph
             return Math.Max(Math.Abs(items.First().ValueInPos), Math.Abs(items.Last().ValueInPos));
         }
 
-        void IStrainStressShape.SetPointValues4MaxWidth(List<StrainStressItem> data, double maxValue)
+        void IStrainStressShape.CreateShape4MaxWidth(List<StrainStressItem> data, double maxValue, IStrainStressShape dataDependentObject)
         {
             _items = DeepCopy.Make<List<StrainStressItem>>(data);
-            SetPointValuesInternal(1.0, maxValue);
+            CreateShapeInternal(1.0, maxValue, dataDependentObject);
         }
 
-        void IStrainStressShape.SetPointValues(List<StrainStressItem> data, double valueScale)
+        void IStrainStressShape.CreateShape(List<StrainStressItem> data, double valueScale, IStrainStressShape dataDependentObject)
         {
             _items = DeepCopy.Make<List<StrainStressItem>>(data);
-            SetPointValuesInternal(valueScale);
+            CreateShapeInternal(valueScale, Double.MinValue, dataDependentObject);
         }
 
         void IStrainStressShape.ScaleValues(double scale)
         {
-            SetPointValuesInternal(scale);
+            CreateShapeInternal(scale);
         }
 
         public void Transform(Matrix conventer)
@@ -149,7 +168,7 @@ namespace CommonLibrary.DrawingGraph
             return 1;
         }
 
-        private void SetPointValuesInternal(double valueScale, double maxValue = Double.MinValue)
+        private void CreateShapeInternal(double valueScale, double maxValue = Double.MinValue, IStrainStressShape dataDependentObject = null)
         {
             if (Common.IsEmpty(_items))
             {
@@ -178,13 +197,17 @@ namespace CommonLibrary.DrawingGraph
             if (maxValue != Double.MinValue)
             {
                 double maxValueInPos = GetMaxValue(_items);
+                if (dataDependentObject != null)
+                {
+                    maxValueInPos = Math.Max(Math.Abs(maxValueInPos), Math.Abs(dataDependentObject.GetMaxValue(Exceptions.CheckNull(dataDependentObject.Items))));
+                }
                 if (!MathUtils.IsZero(maxValueInPos))
                 {
-                    valueScale = maxValue / maxValueInPos; 
+                    valueScale = maxValue / maxValueInPos;
                 }
             }
             Exceptions.CheckNull(_loop);
-            _loop.Prepare(this);
+            _loop.Prepare(this, dataDependentObject);
             _loop.DoLoop(valueScale);
         }
     }

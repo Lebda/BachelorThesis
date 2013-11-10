@@ -61,9 +61,9 @@ namespace CommonLibrary.Factories
         {
         }
 
-        public IStrainStressShape Create()
+        public IStrainStressShape Create(eCssComponentType type)
         {
-            return new StrainStressShape();
+            return Exceptions.CheckNull(new StrainStressShape(StressStrainShapeLoopFactory.Instance().Create(type)));
         }
     }
 
@@ -141,13 +141,43 @@ namespace CommonLibrary.Factories
         public IGeometryMaker Create(eCssComponentType type)
         {
             IGeometryMaker newObject = null;
+            IStrainStressShape shapeMaker = StrainStressShapeFactory.Instance().Create(type);
             switch (type)
             {
                 case eCssComponentType.eConcrete:
-                    newObject = new GeometryMaker();
+                    newObject = new GeometryMaker(shapeMaker);
                     break;
                 case eCssComponentType.eReinforcement:
-                    newObject = new GeometryMakerReinf();
+                    newObject = new GeometryMakerReinf(shapeMaker);
+                    break;
+                default:
+                    Exceptions.CheckNull(null);
+                    break;
+            }
+            return newObject;
+        }
+    }
+
+    public class StressStrainShapeLoopFactory
+    {
+        static StressStrainShapeLoopFactory _factory = null;
+        public static StressStrainShapeLoopFactory Instance()
+        {
+            if (_factory == null) { _factory = new StressStrainShapeLoopFactory();}
+            return _factory;
+        }
+        protected StressStrainShapeLoopFactory() {}
+
+        public IStressStrainShapeLoop Create(eCssComponentType type)
+        {
+            IStressStrainShapeLoop newObject = null;
+            switch (type)
+            {
+                case eCssComponentType.eConcrete:
+                    newObject = new StressStrainShapeLoop();
+                    break;
+                case eCssComponentType.eReinforcement:
+                    newObject = new StressStrainShapeLoopReinf();
                     break;
                 default:
                     Exceptions.CheckNull(null);

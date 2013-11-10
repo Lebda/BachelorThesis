@@ -28,10 +28,12 @@ namespace SectionDrawUI.ViewModels
 //             _sectionShapeService = sectionShapeService;
 //             _sectionShapeService.CanvasData = new CanvasDataContext();
 //             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
-            _fibersReinforcementProperty = new CssDataFibers(
+            _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete),
+            Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
+            Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
+            _fibersReinforcementProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eReinforcement),
              Application.Current.TryFindResource(CustomResources.ReinfStrainBrush1_SCkey) as Brush,
              Application.Current.TryFindResource(CustomResources.ReinfStrainPen1_SCkey) as Pen);
-            _fibersReinforcementProperty.GeometryMaker = GeometryMakerFactory.Instance().Create(eCssComponentType.eReinforcement);
         }
         #region COMMANDS
         public ICommand TestComand
@@ -61,9 +63,7 @@ namespace SectionDrawUI.ViewModels
         #endregion
 
         public const string FibersConcretePropertyName = "FibersConcrete";
-        private CssDataFibers _fibersConcreteProperty = new CssDataFibers(
-            Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
+        private CssDataFibers _fibersConcreteProperty = null;
         public CssDataFibers FibersConcrete
         {
             get
@@ -82,7 +82,7 @@ namespace SectionDrawUI.ViewModels
         }
         public CssDataFibers Test2(double test)
         {
-            CssDataFibers data = new CssDataFibers();
+            CssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.30285, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 57.0204 * test));
             data.Fibers.Add(fiber);
@@ -101,7 +101,7 @@ namespace SectionDrawUI.ViewModels
         }
         public CssDataFibers Test1(double test)
         {
-            CssDataFibers data = new CssDataFibers();
+            CssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
             data.Fibers.Add(fiber);
@@ -139,8 +139,7 @@ namespace SectionDrawUI.ViewModels
         }
         private CssDataFibers Test3(CssDataFibers fibers, double test)
         {
-            CssDataFibers data = new CssDataFibers(fibers.VisualBrush, fibers.VisualPen);
-            data.GeometryMaker = fibers.GeometryMaker;
+            CssDataFibers data = new CssDataFibers(fibers.GeometryMaker, fibers.VisualBrush, fibers.VisualPen);
             data.NeuAxis = fibers.NeuAxis;
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(-0.1, -0.2), -0.4257188, eCssComponentType.eReinforcement);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(302600000, 79.5265 * test));

@@ -17,6 +17,17 @@ namespace CommonLibrary.Utility
                 }
             }
         }
+        public static bool CheckIsNull(params Object[] parameters)
+        {
+            foreach (var iter in parameters)
+            {
+                if (iter == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public static T CheckNullRet<T>(params Object[] parameters)
         {
             CheckNull(parameters);

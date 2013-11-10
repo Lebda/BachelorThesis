@@ -17,12 +17,12 @@ namespace CommonLibrary.Interfaces
         double MaxWidth { get; set; }
         bool IsMove { get; set; }
         bool IsStrain { get; set; }
-        PathGeometry CreateGeometry(List<ICssDataFiber> fibers);
+        PathGeometry CreateGeometry(List<ICssDataFiber> fibers, IStrainStressShape dataDependentObject);
     }
 
     public interface IStressStrainShapeLoop
     {
-        void Prepare(IStrainStressShape shape);
+        void Prepare(IStrainStressShape shape, IStrainStressShape dataDependentObject);
         void DoLoop(double valueScale);
     }
 
@@ -44,8 +44,8 @@ namespace CommonLibrary.Interfaces
         /// <param name="offset"></param>
         void TranslateInDirNeuAxis(double offset);
         void Transform(Matrix conventer);
-        void SetPointValues(List<StrainStressItem> data, double valueScale);
-        void SetPointValues4MaxWidth(List<StrainStressItem> data, double maxValue);
+        void CreateShape(List<StrainStressItem> data, double valueScale, IStrainStressShape dataDependentObject);
+        void CreateShape4MaxWidth(List<StrainStressItem> data, double maxValue, IStrainStressShape dataDependentObject);
     }
 
     public interface ILine2D

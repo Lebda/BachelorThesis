@@ -12,6 +12,10 @@ namespace CommonLibrary.DrawingGraph
 {
     public class GeometryMaker : IGeometryMaker
     {
+        public GeometryMaker(IStrainStressShape shapeMaker)
+        {
+            _shapeMaker = Exceptions.CheckNull(shapeMaker);
+        }
         #region IGeometryMaker Members
         protected bool _isStrain = true;
         public bool IsStrain
@@ -43,7 +47,7 @@ namespace CommonLibrary.DrawingGraph
             get { return _rule4File; }
             set { _rule4File = value; }
         }
-        protected IStrainStressShape _shapeMaker;
+        protected IStrainStressShape _shapeMaker = null;
         public IStrainStressShape ShapeMaker
         {
             get { return _shapeMaker; }
@@ -69,7 +73,7 @@ namespace CommonLibrary.DrawingGraph
             }
             return items;
         }
-        virtual public PathGeometry CreateGeometry(List<ICssDataFiber> fibers)
+        virtual public PathGeometry CreateGeometry(List<ICssDataFiber> fibers, IStrainStressShape dataDependentObject)
         {
             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
             if (fibers == null || fibers.Count == 0)
@@ -78,7 +82,7 @@ namespace CommonLibrary.DrawingGraph
             }
             Exceptions.CheckNull(Exceptions.CheckNull<IStrainStressShape>(_shapeMaker).NeuAxis);
             List<StrainStressItem> items = CreateStressStrainItems(fibers, _isStrain);
-            _shapeMaker.SetPointValues4MaxWidth(items, _maxWidth);
+            _shapeMaker.CreateShape4MaxWidth(items, _maxWidth, dataDependentObject);
             if (_isMove)
             {
                 _shapeMaker.TranslateInDirNeuAxis(_moveSize);
@@ -89,9 +93,14 @@ namespace CommonLibrary.DrawingGraph
         }
         #endregion
     }
+
     public class GeometryMakerReinf : GeometryMaker
     {
-        public override PathGeometry CreateGeometry(List<ICssDataFiber> fibers)
+        public GeometryMakerReinf(IStrainStressShape shapeMaker) : base(shapeMaker)
+        {
+        }
+
+        public override PathGeometry CreateGeometry(List<ICssDataFiber> fibers, IStrainStressShape dataDependentObject)
         {
             PathGeometry myPathGeometry = Exceptions.CheckNull<PathGeometry>(new PathGeometry());
             if (fibers == null || fibers.Count == 0)
@@ -100,7 +109,7 @@ namespace CommonLibrary.DrawingGraph
             }
             Exceptions.CheckNull(Exceptions.CheckNull<IStrainStressShape>(_shapeMaker).NeuAxis);
             List<StrainStressItem> items = CreateStressStrainItems(fibers, _isStrain);
-            _shapeMaker.SetPointValues4MaxWidth(items, _maxWidth);
+            _shapeMaker.CreateShape4MaxWidth(items, _maxWidth, dataDependentObject);
             if (_isMove)
             {
                 _shapeMaker.TranslateInDirNeuAxis(_moveSize);

@@ -32,7 +32,7 @@ namespace SectionDrawerControl.Infrastructure
             set { _visualShape = value; }
         }
         Visual _visual = new DrawingVisual();
-        public System.Windows.Media.DrawingVisual VisualObject
+        public DrawingVisual VisualObject
         {
             get { return (DrawingVisual)_visual; }
             set { _visual = value; }

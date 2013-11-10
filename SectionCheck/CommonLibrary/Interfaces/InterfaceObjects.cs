@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using CommonLibrary.Geometry;
+using CommonLibrary.Interfaces;
+using CommonLibrary.Utility;
 
 namespace CommonLibrary.InterfaceObjects
 {
@@ -36,3 +38,4 @@ namespace CommonLibrary.InterfaceObjects
         }
     }
 }
+
