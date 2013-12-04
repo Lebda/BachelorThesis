@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionCheck", "SectionChec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceLibrary", "ResourceLibrary\ResourceLibrary.csproj", "{08F6A7FD-12C9-44BC-B977-23007717EC52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CommonLibrary", "CommonLibrary\XEP_CommonLibrary.csproj", "{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPrism", "MyPrism\MyPrism.csproj", "{1A22F8BC-F52C-4481-A7E0-F323F9128881}"
 EndProject
@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{82FF582A-1B19-4E67-971C-5A3928209E0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CssProperties", "CssProperties\XEP_CssProperties.csproj", "{CC24DEDF-7401-408B-8BA6-99476A454316}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionCheckCommon", "XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj", "{15687EED-0F0C-4210-91B0-DFDD36A176D9}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -119,6 +123,26 @@ Global
 		{9DE2ECA8-142A-4575-A220-B77ED441755A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9DE2ECA8-142A-4575-A220-B77ED441755A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9DE2ECA8-142A-4575-A220-B77ED441755A}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CC24DEDF-7401-408B-8BA6-99476A454316}.Release|x86.ActiveCfg = Release|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

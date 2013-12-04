@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using CommonLibrary.Interfaces;
-using CommonLibrary.InterfaceObjects;
-using CommonLibrary.Utility;
-using CommonLibrary.Geometry;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.Utility;
+using XEP_CommonLibrary.Geometry;
 
-namespace CommonLibrary.DrawingGraph
+namespace XEP_CommonLibrary.DrawingGraph
 {
     public class GeometryMaker : IGeometryMaker
     {
@@ -109,6 +109,7 @@ namespace CommonLibrary.DrawingGraph
             }
             Exceptions.CheckNull(Exceptions.CheckNull<IStrainStressShape>(_shapeMaker).NeuAxis);
             List<StrainStressItem> items = CreateStressStrainItems(fibers, _isStrain);
+            _shapeMaker.IsStrain = _isStrain;
             _shapeMaker.CreateShape4MaxWidth(items, _maxWidth, dataDependentObject);
             if (_isMove)
             {

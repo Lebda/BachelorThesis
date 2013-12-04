@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CommonLibrary.Services
+namespace XEP_CommonLibrary.Services
 {
     public interface IDialogService
     {

@@ -44,14 +44,13 @@
   <ItemGroup>
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Interfaces\ISectionShape.cs" />
-    <Compile Include="Interfaces\ISectionShapeService.cs" />
     <Compile Include="Interfaces\ISkinServis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+    <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
-      <Name>CommonLibrary</Name>
+      <Name>XEP_CommonLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

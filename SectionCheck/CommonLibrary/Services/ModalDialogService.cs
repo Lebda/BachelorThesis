@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace CommonLibrary.Services
+namespace XEP_CommonLibrary.Services
 {
     /// <summary>
     /// This is a very bare bones implementation of a Dialog service.

@@ -1,10 +1,10 @@
-﻿using CommonLibrary.Geometry;
+﻿using XEP_CommonLibrary.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Windows;
-using CommonLibrary.Utility;
-using CommonLibrary.Interfaces;
-using CommonLibrary.Factories;
+using XEP_CommonLibrary.Utility;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Factories;
 
 namespace Line2D_UT
 {

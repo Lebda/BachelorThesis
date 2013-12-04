@@ -10,6 +10,7 @@ using Microsoft.Practices.Prism.Modularity;
 using SectionCheckInterfaces.Interfaces;
 using SectionDrawUI.Services;
 using SectionDrawUI.Models;
+using SectionDrawerControl.Interfaces;
 
 namespace SectionDrawUI.ModuleDefinitions
 {
@@ -24,8 +25,7 @@ namespace SectionDrawUI.ModuleDefinitions
         public override void Initialize()
         {
             // Services
-            _container.RegisterType<ISectionShapeService, SectionShapeService>();
-            _container.RegisterType<ISectionShape, SectionShapeModel>();
+            _container.RegisterType<ICssDataService, CssDataService>();
 
             // Regions
            _regionManager.RegisterViewWithRegion(Constants.MiddleContentRegionName, () => _container.Resolve<DrawSectionView>());

@@ -11,14 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Infrastructure;
 using SectionDrawerControl.Infrastructure;
 using ResourceLibrary;
 using SectionDrawerControl.Utility;
-using CommonLibrary.Utility;
-using CommonLibrary.Geometry;
-using CommonLibrary.Interfaces;
-using CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.Utility;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.InterfaceObjects;
 
 namespace SectionDrawerControl
 {
@@ -42,6 +42,7 @@ namespace SectionDrawerControl
                        visual.CallBack4Change += CalculateStrainShapeConcrete;
                        visual.CallBack4Change += CalculateStressShapeConcrete;
                        visual.CallBack4Change += CalculateStrainShapeReinforcement;
+                       visual.CallBack4Change += CalculateStressShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssCompressPartVisual:
                        visual.Delagate4Draw += DrawCssCompressPart;
@@ -57,10 +58,15 @@ namespace SectionDrawerControl
                    case eUsedVisuals.eCssFibersConcreteStressVisual:
                        visual.Delagate4Draw += DrawFibersStressConcrete;
                        visual.CallBack4Change += CalculateStressShapeConcrete;
+                       visual.CallBack4Change += CalculateStressShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssFibersReinforcementStrainVisual:
                        visual.Delagate4Draw += DrawFibersStrainReinforcement;
                        visual.CallBack4Change += CalculateStrainShapeReinforcement;
+                       break;
+                   case eUsedVisuals.eCssFibersReinforcementStressVisual:
+                       visual.Delagate4Draw += DrawFibersStressReinforcement;
+                       visual.CallBack4Change += CalculateStressShapeReinforcement;
                        break;
                    case eUsedVisuals.eCssAxisHorizontalVisual:
                       visual.Delagate4Draw += DrawCssAxisHorizontal;
@@ -102,6 +108,10 @@ namespace SectionDrawerControl
         {
             DrawInternal(visual, () => CssFibersReinforcement4Draw);
         }
+        private void DrawFibersStressReinforcement(VisualObjectData visual)
+        {
+            DrawInternal(visual, () => CssFibersReinforcement4Draw);
+        }
         private void DrawFibersStressConcrete(VisualObjectData visual)
         {
             DrawInternal(visual, () => CssFibersConcrete4Draw);
@@ -132,10 +142,11 @@ namespace SectionDrawerControl
         }
 #endregion
 
-        #region PROPERTY CALLBACKS
+#region PROPERTY CALLBACKS
         private static void OnFibersReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStrainVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((SectionDrawer)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStressVisual);
         }
         private static void OnFibersConcreteChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -198,9 +209,9 @@ namespace SectionDrawerControl
             conventer.ScaleAt(scale, scale, 0.0, 0.0);
             return Exceptions.CheckNull<MatrixTransform>(new MatrixTransform(conventer));
         }
-        #endregion
+#endregion
 
-        #region GEOMETRY CALCULATIONS
+#region GEOMETRY CALCULATIONS
         private void CalculateStrainShapeConcrete(VisualObjectData visualAct)
         {
             if (!Exceptions.CheckIsNull(CssFibersConcrete4Draw, CssShape4Draw)) { return; }
@@ -227,10 +238,23 @@ namespace SectionDrawerControl
         {
             if (!Exceptions.CheckIsNull(CssFibersConcrete4Draw, CssShape4Draw)) { return; }
             Exceptions.CheckNull(visualAct);
-            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual)); 
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual));
             Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
             VisualObjectData visualStressConcrete = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssFibersConcreteStressVisual));
             visualStressConcrete.VisualShape.BaseGeo = CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
+        }
+
+        private void CalculateStressShapeReinforcement(VisualObjectData visualAct)
+        {
+            if (!Exceptions.CheckIsNull(CssFibersReinforcement4Draw, CssFibersConcrete4Draw, CssShape4Draw)) { return; }
+            Exceptions.CheckNull(visualAct);
+            VisualObjectData visualCssShape = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssShapeVisual));
+            VisualObjectData visualStressReinf = Exceptions.CheckNull<VisualObjectData>(drawingSurface.GetVisual((int)eUsedVisuals.eCssFibersReinforcementStressVisual));
+            // Recalc it for strain
+            Rect boundCss = visualCssShape.VisualShape.BaseGeo.Bounds;
+            CssFibersConcrete4Draw.GetStressGeometry(boundCss.Width);
+            IStrainStressShape shapeMaker = Exceptions.CheckNull(CssFibersConcrete4Draw.GeometryMaker.ShapeMaker);
+            visualStressReinf.VisualShape.BaseGeo = CssFibersReinforcement4Draw.GetStressGeometry(boundCss.Width, true, shapeMaker);
         }
 
         private void CalculateAxisHorizontalFromCssShape(VisualObjectData visualCssShape)
@@ -289,9 +313,9 @@ namespace SectionDrawerControl
             visualAxis.VisualShape.BaseGeo = myPathGeometry;
         }
 
-        #endregion
+#endregion
 
-         #region DEPENDENCY PROPERTY DEFINITIONS
+#region DEPENDENCY PROPERTY DEFINITIONS
         static SectionDrawer()
         {
             CssShape4DrawProperty = DependencyProperty.Register(CssShape4DrawPropertyName, typeof(CssDataShape), typeof(SectionDrawer),
@@ -358,6 +382,6 @@ namespace SectionDrawerControl
             get { return (CssDataAxis)GetValue(CssAxisVerticalDrawProperty); }
             set { SetValue(CssAxisVerticalDrawProperty, value); }
         }
-        #endregion
+#endregion
     }
 }

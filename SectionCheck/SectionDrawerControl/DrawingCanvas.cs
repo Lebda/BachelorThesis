@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows;
 using SectionDrawerControl.Infrastructure;
 using SectionDrawerControl.Utility;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Utility;
 
 namespace SectionDrawerControl
 {

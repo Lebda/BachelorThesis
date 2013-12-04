@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.InterfaceObjects;
 
-namespace CommonLibrary.Interfaces
+namespace XEP_CommonLibrary.Interfaces
 {
     public interface IGeometryMaker
     {
@@ -26,8 +26,13 @@ namespace CommonLibrary.Interfaces
         void DoLoop(double valueScale);
     }
 
+    public interface IScaleCalculator
+    {
+        double Calculate(IStrainStressShape ShapeMaker, IStrainStressShape ShapeMakerDependent, double valueScale, double maxValue = Double.MinValue);
+    }
     public interface IStrainStressShape
     {
+        bool IsStrain { get; set; }
         ILine2D NeuAxis { get; set; }
         ILine2D BaseLine { get;}
         List<ILine2D> LinesInFibers { get; }
@@ -35,6 +40,7 @@ namespace CommonLibrary.Interfaces
         PointCollection ValueShape { get; }
         List<StrainStressItem> Items { get; }
         IStressStrainShapeLoop Loop { get; set; }
+        IScaleCalculator ScaleCalculator { get; set; }
         // Methods
         double GetMaxValue(List<StrainStressItem> items);
         void ScaleValues(double scale);

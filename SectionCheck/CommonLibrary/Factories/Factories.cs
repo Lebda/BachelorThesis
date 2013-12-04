@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Interfaces;
 using System.Windows;
-using CommonLibrary.Geometry;
-using CommonLibrary.DrawingGraph;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.DrawingGraph;
+using XEP_CommonLibrary.Utility;
 
-namespace CommonLibrary.Factories
+namespace XEP_CommonLibrary.Factories
 {
     public class Line2DFactory
     {
@@ -63,7 +63,7 @@ namespace CommonLibrary.Factories
 
         public IStrainStressShape Create(eCssComponentType type)
         {
-            return Exceptions.CheckNull(new StrainStressShape(StressStrainShapeLoopFactory.Instance().Create(type)));
+            return Exceptions.CheckNull(new StrainStressShape(StressStrainShapeLoopFactory.Instance().Create(type), ScaleCalculatorFactory.Instance().Create(type)));
         }
     }
 
@@ -178,6 +178,35 @@ namespace CommonLibrary.Factories
                     break;
                 case eCssComponentType.eReinforcement:
                     newObject = new StressStrainShapeLoopReinf();
+                    break;
+                default:
+                    Exceptions.CheckNull(null);
+                    break;
+            }
+            return newObject;
+        }
+    }
+
+    public class ScaleCalculatorFactory
+    {
+        static ScaleCalculatorFactory _factory = null;
+        public static ScaleCalculatorFactory Instance()
+        {
+            if (_factory == null) { _factory = new ScaleCalculatorFactory(); }
+            return _factory;
+        }
+        protected ScaleCalculatorFactory() { }
+
+        public IScaleCalculator Create(eCssComponentType type)
+        {
+            IScaleCalculator newObject = null;
+            switch (type)
+            {
+                case eCssComponentType.eConcrete:
+                    newObject = new ScaleCalculator();
+                    break;
+                case eCssComponentType.eReinforcement:
+                    newObject = new ScaleCalculatorReinf();
                     break;
                 default:
                     Exceptions.CheckNull(null);

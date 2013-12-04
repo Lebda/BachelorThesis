@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckCommon.Infrastructure;
+using XEP_CommonLibrary.Utility;
+
+namespace SectionCheck.Services
+{
+    public class XEP_QuantityManager : XEP_IQuantityManager
+    {
+        Dictionary<eEP_QuantityType, XEP_QuantityDefinition> _data = new Dictionary<eEP_QuantityType, XEP_QuantityDefinition>();
+        public XEP_QuantityManager()
+        {
+            for (int counter = (int)eEP_QuantityType.eNoType; counter < (int)eEP_QuantityType.eQuantityTypeCount; ++counter)
+            {
+                XEP_QuantityDefinition quantityDefinition = new XEP_QuantityDefinition();
+                quantityDefinition.QuantityName = XEP_QuantityNames.GetName((eEP_QuantityType)counter);
+                quantityDefinition.QuantityNameScale = XEP_QuantityNames.GetScaleName(quantityDefinition.Scale);
+                _data.Add((eEP_QuantityType)counter, quantityDefinition);
+            }
+        }
+        public string GetString(XEP_Quantity source)
+        {
+            return _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName;
+        }
+        public double GetValue(XEP_Quantity source)
+        {
+            Exceptions.CheckPredicate<double>("Scale can not be zero !!", _data[source.QuantityType].Scale, (param => MathUtils.IsZero(param, 1e-12)));
+            return source.Value / _data[source.QuantityType].Scale;
+        }
+        public void SetScale(eEP_QuantityType type, double scaleValue)
+        {
+            Exceptions.CheckPredicate<double>("Scale can not be zero !!", scaleValue, (param => MathUtils.IsZero(param, 1e-12)));
+            _data[type].Scale = scaleValue;
+        }
+    }
+}

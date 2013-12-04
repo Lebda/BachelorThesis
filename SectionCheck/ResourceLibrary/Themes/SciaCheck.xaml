@@ -17,13 +17,17 @@
    <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfStrainBrush1_SC}"
                         RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
-      <GradientStop Color="BlueViolet" Offset="1" />
+      <GradientStop Color="Chocolate" Offset="1" />
    </RadialGradientBrush>
    
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfStrainPen1_SC}" 
-                  Thickness="4" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+                  Thickness="10" LineJoin="Round" EndLineCap="Square" StartLineCap="Square">
       <Pen.Brush>
-         <SolidColorBrush Color="Maroon" />
+         <RadialGradientBrush
+                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
+         <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
+         <GradientStop Color="Chocolate" Offset="1" />
+      </RadialGradientBrush>
       </Pen.Brush>
    </Pen>
    

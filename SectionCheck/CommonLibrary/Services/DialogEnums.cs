@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CommonLibrary.Services
+namespace XEP_CommonLibrary.Services
 {
         public enum DialogImage { Asterisk, Error, Exclamation, Hand, Information, None, Question, Stop, Warning }
         public enum DialogButton { OK, OKCancel, YesNo, YesNoCancel }

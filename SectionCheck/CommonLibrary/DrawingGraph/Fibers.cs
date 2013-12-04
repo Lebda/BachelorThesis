@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommonLibrary.Interfaces;
-using CommonLibrary.Infrastructure;
-using CommonLibrary.Geometry;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.Utility;
 using System.Windows;
 
-namespace CommonLibrary.DrawingGraph
+namespace XEP_CommonLibrary.DrawingGraph
 {
     [Serializable]
     public class SSInFiber : IDataInFiber

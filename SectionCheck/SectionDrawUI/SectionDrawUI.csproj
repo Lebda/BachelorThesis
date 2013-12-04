@@ -55,6 +55,7 @@
       <HintPath>..\..\Dll\PRISM\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -74,9 +78,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Models\SectionShapeModel.cs" />
-    <Compile Include="ViewModels\SectionShapeViewModel.cs" />
+    <Compile Include="Services\CssDataService.cs" />
+    <Compile Include="Services\CssDataServiceMock.cs" />
     <Compile Include="ModuleDefinitions\SectionDrawModule.cs" />
-    <Compile Include="Services\SectionShapeService.cs" />
     <Compile Include="ViewModels\DrawSectionViewModel.cs" />
     <Compile Include="Views\DrawSectionView.xaml.cs">
       <DependentUpon>DrawSectionView.xaml</DependentUpon>
@@ -109,9 +113,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+    <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
-      <Name>CommonLibrary</Name>
+      <Name>XEP_CommonLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyPrism\MyPrism.csproj">
       <Project>{1A22F8BC-F52C-4481-A7E0-F323F9128881}</Project>

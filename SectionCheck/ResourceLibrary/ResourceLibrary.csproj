@@ -87,6 +87,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\green_flag_16.png" />
+    <Resource Include="Images\green_flag_24.png" />
+    <Resource Include="Images\green_flag_32.png" />
+    <Resource Include="Images\green_flag_48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

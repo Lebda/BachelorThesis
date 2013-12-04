@@ -5,15 +5,15 @@ using System.Text;
 using System.Windows;
 using ResourceLibrary;
 using System.Windows.Media;
-using CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Infrastructure;
 using SectionDrawerControl.Utility;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Utility;
 using System.Windows.Shapes;
-using CommonLibrary.Geometry;
-using CommonLibrary.Interfaces;
-using CommonLibrary.Factories;
-using CommonLibrary.InterfaceObjects;
-using CommonLibrary.DrawingGraph;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Factories;
+using XEP_CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.DrawingGraph;
 
 namespace SectionDrawerControl.Infrastructure
 {

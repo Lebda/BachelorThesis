@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="XEP_CssProperties.XEP_CssPropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:r="clr-namespace:XEP_CssProperties.ResTrans"
+             xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:commonlib="clr-namespace:XEP_CommonLibrary.Infrastructure;assembly=XEP_CommonLibrary"
+             xmlns:commonSec="clr-namespace:XEP_SectionCheckCommon.Infrastructure;assembly=XEP_SectionCheckCommon"
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:XEP_CssProperties.Infrastructure"
+             d:DesignHeight="300" d:DesignWidth="300">
+   <UserControl.Resources>
+      <ResourceDictionary>
+         <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/ResourceLibrary;Component/Themes/ExpressionDark.xaml" />
+         </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary>
+   </UserControl.Resources>
+   <Grid>
+      <Grid.Resources>
+         <DataTemplate x:Key="ForceInCheckTemplate">
+            <StackPanel Orientation="Horizontal">
+               <TextBox HorizontalAlignment="Stretch" Text="{Binding Name, Mode=TwoWay}"/>
+               <Image Stretch="None" Source="/ResourceLibrary;Component/Images/green_flag_16.png"/>
+            </StackPanel>
+         </DataTemplate>
+         <DataTemplate x:Key="ForceNotInCheckTemplate">
+            <StackPanel Orientation="Horizontal">
+               <TextBox HorizontalAlignment="Stretch" Text="{Binding Name, Mode=TwoWay}"/>
+            </StackPanel>
+         </DataTemplate>
+         <local:XEP_InternalForceConventer x:Key="converter" />
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converter}">
+            <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource ForceInCheckTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>True</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource ForceNotInCheckTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>False</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+            </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+         </commonlib:XEP_ConditionalDataTemplateSelector>
+         <commonSec:XEP_QuantityConventer x:Key="converterValue"/>         
+      </Grid.Resources>
+         <StackPanel>
+            <TextBlock Text="Properties" />
+            <telerik:RadExpander IsExpanded="True" VerticalContentAlignment="Top">
+               <telerik:RadExpander.Header>
+               <TextBlock Text="{x:Static r:Resources.INTERNAL_FORCES}"/>
+               </telerik:RadExpander.Header>
+               <telerik:RadExpander.Content>
+                  <StackPanel>
+                  <telerik:RadGridView ItemsSource="{Binding InternalForces, Mode=TwoWay}"
+                                       AutoGenerateColumns="False"
+                                       ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                     <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Name, Mode=TwoWay}" Header="Name" UniqueName="ForceName"
+                                                    CellTemplateSelector="{StaticResource selector}" >
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Width="1.5*"
+                                                    Header="Value" UniqueName="Value" IsReadOnly="True">
+                           <telerik:GridViewDataColumn.CellTemplate>
+                              <DataTemplate >
+                                 <TextBox>
+                                    <TextBox.Text>
+                                       <MultiBinding Converter="{StaticResource converterValue}">
+                                          <Binding Path="Self" Mode ="OneWay"></Binding>
+                                          <Binding Path="ViewModel.QuantityManager" Mode="OneTime">
+                                             <Binding.RelativeSource>
+                                                <RelativeSource Mode="FindAncestor" AncestorType="{x:Type UserControl}" />
+                                             </Binding.RelativeSource>
+                                          </Binding>
+                                       </MultiBinding>
+                                    </TextBox.Text>
+                                 </TextBox>
+                              </DataTemplate>
+                           </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                     </telerik:RadGridView.Columns>
+                  </telerik:RadGridView>
+                  </StackPanel>
+               </telerik:RadExpander.Content>
+            </telerik:RadExpander>
+         </StackPanel>
+   </Grid>
+</UserControl>

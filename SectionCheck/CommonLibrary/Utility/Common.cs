@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 
-namespace CommonLibrary.Utility
+namespace XEP_CommonLibrary.Utility
 {
     static public class Common
     {

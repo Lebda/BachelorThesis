@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace CommonLibrary.Infrastructure
+namespace XEP_CommonLibrary.Infrastructure
 {
     public static class PropertySupport
     {

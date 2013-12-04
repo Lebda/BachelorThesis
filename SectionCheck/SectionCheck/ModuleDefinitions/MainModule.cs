@@ -6,8 +6,11 @@ using MyPrism.Infrastructure;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
 using SectionCheckInterfaces.Infrastucture;
-using CommonLibrary.Services;
+using XEP_CommonLibrary.Services;
 using Microsoft.Practices.Prism.Modularity;
+using SectionCheck.Services;
+using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckCommon.Infrastructure;
 
 namespace SectionCheck.ModuleDefinitions
 {
@@ -22,8 +25,10 @@ namespace SectionCheck.ModuleDefinitions
         {
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());
-            //_container.RegisterType(typeof(IEventAggregatorResolver<>), typeof(EventAggregatorResolver<>));
-
+            _container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager());
+            XEP_IQuantityManager test = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
+            test.SetScale(eEP_QuantityType.eForce, 1000.0); // just for test
+            test.SetScale(eEP_QuantityType.eMoment, 1000.0); // just for test
             //load MainRegion using Prism View Discovery
             _regionManager.RegisterViewWithRegion(Constants.MainContentRegionName, () => _container.Resolve<MainView>());
         }

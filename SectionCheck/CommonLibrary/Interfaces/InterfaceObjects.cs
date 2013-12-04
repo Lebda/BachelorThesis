@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using CommonLibrary.Geometry;
-using CommonLibrary.Interfaces;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Utility;
 
-namespace CommonLibrary.InterfaceObjects
+namespace XEP_CommonLibrary.InterfaceObjects
 {
     [Serializable]
     public class StrainStressItem

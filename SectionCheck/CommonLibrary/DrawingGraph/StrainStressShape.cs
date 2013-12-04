@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommonLibrary.Interfaces;
-using CommonLibrary.Geometry;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Geometry;
 using System.Windows.Media;
 using System.Windows;
-using CommonLibrary.Utility;
-using CommonLibrary.Factories;
-using CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.Utility;
+using XEP_CommonLibrary.Factories;
+using XEP_CommonLibrary.InterfaceObjects;
 
-namespace CommonLibrary.DrawingGraph
+namespace XEP_CommonLibrary.DrawingGraph
 {
     public class StressStrainShapeLoop : IStressStrainShapeLoop
     {
@@ -60,13 +60,68 @@ namespace CommonLibrary.DrawingGraph
         }
     }
 
+    public class ScaleCalculator : IScaleCalculator
+    {
+        #region IScaleCalculator Members
+        public double Calculate(IStrainStressShape shapeMaker, IStrainStressShape shapeMakerDependent, double valueScale, double maxValue = Double.MinValue)
+        {
+            Exceptions.CheckNull(shapeMaker);
+            if (maxValue != Double.MinValue)
+            {
+                double maxValueInPos = shapeMaker.GetMaxValue(shapeMaker.Items);
+                maxValueInPos = CheckDependent(shapeMaker, shapeMakerDependent, maxValueInPos);
+                if (!MathUtils.IsZero(maxValueInPos))
+                {
+                    valueScale = maxValue / maxValueInPos;
+                }
+            }
+            return valueScale;
+        }
+        #endregion
+        protected virtual double CheckDependent(IStrainStressShape shapeMaker, IStrainStressShape shapeMakerDependent, double maxValueInPos)
+        {
+            return maxValueInPos;
+        }
+    }
+
+    public class ScaleCalculatorReinf : ScaleCalculator
+    {
+        protected override double CheckDependent(IStrainStressShape shapeMaker, IStrainStressShape shapeMakerDependent, double maxValueInPos)
+        {
+            if (shapeMakerDependent != null)
+            {
+                double maxValueInPosDependent = shapeMakerDependent.GetMaxValue(Exceptions.CheckNull(shapeMakerDependent.Items));
+                double max4Calc = Math.Max(Math.Abs(maxValueInPos), Math.Abs(maxValueInPosDependent));
+                if (!shapeMaker.IsStrain)
+                {// stress
+                    max4Calc *= 0.75;
+                }
+                maxValueInPos = max4Calc;
+            } 
+            return maxValueInPos;
+        }
+    }
+
     public class StrainStressShape : IStrainStressShape
     {
-        public StrainStressShape(IStressStrainShapeLoop loop)
+        public StrainStressShape(IStressStrainShapeLoop loop, IScaleCalculator scaleCalulator)
         {
             _loop = Exceptions.CheckNull(loop);
+            _scaleCalculator = Exceptions.CheckNull(scaleCalulator);
         }
         #region IStrainStressShape Members
+        bool _isStrain = true;
+        public bool IsStrain
+        {
+            get { return _isStrain; }
+            set { _isStrain = value; }
+        }
+        IScaleCalculator _scaleCalculator = null;
+        public IScaleCalculator ScaleCalculator
+        {
+            get { return _scaleCalculator; }
+            set { _scaleCalculator = value; }
+        }
         List<ILine2D> _linesInFibers = new List<ILine2D>();
         public List<ILine2D> LinesInFibers
         {
@@ -194,21 +249,10 @@ namespace CommonLibrary.DrawingGraph
             {
                 return;
             }
-            if (maxValue != Double.MinValue)
-            {
-                double maxValueInPos = GetMaxValue(_items);
-                if (dataDependentObject != null)
-                {
-                    maxValueInPos = Math.Max(Math.Abs(maxValueInPos), Math.Abs(dataDependentObject.GetMaxValue(Exceptions.CheckNull(dataDependentObject.Items))));
-                }
-                if (!MathUtils.IsZero(maxValueInPos))
-                {
-                    valueScale = maxValue / maxValueInPos;
-                }
-            }
             Exceptions.CheckNull(_loop);
             _loop.Prepare(this, dataDependentObject);
-            _loop.DoLoop(valueScale);
+            Exceptions.CheckNull(_scaleCalculator);
+            _loop.DoLoop(_scaleCalculator.Calculate(this, dataDependentObject, valueScale, maxValue));
         }
     }
 }

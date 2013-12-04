@@ -59,6 +59,7 @@
     <Compile Include="Infrastructure\Interfaces.cs" />
     <Compile Include="Infrastructure\IVisualShapeImpl.cs" />
     <Compile Include="Infrastructure\VisualObjectData.cs" />
+    <Compile Include="Interfaces\ICssDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,9 +96,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+    <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
-      <Name>CommonLibrary</Name>
+      <Name>XEP_CommonLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResourceLibrary\ResourceLibrary.csproj">
       <Project>{08F6A7FD-12C9-44BC-B977-23007717EC52}</Project>

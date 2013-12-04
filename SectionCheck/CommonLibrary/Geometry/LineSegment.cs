@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using CommonLibrary.Utility;
-using CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Utility;
+using XEP_CommonLibrary.Interfaces;
 
-namespace CommonLibrary.Geometry
+namespace XEP_CommonLibrary.Geometry
 {
     /// <summary>
     /// Abstraction for line 2D with formula Ax + By = C

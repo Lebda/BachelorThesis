@@ -9,8 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
              xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"             
-             Background="{DynamicResource {x:Static res:CustomResources.LightGrayBackgroundBrush_SCkey}}"
-            >
+             Background="{DynamicResource {x:Static res:CustomResources.LightGrayBackgroundBrush_SCkey}}" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
    <UserControl.Resources>
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
@@ -46,5 +45,6 @@
       </Viewbox>
       <!--Third Row text-->
       <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" Click="button1_Click" />
+      <telerik:DragVisual Grid.Row="1" Grid.RowSpan="2" Height="50" HorizontalAlignment="Left" Margin="78,587,0,0" Name="dragVisual1" VerticalAlignment="Top" Width="100" />
    </Grid>
 </UserControl>

@@ -11,6 +11,7 @@ namespace SectionCheckInterfaces.Infrastucture
         public const String MiddleContentRegionName = "MiddleContentRegionName";
         public const String LeftContentRegionName = "LeftContentRegionName";
         public const String RightContentRegionName = "RightContentRegionName";
+        public const String CssPropertiesRegionName = "CssPropertiesRegionName";
 
     }
 }

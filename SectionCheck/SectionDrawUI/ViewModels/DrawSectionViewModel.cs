@@ -2,32 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Infrastructure;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Media;
 using SectionCheckInterfaces.Interfaces;
-using SectionDrawUI.Model;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Utility;
 using SectionDrawerControl.Infrastructure;
 using ResourceLibrary;
-using CommonLibrary.Geometry;
-using CommonLibrary.Factories;
+using XEP_CommonLibrary.Geometry;
+using XEP_CommonLibrary.Factories;
 using System.Windows.Input;
-using CommonLibrary.Interfaces;
-using CommonLibrary.DrawingGraph;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.DrawingGraph;
+using SectionDrawerControl.Interfaces;
 
 namespace SectionDrawUI.ViewModels
 {
     public class DrawSectionViewModel : ObservableObject
     {
-        //ISectionShapeService _sectionShapeService;
-
-        public DrawSectionViewModel(ISectionShapeService sectionShapeService, ISectionShape sectionShape)
+        ICssDataService _cssDataService = null;
+        public ICssDataService CssDataService
         {
-//             _sectionShapeService = sectionShapeService;
-//             _sectionShapeService.CanvasData = new CanvasDataContext();
-//             ShapeViewModel = new SectionShapeViewModel(_sectionShapeService, sectionShape);
+            get { return _cssDataService; }
+            set { _cssDataService = value; }
+        }
+        public DrawSectionViewModel(ICssDataService cssDataService)
+        {
+            _cssDataService = cssDataService;
+
+
             _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete),
             Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
             Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
@@ -35,6 +39,21 @@ namespace SectionDrawUI.ViewModels
              Application.Current.TryFindResource(CustomResources.ReinfStrainBrush1_SCkey) as Brush,
              Application.Current.TryFindResource(CustomResources.ReinfStrainPen1_SCkey) as Pen);
         }
+
+     #region METHODS
+        void LoadCssData()
+        {
+            Exceptions.CheckNull(_cssDataService);
+            CssShape = _cssDataService.GetCssDataShape();
+            CssAxisVertical = _cssDataService.GetCssDataAxisVertical();
+            CssAxisHorizontal = _cssDataService.GetCssDataAxisHorizontal();
+            CssCompressPart = _cssDataService.GetCssDataCompressPart();
+            CssReinforcement = _cssDataService.GetCssDataReinforcement();
+            FibersConcrete = _cssDataService.GetCssDataFibersConcrete();
+            FibersReinforcement = _cssDataService.GetCssDataFibersReinforcement();
+        }
+     #endregion // METHODS
+
         #region COMMANDS
         public ICommand TestComand
         {

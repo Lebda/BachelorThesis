@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using CommonLibrary.Infrastructure;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Utility;
 using System.Windows;
 using System.Windows.Shapes;
 using SectionDrawerControl.Utility;
 using ResourceLibrary;
-using CommonLibrary.Geometry;
+using XEP_CommonLibrary.Geometry;
 
 namespace SectionDrawerControl.Infrastructure
 {

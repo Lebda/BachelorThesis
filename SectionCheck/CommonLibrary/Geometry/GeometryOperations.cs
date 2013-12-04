@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows;
-using CommonLibrary.Utility;
+using XEP_CommonLibrary.Utility;
 
-namespace CommonLibrary.Geometry
+namespace XEP_CommonLibrary.Geometry
 {
     public static class GeometryOperations
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Infrastructure;
 using System.Windows;
 using System.Windows.Media;
 using ResourceLibrary;

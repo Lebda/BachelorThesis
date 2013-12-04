@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace CommonLibrary.Infrastructure
+namespace XEP_CommonLibrary.Infrastructure
 {
 
     /// <summary>
