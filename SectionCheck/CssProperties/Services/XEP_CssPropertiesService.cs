@@ -5,15 +5,26 @@ using System.Text;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Collections.ObjectModel;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Implementations;
 
 namespace XEP_CssProperties.Services
 {
-    public class XEP_CssPropertiesService : XEP_ICssPropertiesService
+    public class XEP_CssPropertiesService : XEP_ICssPropertiesService, XEP_IQuantityManagerHolder
     {
+        XEP_QuantityManagerHolderImpl _managerHolder = null;
+        public XEP_IQuantityManager Manager
+        {
+            get { return _managerHolder.Manager; }
+            set { _managerHolder.Manager = value; }
+        }
+        public XEP_CssPropertiesService(XEP_IQuantityManager manager)
+        {
+            _managerHolder = new XEP_QuantityManagerHolderImpl(manager);
+        }
         public ObservableCollection<XEP_InternalForceItem> GetInternalForces()
         {
             ObservableCollection<XEP_InternalForceItem> collection = new ObservableCollection<XEP_InternalForceItem>();
-            XEP_InternalForceItem item = new XEP_InternalForceItem();
+            XEP_InternalForceItem item = new XEP_InternalForceItem(Manager);
             item.Type = eEP_ForceItemType.eULS;
             item.UsedInCheck = true;
             item.Name = "RS2-C01.1-1";
@@ -24,7 +35,7 @@ namespace XEP_CssProperties.Services
             item.My.Value = 32000;
             item.Mz.Value = 68000;
             collection.Add(item);
-            item = new XEP_InternalForceItem();
+            item = new XEP_InternalForceItem(Manager);
             item.Name = "RS2-C02.2-4";
             item.Type = eEP_ForceItemType.eULS;
             item.UsedInCheck = false;

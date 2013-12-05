@@ -16,16 +16,25 @@ namespace SectionCheck.Services
             for (int counter = (int)eEP_QuantityType.eNoType; counter < (int)eEP_QuantityType.eQuantityTypeCount; ++counter)
             {
                 XEP_QuantityDefinition quantityDefinition = new XEP_QuantityDefinition();
-                quantityDefinition.QuantityName = XEP_QuantityNames.GetName((eEP_QuantityType)counter);
+                quantityDefinition.QuantityName = XEP_QuantityNames.GetUnitName((eEP_QuantityType)counter);
                 quantityDefinition.QuantityNameScale = XEP_QuantityNames.GetScaleName(quantityDefinition.Scale);
                 _data.Add((eEP_QuantityType)counter, quantityDefinition);
             }
         }
-        public string GetString(XEP_Quantity source)
+        public string GetNameWithUnit(XEP_IQuantity source)
         {
-            return _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName;
+            return "[" + _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName + "]";
         }
-        public double GetValue(XEP_Quantity source)
+        public string GetName(XEP_IQuantity source)
+        {
+            return _data[source.QuantityType].QuantityName;
+        }
+        public double GetValueManaged(double value, eEP_QuantityType type)
+        {
+            Exceptions.CheckPredicate<double>("Scale can not be zero !!", _data[type].Scale, (param => MathUtils.IsZero(param, 1e-12)));
+            return value * _data[type].Scale;
+        }
+        public double GetValue(XEP_IQuantity source)
         {
             Exceptions.CheckPredicate<double>("Scale can not be zero !!", _data[source.QuantityType].Scale, (param => MathUtils.IsZero(param, 1e-12)));
             return source.Value / _data[source.QuantityType].Scale;
@@ -34,6 +43,7 @@ namespace SectionCheck.Services
         {
             Exceptions.CheckPredicate<double>("Scale can not be zero !!", scaleValue, (param => MathUtils.IsZero(param, 1e-12)));
             _data[type].Scale = scaleValue;
+            _data[type].QuantityNameScale = XEP_QuantityNames.GetScaleName(_data[type].Scale);
         }
     }
 }

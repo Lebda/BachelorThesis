@@ -22,8 +22,8 @@ namespace XEP_CssProperties.ModuleDefinitions
 
         public override void Initialize()
         {
-            _container.RegisterType<XEP_ICssPropertiesService, XEP_CssPropertiesService>(new TransientLifetimeManager());
-
+            XEP_ICssPropertiesService propertiesService = new XEP_CssPropertiesService(UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container));
+            _container.RegisterInstance<XEP_ICssPropertiesService>("CssPropertiesModule", propertiesService);
             // Regions
             _regionManager.RegisterViewWithRegion(Constants.CssPropertiesRegionName, () => _container.Resolve<XEP_CssPropertiesView>());
         }

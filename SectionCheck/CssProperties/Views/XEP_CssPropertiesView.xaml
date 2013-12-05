@@ -47,7 +47,36 @@
                </commonlib:XEP_ConditionalDataTemplateRule>
             </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
          </commonlib:XEP_ConditionalDataTemplateSelector>
-         <commonSec:XEP_QuantityConventer x:Key="converterValue"/>         
+         <!--START Template for force details-->
+         <commonSec:XEP_QuantityConventerValue4Item x:Key="converterForceValueManaged"/>
+         <commonSec:XEP_QuantityConventerNameWithUnit x:Key="converterForceNameWithUnit"/>
+         <!--END Template for force details-->
+         <Style x:Key="BarDataTextBoxEditorStyle">
+            <Style.Setters>
+               <Setter Property="Control.Background" Value="Transparent" />
+               <Setter Property="Control.BorderBrush" Value="Transparent" />
+               <Setter Property="Control.Foreground" Value="Black" />               
+            </Style.Setters>
+            <Style.Triggers>
+               <Trigger Property="Control.IsFocused" Value="True">
+                  <Setter Property="Control.Foreground" Value="DarkRed" />
+               </Trigger>
+            </Style.Triggers>
+         </Style>
+         <Style x:Key="BarDataBarEditorStyle" TargetType="telerik:RadDataBar">
+            <Style.Setters>
+               <Setter Property="LabelVisibility" Value="Collapsed" />
+               <Setter Property="BarHeightPercent" Value="1.0" />
+               <Setter Property="LabelPosition" Value="EndOfBarInside" />
+               <Setter Property="Height" Value="18" />
+               <Setter Property="Margin" Value="0 0 13 0" />
+            </Style.Setters>
+            <Style.Triggers>
+               <Trigger Property="Control.IsMouseOver" Value="True">
+                  <Setter Property="LabelVisibility" Value="Collapsed" />
+               </Trigger>
+            </Style.Triggers>
+         </Style>
       </Grid.Resources>
          <StackPanel>
             <TextBlock Text="Properties" />
@@ -59,27 +88,54 @@
                   <StackPanel>
                   <telerik:RadGridView ItemsSource="{Binding InternalForces, Mode=TwoWay}"
                                        AutoGenerateColumns="False"
-                                       ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                                       ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                                       >
+                     <telerik:RadGridView.RowDetailsTemplate>
+                        <DataTemplate>
+                              <Grid>
+                              <Grid.ColumnDefinitions>
+                                 <ColumnDefinition Width="*" />
+                                 <ColumnDefinition Width="3*" />
+                              </Grid.ColumnDefinitions>
+                              <Grid.RowDefinitions>
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                                 <RowDefinition Height="*" />
+                              </Grid.RowDefinitions>
+                              <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=1, Mode=OneWay}" IsReadOnly="True" />
+                              <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=2, Mode=OneWay}" IsReadOnly="True" />
+                              <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=3, Mode=OneWay}" IsReadOnly="True" />
+                              <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=4, Mode=OneWay}" IsReadOnly="True" />
+                              <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=5, Mode=OneWay}" IsReadOnly="True" />
+                              <TextBox Grid.Column="0" Grid.Row="6" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=6, Mode=OneWay}" IsReadOnly="True" />
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="1" Value="{Binding Path=N, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}"/>
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="2" Value="{Binding Path=Vy, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="3" Value="{Binding Path=Vz, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mx, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="5" Value="{Binding Path=My, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
+                              <telerik:RadDataBar Grid.Column="1" Grid.Row="6" Value="{Binding Path=Mz, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
+                              <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=N, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                              <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Vy, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                              <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Vz, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                              <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Mx, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                              <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=My, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                              <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=Mz, Converter={StaticResource converterForceValueManaged}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarDataTextBoxEditorStyle}"/>
+                           </Grid>
+                        </DataTemplate>
+                     </telerik:RadGridView.RowDetailsTemplate>
                      <telerik:RadGridView.Columns>
+                        <telerik:GridViewToggleRowDetailsColumn />
                         <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Name, Mode=TwoWay}" Header="Name" UniqueName="ForceName"
                                                     CellTemplateSelector="{StaticResource selector}" >
                         </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn Width="1.5*"
-                                                    Header="Value" UniqueName="Value" IsReadOnly="True">
+                        <telerik:GridViewDataColumn Width="1.5*" Header="Value" UniqueName="Value">
                            <telerik:GridViewDataColumn.CellTemplate>
                               <DataTemplate >
-                                 <TextBox>
-                                    <TextBox.Text>
-                                       <MultiBinding Converter="{StaticResource converterValue}">
-                                          <Binding Path="Self" Mode ="OneWay"></Binding>
-                                          <Binding Path="ViewModel.QuantityManager" Mode="OneTime">
-                                             <Binding.RelativeSource>
-                                                <RelativeSource Mode="FindAncestor" AncestorType="{x:Type UserControl}" />
-                                             </Binding.RelativeSource>
-                                          </Binding>
-                                       </MultiBinding>
-                                    </TextBox.Text>
-                                 </TextBox>
+                                 <TextBox Text="{Binding ShortExplanation, Mode=OneWay}" IsReadOnly="True" />
                               </DataTemplate>
                            </telerik:GridViewDataColumn.CellTemplate>
                         </telerik:GridViewDataColumn>

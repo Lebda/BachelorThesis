@@ -7,7 +7,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
 {
     static public class XEP_QuantityNames
     {
-        public static string GetName(eEP_QuantityType type)
+        public static string GetUnitName(eEP_QuantityType type)
         {
             string name;
             switch (type)
@@ -25,7 +25,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             }
             return name;
         }
-        public static string GetName(eEP_ForceItemType type)
+        public static string GetUnitName(eEP_ForceItemType type)
         {
             string name;
             switch (type)
@@ -35,7 +35,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
                     name = "ULS";
                     break;
                 case eEP_ForceItemType.eSLS:
-                    name = "N";
+                    name = "SLS";
                     break;
             }
             return name;

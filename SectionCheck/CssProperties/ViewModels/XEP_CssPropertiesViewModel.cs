@@ -8,6 +8,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_CommonLibrary.Infrastructure;
 using System.Windows;
+using Microsoft.Practices.Unity;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -20,11 +21,10 @@ namespace XEP_CssProperties.ViewModels
             set { _quantityManager = value; }
         }
         XEP_ICssPropertiesService _cssPropertiesService = null;
-        public XEP_CssPropertiesViewModel(XEP_IQuantityManager quantityManager,
-            XEP_ICssPropertiesService cssPropertiesService)
+        public XEP_CssPropertiesViewModel(IUnityContainer container, XEP_IQuantityManager quantityManager)
         {
             _quantityManager = Exceptions.CheckNull(quantityManager);
-            _cssPropertiesService = Exceptions.CheckNull(cssPropertiesService);
+            _cssPropertiesService = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_ICssPropertiesService>(container, "CssPropertiesModule"));
             InternalForces = _cssPropertiesService.GetInternalForces();
         }
 
@@ -33,7 +33,7 @@ namespace XEP_CssProperties.ViewModels
         /// </summary>
         public const string InternalForcesPropertyName = "InternalForces";
 
-        private ObservableCollection<XEP_InternalForceItem> _internalForces = new ObservableCollection<XEP_InternalForceItem>();
+        private ObservableCollection<XEP_InternalForceItem> _internalForces = null;
 
         /// <summary>
         /// Sets and gets the InternalForces property.

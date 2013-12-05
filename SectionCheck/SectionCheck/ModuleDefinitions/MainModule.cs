@@ -25,7 +25,7 @@ namespace SectionCheck.ModuleDefinitions
         {
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());
-            _container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager()); // singleton
             XEP_IQuantityManager test = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
             test.SetScale(eEP_QuantityType.eForce, 1000.0); // just for test
             test.SetScale(eEP_QuantityType.eMoment, 1000.0); // just for test

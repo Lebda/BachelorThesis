@@ -53,5 +53,43 @@ namespace XEP_CommonLibrary.Utility
         {
             return (IsGreaterOrEqual(val,minRange,limit)&&IsLessOrEqual(val,maxRange,limit));
         }
+        static public T FindMaxValue<T>(List<T> list, Converter<T, double> projection)
+        {
+            if (list.Count == 0)
+            {
+                throw new InvalidOperationException("Empty list");
+            }
+            double maxValue = double.MinValue;
+            T maxObejct = list[0];
+            foreach (T item in list)
+            {
+                double value = projection(item);
+                if (value > maxValue)
+                {
+                    maxValue = value;
+                    maxObejct = item;
+                }
+            }
+            return maxObejct;
+        }
+        static public T FindMinValue<T>(List<T> list, Converter<T, double> projection)
+        {
+            if (list.Count == 0)
+            {
+                throw new InvalidOperationException("Empty list");
+            }
+            double minValue = double.MaxValue;
+            T minObject = list[0];
+            foreach (T item in list)
+            {
+                double value = projection(item);
+                if (value < minValue)
+                {
+                    minValue = value;
+                    minObject = item;
+                }
+            }
+            return minObject;
+        }
     }
 }

@@ -13,12 +13,12 @@ namespace XEP_SectionCheckCommon.Infrastructure
 
     public enum eEP_ForceType
     {
-        eN = 0, // has to be first,
-        eVy,
-        eVz,
-        eMx,
-        eMy,
-        eMz,
+        eN = 1, // has to be first,
+        eVy, // do not change
+        eVz, // do not change
+        eMx, // do not change
+        eMy, // do not change
+        eMz, // do not change
         eForceTypeCount // has to be last
     }
 
