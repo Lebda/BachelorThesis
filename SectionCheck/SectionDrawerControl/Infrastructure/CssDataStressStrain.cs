@@ -6,7 +6,7 @@ using System.Windows;
 using ResourceLibrary;
 using System.Windows.Media;
 using XEP_CommonLibrary.Infrastructure;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using XEP_CommonLibrary.Utility;
 using System.Windows.Shapes;
 using XEP_CommonLibrary.Geometry;
@@ -15,7 +15,7 @@ using XEP_CommonLibrary.Factories;
 using XEP_CommonLibrary.InterfaceObjects;
 using XEP_CommonLibrary.DrawingGraph;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     [Serializable]
     public class CssDataFibers : CssDataBase

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SectionDrawerControl.Interfaces;
-using SectionDrawerControl.Infrastructure;
+using XEP_SectionDrawer.Interfaces;
+using XEP_SectionDrawer.Infrastructure;
 
 namespace SectionDrawUI.Services
 {

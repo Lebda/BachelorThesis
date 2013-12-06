@@ -5,9 +5,9 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     public class VisualObjectData
     {

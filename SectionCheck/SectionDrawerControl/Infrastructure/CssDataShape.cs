@@ -7,11 +7,11 @@ using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using System.Windows;
 using System.Windows.Shapes;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     public class CssDataShape : CssDataBase
     {

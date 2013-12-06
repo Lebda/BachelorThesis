@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using ResourceLibrary;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     public class CssDataAxis : CssDataBase
     {

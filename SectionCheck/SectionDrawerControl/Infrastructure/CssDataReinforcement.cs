@@ -5,13 +5,13 @@ using System.Text;
 using System.Windows.Media;
 using XEP_CommonLibrary.Infrastructure;
 using System.Windows;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using XEP_CommonLibrary.Utility;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 using System.Collections.ObjectModel;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     [Serializable]
     public class CssDataOneReinf : ObservableObject, ICloneable

@@ -12,24 +12,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using XEP_CommonLibrary.Infrastructure;
-using SectionDrawerControl.Infrastructure;
+using XEP_SectionDrawer.Infrastructure;
 using ResourceLibrary;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using XEP_CommonLibrary.Utility;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.InterfaceObjects;
 
-namespace SectionDrawerControl
+namespace XEP_SectionDrawer
 {
-    public partial class XEP_SectionDrawer : UserControl
+    public partial class XEP_SectionDrawerUC : UserControl
     {
         private const double _axisOverLap = 0.2;
         private const double _axisArrowSize = 0.02;
-        public XEP_SectionDrawer()
+        public XEP_SectionDrawerUC()
         {
             InitializeComponent();
-            Exceptions.CheckNull<DrawingCanvas>(drawingSurface);
+            Exceptions.CheckNull<XEP_DrawingCanvas>(drawingSurface);
             for (int counter = 0; counter < (int)eUsedVisuals.eUsedVisualEnd; ++counter)
             {
                 VisualObjectData visual = new VisualObjectData(new DrawingVisual());
@@ -145,38 +145,38 @@ namespace SectionDrawerControl
 #region PROPERTY CALLBACKS
         private static void OnFibersReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawer)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStrainVisual);
-            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawer)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStressVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStrainVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssFibersReinforcement4Draw = value, eUsedVisuals.eCssFibersReinforcementStressVisual);
         }
         private static void OnFibersConcreteChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawer)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStrainVisual);
-            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawer)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStressVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStrainVisual);
+            OnChangedGeneric<CssDataFibers>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssFibersConcrete4Draw = value, eUsedVisuals.eCssFibersConcreteStressVisual);
         }
         private static void OnReinforcementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-           OnChangedGeneric<CssDataReinforcement>(sender, e, value => ((XEP_SectionDrawer)sender).CssReinforcement4Draw = value, eUsedVisuals.eCssReinforcementVisual);
+           OnChangedGeneric<CssDataReinforcement>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssReinforcement4Draw = value, eUsedVisuals.eCssReinforcementVisual);
         }
         private static void OnCompressPartChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataCompressPart>(sender, e, value => ((XEP_SectionDrawer)sender).CssCompressPart4Draw = value, eUsedVisuals.eCssCompressPartVisual);
+            OnChangedGeneric<CssDataCompressPart>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssCompressPart4Draw = value, eUsedVisuals.eCssCompressPartVisual);
         }
         private static void OnAxisVerticalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataAxis>(sender, e, value => ((XEP_SectionDrawer)sender).CssAxisVertical4Draw = value, eUsedVisuals.eCssAxisVerticalVisual);
+            OnChangedGeneric<CssDataAxis>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssAxisVertical4Draw = value, eUsedVisuals.eCssAxisVerticalVisual);
         }
         private static void OnAxisHorizontalChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataAxis>(sender, e, value => ((XEP_SectionDrawer)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisHorizontalVisual);
+            OnChangedGeneric<CssDataAxis>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssAxisHorizontal4Draw = value, eUsedVisuals.eCssAxisHorizontalVisual);
         }
         private static void OnShapeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            OnChangedGeneric<CssDataShape>(sender, e, value => ((XEP_SectionDrawer)sender).CssShape4Draw = value, eUsedVisuals.eCssShapeVisual);
+            OnChangedGeneric<CssDataShape>(sender, e, value => ((XEP_SectionDrawerUC)sender).CssShape4Draw = value, eUsedVisuals.eCssShapeVisual);
         }
         //
         private static void OnChangedGeneric<T>(DependencyObject sender, DependencyPropertyChangedEventArgs e, Action<T> targetCall, eUsedVisuals visualType)
         {
-            XEP_SectionDrawer drawignControl = (XEP_SectionDrawer)sender;
+            XEP_SectionDrawerUC drawignControl = (XEP_SectionDrawerUC)sender;
             Common.SetProperty<T>((T)e.NewValue, targetCall);
             drawignControl.OnChangedInternal(e, visualType);
             RenderAll(drawignControl);
@@ -190,9 +190,9 @@ namespace SectionDrawerControl
             Common.SetPropertyIfNotNull<PathGeometry>(newShape.Create(), value => visual.VisualShape.BaseGeo = value);
             visual.CallBack4ShapeChanged();
         }
-        private static void RenderAll(XEP_SectionDrawer drawignControl)
+        private static void RenderAll(XEP_SectionDrawerUC drawignControl)
         {
-            Exceptions.CheckNull(Exceptions.CheckNull<XEP_SectionDrawer>(drawignControl).drawingSurface);
+            Exceptions.CheckNull(Exceptions.CheckNull<XEP_SectionDrawerUC>(drawignControl).drawingSurface);
             Rect bounds = drawignControl.drawingSurface.RecalculateBounds();
             // recalculate scale
             MatrixTransform conventer = GetTransformMatrix(ref bounds, drawignControl.drawingSurface);
@@ -201,7 +201,7 @@ namespace SectionDrawerControl
             // render all
             drawignControl.drawingSurface.DrawAll();
         }
-        private static MatrixTransform GetTransformMatrix(ref Rect bounds, DrawingCanvas drawingSurface)
+        private static MatrixTransform GetTransformMatrix(ref Rect bounds, XEP_DrawingCanvas drawingSurface)
         {
             Matrix conventer = Exceptions.CheckNull<Matrix>(new Matrix());
             conventer.Translate(-bounds.TopLeft.X, -bounds.TopLeft.Y);
@@ -316,21 +316,21 @@ namespace SectionDrawerControl
 #endregion
 
 #region DEPENDENCY PROPERTY DEFINITIONS
-        static XEP_SectionDrawer()
+        static XEP_SectionDrawerUC()
         {
-            CssShape4DrawProperty = DependencyProperty.Register(CssShape4DrawPropertyName, typeof(CssDataShape), typeof(XEP_SectionDrawer),
+            CssShape4DrawProperty = DependencyProperty.Register(CssShape4DrawPropertyName, typeof(CssDataShape), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnShapeChanged)));
-            CssAxisHorizontalDrawProperty = DependencyProperty.Register(CssAxisHorizontal4DrawPropertyName, typeof(CssDataAxis), typeof(XEP_SectionDrawer),
+            CssAxisHorizontalDrawProperty = DependencyProperty.Register(CssAxisHorizontal4DrawPropertyName, typeof(CssDataAxis), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAxisHorizontalChanged)));
-            CssAxisVerticalDrawProperty = DependencyProperty.Register(CssAxisVertical4DrawPropertyName, typeof(CssDataAxis), typeof(XEP_SectionDrawer),
+            CssAxisVerticalDrawProperty = DependencyProperty.Register(CssAxisVertical4DrawPropertyName, typeof(CssDataAxis), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAxisVerticalChanged)));
-            CssCompressPart4DrawProperty = DependencyProperty.Register(CssCompressPart4DrawPropertyName, typeof(CssDataCompressPart), typeof(XEP_SectionDrawer),
+            CssCompressPart4DrawProperty = DependencyProperty.Register(CssCompressPart4DrawPropertyName, typeof(CssDataCompressPart), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCompressPartChanged)));
-            CssReinforcement4DrawProperty = DependencyProperty.Register(CssReinforcement4DrawPropertyName, typeof(CssDataReinforcement), typeof(XEP_SectionDrawer),
+            CssReinforcement4DrawProperty = DependencyProperty.Register(CssReinforcement4DrawPropertyName, typeof(CssDataReinforcement), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnReinforcementChanged)));
-            CssFibersConcrete4DrawProperty = DependencyProperty.Register(CssFibersConcrete4DrawPropertyName, typeof(CssDataFibers), typeof(XEP_SectionDrawer),
+            CssFibersConcrete4DrawProperty = DependencyProperty.Register(CssFibersConcrete4DrawPropertyName, typeof(CssDataFibers), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnFibersConcreteChanged)));
-            CssFibersReinforcement4DrawProperty = DependencyProperty.Register(CssFibersReinforcement4DrawPropertyName, typeof(CssDataFibers), typeof(XEP_SectionDrawer),
+            CssFibersReinforcement4DrawProperty = DependencyProperty.Register(CssFibersReinforcement4DrawPropertyName, typeof(CssDataFibers), typeof(XEP_SectionDrawerUC),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnFibersReinforcementChanged)));
         }
         private static string CssFibersReinforcement4DrawPropertyName = "CssFibersReinforcement4Draw";

@@ -6,7 +6,7 @@ using XEP_CommonLibrary.Infrastructure;
 using System.Windows.Media;
 using XEP_CommonLibrary.Utility;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     public abstract class CssDataBase : ObservableObject, IPathGeometryCreator, IVisualObejctDrawingData
     {

@@ -49,7 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawingCanvas.cs" />
+    <Compile Include="XEP_DrawingCanvas.cs" />
     <Compile Include="Infrastructure\CssDataAxis.cs" />
     <Compile Include="Infrastructure\CssDataBase.cs" />
     <Compile Include="Infrastructure\CssDataCompressPart.cs" />
@@ -82,7 +82,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

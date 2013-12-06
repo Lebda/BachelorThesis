@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using System.Windows;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 
-namespace SectionDrawerControl.Infrastructure
+namespace XEP_SectionDrawer.Infrastructure
 {
     public class CssDataCompressPart : CssDataBase
     {

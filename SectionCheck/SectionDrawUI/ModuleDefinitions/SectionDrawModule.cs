@@ -10,7 +10,7 @@ using Microsoft.Practices.Prism.Modularity;
 using SectionCheckInterfaces.Interfaces;
 using SectionDrawUI.Services;
 using SectionDrawUI.Models;
-using SectionDrawerControl.Interfaces;
+using XEP_SectionDrawer.Interfaces;
 
 namespace SectionDrawUI.ModuleDefinitions
 {

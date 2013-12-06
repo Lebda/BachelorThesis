@@ -8,14 +8,14 @@ using System.Windows;
 using System.Windows.Media;
 using SectionCheckInterfaces.Interfaces;
 using XEP_CommonLibrary.Utility;
-using SectionDrawerControl.Infrastructure;
+using XEP_SectionDrawer.Infrastructure;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Factories;
 using System.Windows.Input;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.DrawingGraph;
-using SectionDrawerControl.Interfaces;
+using XEP_SectionDrawer.Interfaces;
 
 namespace SectionDrawUI.ViewModels
 {

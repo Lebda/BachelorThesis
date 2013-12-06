@@ -12,7 +12,7 @@
              xmlns:core="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:XEP_CssProperties.Infrastructure"
              xmlns:localViews="clr-namespace:XEP_CssProperties.Views"
-             xmlns:lib="clr-namespace:SectionDrawerControl;assembly=XEP_SectionDrawer"             
+             xmlns:lib="clr-namespace:XEP_SectionDrawer;assembly=XEP_SectionDrawer"             
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
       <telerik:RadExpander IsExpanded="True" VerticalContentAlignment="Top">
@@ -29,7 +29,7 @@
                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
                <Viewbox Grid.Row="0" Grid.Column="0">
-                  <lib:XEP_SectionDrawer x:Name="drawingScene" Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3" />
+                  <lib:XEP_SectionDrawerUC x:Name="drawingScene" Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3" />
                </Viewbox>
             </Grid>
          </telerik:RadExpander.Content>

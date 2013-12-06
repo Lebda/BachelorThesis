@@ -5,15 +5,15 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using SectionDrawerControl.Infrastructure;
-using SectionDrawerControl.Utility;
+using XEP_SectionDrawer.Utility;
 using XEP_CommonLibrary.Utility;
+using XEP_SectionDrawer.Infrastructure;
 
-namespace SectionDrawerControl
+namespace XEP_SectionDrawer
 {
-    public class DrawingCanvas : Canvas
+    public class XEP_DrawingCanvas : Canvas
     {
-        public DrawingCanvas()
+        public XEP_DrawingCanvas()
         {
             _visuals = Exceptions.CheckNull(new List<VisualObjectData>());
         }

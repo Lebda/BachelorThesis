@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:core="clr-namespace:System;assembly=mscorlib"
-             xmlns:lib="clr-namespace:SectionDrawerControl;assembly=XEP_SectionDrawer"
+             xmlns:lib="clr-namespace:XEP_SectionDrawer;assembly=XEP_SectionDrawer"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
              xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"             
@@ -32,7 +32,7 @@
       
       <!--Second Row drawing-->
       <Viewbox Grid.Row="1">
-         <lib:XEP_SectionDrawer x:Name="drawingScene" Width="600" Height="600" SnapsToDevicePixels="True" Margin="2" Padding="3"
+         <lib:XEP_SectionDrawerUC x:Name="drawingScene" Width="600" Height="600" SnapsToDevicePixels="True" Margin="2" Padding="3"
                          CssShape4Draw="{Binding Path=CssShape}"
                          CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal, Mode=TwoWay}"
                          CssAxisVertical4Draw="{Binding Path=CssAxisVertical, Mode=TwoWay}"
@@ -41,7 +41,7 @@
                          CssFibersConcrete4Draw ="{Binding Path=FibersConcrete, Mode=TwoWay}"
                          CssFibersReinforcement4Draw ="{Binding Path=FibersReinforcement, Mode=TwoWay}"
                          >
-         </lib:XEP_SectionDrawer>
+         </lib:XEP_SectionDrawerUC>
       </Viewbox>
       <!--Third Row text-->
       <Button Grid.Row ="2" Content="Button" Height="23" Name="button1" Width="75" Click="button1_Click" />

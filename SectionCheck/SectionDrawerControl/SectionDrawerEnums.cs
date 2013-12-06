@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SectionDrawerControl
+namespace XEP_SectionDrawer
 {
     public enum eUsedVisuals
     {

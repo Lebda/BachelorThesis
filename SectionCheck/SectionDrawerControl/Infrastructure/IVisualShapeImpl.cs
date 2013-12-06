@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows;
-using SectionDrawerControl.Utility;
-namespace SectionDrawerControl.Infrastructure
+using XEP_SectionDrawer.Utility;
+
+namespace XEP_SectionDrawer.Infrastructure
 {
     public class VisualShapes : IVisualShapes
     {
