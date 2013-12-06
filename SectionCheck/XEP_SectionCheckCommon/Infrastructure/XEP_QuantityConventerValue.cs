@@ -9,6 +9,40 @@ using XEP_CommonLibrary.Utility;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    public class XEP_QuantityConventerType : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            eEP_ForceItemType? type = value as eEP_ForceItemType?;
+            Exceptions.CheckNull(type);
+            string result;
+            switch (type)
+            {
+                case eEP_ForceItemType.eULS:
+                default:
+                    result = "ULS";
+                    break;
+                case eEP_ForceItemType.eSLS:
+                    result = "SLS";
+                    break;
+            }
+            return result;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string typeValue = value.ToString();
+            if (typeValue == "ULS")
+            {
+                return eEP_ForceItemType.eULS;
+            }
+            else
+            {
+                return eEP_ForceItemType.eSLS;
+            }
+        }
+    }
+
     public class XEP_QuantityConventerValue4Item : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

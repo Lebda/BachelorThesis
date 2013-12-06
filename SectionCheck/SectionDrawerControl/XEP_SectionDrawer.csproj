@@ -8,8 +8,8 @@
     <ProjectGuid>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SectionDrawerControl</RootNamespace>
-    <AssemblyName>SectionDrawerControl</AssemblyName>
+    <RootNamespace>XEP_SectionDrawer</RootNamespace>
+    <AssemblyName>XEP_SectionDrawer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -73,8 +73,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SectionDrawer.xaml.cs">
-      <DependentUpon>SectionDrawer.xaml</DependentUpon>
+    <Compile Include="XEP_SectionDrawer.xaml.cs">
+      <DependentUpon>XEP_SectionDrawer.xaml</DependentUpon>
     </Compile>
     <Compile Include="SectionDrawerEnums.cs" />
     <Compile Include="Utility\SectionDrawerConventer.cs" />
@@ -90,7 +90,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SectionDrawer.xaml">
+    <Page Include="XEP_SectionDrawer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

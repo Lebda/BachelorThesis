@@ -10,6 +10,7 @@ namespace XEP_SectionCheckCommon.Interfaces
     public interface XEP_ICssPropertiesService
     {
         ObservableCollection<XEP_InternalForceItem> GetInternalForces();
+        XEP_InternalForceItem CreateForce();
         XEP_IQuantityManager Manager { get; }
     }
 }

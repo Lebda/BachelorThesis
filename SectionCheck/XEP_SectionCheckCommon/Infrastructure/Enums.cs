@@ -5,10 +5,11 @@ using System.Text;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    [Flags] //Each element should contain name and a value (which should be degree of 2 – 1, 2, 4, 8, 16, etc.). 
     public enum eEP_ForceItemType
-    {
-        eULS,
-        eSLS,
+    { //Do not define values with 0 and -1 values if you do not mean to use them as select no flag and select all flags. 
+        eULS = 1,
+        eSLS = 2,
     }
 
     public enum eEP_ForceType

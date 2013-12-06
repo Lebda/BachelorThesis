@@ -79,7 +79,6 @@
     </Page>
     <Compile Include="Models\SectionShapeModel.cs" />
     <Compile Include="Services\CssDataService.cs" />
-    <Compile Include="Services\CssDataServiceMock.cs" />
     <Compile Include="ModuleDefinitions\SectionDrawModule.cs" />
     <Compile Include="ViewModels\DrawSectionViewModel.cs" />
     <Compile Include="Views\DrawSectionView.xaml.cs">
@@ -129,9 +128,9 @@
       <Project>{AED4B374-6537-4AF8-A3FD-3E2DA8AFA51D}</Project>
       <Name>SectionCheckInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SectionDrawerControl\SectionDrawerControl.csproj">
+    <ProjectReference Include="..\SectionDrawerControl\XEP_SectionDrawer.csproj">
       <Project>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</Project>
-      <Name>SectionDrawerControl</Name>
+      <Name>XEP_SectionDrawer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

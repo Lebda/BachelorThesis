@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionCheckInterfaces", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionDrawUI", "SectionDrawUI\SectionDrawUI.csproj", "{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionDrawerControl", "SectionDrawerControl\SectionDrawerControl.csproj", "{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionDrawer", "SectionDrawerControl\XEP_SectionDrawer.csproj", "{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Line2D_UT", "Line2D_UT\Line2D_UT.csproj", "{9DE2ECA8-142A-4575-A220-B77ED441755A}"
 EndProject

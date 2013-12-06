@@ -21,6 +21,14 @@ namespace XEP_CssProperties.Services
         {
             _managerHolder = new XEP_QuantityManagerHolderImpl(manager);
         }
+        public XEP_InternalForceItem CreateForce()
+        {
+            XEP_InternalForceItem item = new XEP_InternalForceItem(Manager);
+            item.Type = eEP_ForceItemType.eULS;
+            item.UsedInCheck = false;
+            item.Name = "New force";
+            return item;
+        }
         public ObservableCollection<XEP_InternalForceItem> GetInternalForces()
         {
             ObservableCollection<XEP_InternalForceItem> collection = new ObservableCollection<XEP_InternalForceItem>();

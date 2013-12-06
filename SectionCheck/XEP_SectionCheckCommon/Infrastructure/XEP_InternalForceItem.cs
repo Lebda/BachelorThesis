@@ -23,6 +23,16 @@ namespace XEP_SectionCheckCommon.Infrastructure
             _My = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, MyPropertyName);
             _Mz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, MzPropertyName);
         }
+        public XEP_InternalForceItem(XEP_InternalForceItem other) : this(other.Manager)
+        {
+            _N.Value = other.N.Value;
+            _Vy.Value = other.Vy.Value;
+            _Vz.Value = other.Vz.Value;
+            _Mx.Value = other.Mx.Value;
+            _My.Value = other.My.Value;
+            _Mz.Value = other.Mz.Value;
+            _name = other.Name;
+        }
         XEP_QuantityManagerHolderImpl _managerHolder = null;
         #region XEP_IQuantityManagerHolder Members
 
@@ -247,7 +257,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
             {
                 return _type;
             }
-
             set
             {
                 if (_type == value)
@@ -256,6 +265,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 }
                 _type = value;
                 RaisePropertyChanged(TypePropertyName);
+                RaisePropertyChanged(ShortExplanationPropertyName);
             }
         }
 

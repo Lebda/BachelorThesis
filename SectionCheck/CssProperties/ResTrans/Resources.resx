@@ -117,8 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ADD" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="COPY" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CROSS_SECTION" xml:space="preserve">
+    <value>Cross Section</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="INTERNAL_FORCES" xml:space="preserve">
     <value>Internal Forces</value>
     <comment>Css properties internal force header</comment>
+  </data>
+  <data name="PASTE" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>Type</value>
+    <comment>general name type</comment>
   </data>
 </root>
