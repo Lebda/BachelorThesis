@@ -8,7 +8,7 @@
              xmlns:res="clr-namespace:ResourceLibrary;assembly=ResourceLibrary"             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:infrastructure="clr-namespace:SectionCheckInterfaces.Infrastucture;assembly=SectionCheckInterfaces"
+             xmlns:infrastructure="clr-namespace:XEP_SectionCheckCommon.Infrastucture;assembly=XEP_SectionCheckCommon"
              xmlns:prism="http://www.codeplex.com/prism">
    <UserControl.Resources>
        <ResourceDictionary>
@@ -24,10 +24,10 @@
          <ColumnDefinition Width="*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
          <ContentControl Grid.Column ="0"
-            prism:RegionManager.RegionName="{x:Static infrastructure:Constants.LeftContentRegionName}" />
+            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.LeftContentRegionName}" />
       <ContentControl Grid.Column ="1"
-            prism:RegionManager.RegionName="{x:Static infrastructure:Constants.MiddleContentRegionName}" />
+            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
       <ContentControl Grid.Column ="2"
-            prism:RegionManager.RegionName="{x:Static infrastructure:Constants.CssPropertiesRegionName}" />
+            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.CssPropertiesRegionName}" />
    </Grid>
 </UserControl>

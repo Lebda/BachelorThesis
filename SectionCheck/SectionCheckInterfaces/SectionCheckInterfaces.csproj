@@ -42,9 +42,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\Constants.cs" />
-    <Compile Include="Interfaces\ISectionShape.cs" />
-    <Compile Include="Interfaces\ISkinServis.cs" />
+    <Compile Include="Interfaces\XEP_ISectionShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

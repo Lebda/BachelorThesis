@@ -121,7 +121,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\XEP_CssPropertiesService.cs" />
     <Compile Include="ViewModels\XEP_CssPropertiesViewModel.cs" />
     <Compile Include="Views\XEP_CssPropertiesView.xaml.cs">
       <DependentUpon>XEP_CssPropertiesView.xaml</DependentUpon>
@@ -181,10 +180,6 @@
       <Project>{08F6A7FD-12C9-44BC-B977-23007717EC52}</Project>
       <Name>ResourceLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SectionCheckInterfaces\SectionCheckInterfaces.csproj">
-      <Project>{AED4B374-6537-4AF8-A3FD-3E2DA8AFA51D}</Project>
-      <Name>SectionCheckInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SectionDrawerControl\XEP_SectionDrawer.csproj">
       <Project>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</Project>
       <Name>XEP_SectionDrawer</Name>
@@ -194,7 +189,9 @@
       <Name>XEP_SectionCheckCommon</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)XEP_CssProperties.dll" "$(SolutionDir)SectionCheck\bin\$(ConfigurationName)\DirectoryModules\" /Y</PostBuildEvent>

@@ -6,7 +6,7 @@ using XEP_CommonLibrary.Infrastructure;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Media;
-using SectionCheckInterfaces.Interfaces;
+using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionDrawer.Infrastructure;
 using ResourceLibrary;

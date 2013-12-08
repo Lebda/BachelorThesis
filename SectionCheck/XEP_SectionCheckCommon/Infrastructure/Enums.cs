@@ -30,4 +30,11 @@ namespace XEP_SectionCheckCommon.Infrastructure
         eMoment,
         eQuantityTypeCount // has to be last
     }
+
+    public enum eDataCacheServiceOperation
+    {
+        eFailed = 0,
+        eSuccess,
+        eNotFound,
+    }
 }

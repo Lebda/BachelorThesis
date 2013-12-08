@@ -11,40 +11,38 @@ using XEP_SectionCheckCommon.Implementations;
 namespace XEP_SectionCheckCommon.Infrastructure
 {
     [Serializable]
-    public class XEP_InternalForceItem : ObservableObject, XEP_IQuantityManagerHolder
+    public class XEP_InternalForceItem : ObservableObject, XEP_IQuantityManagerHolder, XEP_IInternalForceItem
     {
         public XEP_InternalForceItem(XEP_IQuantityManager manager)
         {
-            _managerHolder = new XEP_QuantityManagerHolderImpl(manager);
+            _manager = manager;
             _N = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
             _Vy = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
             _Vz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
-            _Mx = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, MxPropertyName);
-            _My = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, MyPropertyName);
-            _Mz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, MzPropertyName);
+            _Mx = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
+            _My = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
+            _Mz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
+            _name = "Force";
         }
-        public XEP_InternalForceItem(XEP_InternalForceItem other) : this(other.Manager)
-        {
-            _N.Value = other.N.Value;
-            _Vy.Value = other.Vy.Value;
-            _Vz.Value = other.Vz.Value;
-            _Mx.Value = other.Mx.Value;
-            _My.Value = other.My.Value;
-            _Mz.Value = other.Mz.Value;
-            _name = other.Name;
-        }
-        XEP_QuantityManagerHolderImpl _managerHolder = null;
-        #region XEP_IQuantityManagerHolder Members
-
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
-            get { return _managerHolder.Manager; }
-            set { _managerHolder.Manager = value; }
+            get { return _manager; }
+            set { _manager = value; }
         }
-
-        #endregion
-
-        #region Methods
+        #region METHODS
+        public XEP_InternalForceItem CopyInstance()
+        {
+            XEP_InternalForceItem newItem = new XEP_InternalForceItem(_manager);
+            newItem._N.Value = _N.Value;
+            newItem._Vy.Value = _N.Value;
+            newItem._Vz.Value = _N.Value;
+            newItem._Mx.Value = _N.Value;
+            newItem._My.Value = _N.Value;
+            newItem._Mz.Value = _N.Value;
+            newItem.Name = _name;
+            return newItem;
+        }
         public XEP_IQuantity GetItem(eEP_ForceType type)
         {
             switch (type)
@@ -93,22 +91,22 @@ namespace XEP_SectionCheckCommon.Infrastructure
             builder.Append(";");
             builder.Append(" ");
             //
-            builder.Append(_managerHolder.Manager.GetValue(N));
+            builder.Append(_manager.GetValue(N));
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_managerHolder.Manager.GetValue(Vy));
+            builder.Append(_manager.GetValue(Vy));
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_managerHolder.Manager.GetValue(Vz));
+            builder.Append(_manager.GetValue(Vz));
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_managerHolder.Manager.GetValue(Mx));
+            builder.Append(_manager.GetValue(Mx));
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_managerHolder.Manager.GetValue(My));
+            builder.Append(_manager.GetValue(My));
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_managerHolder.Manager.GetValue(Mz));
+            builder.Append(_manager.GetValue(Mz));
             return builder.ToString();
         }
         #endregion

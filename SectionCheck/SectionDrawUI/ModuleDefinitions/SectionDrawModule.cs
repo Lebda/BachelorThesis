@@ -5,12 +5,12 @@ using System.Text;
 using MyPrism.Infrastructure;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
-using SectionCheckInterfaces.Infrastucture;
 using Microsoft.Practices.Prism.Modularity;
-using SectionCheckInterfaces.Interfaces;
+using XEP_SectionCheckCommon.Interfaces;
 using SectionDrawUI.Services;
 using SectionDrawUI.Models;
 using XEP_SectionDrawer.Interfaces;
+using XEP_SectionCheckCommon.Infrastucture;
 
 namespace SectionDrawUI.ModuleDefinitions
 {
@@ -28,7 +28,7 @@ namespace SectionDrawUI.ModuleDefinitions
             _container.RegisterType<ICssDataService, CssDataService>();
 
             // Regions
-           _regionManager.RegisterViewWithRegion(Constants.MiddleContentRegionName, () => _container.Resolve<DrawSectionView>());
+           _regionManager.RegisterViewWithRegion(XEP_Constants.MiddleContentRegionName, () => _container.Resolve<DrawSectionView>());
         }
     }
 }

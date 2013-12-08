@@ -15,15 +15,43 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
       <Grid.Resources>
+         <Style x:Key="TextBoxAsLabelStyle" TargetType="TextBox">
+            <Style.Setters>
+               <Setter Property="Background" Value="Transparent" />
+               <Setter Property="BorderBrush" Value="Transparent" />
+               <Setter Property="IsReadOnly" Value="True" />
+            </Style.Setters>
+            <Style.Triggers>
+               <Trigger Property="Control.IsFocused" Value="True">
+                  <Setter Property="Background" Value="Transparent" />
+               </Trigger>
+            </Style.Triggers>
+         </Style>
+         <Style x:Key="TextBox4EditAsLabelStyle" TargetType="TextBox">
+            <Style.Setters>
+               <Setter Property="Background" Value="Transparent" />
+               <Setter Property="BorderBrush" Value="Transparent" />
+               <Setter Property="IsReadOnly" Value="False" />
+               <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style.Setters>
+            <Style.Triggers>
+               <Trigger Property="Control.IsMouseOver" Value="True">
+                  <Setter Property="Background" Value="Transparent" />
+               </Trigger>
+               <Trigger Property="Control.IsFocused" Value="True">
+                  <Setter Property="Background" Value="Transparent" />
+               </Trigger>
+            </Style.Triggers>
+         </Style>
          <DataTemplate x:Key="ForceInCheckTemplate">
             <StackPanel Orientation="Horizontal">
-               <TextBox HorizontalAlignment="Stretch" Text="{Binding Name, Mode=TwoWay}"/>
+               <TextBox Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource TextBox4EditAsLabelStyle}" />
                <Image Stretch="None" Source="/ResourceLibrary;Component/Images/green_flag_16.png"/>
             </StackPanel>
          </DataTemplate>
          <DataTemplate x:Key="ForceNotInCheckTemplate">
             <StackPanel Orientation="Horizontal">
-               <TextBox HorizontalAlignment="Stretch" Text="{Binding Name, Mode=TwoWay}"/>
+               <TextBox Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource TextBox4EditAsLabelStyle}" />
             </StackPanel>
          </DataTemplate>
          <local:XEP_InternalForceConventer x:Key="converter" />
@@ -80,14 +108,13 @@
             </Style.Setters>
          </Style>
       </Grid.Resources>
-      <StackPanel>
          <telerik:RadExpander IsExpanded="True" VerticalContentAlignment="Top">
             <telerik:RadExpander.Header>
                <TextBlock Text="{x:Static r:Resources.INTERNAL_FORCES}"/>
             </telerik:RadExpander.Header>
             <telerik:RadExpander.Content>
                <StackPanel>
-                  <telerik:RadGridView ItemsSource="{Binding InternalForces, Mode=TwoWay}"
+                  <telerik:RadGridView ItemsSource="{Binding InternalForces, Mode=TwoWay}" GridLinesVisibility="Horizontal"
                                        AutoGenerateColumns="False" SelectedItem="{Binding Path=ActiveForce, Mode=TwoWay}"
                                        ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
                                        >
@@ -107,17 +134,17 @@
                                  <RowDefinition Height="*" />
                                  <RowDefinition Height="*" />
                               </Grid.RowDefinitions>
-                              <TextBox Grid.Column="0" Grid.Row="0" Text="{x:Static r:Resources.TYPE}" IsReadOnly="True" />
-                              <telerik:RadComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Type, Converter={StaticResource converterForceType}, Mode=TwoWay}"  IsEditable="False">
+                              <TextBox Grid.Column="0" Grid.Row="0" Text="{x:Static r:Resources.TYPE}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                              <telerik:RadComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Type, Converter={StaticResource converterForceType}, Mode=TwoWay}" IsEditable="False">
                                  <telerik:RadComboBoxItem Content="ULS" />
                                  <telerik:RadComboBoxItem Content="SLS" />
                               </telerik:RadComboBox>
-                              <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=1, Mode=OneWay}" IsReadOnly="True" />
-                              <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=2, Mode=OneWay}" IsReadOnly="True" />
-                              <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=3, Mode=OneWay}" IsReadOnly="True" />
-                              <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=4, Mode=OneWay}" IsReadOnly="True" />
-                              <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=5, Mode=OneWay}" IsReadOnly="True" />
-                              <TextBox Grid.Column="0" Grid.Row="6" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=6, Mode=OneWay}" IsReadOnly="True" />
+                           <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=1, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=2, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=3, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=4, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=5, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="6" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=6, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}" />
                               <telerik:RadDataBar Grid.Column="1" Grid.Row="1" Value="{Binding Path=N, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}"/>
                               <telerik:RadDataBar Grid.Column="1" Grid.Row="2" Value="{Binding Path=Vy, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
                               <telerik:RadDataBar Grid.Column="1" Grid.Row="3" Value="{Binding Path=Vz, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{StaticResource BarDataBarEditorStyle}" />
@@ -141,7 +168,7 @@
                         <telerik:GridViewDataColumn Width="1.5*" Header="Value" UniqueName="Value">
                            <telerik:GridViewDataColumn.CellTemplate>
                               <DataTemplate >
-                                 <TextBox Text="{Binding ShortExplanation, Mode=OneWay}" IsReadOnly="True" />
+                                 <TextBox Text ="{Binding ShortExplanation, Mode=OneWay}" Style="{StaticResource TextBoxAsLabelStyle}"/>
                               </DataTemplate>
                            </telerik:GridViewDataColumn.CellTemplate>
                         </telerik:GridViewDataColumn>
@@ -155,6 +182,5 @@
                </StackPanel>
             </telerik:RadExpander.Content>
          </telerik:RadExpander>
-      </StackPanel>
    </Grid>
 </UserControl>

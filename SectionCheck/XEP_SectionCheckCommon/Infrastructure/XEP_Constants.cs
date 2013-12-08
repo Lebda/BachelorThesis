@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SectionCheckInterfaces.Infrastucture
+namespace XEP_SectionCheckCommon.Infrastucture
 {
-    public class Constants
+    public class XEP_Constants
     {
         public const String MainContentRegionName = "MainContentRegionName";
         public const String MiddleContentRegionName = "MiddleContentRegionName";

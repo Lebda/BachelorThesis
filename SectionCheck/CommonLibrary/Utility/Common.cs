@@ -55,5 +55,15 @@ namespace XEP_CommonLibrary.Utility
             }
             SetProperty<T>(data4Set, propertySetCall);
         }
+        public static Tval GetDataDictionary<Tkey, Tval>(Tkey id, Dictionary<Tkey, Tval> dictionary)
+            where Tval : class
+        {
+            Tval retVal = null;
+            if (dictionary.ContainsKey(id))
+            {
+                retVal = dictionary[id];
+            }
+            return Exceptions.CheckNull(retVal);
+        }
     }
 }

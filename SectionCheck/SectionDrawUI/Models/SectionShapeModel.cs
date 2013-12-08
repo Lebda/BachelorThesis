@@ -5,11 +5,11 @@ using System.Text;
 using System.Windows.Media;
 using XEP_CommonLibrary.Utility;
 using System.Windows;
-using SectionCheckInterfaces.Interfaces;
+using XEP_SectionCheckCommon.Interfaces;
 
 namespace SectionDrawUI.Models
 {
-    public class SectionShapeModel : ISectionShape
+    public class SectionShapeModel : XEP_ISectionShape
     {
         public PointCollection CssShapeOuter { get; set; }
         public PointCollection CssShapeInner { get; set; }

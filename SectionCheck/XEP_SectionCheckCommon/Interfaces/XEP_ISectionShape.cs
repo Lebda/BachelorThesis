@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 
-namespace SectionCheckInterfaces.Interfaces
+namespace XEP_SectionCheckCommon.Interfaces
 {
-    public interface ISectionShape
+    public interface XEP_ISectionShape
     {
         void Prepare();
         PointCollection CssShapeOuter { get; set; }

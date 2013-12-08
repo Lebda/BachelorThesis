@@ -10,23 +10,21 @@ using XEP_CommonLibrary.Infrastructure;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : ObservableObject
     {
-        XEP_IQuantityManager _quantityManager = null;
-        public XEP_IQuantityManager QuantityManager
+        IUnityContainer _container = null;
+        XEP_IDataCache _dataCache = null; // singleton
+        XEP_IOneSectionData _activeSectionData = null;
+        public XEP_CssPropertiesViewModel(IUnityContainer container)
         {
-            get { return _quantityManager; }
-            set { _quantityManager = value; }
-        }
-        XEP_ICssPropertiesService _cssPropertiesService = null;
-        public XEP_CssPropertiesViewModel(IUnityContainer container, XEP_IQuantityManager quantityManager)
-        {
-            _quantityManager = Exceptions.CheckNull(quantityManager);
-            _cssPropertiesService = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_ICssPropertiesService>(container, "CssPropertiesModule"));
-            InternalForces = _cssPropertiesService.GetInternalForces();
+            _container = Exceptions.CheckNull(container);
+            _dataCache = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
+            _activeSectionData = (_dataCache.GetMemberData().Values.First()).GetSectionsData().Values.First();// todo_jleb change
+            _internalForces = _activeSectionData.InternalForces;
         }
 
         #region Commands
@@ -37,7 +35,7 @@ namespace XEP_CssProperties.ViewModels
         }
         void NewExecute()
         {
-            XEP_InternalForceItem newItem = _cssPropertiesService.CreateForce();
+            XEP_IInternalForceItem newItem = UnityContainerExtensions.Resolve<XEP_IInternalForceItem>(_container);
             _internalForces.Add(newItem);
             ResetForm();
         }
@@ -81,7 +79,7 @@ namespace XEP_CssProperties.ViewModels
             }
             try
             {
-                XEP_InternalForceItem newItem = new XEP_InternalForceItem(this.ActiveForce);
+                XEP_IInternalForceItem newItem = this.ActiveForce.CopyInstance();
                 newItem.Name += "-copy";
                 _internalForces.Add(newItem);
                 ResetForm();
@@ -102,18 +100,19 @@ namespace XEP_CssProperties.ViewModels
             this.ActiveForce = null;
         }
         #endregion
+
         /// <summary>
         /// The <see cref="ActiveForce" /> property's name.
         /// </summary>
         public const string ActiveForcePropertyName = "ActiveForce";
 
-        private XEP_InternalForceItem _activeForce = null;
+        private XEP_IInternalForceItem _activeForce = null;
 
         /// <summary>
         /// Sets and gets the ActiveForce property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public XEP_InternalForceItem ActiveForce
+        public XEP_IInternalForceItem ActiveForce
         {
             get
             {
@@ -135,13 +134,13 @@ namespace XEP_CssProperties.ViewModels
         /// </summary>
         public const string InternalForcesPropertyName = "InternalForces";
 
-        private ObservableCollection<XEP_InternalForceItem> _internalForces = null;
+        private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
 
         /// <summary>
         /// Sets and gets the InternalForces property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<XEP_InternalForceItem> InternalForces
+        public ObservableCollection<XEP_IInternalForceItem> InternalForces
         {
             get
             {
