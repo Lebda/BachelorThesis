@@ -12,6 +12,7 @@ namespace XEP_SectionCheckCommon.Infrastucture
         public const String LeftContentRegionName = "LeftContentRegionName";
         public const String RightContentRegionName = "RightContentRegionName";
         public const String CssPropertiesRegionName = "CssPropertiesRegionName";
+        public const String XEP_SectionCheckNs = "XEP_SectionCheck";
 
     }
 }

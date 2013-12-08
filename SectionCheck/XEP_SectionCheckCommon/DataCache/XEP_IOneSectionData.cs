@@ -9,10 +9,10 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IOneSectionData
+    public interface XEP_IOneSectionData : XEP_IXmlWorker
     {
         Guid Id { get; }
-        string SectionName { get; set; }
+        string Name { get; set; }
         ObservableCollection<XEP_IInternalForceItem> InternalForces { get; set; }
     }
 }

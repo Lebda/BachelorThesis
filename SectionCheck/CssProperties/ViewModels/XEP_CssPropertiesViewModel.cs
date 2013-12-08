@@ -23,8 +23,17 @@ namespace XEP_CssProperties.ViewModels
         {
             _container = Exceptions.CheckNull(container);
             _dataCache = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
-            _activeSectionData = (_dataCache.GetMemberData().Values.First()).GetSectionsData().Values.First();// todo_jleb change
-            _internalForces = _activeSectionData.InternalForces;
+            Dictionary<Guid, XEP_IOneMemberData> memberData = _dataCache.Structure.GetMemberData();
+            if (memberData != null && memberData.Values.Count > 0)
+            {
+                Dictionary<Guid, XEP_IOneSectionData> sectionsData = (memberData.Values.First()).GetSectionsData();
+                if (sectionsData.Count > 0)
+                {
+                    _activeSectionData = sectionsData.First().Value;
+                    _internalForces = _activeSectionData.InternalForces;
+                }
+            }
+
         }
 
         #region Commands

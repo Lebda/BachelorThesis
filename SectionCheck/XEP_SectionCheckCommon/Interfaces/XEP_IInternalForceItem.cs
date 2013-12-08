@@ -7,7 +7,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Interfaces
 {
-    public interface XEP_IInternalForceItem
+    public interface XEP_IInternalForceItem : XEP_IXmlWorker
     {
         XEP_InternalForceItem CopyInstance();
         XEP_IQuantity GetItem(eEP_ForceType type);

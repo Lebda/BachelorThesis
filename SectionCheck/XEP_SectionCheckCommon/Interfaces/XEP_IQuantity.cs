@@ -7,7 +7,7 @@ using XEP_CommonLibrary.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Interfaces
 {
-    public interface XEP_IQuantity : XEP_IQuantityManagerHolder
+    public interface XEP_IQuantity : XEP_IQuantityManagerHolder, XEP_IXmlWorker
     {
         double Value { get; set;}
         eEP_QuantityType QuantityType { get; set;}

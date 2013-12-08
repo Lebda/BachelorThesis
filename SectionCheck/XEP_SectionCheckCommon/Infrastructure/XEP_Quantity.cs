@@ -6,14 +6,40 @@ using System.ComponentModel.DataAnnotations;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.Implementations;
+using System.Xml.Linq;
+using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    class XEP_QuantityXml : XEP_XmlWorkerImpl
+    {
+        XEP_Quantity _data = null;
+        public XEP_QuantityXml(XEP_Quantity data)
+        {
+            _data = data;
+        }
+        #region XEP_XmlWorkerImpl Members
+        protected override string GetXmlElementName()
+        {
+            return "XEP_Quantity";
+        }
+        protected override void AddAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
+            xmlElement.Add(new XAttribute(ns + "QuantityType", (int)_data.QuantityType));
+            xmlElement.Add(new XAttribute(ns + "Value", _data.Value));
+        }
+        #endregion
+    }
+
     [Serializable]
     public class XEP_Quantity : ObservableObject, XEP_IQuantity
     {
+        XEP_XmlWorkerImpl _xmlWorker = null;
         public XEP_Quantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name)
         {
+            _xmlWorker = new XEP_QuantityXml(this);
             _managerHolder = new XEP_QuantityManagerHolderImpl(manager);
             _value = value;
             _quantityType = type;
@@ -143,6 +169,17 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 RaisePropertyChanged(NamePropertyName);
             }
         }
+
+        #region XEP_IXmlWorker Members
+        XElement XEP_IXmlWorker.GetXmlElement()
+        {
+            return _xmlWorker.GetXmlElement();
+        }
+        void XEP_IXmlWorker.LoadFromXmlElement(XElement xmlElement)
+        {
+            _xmlWorker.LoadFromXmlElement(xmlElement);
+        }
+        #endregion
     }
 
     [Serializable]

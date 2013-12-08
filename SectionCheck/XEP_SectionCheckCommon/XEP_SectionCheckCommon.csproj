@@ -48,8 +48,10 @@
     <Compile Include="DataCache\XEP_IOneMemberData.cs" />
     <Compile Include="DataCache\XEP_IOneSectionData.cs" />
     <Compile Include="DataCache\XEP_DataCache.cs" />
+    <Compile Include="DataCache\XEP_IStructure.cs" />
     <Compile Include="DataCache\XEP_OneMemberData.cs" />
     <Compile Include="DataCache\XEP_OneSectionData.cs" />
+    <Compile Include="DataCache\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_ISectionShape.cs" />
+    <Compile Include="Interfaces\XEP_IXmlWorker.cs" />
     <Compile Include="Interfaces\XEP_QuantityFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

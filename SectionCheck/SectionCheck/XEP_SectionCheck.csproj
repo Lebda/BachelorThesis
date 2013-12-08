@@ -122,6 +122,11 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ModuleDefinitions\MainModule.cs" />
+    <Compile Include="ResTrans\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\XEP_CssDataService.cs" />
     <Compile Include="Services\XEP_DataCacheService.cs" />
     <Compile Include="Services\XEP_QuantityManager.cs" />
@@ -150,6 +155,10 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResTrans\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

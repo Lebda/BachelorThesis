@@ -7,14 +7,51 @@ using System.ComponentModel.DataAnnotations;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.Implementations;
+using System.Xml.Linq;
+using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    class XEP_InternalForceItemXml : XEP_XmlWorkerImpl
+    {
+        XEP_InternalForceItem _data = null;
+        public XEP_InternalForceItemXml(XEP_InternalForceItem data)
+        {
+            _data = data;
+        }
+        #region XEP_XmlWorkerImpl Members
+        protected override string GetXmlElementName()
+        {
+            return "XEP_InternalForceItem";
+        }
+        protected override string GetXmlElementComment()
+        {
+            return "Data in one force set";
+        }
+        protected override void AddElements(XElement xmlElement)
+        {
+            for (int counter = 0; counter < (int)eEP_ForceType.eForceTypeCount; ++counter )
+            {
+                xmlElement.Add(_data.GetItem((eEP_ForceType)counter).GetXmlElement());
+            }
+        }
+        protected override void AddAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
+            xmlElement.Add(new XAttribute(ns + "Type", (int)_data.Type));
+            xmlElement.Add(new XAttribute(ns + "UsedInCheck", _data.UsedInCheck));
+        }
+        #endregion
+    }
+
     [Serializable]
     public class XEP_InternalForceItem : ObservableObject, XEP_IQuantityManagerHolder, XEP_IInternalForceItem
     {
+        XEP_XmlWorkerImpl _xmlWorker = null;
         public XEP_InternalForceItem(XEP_IQuantityManager manager)
         {
+            _xmlWorker = new XEP_InternalForceItemXml(this);
             _manager = manager;
             _N = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
             _Vy = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
@@ -439,5 +476,16 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 SetForceItem(ref value, ref _Mz, MzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
             }
         }
+
+        #region XEP_IXmlWorker Members
+        XElement XEP_IXmlWorker.GetXmlElement()
+        {
+            return _xmlWorker.GetXmlElement();
+        }
+        void XEP_IXmlWorker.LoadFromXmlElement(XElement xmlElement)
+        {
+            _xmlWorker.LoadFromXmlElement(xmlElement);
+        }
+        #endregion
     }
 }

@@ -6,45 +6,53 @@ using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.Infrastructure;
+using System.Xml.Linq;
+using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    class XEP_DataCacheXml : XEP_XmlWorkerImpl
+    {
+        XEP_DataCache _data = null;
+        public XEP_DataCacheXml(XEP_DataCache data)
+        {
+            _data = data;
+        }
+        protected override string GetXmlElementName()
+        {
+            return "XEP_DataCache";
+        }
+        protected override string GetXmlElementComment()
+        {
+            return "All data in section check are hold by this object 'Data cache' !";
+        }
+        protected override void AddElements(XElement xmlElement)
+        {
+            xmlElement.Add(_data.Structure.GetXmlElement());
+        }
+    }
     public class XEP_DataCache : XEP_IDataCache
     {
-        readonly Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
+        XEP_XmlWorkerImpl _xmlWorker = null;
+        XEP_IStructure _structure = null;
+        public XEP_DataCache()
+        {
+            _xmlWorker = new XEP_DataCacheXml(this);
+        }
+        public XEP_IStructure Structure
+        {
+            get { return _structure; }
+            set { _structure = value; }
+        }
 
-        #region XEP_IDataCacheService Members
-        public void Clear()
+        #region XEP_IXmlWorker Members
+        XElement XEP_IXmlWorker.GetXmlElement()
         {
-            _memberData.Clear();
+            return _xmlWorker.GetXmlElement();
         }
-        public Dictionary<Guid, XEP_IOneMemberData> GetMemberData()
+        void XEP_IXmlWorker.LoadFromXmlElement(XElement xmlElement)
         {
-            return _memberData;
-        }
-        public XEP_IOneMemberData GetOneMemberData(Guid guid)
-        {
-            return Common.GetDataDictionary<Guid, XEP_IOneMemberData>(guid, _memberData);
-        }
-        public eDataCacheServiceOperation SaveOneMemberData(XEP_IOneMemberData memberData)
-        {
-            Exceptions.CheckNull(memberData);
-            if (_memberData.ContainsKey(memberData.Id))
-            {
-                _memberData.Remove(memberData.Id);
-            }
-            _memberData.Add(memberData.Id, memberData);
-            return eDataCacheServiceOperation.eSuccess;
-        }
-        public eDataCacheServiceOperation RemoveOneMemberData(XEP_IOneMemberData memberData)
-        {
-            Exceptions.CheckNull(memberData);
-            if (_memberData.ContainsKey(memberData.Id))
-            {
-                _memberData.Remove(memberData.Id);
-                return eDataCacheServiceOperation.eSuccess;
-            }
-            return eDataCacheServiceOperation.eNotFound;
+            _xmlWorker.LoadFromXmlElement(xmlElement);
         }
         #endregion
     }

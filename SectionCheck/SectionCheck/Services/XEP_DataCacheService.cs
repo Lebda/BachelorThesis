@@ -9,6 +9,10 @@ using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Implementations;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Xml.Linq;
+using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheck.ResTrans;
 
 namespace SectionCheck.Services
 {
@@ -32,18 +36,33 @@ namespace SectionCheck.Services
         #region XEP_IDataCacheService Members
         eDataCacheServiceOperation XEP_IDataCacheService.Load(XEP_IDataCache dataCache)
         {
-            dataCache.Clear();
             XEP_IOneSectionData newSectionData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_container));
             newSectionData.InternalForces = GetInternalForces();
-            newSectionData.SectionName = "Section 1";
+            newSectionData.Name = "Section 1";
             XEP_IOneMemberData newMemberData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_container));
+            newMemberData.Name = "Member 1";
             newMemberData.SaveOneSectionData(newSectionData);
-            dataCache.SaveOneMemberData(newMemberData);
+            XEP_IStructure newStructure = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
+            newStructure.SaveOneMemberData(newMemberData);
+            dataCache.Structure = newStructure;
             return eDataCacheServiceOperation.eSuccess;
         }
-        eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IDataCache dataCache)
+        eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IXmlWorker dataCache)
         {
-            throw new NotImplementedException();
+            DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
+            if (myDirectory.Exists == false)
+            {
+                myDirectory.Create();
+            }
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            XDocument documentXML = new XDocument(
+            new XDeclaration("1.0", null, "yes"),
+            new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
+            XElement xmlElement = dataCache.GetXmlElement();
+            documentXML.Add(xmlElement);
+            documentXML.Save(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
+            return eDataCacheServiceOperation.eSuccess;
         }
         #endregion
 
