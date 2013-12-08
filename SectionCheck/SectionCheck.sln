@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SectionCheck", "SectionCheck\SectionCheck.csproj", "{65CB3EB0-83B3-4131-B12C-274B51CB5A5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionCheck", "SectionCheck\XEP_SectionCheck.csproj", "{65CB3EB0-83B3-4131-B12C-274B51CB5A5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceLibrary", "ResourceLibrary\ResourceLibrary.csproj", "{08F6A7FD-12C9-44BC-B977-23007717EC52}"
 EndProject

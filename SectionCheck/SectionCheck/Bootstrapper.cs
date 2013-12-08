@@ -9,15 +9,15 @@ using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using System.Windows;
 using MyPrism.Infrastructure;
-using SectionCheck.ModuleDefinitions;
+using XEP_SectionCheck.ModuleDefinitions;
 
-namespace SectionCheck
+namespace XEP_SectionCheck
 {
     class Bootstrapper : UnityBootstrapper
     {
         protected override DependencyObject CreateShell()
         {
-            return this.Container.Resolve<ShellView>();
+            return this.Container.Resolve<XEP_ShellView>();
         }
 
         protected override void InitializeShell()

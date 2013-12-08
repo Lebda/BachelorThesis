@@ -11,24 +11,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SectionCheck.ViewModels;
 using Microsoft.Practices.Unity;
+using XEP_SectionCheck.ViewModels;
 
-namespace SectionCheck
+namespace XEP_SectionCheck
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class XEP_MainView : UserControl
     {
         [Dependency]
-        public MainViewModel ViewModel
+        public XEP_MainViewModel ViewModel
         {
-            get { return this.DataContext as MainViewModel; }
+            get { return this.DataContext as XEP_MainViewModel; }
             set { this.DataContext = value; }
         }
 
-        public MainView()
+        public XEP_MainView()
         {
             InitializeComponent();
 

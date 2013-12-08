@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using XEP_CommonLibrary.Infrastructure;
 
-namespace SectionCheck.ViewModels
+namespace XEP_SectionCheck.ViewModels
 {
-    public class ShellViewModel : ObservableObject
+    public class XEP_ShellViewModel : ObservableObject
     {
     }
 }

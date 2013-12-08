@@ -14,7 +14,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Implementations;
 using XEP_SectionCheckCommon.Infrastucture;
 
-namespace SectionCheck.ModuleDefinitions
+namespace XEP_SectionCheck.ModuleDefinitions
 {
     [Module(ModuleName = "MainModule")]
     public class MainModule : MyModuleBase
@@ -44,7 +44,7 @@ namespace SectionCheck.ModuleDefinitions
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());
             //load MainRegion using Prism View Discovery
-            _regionManager.RegisterViewWithRegion(XEP_Constants.MainContentRegionName, () => _container.Resolve<MainView>());
+            _regionManager.RegisterViewWithRegion(XEP_Constants.MainContentRegionName, () => _container.Resolve<XEP_MainView>());
         }
     }
 }

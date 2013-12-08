@@ -11,21 +11,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Fluent;
-using SectionCheck.ViewModels;
+using XEP_SectionCheck.ViewModels;
 using Microsoft.Practices.Unity;
 
-namespace SectionCheck
+namespace XEP_SectionCheck
 {
-    public partial class ShellView : RibbonWindow
+    public partial class XEP_ShellView : RibbonWindow
     {
         [Dependency]
-        public ShellViewModel ViewModel
+        public XEP_ShellViewModel ViewModel
         {
-            get { return this.DataContext as ShellViewModel; }
+            get { return this.DataContext as XEP_ShellViewModel; }
             set { this.DataContext = value; }
         }
 
-        public ShellView()
+        public XEP_ShellView()
         {
             InitializeComponent();
         }

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Globalization;
 
-namespace SectionCheck
+namespace XEP_SectionCheck
 {
     /// <summary>
     /// Interaction logic for App.xaml

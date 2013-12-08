@@ -6,13 +6,13 @@ using XEP_CommonLibrary;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Services;
 
-namespace SectionCheck.ViewModels
+namespace XEP_SectionCheck.ViewModels
 {
-    public class MainViewModel : ObservableObject
+    public class XEP_MainViewModel : ObservableObject
     {
         readonly IDialogService _dialogService;
 
-        public MainViewModel(IDialogService dialogService)
+        public XEP_MainViewModel(IDialogService dialogService)
         {
             this._dialogService = dialogService;
         }
