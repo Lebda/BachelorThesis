@@ -25,7 +25,7 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override string GetXmlElementComment()
         {
-            return "All data connected to one member are hold by this element";
+            return "Object represents one member in construction";
         }
         protected override void AddElements(XElement xmlElement)
         {

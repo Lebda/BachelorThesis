@@ -26,11 +26,11 @@ namespace XEP_SectionCheckCommon.Infrastructure
         }
         protected override string GetXmlElementComment()
         {
-            return "Data in one force set";
+            return "One force on section";
         }
         protected override void AddElements(XElement xmlElement)
         {
-            for (int counter = 0; counter < (int)eEP_ForceType.eForceTypeCount; ++counter )
+            for (int counter = (int)eEP_ForceType.eN; counter < (int)eEP_ForceType.eForceTypeCount; ++counter)
             {
                 xmlElement.Add(_data.GetItem((eEP_ForceType)counter).GetXmlElement());
             }

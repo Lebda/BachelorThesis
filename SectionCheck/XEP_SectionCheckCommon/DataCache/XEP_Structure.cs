@@ -23,7 +23,7 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override string GetXmlElementComment()
         {
-            return "All data connected to structure are hold by this element";
+            return "Structure holds information about geometry";
         }
         protected override void AddElements(XElement xmlElement)
         {

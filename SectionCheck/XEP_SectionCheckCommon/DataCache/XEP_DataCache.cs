@@ -24,7 +24,7 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         protected override string GetXmlElementComment()
         {
-            return "All data in section check are hold by this object 'Data cache' !";
+            return "Data cache holds all data";
         }
         protected override void AddElements(XElement xmlElement)
         {

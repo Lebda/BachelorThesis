@@ -20,8 +20,11 @@ namespace XEP_SectionCheckCommon.Interfaces
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             XElement xmlElement = new XElement(ns + GetXmlElementName());
-            XComment xmlComment = new XComment(GetXmlElementComment());
-            xmlElement.Add(xmlComment);
+            if (!String.IsNullOrEmpty(GetXmlElementComment()))
+            {
+                XComment xmlComment = new XComment(GetXmlElementComment());
+                xmlElement.Add(xmlComment);
+            }
             // Attributes
             AddAtributes(xmlElement);
             // Elements

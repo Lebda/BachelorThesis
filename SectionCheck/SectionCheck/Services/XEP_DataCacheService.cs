@@ -46,6 +46,97 @@ namespace SectionCheck.Services
             newStructure.SaveOneMemberData(newMemberData);
             dataCache.Structure = newStructure;
             return eDataCacheServiceOperation.eSuccess;
+
+            //////////////////////////////////////////////////////////////////////////
+//             string loadInfo = "OK";
+//             try
+//             {
+//                 if ((fileName == null) || (fileName.Count() <= 0))
+//                 {
+//                     loadInfo = "Invalid file name !";
+//                     throw new ArgumentException(loadInfo);
+//                 }
+//                 string absolutePath = null;
+//                 if (path == null)
+//                 {
+//                     absolutePath = @"c:\CheckerGame";
+//                 }
+//                 else
+//                 {
+//                     absolutePath = path;
+//                 }
+//                 DirectoryInfo myDirectory = new DirectoryInfo(absolutePath);
+//                 if (myDirectory.Exists == false)
+//                 {
+//                     loadInfo = "No xml file for creating Checker game";
+//                     throw new ApplicationException(loadInfo);
+//                 }
+//                 if (adExtension == true)
+//                 {
+//                     string extension = ".xml";
+//                     fileName += extension;
+//                 }
+//                 fileName = Path.Combine(absolutePath, fileName);
+//                 FileInfo myFile = new FileInfo(fileName);
+//                 if (myFile.Exists == false)
+//                 {
+//                     loadInfo = "No xml file for creating Checker game";
+//                     throw new ApplicationException(loadInfo);
+//                 }
+//                 XNamespace ns = CParachutingCheckerUtils.sc_xml_ns;
+//                 XDocument documentXML = XDocument.Load(fileName);
+//                 //////////////////////////////////////////////////////////////////////////
+//                 // 22.4.13 validate document with help of xsd
+//                 if (!adExtension)
+//                 { // has to be in this way, else problem in UT
+//                     // READING FROM FILE
+//                     // string file = "XmlXsdTest.xsd";
+//                     // FileStream fs = new FileStream(file, FileMode.Open);
+//                     // XmlTextReader r = new XmlTextReader(fs);
+//                     // XmlSchemaSet schemas = new XmlSchemaSet();
+//                     //schemas.Add(ns.ToString(), r);
+//                     //
+//                     XmlSchemaSet schemas = new XmlSchemaSet();
+//                     schemas.Add(ns.ToString(), XmlReader.Create(new StringReader(GetXsdValidation())));
+//                     bool errors = false;
+//                     documentXML.Validate(schemas, (o, e) =>
+//                     {
+//                         loadInfo = e.Message.ToString();
+//                         Console.WriteLine("{0}", loadInfo);
+//                         errors = true;
+//                     }, true);
+//                     if (!isWPFDebug)
+//                     {
+//                         if (errors)
+//                         { // Do not provide LOAD action
+//                             return loadInfo;
+//                         }
+//                     }
+//                 }
+//                 //////////////////////////////////////////////////////////////////////////
+//                 XElement elementXML = documentXML.Element(ns + CCheckerGame.sc_xmlElementName);
+//                 if (elementXML == null)
+//                 {
+//                     loadInfo = "Invalid XML file !";
+//                     throw new ApplicationException(loadInfo);
+//                 }
+//                 GameState.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameState.sc_xmlElementName));
+//                 Board.LoadFromXmlElement(elementXML.Element(ns + CCheckerBoard.sc_xmlElementName));
+//                 Players.LoadFromXmlElement(elementXML.Element(ns + CCheckerGamePlayers.sc_xmlElementName));
+//                 GameCounters.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameCounters.sc_xmlElementName));
+//                 GameSteps.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameSteps.sc_xmlElementName));
+//                 Counters.Update(Board);
+//                 if (!isWPFDebug)
+//                 {
+//                     GeneratePossibleMovesAndBestMoves();
+//                 }
+//                 return loadInfo;
+//             }
+//             catch (System.Exception ex)
+//             {
+//                 CatchError4Console(ref ex);
+//                 return loadInfo;
+//             }
         }
         eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IXmlWorker dataCache)
         {
