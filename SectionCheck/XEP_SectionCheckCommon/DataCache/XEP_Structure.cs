@@ -7,17 +7,19 @@ using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
+using Microsoft.Practices.Unity;
+using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_StructurXml : XEP_XmlWorkerImpl
     {
-        XEP_Structure _data = null;
+        readonly XEP_Structure _data = null;
         public XEP_StructurXml(XEP_Structure data)
         {
             _data = data;
         }
-        protected override string GetXmlElementName()
+        public override string GetXmlElementName()
         {
             return "XEP_Structure";
         }
@@ -29,20 +31,65 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             foreach (var item in _data.GetMemberData().Values)
             {
-                xmlElement.Add(item.GetXmlElement());
+                xmlElement.Add(item.XmlWorker.GetXmlElement());
+            }
+        }
+        protected override void LoadElements(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            var xmlItems = xmlElement.Elements(ns + UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_data.Container).XmlWorker.GetXmlElementName());
+            if (xmlItems != null && xmlItems.Count() > 0)
+            {
+                for (int counter = 0; counter < xmlItems.Count(); ++counter)
+                {
+                    XElement xmlItem = Exceptions.CheckNull<XElement>(xmlItems.ElementAt(counter), "Invalid XML file");
+                    XEP_IOneMemberData item = UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_data.Container);
+                    item.XmlWorker.LoadFromXmlElement(xmlItem);
+                    _data.SaveOneMemberData(item);
+                }
             }
         }
     }
 
     public class XEP_Structure : XEP_IStructure
     {
-        XEP_XmlWorkerImpl _xmlWorker = null;
-        readonly Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
-        public XEP_Structure()
+        readonly IUnityContainer _container = null;
+        XEP_IQuantityManager _manager = null;
+        XEP_IXmlWorker _xmlWorker = null;
+        Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
+        string _name = "";
+        public XEP_Structure(IUnityContainer container)
         {
+            _container = Exceptions.CheckNull(container);
+            _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
             _xmlWorker = new XEP_StructurXml(this);
         }
         #region XEP_IStructure
+        public Dictionary<Guid, XEP_IOneMemberData> MemberData
+        {
+            get { return _memberData; }
+            set { _memberData = value; }
+        }
+        public IUnityContainer Container
+        {
+            get { return _container; }
+        }
+        public XEP_IQuantityManager Manager
+        {
+            get { return _manager; }
+            set { _manager = value; }
+        }
+        public XEP_IXmlWorker XmlWorker
+        {
+            get { return _xmlWorker; }
+            set { _xmlWorker = value; }
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
         public void Clear()
         {
             _memberData.Clear();
@@ -77,15 +124,5 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         #endregion
 
-        #region XEP_IXmlWorker Members
-        XElement XEP_IXmlWorker.GetXmlElement()
-        {
-            return _xmlWorker.GetXmlElement();
-        }
-        void XEP_IXmlWorker.LoadFromXmlElement(XElement xmlElement)
-        {
-            _xmlWorker.LoadFromXmlElement(xmlElement);
-        }
-        #endregion
     }
 }

@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <JustCodeSettings Version="0.0" Timestamp="ed65cad9-0fe1-4643-a77e-a6804e1556f4">
   <IgnoredErrorsAndWarningsSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-    <IgnoredErrorsAndWarnings Version="2" />
+    <IgnoredErrorsAndWarnings Version="2">
+      <FilePath>
+        <FileRelativePath>SectionCheck/Services/XEP_DataCacheService.cs</FileRelativePath>
+        <ProjectRelativePath>SectionCheck/XEP_SectionCheck.csproj</ProjectRelativePath>
+        <IgnoredElement>
+          <TextualIdentifier>2985427178631806587</TextualIdentifier>
+        </IgnoredElement>
+        <IgnoredElement>
+          <TextualIdentifier>8425004271392209080</TextualIdentifier>
+        </IgnoredElement>
+        <IgnoredElement>
+          <TextualIdentifier>6881651539072001939</TextualIdentifier>
+        </IgnoredElement>
+      </FilePath>
+    </IgnoredErrorsAndWarnings>
   </IgnoredErrorsAndWarningsSettings>
 </JustCodeSettings>

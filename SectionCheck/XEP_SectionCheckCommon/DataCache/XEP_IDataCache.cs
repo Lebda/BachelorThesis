@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.Interfaces
+namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IDataCache : XEP_IXmlWorker
+    public interface XEP_IDataCache : XEP_IDataCacheObjectBase, XEP_IContainerHolder
     {
         XEP_IStructure Structure { get; set; }
     }

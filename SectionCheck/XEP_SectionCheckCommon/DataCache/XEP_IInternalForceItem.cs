@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.Interfaces
+namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IInternalForceItem : XEP_IXmlWorker
+    public interface XEP_IInternalForceItem : XEP_IDataCacheObjectBase
     {
         XEP_InternalForceItem CopyInstance();
         XEP_IQuantity GetItem(eEP_ForceType type);
@@ -18,8 +17,6 @@ namespace XEP_SectionCheckCommon.Interfaces
         double MinValue {get; set;}
         string ShortExplanation {get; set;}
         bool UsedInCheck {get; set;}
-        [Required]
-        string Name {get; set;}
         [Required]
         eEP_ForceItemType Type { get; set; }
         [Required]

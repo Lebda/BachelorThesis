@@ -49,11 +49,11 @@ namespace XEP_CommonLibrary.Utility
             return (T)parameters[parameters.Count() - 1];
         }
         //
-        public static T CheckNull<T>(T param)
+        public static T CheckNull<T>(T param, string errorMessage = null)
         {
             if (param == null)
             {
-                throw new ArgumentException("Argument is null");
+                throw new ArgumentException((errorMessage == null) ? ("Argument is null") : (errorMessage));
             }
             return param;
         }

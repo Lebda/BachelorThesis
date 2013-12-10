@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Collections.ObjectModel;
-using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_CommonLibrary.Infrastructure;
-using System.Windows;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using XEP_SectionCheckCommon.DataCache;
@@ -16,17 +13,16 @@ namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : ObservableObject
     {
-        IUnityContainer _container = null;
-        XEP_IDataCache _dataCache = null; // singleton
-        XEP_IOneSectionData _activeSectionData = null;
+        readonly IUnityContainer _container = null;
+        readonly XEP_IDataCache _dataCache = null; // singleton
+        readonly XEP_IOneSectionData _activeSectionData = null;
         public XEP_CssPropertiesViewModel(IUnityContainer container)
         {
             _container = Exceptions.CheckNull(container);
             _dataCache = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
-            Dictionary<Guid, XEP_IOneMemberData> memberData = _dataCache.Structure.GetMemberData();
-            if (memberData != null && memberData.Values.Count > 0)
+            if (_dataCache.Structure.MemberData != null && _dataCache.Structure.MemberData.Values.Count > 0)
             {
-                Dictionary<Guid, XEP_IOneSectionData> sectionsData = (memberData.Values.First()).GetSectionsData();
+                Dictionary<Guid, XEP_IOneSectionData> sectionsData = (_dataCache.Structure.MemberData.Values.First()).SectionsData;
                 if (sectionsData.Count > 0)
                 {
                     _activeSectionData = sectionsData.First().Value;

@@ -5,6 +5,7 @@ using System.Text;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace SectionCheck.Services
 {

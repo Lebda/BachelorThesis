@@ -18,7 +18,7 @@ namespace SectionCheck.Services
 {
     public class XEP_DataCacheService : XEP_IDataCacheService, XEP_IQuantityManagerHolder
     {
-        IUnityContainer _container = null;
+        readonly IUnityContainer _container = null;
         XEP_IQuantityManager _manager = null;
         public XEP_DataCacheService(IUnityContainer container)
         {
@@ -36,109 +36,35 @@ namespace SectionCheck.Services
         #region XEP_IDataCacheService Members
         eDataCacheServiceOperation XEP_IDataCacheService.Load(XEP_IDataCache dataCache)
         {
-            XEP_IOneSectionData newSectionData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_container));
-            newSectionData.InternalForces = GetInternalForces();
-            newSectionData.Name = "Section 1";
-            XEP_IOneMemberData newMemberData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_container));
-            newMemberData.Name = "Member 1";
-            newMemberData.SaveOneSectionData(newSectionData);
-            XEP_IStructure newStructure = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
-            newStructure.SaveOneMemberData(newMemberData);
-            dataCache.Structure = newStructure;
-            return eDataCacheServiceOperation.eSuccess;
-
-            //////////////////////////////////////////////////////////////////////////
-//             string loadInfo = "OK";
-//             try
-//             {
-//                 if ((fileName == null) || (fileName.Count() <= 0))
-//                 {
-//                     loadInfo = "Invalid file name !";
-//                     throw new ArgumentException(loadInfo);
-//                 }
-//                 string absolutePath = null;
-//                 if (path == null)
-//                 {
-//                     absolutePath = @"c:\CheckerGame";
-//                 }
-//                 else
-//                 {
-//                     absolutePath = path;
-//                 }
-//                 DirectoryInfo myDirectory = new DirectoryInfo(absolutePath);
-//                 if (myDirectory.Exists == false)
-//                 {
-//                     loadInfo = "No xml file for creating Checker game";
-//                     throw new ApplicationException(loadInfo);
-//                 }
-//                 if (adExtension == true)
-//                 {
-//                     string extension = ".xml";
-//                     fileName += extension;
-//                 }
-//                 fileName = Path.Combine(absolutePath, fileName);
-//                 FileInfo myFile = new FileInfo(fileName);
-//                 if (myFile.Exists == false)
-//                 {
-//                     loadInfo = "No xml file for creating Checker game";
-//                     throw new ApplicationException(loadInfo);
-//                 }
-//                 XNamespace ns = CParachutingCheckerUtils.sc_xml_ns;
-//                 XDocument documentXML = XDocument.Load(fileName);
-//                 //////////////////////////////////////////////////////////////////////////
-//                 // 22.4.13 validate document with help of xsd
-//                 if (!adExtension)
-//                 { // has to be in this way, else problem in UT
-//                     // READING FROM FILE
-//                     // string file = "XmlXsdTest.xsd";
-//                     // FileStream fs = new FileStream(file, FileMode.Open);
-//                     // XmlTextReader r = new XmlTextReader(fs);
-//                     // XmlSchemaSet schemas = new XmlSchemaSet();
-//                     //schemas.Add(ns.ToString(), r);
-//                     //
-//                     XmlSchemaSet schemas = new XmlSchemaSet();
-//                     schemas.Add(ns.ToString(), XmlReader.Create(new StringReader(GetXsdValidation())));
-//                     bool errors = false;
-//                     documentXML.Validate(schemas, (o, e) =>
-//                     {
-//                         loadInfo = e.Message.ToString();
-//                         Console.WriteLine("{0}", loadInfo);
-//                         errors = true;
-//                     }, true);
-//                     if (!isWPFDebug)
-//                     {
-//                         if (errors)
-//                         { // Do not provide LOAD action
-//                             return loadInfo;
-//                         }
-//                     }
-//                 }
-//                 //////////////////////////////////////////////////////////////////////////
-//                 XElement elementXML = documentXML.Element(ns + CCheckerGame.sc_xmlElementName);
-//                 if (elementXML == null)
-//                 {
-//                     loadInfo = "Invalid XML file !";
-//                     throw new ApplicationException(loadInfo);
-//                 }
-//                 GameState.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameState.sc_xmlElementName));
-//                 Board.LoadFromXmlElement(elementXML.Element(ns + CCheckerBoard.sc_xmlElementName));
-//                 Players.LoadFromXmlElement(elementXML.Element(ns + CCheckerGamePlayers.sc_xmlElementName));
-//                 GameCounters.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameCounters.sc_xmlElementName));
-//                 GameSteps.LoadFromXmlElement(elementXML.Element(ns + CCheckerGameSteps.sc_xmlElementName));
-//                 Counters.Update(Board);
-//                 if (!isWPFDebug)
-//                 {
-//                     GeneratePossibleMovesAndBestMoves();
-//                 }
-//                 return loadInfo;
-//             }
-//             catch (System.Exception ex)
-//             {
-//                 CatchError4Console(ref ex);
-//                 return loadInfo;
-//             }
+            try
+            {
+                DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
+                if (myDirectory.Exists == false)
+                {
+                    throw new ApplicationException("No xml file for creating data cache !");
+                }
+                FileInfo myFile = new FileInfo(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
+                if (myFile.Exists == false)
+                {
+                    throw new ApplicationException("No xml file for creating data cache !");
+                }
+                XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+                XDocument documentXML = XDocument.Load(myFile.FullName);
+                XElement elementXML = documentXML.Element(ns + dataCache.XmlWorker.GetXmlElementName());
+                if (elementXML == null)
+                {
+                    throw new ApplicationException("Invalid XML file !");
+                }
+                dataCache.XmlWorker.LoadFromXmlElement(elementXML);
+                return eDataCacheServiceOperation.eSuccess;
+            }
+            catch (System.Exception ex)
+            {
+                return eDataCacheServiceOperation.eFailed;
+            }
         }
-        eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IXmlWorker dataCache)
+        eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IDataCache dataCache)
         {
             DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
             DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
@@ -150,7 +76,7 @@ namespace SectionCheck.Services
             XDocument documentXML = new XDocument(
             new XDeclaration("1.0", null, "yes"),
             new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
-            XElement xmlElement = dataCache.GetXmlElement();
+            XElement xmlElement = dataCache.XmlWorker.GetXmlElement();
             documentXML.Add(xmlElement);
             documentXML.Save(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
             return eDataCacheServiceOperation.eSuccess;
@@ -158,10 +84,22 @@ namespace SectionCheck.Services
         #endregion
 
         #region METHODS 
-        // load from XML !!!!!!!!!!!!!
+        public eDataCacheServiceOperation LoadMock(XEP_IDataCache dataCache)
+        {
+            XEP_IOneSectionData newSectionData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_container));
+            newSectionData.InternalForces = GetInternalForces();
+            newSectionData.Name = "Section 1";
+            XEP_IOneMemberData newMemberData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_container));
+            newMemberData.Name = "Member 1";
+            newMemberData.SaveOneSectionData(newSectionData);
+            XEP_IStructure newStructure = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
+            newStructure.SaveOneMemberData(newMemberData);
+            dataCache.Structure = newStructure;
+            return eDataCacheServiceOperation.eSuccess;
+        }
         XEP_IInternalForceItem CreateForce()
         {
-            XEP_IInternalForceItem item = new XEP_InternalForceItem(Manager);
+            XEP_IInternalForceItem item = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_InternalForceItem>(_container));
             item.Type = eEP_ForceItemType.eULS;
             item.UsedInCheck = false;
             item.Name = "New force";
@@ -170,7 +108,7 @@ namespace SectionCheck.Services
         ObservableCollection<XEP_IInternalForceItem> GetInternalForces()
         {
             ObservableCollection<XEP_IInternalForceItem> collection = new ObservableCollection<XEP_IInternalForceItem>();
-            XEP_IInternalForceItem item = new XEP_InternalForceItem(Manager);
+            XEP_IInternalForceItem item = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_InternalForceItem>(_container));
             item.Type = eEP_ForceItemType.eULS;
             item.UsedInCheck = true;
             item.Name = "RS2-C01.1-1";
@@ -181,7 +119,7 @@ namespace SectionCheck.Services
             item.My.Value = 32000;
             item.Mz.Value = 68000;
             collection.Add(item);
-            item = new XEP_InternalForceItem(Manager);
+            item = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_InternalForceItem>(_container));
             item.Name = "RS2-C02.2-4";
             item.Type = eEP_ForceItemType.eULS;
             item.UsedInCheck = false;

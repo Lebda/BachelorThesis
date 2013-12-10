@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
+using Microsoft.Practices.Unity;
 
 namespace XEP_SectionCheckCommon.Interfaces
 {
@@ -11,11 +12,13 @@ namespace XEP_SectionCheckCommon.Interfaces
     {
         XElement GetXmlElement();
         void LoadFromXmlElement(XElement xmlElement);
+        string GetXmlElementName();
     }
 
     public abstract class XEP_XmlWorkerImpl : XEP_IXmlWorker
     {
-        protected abstract string GetXmlElementName();
+        public abstract string GetXmlElementName();
+        protected abstract void LoadElements(XElement xmlElement);
         public XElement GetXmlElement()
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
@@ -31,18 +34,37 @@ namespace XEP_SectionCheckCommon.Interfaces
             AddElements(xmlElement);
             return xmlElement;
         }
+
         public void LoadFromXmlElement(XElement xmlElement)
+        {
+            if (xmlElement == null)
+            {
+                throw new ArgumentException(String.Format("{0} can not be created from XElement == null ! :", GetXmlElementName()));
+            }
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            if (xmlElement.Name != (ns + GetXmlElementName()))
+            {
+                throw new ArgumentException(String.Format("{0} can not be created from XElement that is not {0} ", GetXmlElementName()));
+            }
+            LoadElements(xmlElement);
+            LoadAtributes(xmlElement);
+        }
+  
+        protected virtual void LoadAtributes(XElement xmlElement)
         {
             return;
         }
+
         protected virtual string GetXmlElementComment()
         {
             return "";
         }
+
         protected virtual void AddAtributes(XElement xmlElement)
         {
             return;
         }
+
         protected virtual void AddElements(XElement xmlElement)
         {
             return;

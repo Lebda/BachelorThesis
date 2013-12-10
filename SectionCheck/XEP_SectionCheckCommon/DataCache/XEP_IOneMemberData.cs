@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IOneMemberData : XEP_IXmlWorker
+    public interface XEP_IOneMemberData : XEP_IDataCacheObjectBase, XEP_IContainerHolder
     {
         XEP_IOneSectionData GetOneSectionData(Guid guid);
-        Dictionary<Guid, XEP_IOneSectionData> GetSectionsData();
+        Dictionary<Guid, XEP_IOneSectionData> SectionsData { get; set; }
         eDataCacheServiceOperation SaveOneSectionData(XEP_IOneSectionData sectionData);
         eDataCacheServiceOperation RemoveOneSectionData(XEP_IOneSectionData sectionData);
-        Guid Id { get; }
-        string Name { get; set; }
+        Guid Id { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Data;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Globalization;
 using XEP_CommonLibrary.Utility;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {

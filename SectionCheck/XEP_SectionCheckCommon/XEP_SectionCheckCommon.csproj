@@ -31,6 +31,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dll\PRISM\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dll\PRISM\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dll\PRISM\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dll\PRISM\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dll\PRISM\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -44,24 +64,26 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCache\XEP_IContainerHolder.cs" />
+    <Compile Include="DataCache\XEP_IDataCacheObjectBase.cs" />
     <Compile Include="DataCache\XEP_IDataCacheService.cs" />
+    <Compile Include="DataCache\XEP_IInternalForceItem.cs" />
+    <Compile Include="DataCache\XEP_InternalForceItem.cs" />
     <Compile Include="DataCache\XEP_IOneMemberData.cs" />
     <Compile Include="DataCache\XEP_IOneSectionData.cs" />
     <Compile Include="DataCache\XEP_DataCache.cs" />
+    <Compile Include="DataCache\XEP_IQuantity.cs" />
     <Compile Include="DataCache\XEP_IStructure.cs" />
     <Compile Include="DataCache\XEP_OneMemberData.cs" />
     <Compile Include="DataCache\XEP_OneSectionData.cs" />
+    <Compile Include="DataCache\XEP_Quantity.cs" />
     <Compile Include="DataCache\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
-    <Compile Include="Infrastructure\XEP_InternalForceItem.cs" />
-    <Compile Include="Infrastructure\XEP_Quantity.cs" />
     <Compile Include="Infrastructure\XEP_QuantityConventerValue.cs" />
     <Compile Include="Infrastructure\XEP_QuantityNames.cs" />
     <Compile Include="DataCache\XEP_IDataCache.cs" />
-    <Compile Include="Interfaces\XEP_IInternalForceItem.cs" />
-    <Compile Include="Interfaces\XEP_IQuantity.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_ISectionShape.cs" />

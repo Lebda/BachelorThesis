@@ -31,18 +31,18 @@ namespace XEP_SectionCheck.ModuleDefinitions
             test.SetScale(eEP_QuantityType.eForce, 1000.0); // just for test
             test.SetScale(eEP_QuantityType.eMoment, 1000.0); // just for test
             // data cache object registration
+            _container.RegisterType<XEP_IInternalForceItem, XEP_InternalForceItem>(new TransientLifetimeManager());
             _container.RegisterType<XEP_IOneSectionData, XEP_OneSectionData>(new TransientLifetimeManager());
             _container.RegisterType<XEP_IOneMemberData, XEP_OneMemberData>(new TransientLifetimeManager());
             _container.RegisterType<XEP_IStructure, XEP_Structure>(new TransientLifetimeManager());
             _container.RegisterType<XEP_IDataCache, XEP_DataCache>(new ContainerControlledLifetimeManager()); // singleton for data cache
-            _container.RegisterType<XEP_IInternalForceItem, XEP_InternalForceItem>(new TransientLifetimeManager());
             _container.RegisterType<XEP_IDataCacheService, XEP_DataCacheService>(new TransientLifetimeManager());
 
             // Set dump data just for now
             XEP_IDataCacheService dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(_container);
             dataCacheService.Load(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
 
-            dataCacheService.Save((XEP_IXmlWorker)UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
+           // dataCacheService.Save((XEP_IXmlWorker)UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
 
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());

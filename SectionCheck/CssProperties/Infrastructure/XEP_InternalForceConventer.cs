@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_CssProperties.Infrastructure
 {

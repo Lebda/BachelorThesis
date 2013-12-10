@@ -6,23 +6,25 @@ using XEP_CommonLibrary.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
-using XEP_SectionCheckCommon.Implementations;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Infrastructure;
+using Microsoft.Practices.Unity;
 
-namespace XEP_SectionCheckCommon.Infrastructure
+namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_InternalForceItemXml : XEP_XmlWorkerImpl
     {
-        XEP_InternalForceItem _data = null;
+        public static readonly string XmlName = "XEP_InternalForceItem";
+        readonly XEP_InternalForceItem _data = null;
         public XEP_InternalForceItemXml(XEP_InternalForceItem data)
         {
             _data = data;
         }
         #region XEP_XmlWorkerImpl Members
-        protected override string GetXmlElementName()
+        public override string GetXmlElementName()
         {
-            return "XEP_InternalForceItem";
+            return XmlName;
         }
         protected override string GetXmlElementComment()
         {
@@ -32,7 +34,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
         {
             for (int counter = (int)eEP_ForceType.eN; counter < (int)eEP_ForceType.eForceTypeCount; ++counter)
             {
-                xmlElement.Add(_data.GetItem((eEP_ForceType)counter).GetXmlElement());
+                xmlElement.Add(_data.GetItem((eEP_ForceType)counter).XmlWorker.GetXmlElement());
             }
         }
         protected override void AddAtributes(XElement xmlElement)
@@ -42,31 +44,64 @@ namespace XEP_SectionCheckCommon.Infrastructure
             xmlElement.Add(new XAttribute(ns + "Type", (int)_data.Type));
             xmlElement.Add(new XAttribute(ns + "UsedInCheck", _data.UsedInCheck));
         }
+        protected override void LoadElements(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            var xmlForces = xmlElement.Elements(ns + _data.GetItem(eEP_ForceType.eN).XmlWorker.GetXmlElementName());
+            Exceptions.CheckPredicate<int, int>("Invalid XML file", xmlForces.Count(), (int)eEP_ForceType.eForceTypeCount, (xmlCount, itemCount) => xmlCount < itemCount);
+            for (int counter = (int)eEP_ForceType.eN; counter < (int)eEP_ForceType.eForceTypeCount; ++counter)
+            {
+                XElement xmlForce = Exceptions.CheckNull<XElement>(xmlForces.ElementAt(counter), "Invalid definition of board field in XML file");
+                _data.GetItem((eEP_ForceType)counter).XmlWorker.LoadFromXmlElement(xmlForce);
+            }
+        }
+        protected override void LoadAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            _data.Name = (string)xmlElement.Attribute(ns + "Name");
+            _data.Type = (eEP_ForceItemType )(int)xmlElement.Attribute(ns + "Type");
+            _data.UsedInCheck = (bool)xmlElement.Attribute(ns + "UsedInCheck");
+        }
         #endregion
     }
 
     [Serializable]
-    public class XEP_InternalForceItem : ObservableObject, XEP_IQuantityManagerHolder, XEP_IInternalForceItem
+    public class XEP_InternalForceItem : ObservableObject, XEP_IInternalForceItem
     {
-        XEP_XmlWorkerImpl _xmlWorker = null;
-        public XEP_InternalForceItem(XEP_IQuantityManager manager)
+        XEP_IXmlWorker _xmlWorker = null;
+        XEP_IQuantityManager _manager = null;
+
+        public XEP_InternalForceItem( XEP_IQuantityManager manager)
         {
+            _manager = Exceptions.CheckNull<XEP_IQuantityManager>(manager);
             _xmlWorker = new XEP_InternalForceItemXml(this);
-            _manager = manager;
-            _N = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
-            _Vy = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
-            _Vz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
-            _Mx = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
-            _My = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
-            _Mz = XEP_QuantityFactory.Instance().Create(manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
+            _N = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
+            _Vy = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
+            _Vz = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
+            _Mx = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
+            _My = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
+            _Mz = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
             _name = "Force";
         }
-        XEP_IQuantityManager _manager = null;
+
+        public XEP_IXmlWorker XmlWorker
+        {
+            get
+            {
+                return this._xmlWorker;
+            }
+            set
+            {
+                this._xmlWorker = value;
+            }
+        }
+
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
         }
+
         #region METHODS
         public XEP_InternalForceItem CopyInstance()
         {
@@ -476,16 +511,5 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 SetForceItem(ref value, ref _Mz, MzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
             }
         }
-
-        #region XEP_IXmlWorker Members
-        XElement XEP_IXmlWorker.GetXmlElement()
-        {
-            return _xmlWorker.GetXmlElement();
-        }
-        void XEP_IXmlWorker.LoadFromXmlElement(XElement xmlElement)
-        {
-            _xmlWorker.LoadFromXmlElement(xmlElement);
-        }
-        #endregion
     }
 }
