@@ -107,11 +107,11 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             XEP_InternalForceItem newItem = new XEP_InternalForceItem(_manager);
             newItem._N.Value = _N.Value;
-            newItem._Vy.Value = _N.Value;
-            newItem._Vz.Value = _N.Value;
-            newItem._Mx.Value = _N.Value;
-            newItem._My.Value = _N.Value;
-            newItem._Mz.Value = _N.Value;
+            newItem._Vy.Value = _Vy.Value;
+            newItem._Vz.Value = _Vz.Value;
+            newItem._Mx.Value = _Mx.Value;
+            newItem._My.Value = _My.Value;
+            newItem._Mz.Value = _Mz.Value;
             newItem.Name = _name;
             return newItem;
         }

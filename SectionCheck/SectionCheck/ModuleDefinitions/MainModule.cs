@@ -38,11 +38,11 @@ namespace XEP_SectionCheck.ModuleDefinitions
             _container.RegisterType<XEP_IDataCache, XEP_DataCache>(new ContainerControlledLifetimeManager()); // singleton for data cache
             _container.RegisterType<XEP_IDataCacheService, XEP_DataCacheService>(new TransientLifetimeManager());
 
-            // Set dump data just for now
+            // LOAD DATA from XML
             XEP_IDataCacheService dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(_container);
             dataCacheService.Load(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
 
-           // dataCacheService.Save((XEP_IXmlWorker)UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
+           // dataCacheService.Save(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
 
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());
