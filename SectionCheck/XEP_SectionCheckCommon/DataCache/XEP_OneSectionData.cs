@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
@@ -31,6 +32,7 @@ namespace XEP_SectionCheckCommon.DataCache
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
+            xmlElement.Add(_data.SectionShape.XmlWorker.GetXmlElement());
         }
         protected override void AddAtributes(XElement xmlElement)
         {
@@ -52,6 +54,7 @@ namespace XEP_SectionCheckCommon.DataCache
                     _data.InternalForces.Add(item);
                 }
             }
+            _data.SectionShape.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.SectionShape.XmlWorker.GetXmlElementName()));
         }
         protected override void LoadAtributes( XElement xmlElement )
         {
@@ -71,18 +74,24 @@ namespace XEP_SectionCheckCommon.DataCache
         Guid _guid = Guid.NewGuid();
         string _name = String.Empty;
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
-
+        XEP_ISectionShape _sectionShape = null;
         public XEP_OneSectionData(IUnityContainer container)
         {
             _container = Exceptions.CheckNull(container);
             _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
             _xmlWorker = new XEP_OneSectionDataXml(this);
+            _sectionShape = UnityContainerExtensions.Resolve<XEP_ISectionShape>(_container);
         }
         public IUnityContainer Container
         {
             get { return _container; }
         }
         #region XEP_IOneSectionData
+        public XEP_ISectionShape SectionShape
+        {
+            get { return _sectionShape; }
+            set { _sectionShape = value; }
+        }
         public string Name
         {
             get { return _name; }
@@ -110,7 +119,5 @@ namespace XEP_SectionCheckCommon.DataCache
             set { _internalForces = value; }
         }
         #endregion
-
-
     }
 }

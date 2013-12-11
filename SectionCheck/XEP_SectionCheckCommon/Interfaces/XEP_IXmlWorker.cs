@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
-using Microsoft.Practices.Unity;
 
 namespace XEP_SectionCheckCommon.Interfaces
 {

@@ -135,15 +135,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="XEP_SectionCheckBootstrapper.cs" />
     <Compile Include="ModuleDefinitions\MainModule.cs" />
     <Compile Include="ResTrans\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\XEP_CssDataService.cs" />
     <Compile Include="Services\XEP_DataCacheService.cs" />
+    <Compile Include="Services\XEP_DataCacheServiceMock.cs" />
     <Compile Include="Services\XEP_QuantityManager.cs" />
     <Compile Include="ViewModels\XEP_ShellViewModel.cs" />
     <Compile Include="Views\XEP_MainView.xaml.cs">

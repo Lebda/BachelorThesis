@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Media;
-using XEP_CommonLibrary.Infrastructure;
-using XEP_CommonLibrary.Utility;
 using System.Windows;
-using System.Windows.Shapes;
-using XEP_SectionDrawer.Utility;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 

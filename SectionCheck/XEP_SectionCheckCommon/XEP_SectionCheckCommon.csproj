@@ -73,10 +73,14 @@
     <Compile Include="DataCache\XEP_IOneSectionData.cs" />
     <Compile Include="DataCache\XEP_DataCache.cs" />
     <Compile Include="DataCache\XEP_IQuantity.cs" />
+    <Compile Include="DataCache\XEP_ISectionShape.cs" />
+    <Compile Include="DataCache\XEP_ISectionShapeItem.cs" />
     <Compile Include="DataCache\XEP_IStructure.cs" />
     <Compile Include="DataCache\XEP_OneMemberData.cs" />
     <Compile Include="DataCache\XEP_OneSectionData.cs" />
     <Compile Include="DataCache\XEP_Quantity.cs" />
+    <Compile Include="DataCache\XEP_SectionShape.cs" />
+    <Compile Include="DataCache\XEP_SectionShapeItem.cs" />
     <Compile Include="DataCache\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
@@ -86,7 +90,6 @@
     <Compile Include="DataCache\XEP_IDataCache.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
-    <Compile Include="Interfaces\XEP_ISectionShape.cs" />
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />
     <Compile Include="Interfaces\XEP_QuantityFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

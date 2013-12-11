@@ -13,7 +13,7 @@ using XEP_SectionCheck.ModuleDefinitions;
 
 namespace XEP_SectionCheck
 {
-    class Bootstrapper : UnityBootstrapper
+    public class XEP_SectionCheckBootstrapper : UnityBootstrapper
     {
         protected override DependencyObject CreateShell()
         {

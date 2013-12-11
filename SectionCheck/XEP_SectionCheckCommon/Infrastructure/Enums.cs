@@ -37,4 +37,10 @@ namespace XEP_SectionCheckCommon.Infrastructure
         eSuccess,
         eNotFound,
     }
+
+    public enum eEP_CssShapePointType
+    {
+        eOuter = 0,
+        eInner,
+    }
 }

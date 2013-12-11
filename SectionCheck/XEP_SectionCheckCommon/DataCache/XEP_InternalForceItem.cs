@@ -9,7 +9,6 @@ using XEP_CommonLibrary.Utility;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Infrastructure;
-using Microsoft.Practices.Unity;
 
 namespace XEP_SectionCheckCommon.DataCache
 {

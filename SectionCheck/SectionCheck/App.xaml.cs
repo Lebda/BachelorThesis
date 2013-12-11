@@ -26,7 +26,7 @@ namespace XEP_SectionCheck
                   XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             base.OnStartup(e);
-            Bootstrapper bootstrapper = new Bootstrapper();
+            XEP_SectionCheckBootstrapper bootstrapper = new XEP_SectionCheckBootstrapper();
             bootstrapper.Run();
         }
     }

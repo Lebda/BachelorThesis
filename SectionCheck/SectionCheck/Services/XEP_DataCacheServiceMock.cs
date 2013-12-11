@@ -12,13 +12,13 @@ using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheck.ResTrans;
 using System.Windows;
 
-namespace SectionCheck.Services
+namespace XEP_SectionCheck.Services
 {
-    public class XEP_DataCacheService : XEP_IDataCacheService, XEP_IQuantityManagerHolder
+    public class XEP_DataCacheServiceMock : XEP_IDataCacheService, XEP_IQuantityManagerHolder
     {
         readonly IUnityContainer _container = null;
         XEP_IQuantityManager _manager = null;
-        public XEP_DataCacheService(IUnityContainer container)
+        public XEP_DataCacheServiceMock(IUnityContainer container)
         {
             _container = Exceptions.CheckNull(container);
             _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
@@ -34,33 +34,17 @@ namespace SectionCheck.Services
         #region XEP_IDataCacheService Members
         eDataCacheServiceOperation XEP_IDataCacheService.Load(XEP_IDataCache dataCache)
         {
-            try
-            {
-                DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
-                if (myDirectory.Exists == false)
-                {
-                    throw new ApplicationException("No xml file for creating data cache !");
-                }
-                FileInfo myFile = new FileInfo(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
-                if (myFile.Exists == false)
-                {
-                    throw new ApplicationException("No xml file for creating data cache !");
-                }
-                XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-                XDocument documentXML = XDocument.Load(myFile.FullName);
-                XElement elementXML = documentXML.Element(ns + dataCache.XmlWorker.GetXmlElementName());
-                if (elementXML == null)
-                {
-                    throw new ApplicationException("Invalid XML file !");
-                }
-                dataCache.XmlWorker.LoadFromXmlElement(elementXML);
-                return eDataCacheServiceOperation.eSuccess;
-            }
-            catch (System.Exception ex)
-            {
-                return eDataCacheServiceOperation.eFailed;
-            }
+            XEP_IOneSectionData newSectionData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_container));
+            newSectionData.InternalForces = GetInternalForces();
+            newSectionData.Name = "Section 1";
+            newSectionData.SectionShape = GetSectionShape();
+            XEP_IOneMemberData newMemberData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_container));
+            newMemberData.Name = "Member 1";
+            newMemberData.SaveOneSectionData(newSectionData);
+            XEP_IStructure newStructure = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
+            newStructure.SaveOneMemberData(newMemberData);
+            dataCache.Structure = newStructure;
+            return eDataCacheServiceOperation.eSuccess;
         }
         eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IDataCache dataCache)
         {
@@ -82,20 +66,6 @@ namespace SectionCheck.Services
         #endregion
 
         #region METHODS 
-        public eDataCacheServiceOperation LoadMock(XEP_IDataCache dataCache)
-        {
-            XEP_IOneSectionData newSectionData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_container));
-            newSectionData.InternalForces = GetInternalForces();
-            newSectionData.Name = "Section 1";
-            newSectionData.SectionShape = GetSectionShape();
-            XEP_IOneMemberData newMemberData = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_container));
-            newMemberData.Name = "Member 1";
-            newMemberData.SaveOneSectionData(newSectionData);
-            XEP_IStructure newStructure = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
-            newStructure.SaveOneMemberData(newMemberData);
-            dataCache.Structure = newStructure;
-            return eDataCacheServiceOperation.eSuccess;
-        }
   
         private XEP_ISectionShape GetSectionShape()
         {
