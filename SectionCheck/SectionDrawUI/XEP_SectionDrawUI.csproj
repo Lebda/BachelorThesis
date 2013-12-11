@@ -8,8 +8,8 @@
     <ProjectGuid>{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SectionDrawUI</RootNamespace>
-    <AssemblyName>SectionDrawUI</AssemblyName>
+    <RootNamespace>XEP_SectionDrawUI</RootNamespace>
+    <AssemblyName>XEP_SectionDrawUI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -73,16 +73,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\DrawSectionView.xaml">
+    <Page Include="Views\XEP_DrawSectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Models\SectionShapeModel.cs" />
+    <Compile Include="Models\XEP_SectionShapeModel.cs" />
     <Compile Include="Services\CssDataService.cs" />
-    <Compile Include="ModuleDefinitions\SectionDrawModule.cs" />
-    <Compile Include="ViewModels\DrawSectionViewModel.cs" />
-    <Compile Include="Views\DrawSectionView.xaml.cs">
-      <DependentUpon>DrawSectionView.xaml</DependentUpon>
+    <Compile Include="ModuleDefinitions\XEP_SectionDrawModule.cs" />
+    <Compile Include="ViewModels\XEP_DrawSectionViewModel.cs" />
+    <Compile Include="Views\XEP_DrawSectionView.xaml.cs">
+      <DependentUpon>XEP_DrawSectionView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -135,7 +135,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)SectionDrawUI.dll" "$(SolutionDir)SectionCheck\bin\$(ConfigurationName)\DirectoryModules\" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)XEP_SectionDrawUI.dll" "$(SolutionDir)SectionCheck\bin\$(ConfigurationName)\DirectoryModules\" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

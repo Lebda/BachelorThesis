@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XEP_CommonLibrary.Infrastructure;
-using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Media;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionDrawer.Infrastructure;
 using ResourceLibrary;
-using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Factories;
 using System.Windows.Input;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.DrawingGraph;
 using XEP_SectionDrawer.Interfaces;
 
-namespace SectionDrawUI.ViewModels
+namespace XEP_SectionDrawUI.ViewModels
 {
-    public class DrawSectionViewModel : ObservableObject
+    public class XEP_DrawSectionViewModel : ObservableObject
     {
         ICssDataService _cssDataService = null;
         public ICssDataService CssDataService
@@ -27,7 +22,7 @@ namespace SectionDrawUI.ViewModels
             get { return _cssDataService; }
             set { _cssDataService = value; }
         }
-        public DrawSectionViewModel(ICssDataService cssDataService)
+        public XEP_DrawSectionViewModel(ICssDataService cssDataService)
         {
             _cssDataService = cssDataService;
 
@@ -40,7 +35,7 @@ namespace SectionDrawUI.ViewModels
              Application.Current.TryFindResource(CustomResources.ReinfStrainPen1_SCkey) as Pen);
         }
 
-     #region METHODS
+        #region METHODS
         void LoadCssData()
         {
             Exceptions.CheckNull(_cssDataService);
@@ -52,7 +47,7 @@ namespace SectionDrawUI.ViewModels
             FibersConcrete = _cssDataService.GetCssDataFibersConcrete();
             FibersReinforcement = _cssDataService.GetCssDataFibersReinforcement();
         }
-     #endregion // METHODS
+        #endregion // METHODS
 
         #region COMMANDS
         public ICommand TestComand
@@ -206,11 +201,11 @@ namespace SectionDrawUI.ViewModels
         {
             get
             {
-//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
-//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
-//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.25));
-//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.15));
-//                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                //                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
+                //                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
+                //                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.25));
+                //                 _cssCompressPartProperty.CssCompressPart.Add(new Point(-0.15, 0.15));
+                //                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.15));
                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.1460493));
                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.25));
                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.026653, 0.25));
@@ -305,3 +300,4 @@ namespace SectionDrawUI.ViewModels
         }
     }
 }
+

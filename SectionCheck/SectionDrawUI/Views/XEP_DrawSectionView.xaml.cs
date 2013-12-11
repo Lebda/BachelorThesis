@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SectionDrawUI.ViewModels;
 using Microsoft.Practices.Unity;
-using System.Windows.Media.Media3D;
+using XEP_SectionDrawUI.ViewModels;
 
-namespace SectionDrawUI
+namespace XEP_SectionDrawUI
 {
-    public partial class DrawSectionView : UserControl
+    public partial class XEP_DrawSectionView : UserControl
     {
         [Dependency]
-        public DrawSectionViewModel ViewModel
+        public XEP_DrawSectionViewModel ViewModel
         {
-            get { return this.DataContext as DrawSectionViewModel; }
+            get { return this.DataContext as XEP_DrawSectionViewModel; }
             set { this.DataContext = value;}
         }
 
-        public DrawSectionView()
+        public XEP_DrawSectionView()
         {
             InitializeComponent();
         }

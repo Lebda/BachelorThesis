@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Media;
-using XEP_CommonLibrary.Utility;
 using System.Windows;
 using XEP_SectionCheckCommon.Interfaces;
 
-namespace SectionDrawUI.Models
+namespace XEP_SectionDrawUI.Models
 {
-    public class SectionShapeModel : XEP_ISectionShape
+    public class XEP_SectionShapeModel : XEP_ISectionShape
     {
         public PointCollection CssShapeOuter { get; set; }
         public PointCollection CssShapeInner { get; set; }

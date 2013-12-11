@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="SectionDrawUI.DrawSectionView"
-             xmlns:local="clr-namespace:SectionDrawUI.ViewModels"
+﻿<UserControl x:Class="XEP_SectionDrawUI.XEP_DrawSectionView"
+             xmlns:local="clr-namespace:XEP_SectionDrawUI.ViewModels"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
