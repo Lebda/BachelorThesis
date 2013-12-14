@@ -64,7 +64,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataCache\XEP_IContainerHolder.cs" />
     <Compile Include="DataCache\XEP_IDataCacheObjectBase.cs" />
     <Compile Include="DataCache\XEP_IDataCacheService.cs" />
     <Compile Include="DataCache\XEP_IInternalForceItem.cs" />
@@ -98,6 +97,10 @@
     <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
       <Name>XEP_CommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyPrism\XEP_Prism.csproj">
+      <Project>{1A22F8BC-F52C-4481-A7E0-F323F9128881}</Project>
+      <Name>XEP_Prism</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

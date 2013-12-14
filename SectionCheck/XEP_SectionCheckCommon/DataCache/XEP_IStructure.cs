@@ -5,7 +5,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IStructure : XEP_IDataCacheObjectBase, XEP_IContainerHolder
+    public interface XEP_IStructure : XEP_IDataCacheObjectBase
     {
         void Clear();
         XEP_IOneMemberData GetOneMemberData(Guid guid);

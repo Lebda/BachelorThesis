@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceLibrary", "Resource
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CommonLibrary", "CommonLibrary\XEP_CommonLibrary.csproj", "{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPrism", "MyPrism\MyPrism.csproj", "{1A22F8BC-F52C-4481-A7E0-F323F9128881}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_Prism", "MyPrism\XEP_Prism.csproj", "{1A22F8BC-F52C-4481-A7E0-F323F9128881}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionDrawUI", "SectionDrawUI\XEP_SectionDrawUI.csproj", "{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}"
 EndProject

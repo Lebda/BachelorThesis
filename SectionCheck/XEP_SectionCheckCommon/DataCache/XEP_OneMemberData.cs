@@ -9,6 +9,7 @@ using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
 using Microsoft.Practices.Unity;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -44,13 +45,13 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadElements( XElement xmlElement )
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlItems = xmlElement.Elements(ns + UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_data.Container).XmlWorker.GetXmlElementName());
+            var xmlItems = xmlElement.Elements(ns + _data.Resolver.Resolve().XmlWorker.GetXmlElementName());
             if (xmlItems != null && xmlItems.Count() > 0)
             {
                 for (int counter = 0; counter < xmlItems.Count(); ++counter)
                 {
                     XElement xmlItem = Exceptions.CheckNull<XElement>(xmlItems.ElementAt(counter), "Invalid XML file");
-                    XEP_IOneSectionData item = UnityContainerExtensions.Resolve<XEP_IOneSectionData>(_data.Container);
+                    XEP_IOneSectionData item = _data.Resolver.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlItem);
                     _data.SaveOneSectionData(item);
                 }
@@ -68,23 +69,26 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_OneMemberData : XEP_IOneMemberData
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_IOneSectionData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Dictionary<Guid, XEP_IOneSectionData> _sectionsData = new Dictionary<Guid, XEP_IOneSectionData>();
         Guid _guid = Guid.NewGuid();
         string _name = String.Empty;
 
-        public XEP_OneMemberData(IUnityContainer container)
+        public XEP_OneMemberData(XEP_UnityResolver<XEP_IOneSectionData> resolver, XEP_IQuantityManager manager)
         {
-            _container = Exceptions.CheckNull(container);
-            _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
+            _manager = manager;
+            _resolver = resolver;
             _xmlWorker = new XEP_OneMemberDataXml(this);
         }
         #region XEP_IOneMemberData Members
-        public IUnityContainer Container
+        public XEP_UnityResolver<XEP_IOneSectionData> Resolver
         {
-            get { return _container; }
+            get
+            {
+                return this._resolver;
+            }
         }
         public XEP_IQuantityManager Manager
         {

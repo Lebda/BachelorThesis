@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_CommonLibrary.Utility;
 using Microsoft.Practices.Unity;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -43,13 +44,13 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlForces = xmlElement.Elements(ns + UnityContainerExtensions.Resolve<XEP_InternalForceItem>(_data.Container).XmlWorker.GetXmlElementName());
+            var xmlForces = xmlElement.Elements(ns + _data.ResolverForce.Resolve().XmlWorker.GetXmlElementName());
             if (xmlForces != null && xmlForces.Count() > 0)
             {
                 for (int counter = 0; counter < xmlForces.Count(); ++counter)
                 {
                     XElement xmlForce = Exceptions.CheckNull<XElement>(xmlForces.ElementAt(counter), "Invalid XML file");
-                    XEP_InternalForceItem item = UnityContainerExtensions.Resolve<XEP_InternalForceItem>(_data.Container);
+                    XEP_InternalForceItem item = _data.ResolverForce.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlForce);
                     _data.InternalForces.Add(item);
                 }
@@ -68,23 +69,28 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_OneSectionData : XEP_IOneSectionData
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_InternalForceItem> _resolverForce = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Guid _guid = Guid.NewGuid();
         string _name = String.Empty;
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
         XEP_ISectionShape _sectionShape = null;
-        public XEP_OneSectionData(IUnityContainer container)
+
+        public XEP_OneSectionData(XEP_UnityResolver<XEP_InternalForceItem> resolverForce, XEP_UnityResolver<XEP_ISectionShape> resolverShape, 
+            XEP_IQuantityManager manager)
         {
-            _container = Exceptions.CheckNull(container);
-            _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
+            _resolverForce = resolverForce;
+            _manager = manager;
             _xmlWorker = new XEP_OneSectionDataXml(this);
-            _sectionShape = UnityContainerExtensions.Resolve<XEP_ISectionShape>(_container);
+            _sectionShape = resolverShape.Resolve();
         }
-        public IUnityContainer Container
+        public XEP_UnityResolver<XEP_InternalForceItem> ResolverForce
         {
-            get { return _container; }
+            get
+            {
+                return this._resolverForce;
+            }
         }
         #region XEP_IOneSectionData
         public XEP_ISectionShape SectionShape

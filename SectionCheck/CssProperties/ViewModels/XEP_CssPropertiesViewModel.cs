@@ -8,18 +8,19 @@ using XEP_CommonLibrary.Infrastructure;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : ObservableObject
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_IInternalForceItem> _resolverForce = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
         readonly XEP_IOneSectionData _activeSectionData = null;
-        public XEP_CssPropertiesViewModel(IUnityContainer container)
+        public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_UnityResolver<XEP_IInternalForceItem> resolverForce)
         {
-            _container = Exceptions.CheckNull(container);
-            _dataCache = Exceptions.CheckNull(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
+            _resolverForce = resolverForce;
+            _dataCache = dataCache;
             if (_dataCache.Structure.MemberData != null && _dataCache.Structure.MemberData.Values.Count > 0)
             {
                 Dictionary<Guid, XEP_IOneSectionData> sectionsData = (_dataCache.Structure.MemberData.Values.First()).SectionsData;
@@ -40,8 +41,7 @@ namespace XEP_CssProperties.ViewModels
         }
         void NewExecute()
         {
-            XEP_IInternalForceItem newItem = UnityContainerExtensions.Resolve<XEP_IInternalForceItem>(_container);
-            _internalForces.Add(newItem);
+            _internalForces.Add(_resolverForce.Resolve());
             ResetForm();
         }
         public ICommand DeleteCommand

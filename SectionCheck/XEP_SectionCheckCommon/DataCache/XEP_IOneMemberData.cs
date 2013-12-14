@@ -5,7 +5,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
-    public interface XEP_IOneMemberData : XEP_IDataCacheObjectBase, XEP_IContainerHolder
+    public interface XEP_IOneMemberData : XEP_IDataCacheObjectBase
     {
         XEP_IOneSectionData GetOneSectionData(Guid guid);
         Dictionary<Guid, XEP_IOneSectionData> SectionsData { get; set; }

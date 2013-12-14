@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using MyPrism.Infrastructure;
+using XEP_Prism.Infrastructure;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;

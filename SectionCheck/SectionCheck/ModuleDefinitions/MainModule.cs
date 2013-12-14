@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MyPrism.Infrastructure;
+using XEP_Prism.Infrastructure;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
 using XEP_CommonLibrary.Services;
@@ -11,9 +11,7 @@ using SectionCheck.Services;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Implementations;
 using XEP_SectionCheckCommon.Infrastucture;
-using XEP_SectionCheck.Services;
 
 namespace XEP_SectionCheck.ModuleDefinitions
 {
@@ -46,6 +44,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
             dataCacheService.Load(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
 
             dataCacheService.Save(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
+
 
             //load container
             _container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());

@@ -116,9 +116,9 @@
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
       <Name>XEP_CommonLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MyPrism\MyPrism.csproj">
+    <ProjectReference Include="..\MyPrism\XEP_Prism.csproj">
       <Project>{1A22F8BC-F52C-4481-A7E0-F323F9128881}</Project>
-      <Name>MyPrism</Name>
+      <Name>XEP_Prism</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResourceLibrary\ResourceLibrary.csproj">
       <Project>{08F6A7FD-12C9-44BC-B977-23007717EC52}</Project>

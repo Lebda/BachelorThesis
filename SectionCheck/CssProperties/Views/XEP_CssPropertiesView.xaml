@@ -13,13 +13,6 @@
              xmlns:local="clr-namespace:XEP_CssProperties.Infrastructure"
              xmlns:localViews="clr-namespace:XEP_CssProperties.Views"
              d:DesignHeight="300" d:DesignWidth="300">
-   <UserControl.Resources>
-      <ResourceDictionary>
-         <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="pack://application:,,,/ResourceLibrary;Component/Themes/ExpressionDark.xaml" />
-         </ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary>
-   </UserControl.Resources>
    <Grid>
       <Grid.ColumnDefinitions>
          <ColumnDefinition Width="*" />

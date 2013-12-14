@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
 using Microsoft.Practices.Unity;
 using XEP_CommonLibrary.Utility;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -35,22 +36,18 @@ namespace XEP_SectionCheckCommon.DataCache
     }
     public class XEP_DataCache : XEP_IDataCache
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_IStructure> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
         XEP_IStructure _structure = null;
 
-        public XEP_DataCache(IUnityContainer container)
+        public XEP_DataCache(XEP_UnityResolver<XEP_IStructure> resolver, XEP_IQuantityManager manager)
         {
-            _container = Exceptions.CheckNull(container);
-            _manager = Exceptions.CheckNull<XEP_IQuantityManager>(UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container));
+            _resolver = resolver;
+            _manager = manager;
             _xmlWorker = new XEP_DataCacheXml(this);
-            _structure = Exceptions.CheckNull<XEP_IStructure>(UnityContainerExtensions.Resolve<XEP_IStructure>(_container));
-        }
-        public IUnityContainer Container
-        {
-            get { return _container; }
+            _structure = _resolver.Resolve();
         }
         public XEP_IQuantityManager Manager
         {

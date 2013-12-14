@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 
-namespace MyPrism.Infrastructure
+namespace XEP_Prism.Infrastructure
 {
     public abstract class MyModuleBase : IModule
     {

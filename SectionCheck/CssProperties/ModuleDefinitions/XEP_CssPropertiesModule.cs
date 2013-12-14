@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MyPrism.Infrastructure;
+using XEP_Prism.Infrastructure;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;

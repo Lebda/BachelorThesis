@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
 using Microsoft.Practices.Unity;
 using XEP_CommonLibrary.Utility;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -46,13 +47,13 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlElements = xmlElement.Elements(ns + UnityContainerExtensions.Resolve<XEP_ISectionShapeItem>(_data.Container).XmlWorker.GetXmlElementName());
+            var xmlElements = xmlElement.Elements(ns + _data.Resolver.Resolve().XmlWorker.GetXmlElementName());
             if (xmlElements != null && xmlElements.Count() > 0)
             {
                 for (int counter = 0; counter < xmlElements.Count(); ++counter)
                 {
                     XElement xmlForce = Exceptions.CheckNull<XElement>(xmlElements.ElementAt(counter), "Invalid XML file");
-                    XEP_ISectionShapeItem item = UnityContainerExtensions.Resolve<XEP_ISectionShapeItem>(_data.Container);
+                    XEP_ISectionShapeItem item = _data.Resolver.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlForce);
                     if (item.Type == eEP_CssShapePointType.eOuter)
                     {
@@ -76,22 +77,29 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_SectionShape : ObservableObject, XEP_ISectionShape
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_ISectionShapeItem> _resolver = null;
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
         string _name = "Section shape";
         ObservableCollection<XEP_ISectionShapeItem> _shapeOuter = new ObservableCollection<XEP_ISectionShapeItem>();
         ObservableCollection<XEP_ISectionShapeItem> _shapeInner = new ObservableCollection<XEP_ISectionShapeItem>();
 
-        public XEP_SectionShape(IUnityContainer container)
+        public XEP_SectionShape(XEP_UnityResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, XEP_IQuantityManager manager)
         {
-            _container = Exceptions.CheckNull(container);
-            _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
+            _resolver = sectionShapeItemResolver;
+            _manager = manager;
             _xmlWorker = new XEP_SectionShapeXml(this);
         }
 
         #region XEP_ISectionShape Members
         public const string ShapeOuterPropertyName = "ShapeOuter";
+        public XEP_UnityResolver<XEP_ISectionShapeItem> Resolver
+        {
+            get
+            {
+                return this._resolver;
+            }
+        }
         public ObservableCollection<XEP_ISectionShapeItem> ShapeOuter
         {
             get { return _shapeOuter; }
@@ -105,6 +113,7 @@ namespace XEP_SectionCheckCommon.DataCache
                 RaisePropertyChanged(ShapeOuterPropertyName);
             }
         }
+
         public const string ShapeInnerPropertyName = "ShapeInner";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeInner
         {
@@ -118,10 +127,6 @@ namespace XEP_SectionCheckCommon.DataCache
                 _shapeInner = value;
                 RaisePropertyChanged(ShapeOuterPropertyName);
             }
-        }
-        public IUnityContainer Container
-        {
-            get { return _container; }
         }
         #endregion
 

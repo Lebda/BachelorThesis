@@ -8,7 +8,7 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using System.Windows;
-using MyPrism.Infrastructure;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheck.ModuleDefinitions;
 
 namespace XEP_SectionCheck

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
@@ -37,13 +38,13 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlItems = xmlElement.Elements(ns + UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_data.Container).XmlWorker.GetXmlElementName());
+            var xmlItems = xmlElement.Elements(ns + _data.Resolver.Resolve().XmlWorker.GetXmlElementName());
             if (xmlItems != null && xmlItems.Count() > 0)
             {
                 for (int counter = 0; counter < xmlItems.Count(); ++counter)
                 {
                     XElement xmlItem = Exceptions.CheckNull<XElement>(xmlItems.ElementAt(counter), "Invalid XML file");
-                    XEP_IOneMemberData item = UnityContainerExtensions.Resolve<XEP_IOneMemberData>(_data.Container);
+                    XEP_IOneMemberData item = _data.Resolver.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlItem);
                     _data.SaveOneMemberData(item);
                 }
@@ -53,27 +54,31 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public class XEP_Structure : XEP_IStructure
     {
-        readonly IUnityContainer _container = null;
+        readonly XEP_UnityResolver<XEP_IOneMemberData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
         string _name = "";
-        public XEP_Structure(IUnityContainer container)
+        public XEP_Structure(XEP_UnityResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
         {
-            _container = Exceptions.CheckNull(container);
-            _manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
+            _resolver = resolver;
+            _manager = manager;
             _xmlWorker = new XEP_StructurXml(this);
         }
         #region XEP_IStructure
+        public XEP_UnityResolver<XEP_IOneMemberData> Resolver
+        {
+            get
+            {
+                return this._resolver;
+            }
+        }
         public Dictionary<Guid, XEP_IOneMemberData> MemberData
         {
             get { return _memberData; }
             set { _memberData = value; }
         }
-        public IUnityContainer Container
-        {
-            get { return _container; }
-        }
+
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }

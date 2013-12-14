@@ -10,24 +10,25 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:infrastructure="clr-namespace:XEP_SectionCheckCommon.Infrastucture;assembly=XEP_SectionCheckCommon"
              xmlns:prism="http://www.codeplex.com/prism">
-   <UserControl.Resources>
-       <ResourceDictionary>
-         <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="pack://application:,,,/ResourceLibrary;Component/Themes/ExpressionDark.xaml" />
-         </ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary>
-   </UserControl.Resources>
     <Grid>
       <Grid.ColumnDefinitions>
          <ColumnDefinition Width="*"></ColumnDefinition>
+         <ColumnDefinition Width="Auto"></ColumnDefinition>
          <ColumnDefinition Width="3*"></ColumnDefinition>
+         <ColumnDefinition Width="Auto"></ColumnDefinition>         
          <ColumnDefinition Width="*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
          <ContentControl Grid.Column ="0"
             prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.LeftContentRegionName}" />
-      <ContentControl Grid.Column ="1"
-            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
+      <GridSplitter Grid.Row="0" Grid.Column="1"
+         Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"
+         ShowsPreview="False"></GridSplitter>
       <ContentControl Grid.Column ="2"
+            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
+      <GridSplitter Grid.Row="0" Grid.Column="3"
+         Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"
+         ShowsPreview="False"></GridSplitter>
+      <ContentControl Grid.Column ="4"
             prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.CssPropertiesRegionName}" />
    </Grid>
 </UserControl>

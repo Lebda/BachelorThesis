@@ -135,7 +135,7 @@ namespace XEP_CommonLibrary.Infrastructure
             }
         }
 
-        [DebuggerStepThrough]
+       // [DebuggerStepThrough]
         public Boolean CanExecute(Object parameter)
         {
             return _canExecute == null ? true : _canExecute();
@@ -144,6 +144,75 @@ namespace XEP_CommonLibrary.Infrastructure
         public void Execute(Object parameter)
         {
             _execute();
+        }
+
+        #endregion
+    }
+
+    public class XEP_RelayCommand : ICommand
+    {
+
+        #region Declarations
+
+        readonly Func<Object, Boolean> _canExecute;
+        readonly Action<Object> _execute;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RelayCommand&lt;T&gt;"/> class and the command can always be executed.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        public XEP_RelayCommand(Action<Object> execute)
+            : this(execute, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RelayCommand&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        /// <param name="canExecute">The execution status logic.</param>
+        public XEP_RelayCommand(Action<Object> execute, Func<Object, Boolean> canExecute)
+        {
+
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        #endregion
+
+        #region ICommand Members
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+
+                if (_canExecute != null)
+                    CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+
+                if (_canExecute != null)
+                    CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        // [DebuggerStepThrough]
+        public Boolean CanExecute(Object parameter)
+        {
+            return _canExecute == null ? true : _canExecute(parameter);
+        }
+
+        public void Execute(Object parameter)
+        {
+            _execute(parameter);
         }
 
         #endregion
