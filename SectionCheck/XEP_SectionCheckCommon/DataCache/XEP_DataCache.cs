@@ -36,18 +36,16 @@ namespace XEP_SectionCheckCommon.DataCache
     }
     public class XEP_DataCache : XEP_IDataCache
     {
-        readonly XEP_UnityResolver<XEP_IStructure> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
         XEP_IStructure _structure = null;
 
-        public XEP_DataCache(XEP_UnityResolver<XEP_IStructure> resolver, XEP_IQuantityManager manager)
+        public XEP_DataCache(XEP_IResolver<XEP_IStructure> resolver, XEP_IQuantityManager manager)
         {
-            _resolver = resolver;
             _manager = manager;
             _xmlWorker = new XEP_DataCacheXml(this);
-            _structure = _resolver.Resolve();
+            _structure = resolver.Resolve();
         }
         public XEP_IQuantityManager Manager
         {

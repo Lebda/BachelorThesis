@@ -20,7 +20,7 @@
                <Setter Property="Background" Value="Transparent" />
                <Setter Property="BorderBrush" Value="Transparent" />
                <Setter Property="IsReadOnly" Value="True" />
-               <Setter Property="Foreground" Value="Maroon"/>
+               <Setter Property="Foreground" Value="DeepSkyBlue"/>
             </Style.Setters>
          </Style>
          <Style x:Key="TextBox4EditAsLabelStyle" TargetType="TextBox">
@@ -29,7 +29,7 @@
                <Setter Property="BorderBrush" Value="Transparent" />
                <Setter Property="IsReadOnly" Value="False" />
                <Setter Property="HorizontalAlignment" Value="Stretch" />
-               <Setter Property="Foreground" Value="Maroon"/>
+               <Setter Property="Foreground" Value="DeepSkyBlue"/>
             </Style.Setters>
          </Style>
          <DataTemplate x:Key="ForceInCheckTemplate">

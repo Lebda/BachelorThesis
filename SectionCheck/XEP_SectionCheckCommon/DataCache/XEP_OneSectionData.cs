@@ -69,7 +69,7 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_OneSectionData : XEP_IOneSectionData
     {
-        readonly XEP_UnityResolver<XEP_InternalForceItem> _resolverForce = null;
+        readonly XEP_IResolver<XEP_InternalForceItem> _resolverForce = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Guid _guid = Guid.NewGuid();
@@ -77,7 +77,7 @@ namespace XEP_SectionCheckCommon.DataCache
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
         XEP_ISectionShape _sectionShape = null;
 
-        public XEP_OneSectionData(XEP_UnityResolver<XEP_InternalForceItem> resolverForce, XEP_UnityResolver<XEP_ISectionShape> resolverShape, 
+        public XEP_OneSectionData(XEP_IResolver<XEP_InternalForceItem> resolverForce, XEP_IResolver<XEP_ISectionShape> resolverShape, 
             XEP_IQuantityManager manager)
         {
             _resolverForce = resolverForce;
@@ -85,7 +85,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _xmlWorker = new XEP_OneSectionDataXml(this);
             _sectionShape = resolverShape.Resolve();
         }
-        public XEP_UnityResolver<XEP_InternalForceItem> ResolverForce
+        public XEP_IResolver<XEP_InternalForceItem> ResolverForce
         {
             get
             {

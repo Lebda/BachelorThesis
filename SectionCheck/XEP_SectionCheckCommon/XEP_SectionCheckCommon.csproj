@@ -64,6 +64,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCache\XEP_DataCacheMaker.cs" />
     <Compile Include="DataCache\XEP_IDataCacheObjectBase.cs" />
     <Compile Include="DataCache\XEP_IDataCacheService.cs" />
     <Compile Include="DataCache\XEP_IInternalForceItem.cs" />

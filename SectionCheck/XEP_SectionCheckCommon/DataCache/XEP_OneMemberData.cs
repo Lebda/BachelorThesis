@@ -69,21 +69,21 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_OneMemberData : XEP_IOneMemberData
     {
-        readonly XEP_UnityResolver<XEP_IOneSectionData> _resolver = null;
+        readonly XEP_IResolver<XEP_IOneSectionData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Dictionary<Guid, XEP_IOneSectionData> _sectionsData = new Dictionary<Guid, XEP_IOneSectionData>();
         Guid _guid = Guid.NewGuid();
         string _name = String.Empty;
 
-        public XEP_OneMemberData(XEP_UnityResolver<XEP_IOneSectionData> resolver, XEP_IQuantityManager manager)
+        public XEP_OneMemberData(XEP_IResolver<XEP_IOneSectionData> resolver, XEP_IQuantityManager manager)
         {
             _manager = manager;
             _resolver = resolver;
             _xmlWorker = new XEP_OneMemberDataXml(this);
         }
         #region XEP_IOneMemberData Members
-        public XEP_UnityResolver<XEP_IOneSectionData> Resolver
+        public XEP_IResolver<XEP_IOneSectionData> Resolver
         {
             get
             {

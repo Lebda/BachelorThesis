@@ -11,18 +11,37 @@ namespace SectionCheck.Services
 {
     public class XEP_DataCacheService : XEP_IDataCacheService
     {
+        string _aplicationFolderPathFullName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string _folderName = "XEP_SectionCheck";
+        string _fileName = "XEP_DataCache";
+
         #region XEP_IDataCacheService Members
+        public string AplicationFolderPathFullName
+        {
+            get { return _aplicationFolderPathFullName; }
+            set { _aplicationFolderPathFullName = value; }
+        }
+        public string FolderName
+        {
+            get { return _folderName; }
+            set { _folderName = value; }
+        }
+        public string FileName
+        {
+            get { return _fileName; }
+            set { _fileName = value; }
+        }
         eDataCacheServiceOperation XEP_IDataCacheService.Load(XEP_IDataCache dataCache)
         {
             try
             {
-                DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
+                DirectoryInfo ducumentsDirectory = new DirectoryInfo(_aplicationFolderPathFullName);
+                DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, _folderName));
                 if (myDirectory.Exists == false)
                 {
                     throw new ApplicationException("No xml file for creating data cache !");
                 }
-                FileInfo myFile = new FileInfo(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
+                FileInfo myFile = new FileInfo(Path.Combine(myDirectory.FullName, _fileName + ".xml"));
                 if (myFile.Exists == false)
                 {
                     throw new ApplicationException("No xml file for creating data cache !");
@@ -44,8 +63,8 @@ namespace SectionCheck.Services
         }
         eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IDataCache dataCache)
         {
-            DirectoryInfo ducumentsDirectory = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, "XEP_SectionCheck"));
+            DirectoryInfo ducumentsDirectory = new DirectoryInfo(_aplicationFolderPathFullName);
+            DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, _folderName));
             if (myDirectory.Exists == false)
             {
                 myDirectory.Create();
@@ -55,7 +74,7 @@ namespace SectionCheck.Services
             new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
             XElement xmlElement = dataCache.XmlWorker.GetXmlElement();
             documentXml.Add(xmlElement);
-            documentXml.Save(Path.Combine(myDirectory.FullName, "XEP_DataCache.xml"));
+            documentXml.Save(Path.Combine(myDirectory.FullName, _fileName + ".xml"));
             return eDataCacheServiceOperation.eSuccess;
         }
         #endregion

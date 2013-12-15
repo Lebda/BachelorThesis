@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--XEP_SectionCheck data cache-->
+<XEP_DataCache xmlns="XEP_SectionCheck">
+  <!--Data cache holds all data-->
+  <XEP_Structure>
+    <!--Structure holds information about geometry-->
+    <XEP_OneMemberData p3:Guid="39dbfa68-8334-49ef-9614-8f508e9ac72f" p3:Name="Member 1" xmlns:p3="XEP_SectionCheck">
+      <!--Object represents one member in construction-->
+      <p3:XEP_OneSectionData p3:Guid="a8742fc9-2cc5-4031-aef8-d3c099412da2" p3:Name="Section 1">
+        <!--Object represents on section on member-->
+        <p3:XEP_InternalForceItem p3:Name="RS2-C01.1-1" p3:Type="1" p3:UsedInCheck="true">
+          <!--One force on section-->
+          <p3:XEP_Quantity p3:Name="N" p3:QuantityType="1" p3:Value="150000" />
+          <p3:XEP_Quantity p3:Name="Vy" p3:QuantityType="1" p3:Value="65000" />
+          <p3:XEP_Quantity p3:Name="Vz" p3:QuantityType="1" p3:Value="0" />
+          <p3:XEP_Quantity p3:Name="Mx" p3:QuantityType="2" p3:Value="113000" />
+          <p3:XEP_Quantity p3:Name="My" p3:QuantityType="2" p3:Value="32000" />
+          <p3:XEP_Quantity p3:Name="Mz" p3:QuantityType="2" p3:Value="68000" />
+        </p3:XEP_InternalForceItem>
+        <p3:XEP_InternalForceItem p3:Name="RS2-C02.2-4" p3:Type="1" p3:UsedInCheck="false">
+          <!--One force on section-->
+          <p3:XEP_Quantity p3:Name="N" p3:QuantityType="1" p3:Value="178000" />
+          <p3:XEP_Quantity p3:Name="Vy" p3:QuantityType="1" p3:Value="52000" />
+          <p3:XEP_Quantity p3:Name="Vz" p3:QuantityType="1" p3:Value="0" />
+          <p3:XEP_Quantity p3:Name="Mx" p3:QuantityType="2" p3:Value="98000" />
+          <p3:XEP_Quantity p3:Name="My" p3:QuantityType="2" p3:Value="42000" />
+          <p3:XEP_Quantity p3:Name="Mz" p3:QuantityType="2" p3:Value="75000" />
+        </p3:XEP_InternalForceItem>
+        <p3:XEP_SectionShape p3:Name="Section shape">
+          <!--Object represents section shape-->
+          <p3:XEP_SectionShapeItem p3:Type="0" p3:Y="0.15" p3:Z="-0.25" />
+          <p3:XEP_SectionShapeItem p3:Type="0" p3:Y="0.15" p3:Z="0.25" />
+          <p3:XEP_SectionShapeItem p3:Type="0" p3:Y="-0.15" p3:Z="0.25" />
+          <p3:XEP_SectionShapeItem p3:Type="0" p3:Y="-0.15" p3:Z="-0.25" />
+          <p3:XEP_SectionShapeItem p3:Type="0" p3:Y="0.15" p3:Z="-0.25" />
+        </p3:XEP_SectionShape>
+      </p3:XEP_OneSectionData>
+    </XEP_OneMemberData>
+  </XEP_Structure>
+</XEP_DataCache>

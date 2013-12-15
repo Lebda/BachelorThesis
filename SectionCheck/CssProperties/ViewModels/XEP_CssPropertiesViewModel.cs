@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using XEP_SectionCheckCommon.Interfaces;
 using System.Collections.ObjectModel;
-using XEP_CommonLibrary.Utility;
 using XEP_CommonLibrary.Infrastructure;
-using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_Prism.Infrastructure;
@@ -14,14 +11,17 @@ namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : ObservableObject
     {
-        readonly XEP_UnityResolver<XEP_IInternalForceItem> _resolverForce = null;
+        readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
         readonly XEP_IOneSectionData _activeSectionData = null;
-        public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_UnityResolver<XEP_IInternalForceItem> resolverForce)
+        private XEP_IInternalForceItem _activeForce = null;
+        private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
+
+        public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_IResolver<XEP_IInternalForceItem> resolverForce)
         {
             _resolverForce = resolverForce;
             _dataCache = dataCache;
-            if (_dataCache.Structure.MemberData != null && _dataCache.Structure.MemberData.Values.Count > 0)
+            if (_dataCache.Structure != null &&_dataCache.Structure.MemberData != null && _dataCache.Structure.MemberData.Values.Count > 0)
             {
                 Dictionary<Guid, XEP_IOneSectionData> sectionsData = (_dataCache.Structure.MemberData.Values.First()).SectionsData;
                 if (sectionsData.Count > 0)
@@ -30,7 +30,6 @@ namespace XEP_CssProperties.ViewModels
                     _internalForces = _activeSectionData.InternalForces;
                 }
             }
-
         }
 
         #region Commands
@@ -110,9 +109,6 @@ namespace XEP_CssProperties.ViewModels
         /// The <see cref="ActiveForce" /> property's name.
         /// </summary>
         public const string ActiveForcePropertyName = "ActiveForce";
-
-        private XEP_IInternalForceItem _activeForce = null;
-
         /// <summary>
         /// Sets and gets the ActiveForce property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -138,9 +134,6 @@ namespace XEP_CssProperties.ViewModels
         /// The <see cref="InternalForces" /> property's name.
         /// </summary>
         public const string InternalForcesPropertyName = "InternalForces";
-
-        private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
-
         /// <summary>
         /// Sets and gets the InternalForces property.
         /// Changes to that property's value raise the PropertyChanged event. 

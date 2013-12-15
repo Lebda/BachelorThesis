@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
-using Microsoft.Practices.Unity;
 using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.DataCache
@@ -54,19 +51,19 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public class XEP_Structure : XEP_IStructure
     {
-        readonly XEP_UnityResolver<XEP_IOneMemberData> _resolver = null;
+        readonly XEP_IResolver<XEP_IOneMemberData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
         string _name = "";
-        public XEP_Structure(XEP_UnityResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
+        public XEP_Structure(XEP_IResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
         {
             _resolver = resolver;
             _manager = manager;
             _xmlWorker = new XEP_StructurXml(this);
         }
         #region XEP_IStructure
-        public XEP_UnityResolver<XEP_IOneMemberData> Resolver
+        public XEP_IResolver<XEP_IOneMemberData> Resolver
         {
             get
             {

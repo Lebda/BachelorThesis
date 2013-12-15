@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CssProperties", "CssPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionCheckCommon", "XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj", "{15687EED-0F0C-4210-91B0-DFDD36A176D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CssPropertiesViewModelTest", "XEP_CssPropertiesViewModelTest\XEP_CssPropertiesViewModelTest.csproj", "{7AE4D3E0-F235-4EB6-B06D-04F767329C57}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SectionCheck.vsmdi
@@ -131,11 +133,22 @@ Global
 		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{15687EED-0F0C-4210-91B0-DFDD36A176D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9DE2ECA8-142A-4575-A220-B77ED441755A} = {82FF582A-1B19-4E67-971C-5A3928209E0D}
+		{7AE4D3E0-F235-4EB6-B06D-04F767329C57} = {82FF582A-1B19-4E67-971C-5A3928209E0D}
 	EndGlobalSection
 EndGlobal

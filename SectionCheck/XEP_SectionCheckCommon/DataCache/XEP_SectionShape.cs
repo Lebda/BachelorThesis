@@ -77,14 +77,14 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_SectionShape : ObservableObject, XEP_ISectionShape
     {
-        readonly XEP_UnityResolver<XEP_ISectionShapeItem> _resolver = null;
+        readonly XEP_IResolver<XEP_ISectionShapeItem> _resolver = null;
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
         string _name = "Section shape";
         ObservableCollection<XEP_ISectionShapeItem> _shapeOuter = new ObservableCollection<XEP_ISectionShapeItem>();
         ObservableCollection<XEP_ISectionShapeItem> _shapeInner = new ObservableCollection<XEP_ISectionShapeItem>();
 
-        public XEP_SectionShape(XEP_UnityResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, XEP_IQuantityManager manager)
+        public XEP_SectionShape(XEP_IResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, XEP_IQuantityManager manager)
         {
             _resolver = sectionShapeItemResolver;
             _manager = manager;
@@ -93,7 +93,7 @@ namespace XEP_SectionCheckCommon.DataCache
 
         #region XEP_ISectionShape Members
         public const string ShapeOuterPropertyName = "ShapeOuter";
-        public XEP_UnityResolver<XEP_ISectionShapeItem> Resolver
+        public XEP_IResolver<XEP_ISectionShapeItem> Resolver
         {
             get
             {
