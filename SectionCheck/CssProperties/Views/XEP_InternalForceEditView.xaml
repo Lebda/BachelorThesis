@@ -157,9 +157,9 @@
                      </telerik:RadGridView.Columns>
                   </telerik:RadGridView>
                   <StackPanel Orientation="Horizontal">
-                  <telerik:RadButton Content="{x:Static r:Resources.ADD}" Command="{Binding Path=NewCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                  <telerik:RadButton Content="{x:Static r:Resources.DELETE}" Command="{Binding Path=DeleteCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                  <telerik:RadButton Content="{x:Static r:Resources.COPY}" Command="{Binding Path=CopyCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                  <telerik:RadButton Content="{x:Static r:Resources.ADD}" Command="{Binding Path=NewForceCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                  <telerik:RadButton Content="{x:Static r:Resources.DELETE}" Command="{Binding Path=DelereForceCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                  <telerik:RadButton Content="{x:Static r:Resources.COPY}" Command="{Binding Path=CopyForceCommand}" Width="65" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
                   </StackPanel>
                </StackPanel>
             </telerik:RadExpander.Content>

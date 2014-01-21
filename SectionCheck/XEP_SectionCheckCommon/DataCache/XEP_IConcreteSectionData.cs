@@ -1,0 +1,13 @@
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+
+namespace XEP_SectionCheckCommon.DataCache
+{
+    public interface XEP_IConcreteSectionData : XEP_IDataCacheObjectBase
+    {
+        [Browsable(false)]
+        XEP_ISectionShape SectionShape { get; set; }
+        XEP_IMaterialDataConcrete MaterialData { get; set; }
+    }
+}

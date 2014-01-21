@@ -29,7 +29,10 @@
                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
                <Viewbox Grid.Row="0" Grid.Column="0">
-                  <lib:XEP_SectionDrawerUC x:Name="drawingScene" Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3" />
+                  <lib:XEP_SectionDrawerUC x:Name="drawingScene" Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3"
+                                            CssShape4Draw="{Binding Path=CssShape}"
+                                            CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal, Mode=TwoWay}"
+                                            CssAxisVertical4Draw="{Binding Path=CssAxisVertical, Mode=TwoWay}"/>
                </Viewbox>
             </Grid>
          </telerik:RadExpander.Content>

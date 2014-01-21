@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.Infrastructure;
-using XEP_CommonLibrary.Utility;
-using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
+using XEP_CommonLibrary.Utility;
+using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     class XEP_StructurXml : XEP_XmlWorkerImpl
     {

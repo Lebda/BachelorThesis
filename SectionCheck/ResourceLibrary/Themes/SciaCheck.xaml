@@ -68,9 +68,22 @@
       <GradientStop Color="White" Offset="1" />
    </LinearGradientBrush>
 
+   <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssBrush2_SC}" 
+                        StartPoint="0,0" EndPoint="0.5,0.5" SpreadMethod="Reflect">
+      <GradientStop Color="#FF09D368" Offset="0"/>
+      <GradientStop Color="White" Offset="1" />
+   </LinearGradientBrush>
+
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssPen1_SC}" 
                   Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
       <Pen.Brush> <SolidColorBrush Color="DimGray" /> </Pen.Brush>
+   </Pen>
+
+   <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssPen2_SC}" 
+                  Thickness="1" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="#FF07AFE2" />
+      </Pen.Brush>
    </Pen>
 
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=HorAxisBrush1_SC}" Color="#FFEF2222" />

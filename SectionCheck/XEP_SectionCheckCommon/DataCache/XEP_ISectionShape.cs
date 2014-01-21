@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Media;
 using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.DataCache

@@ -83,6 +83,30 @@ namespace XEP_SectionCheckCommon.DataCache
             _name = "Force";
         }
 
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to Point return false.
+            XEP_InternalForceItem p = obj as XEP_InternalForceItem;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (_N.Equals(p._N) && _Vy.Equals(p._Vy) && _Vz.Equals(p._Vz) && _Mx.Equals(p._Mx) && _My.Equals(p._My) && _Mz.Equals(p._Mz));
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public XEP_IXmlWorker XmlWorker
         {
             get

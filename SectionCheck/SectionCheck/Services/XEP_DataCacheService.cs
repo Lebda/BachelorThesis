@@ -31,7 +31,7 @@ namespace SectionCheck.Services
             get { return _fileName; }
             set { _fileName = value; }
         }
-        eDataCacheServiceOperation XEP_IDataCacheService.Load(XEP_IDataCache dataCache)
+        public virtual eDataCacheServiceOperation Load(XEP_IDataCache dataCache)
         {
             try
             {

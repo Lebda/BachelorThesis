@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
-using XEP_CommonLibrary.Infrastructure;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-using XEP_SectionCheckCommon.DataCache;
+using ResourceLibrary;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionDrawer.Infrastructure;
+using System.Windows.Media;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -16,6 +21,9 @@ namespace XEP_CssProperties.ViewModels
         readonly XEP_IOneSectionData _activeSectionData = null;
         private XEP_IInternalForceItem _activeForce = null;
         private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
+        private CssDataShape _cssShapeProperty = new CssDataShape(CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey), CustomResources.GetSavePen(CustomResources.CssPen2_SCkey));
+        private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey));
+        private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey));
 
         public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_IResolver<XEP_IInternalForceItem> resolverForce)
         {
@@ -34,26 +42,26 @@ namespace XEP_CssProperties.ViewModels
 
         #region Commands
 
-        public ICommand NewCommand
+        public ICommand NewForceCommand
         {
-            get { return new RelayCommand(NewExecute); }
+            get { return new RelayCommand(NewForceExecute); }
         }
-        void NewExecute()
+        void NewForceExecute()
         {
             _internalForces.Add(_resolverForce.Resolve());
             ResetForm();
         }
-        public ICommand DeleteCommand
+        public ICommand DelereForceCommand
         {
-            get { return new RelayCommand(DeleteExecute, CanDeleteExecute); }
+            get { return new RelayCommand(DeleteForceExecute, CanDeleteForceExecute); }
         }
-        Boolean CanDeleteExecute()
+        Boolean CanDeleteForceExecute()
         {
             return this.ActiveForce != null;
         }
-        void DeleteExecute()
+        void DeleteForceExecute()
         {
-            if (!CanDeleteExecute())
+            if (!CanDeleteForceExecute())
             {
                 return;
             }
@@ -67,17 +75,17 @@ namespace XEP_CssProperties.ViewModels
                 string test = ex.Message;
             }
         }
-        public ICommand CopyCommand
+        public ICommand CopyForceCommand
         {
-            get { return new RelayCommand(CopyExecute, CanCopyExecute); }
+            get { return new RelayCommand(CopyForceExecute, CanCopyForceExecute); }
         }
-        Boolean CanCopyExecute()
+        Boolean CanCopyForceExecute()
         {
             return this.ActiveForce != null;
         }
-        void CopyExecute()
+        void CopyForceExecute()
         {
-            if (!CanCopyExecute())
+            if (!CanCopyForceExecute())
             {
                 return;
             }
@@ -104,6 +112,72 @@ namespace XEP_CssProperties.ViewModels
             this.ActiveForce = null;
         }
         #endregion
+
+
+        public const string CssShapePropertyName = "CssShape";
+        public CssDataShape CssShape
+        {
+            get
+            {
+                Exceptions.CheckIsNull(_cssShapeProperty, _cssShapeProperty.CssShapeOuter, _cssShapeProperty.CssShapeInner);
+                _cssShapeProperty.CssShapeOuter.Clear();
+                foreach(var shapeItem in _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter)
+                {
+                    _cssShapeProperty.CssShapeOuter.Add(new System.Windows.Point(shapeItem.Point.X, shapeItem.Point.Y));
+                }
+                _cssShapeProperty.CssShapeInner.Clear();
+                foreach (var shapeItem in _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner)
+                {
+                    _cssShapeProperty.CssShapeInner.Add(new System.Windows.Point(shapeItem.Point.X, shapeItem.Point.Y));
+                }
+                return _cssShapeProperty;
+            }
+            protected set
+            {
+                if (_cssShapeProperty == value)
+                {
+                    return;
+                }
+                _cssShapeProperty = value;
+                RaisePropertyChanged(CssShapePropertyName);
+            }
+        }
+
+        public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
+        public CssDataAxis CssAxisHorizontal
+        {
+            get
+            {
+                return _cssAxisHorizontalProperty;
+            }
+            set
+            {
+                if (_cssAxisHorizontalProperty == value)
+                {
+                    return;
+                }
+                _cssAxisHorizontalProperty = value;
+                RaisePropertyChanged(CssAxisHorizontalPropertyName);
+            }
+        }
+        public const string CssAxisVerticalPropertyName = "CssAxisVertical";
+        public CssDataAxis CssAxisVertical
+        {
+            get
+            {
+                return _cssAxisVerticalProperty;
+            }
+
+            set
+            {
+                if (_cssAxisVerticalProperty == value)
+                {
+                    return;
+                }
+                _cssAxisVerticalProperty = value;
+                RaisePropertyChanged(CssAxisVerticalPropertyName);
+            }
+        }
 
         /// <summary>
         /// The <see cref="ActiveForce" /> property's name.

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using XEP_SectionCheckCommon.Interfaces;
-using XEP_SectionCheckCommon.Infrastucture;
 using System.Xml.Linq;
-using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     class XEP_SectionShapeItemXml : XEP_XmlWorkerImpl
     {

@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
-using XEP_CommonLibrary.Infrastructure;
-using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
+using System.Linq;
 using System.Xml.Linq;
-using XEP_SectionCheckCommon.Infrastucture;
-using Microsoft.Practices.Unity;
+using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     class XEP_SectionShapeXml : XEP_XmlWorkerImpl
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.DataCache
 {

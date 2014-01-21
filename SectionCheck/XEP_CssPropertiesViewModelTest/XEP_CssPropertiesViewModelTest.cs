@@ -25,7 +25,9 @@ namespace XEP_CssPropertiesViewModelTest
     [TestClass()]
     public class XEP_CssPropertiesViewModelTest
     {
-
+        static IUnityContainer _container = new UnityContainer();
+        static XEP_IDataCache _dataCache = null;
+        static XEP_IDataCacheService _dataCacheService = null;
 
         private TestContext testContextInstance;
 
@@ -50,10 +52,14 @@ namespace XEP_CssPropertiesViewModelTest
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            MainModule.RegisterTypes(_container);
+            _dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(_container);
+            _dataCacheService.FileName = "UT_DataCache";
+            _dataCache = UnityContainerExtensions.Resolve<XEP_IDataCache>(_container);
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -62,11 +68,12 @@ namespace XEP_CssPropertiesViewModelTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            _dataCacheService.Load(_dataCache);
+        }
+        
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
         //public void MyTestCleanup()
@@ -75,189 +82,99 @@ namespace XEP_CssPropertiesViewModelTest
         //
         #endregion
 
-
-        /// <summary>
-        ///A test for XEP_CssPropertiesViewModel Constructor
-        ///</summary>
-        [TestMethod()]
-        public void XEP_CssPropertiesViewModelConstructorTest()
-        {
-//             XEP_IDataCache dataCache = null; // TODO: Initialize to an appropriate value
-//             XEP_UnityResolver<XEP_IInternalForceItem> resolverForce = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel target = new XEP_CssPropertiesViewModel(dataCache, resolverForce);
-//             Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        /// <summary>
-        ///A test for CanCopyExecute
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void CanCopyExecuteTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             bool expected = false; // TODO: Initialize to an appropriate value
-//             bool actual;
-//             actual = target.CanCopyExecute();
-//             Assert.AreEqual(expected, actual);
-//             Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for CanDeleteExecute
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void CanDeleteExecuteTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             bool expected = false; // TODO: Initialize to an appropriate value
-//             bool actual;
-//             actual = target.CanDeleteExecute();
-//             Assert.AreEqual(expected, actual);
-//             Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for CopyExecute
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void CopyExecuteTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             target.CopyExecute();
-//             Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
-        ///A test for DeleteExecute
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void DeleteExecuteTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             target.DeleteExecute();
-//             Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
-        ///A test for NewExecute
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void NewExecuteTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             target.NewExecute();
-//             Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
-        ///A test for ResetForm
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("XEP_CssProperties.dll")]
-        public void ResetFormTest()
-        {
-//             PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel_Accessor target = new XEP_CssPropertiesViewModel_Accessor(param0); // TODO: Initialize to an appropriate value
-//             target.ResetForm();
-//             Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
         /// <summary>
         ///A test for ActiveForce
         ///</summary>
         [TestMethod()]
         public void ActiveForceTest()
         {
-//             XEP_IDataCache dataCache = null; // TODO: Initialize to an appropriate value
-//             XEP_UnityResolver<XEP_IInternalForceItem> resolverForce = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel target = new XEP_CssPropertiesViewModel(dataCache, resolverForce); // TODO: Initialize to an appropriate value
-//             XEP_IInternalForceItem expected = null; // TODO: Initialize to an appropriate value
-//             XEP_IInternalForceItem actual;
-//             target.ActiveForce = expected;
-//             actual = target.ActiveForce;
-//             Assert.AreEqual(expected, actual);
-//             Assert.Inconclusive("Verify the correctness of this test method.");
+            // Arrange
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+
+            // Act
+
+            // Assert
+            Assert.IsNull(target.ActiveForce);
         }
 
         /// <summary>
         ///A test for CopyCommand
         ///</summary>
         [TestMethod()]
-        public void CopyCommandTest()
+        public void CopyForceCommandTest()
         {
-//             XEP_IDataCache dataCache = null; // TODO: Initialize to an appropriate value
-//             XEP_UnityResolver<XEP_IInternalForceItem> resolverForce = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel target = new XEP_CssPropertiesViewModel(dataCache, resolverForce); // TODO: Initialize to an appropriate value
-//             ICommand actual;
-//             actual = target.CopyCommand;
-//             Assert.Inconclusive("Verify the correctness of this test method.");
+            // Arrange
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+
+            // Act
+            int count = target.InternalForces.Count;
+            target.CopyForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, count);
+
+            // Act
+            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.CopyForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, ++count);
+            Assert.AreEqual(_dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First(), _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.Last());
         }
 
         /// <summary>
         ///A test for DeleteCommand
         ///</summary>
         [TestMethod()]
-        public void DeleteCommandTest()
+        public void DeleteForceCommandTest()
         {
-//             XEP_IDataCache dataCache = null; // TODO: Initialize to an appropriate value
-//             XEP_UnityResolver<XEP_IInternalForceItem> resolverForce = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel target = new XEP_CssPropertiesViewModel(dataCache, resolverForce); // TODO: Initialize to an appropriate value
-//             ICommand actual;
-//             actual = target.DeleteCommand;
-//             Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            // Arrange
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
 
-        /// <summary>
-        ///A test for InternalForces
-        ///</summary>
-        [TestMethod()]
-        public void InternalForcesTest()
-        {
-//             XEP_IDataCache dataCache = null; // TODO: Initialize to an appropriate value
-//             XEP_UnityResolver<XEP_IInternalForceItem> resolverForce = null; // TODO: Initialize to an appropriate value
-//             XEP_CssPropertiesViewModel target = new XEP_CssPropertiesViewModel(dataCache, resolverForce); // TODO: Initialize to an appropriate value
-//             ObservableCollection<XEP_IInternalForceItem> expected = null; // TODO: Initialize to an appropriate value
-//             ObservableCollection<XEP_IInternalForceItem> actual;
-//             target.InternalForces = expected;
-//             actual = target.InternalForces;
-//             Assert.AreEqual(expected, actual);
-//             Assert.Inconclusive("Verify the correctness of this test method.");
+            // Act
+            int count = target.InternalForces.Count;
+            target.DelereForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, count);
+
+            // Act
+            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.DelereForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, --count);
+
+            // Act
+            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.DelereForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, --count);
+
+            // Act
+            target.DelereForceCommand.Execute(null);
+            // Assert
+            Assert.IsNull(target.ActiveForce);
+            Assert.AreEqual(target.InternalForces.Count, 0);
         }
 
         /// <summary>
         ///A test for NewCommand
         ///</summary>
         [TestMethod()]
-        public void NewCommandTest()
+        public void NewForceCommandTest()
         {
             // Arrange
-            IUnityContainer container = new UnityContainer();
-            MainModule.RegisterTypes(container);
-            XEP_IDataCacheService dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(container);
-            dataCacheService.FileName = "UT_DataCache";
-            XEP_IDataCache dataCache = UnityContainerExtensions.Resolve<XEP_IDataCache>(container);
-            dataCacheService.Load(dataCache);
+            (_dataCache.Structure.MemberData.Values.First()).SectionsData.First().Value.InternalForces.Clear();
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
 
             // Act
-            (dataCache.Structure.MemberData.Values.First()).SectionsData.First().Value.InternalForces.Clear();
-            var target = new XEP_CssPropertiesViewModel(dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(container));
+            target.NewForceCommand.Execute(null);
 
             // Assert
-            target.NewCommand.Execute(null);
             Assert.IsNull(target.ActiveForce);
             Assert.AreEqual(target.InternalForces.Count, 1);
-
-
         }
     }
 }

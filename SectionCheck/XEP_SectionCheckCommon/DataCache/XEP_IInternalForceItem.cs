@@ -2,7 +2,6 @@
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.DataCache
 {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     public class XEP_DataCacheMaker
     {

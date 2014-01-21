@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XEP_SectionCheckCommon.Interfaces;
-using XEP_SectionCheckCommon.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Implementations;
+using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Interfaces;
 
 namespace SectionCheck.Services
 {

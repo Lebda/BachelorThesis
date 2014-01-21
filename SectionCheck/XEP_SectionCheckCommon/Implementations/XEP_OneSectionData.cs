@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
-using XEP_SectionCheckCommon.Interfaces;
+using System.Linq;
 using System.Xml.Linq;
-using XEP_SectionCheckCommon.Infrastucture;
 using XEP_CommonLibrary.Utility;
-using Microsoft.Practices.Unity;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     class XEP_OneSectionDataXml : XEP_XmlWorkerImpl
     {
@@ -33,7 +32,7 @@ namespace XEP_SectionCheckCommon.DataCache
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
-            xmlElement.Add(_data.SectionShape.XmlWorker.GetXmlElement());
+            xmlElement.Add(_data.ConcreteSectionData.XmlWorker.GetXmlElement());
         }
         protected override void AddAtributes(XElement xmlElement)
         {
@@ -55,7 +54,7 @@ namespace XEP_SectionCheckCommon.DataCache
                     _data.InternalForces.Add(item);
                 }
             }
-            _data.SectionShape.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.SectionShape.XmlWorker.GetXmlElementName()));
+            _data.ConcreteSectionData.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.ConcreteSectionData.XmlWorker.GetXmlElementName()));
         }
         protected override void LoadAtributes( XElement xmlElement )
         {
@@ -75,15 +74,15 @@ namespace XEP_SectionCheckCommon.DataCache
         Guid _guid = Guid.NewGuid();
         string _name = String.Empty;
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
-        XEP_ISectionShape _sectionShape = null;
-
-        public XEP_OneSectionData(XEP_IResolver<XEP_InternalForceItem> resolverForce, XEP_IResolver<XEP_ISectionShape> resolverShape, 
+        XEP_IConcreteSectionData _concreteSectionData = null;
+        // ctors
+        public XEP_OneSectionData(XEP_IResolver<XEP_InternalForceItem> resolverForce, XEP_IResolver<XEP_IConcreteSectionData> resolverConcrete, 
             XEP_IQuantityManager manager)
         {
             _resolverForce = resolverForce;
             _manager = manager;
             _xmlWorker = new XEP_OneSectionDataXml(this);
-            _sectionShape = resolverShape.Resolve();
+            _concreteSectionData = resolverConcrete.Resolve();
         }
         public XEP_IResolver<XEP_InternalForceItem> ResolverForce
         {
@@ -93,10 +92,10 @@ namespace XEP_SectionCheckCommon.DataCache
             }
         }
         #region XEP_IOneSectionData
-        public XEP_ISectionShape SectionShape
+        public XEP_IConcreteSectionData ConcreteSectionData
         {
-            get { return _sectionShape; }
-            set { _sectionShape = value; }
+            get { return _concreteSectionData; }
+            set { _concreteSectionData = value; }
         }
         public string Name
         {

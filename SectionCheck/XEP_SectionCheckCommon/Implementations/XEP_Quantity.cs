@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
-using XEP_CommonLibrary.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
-using XEP_SectionCheckCommon.Implementations;
 using System.Xml.Linq;
-using XEP_SectionCheckCommon.Infrastucture;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Utility;
+using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
-namespace XEP_SectionCheckCommon.DataCache
+namespace XEP_SectionCheckCommon.Implementations
 {
     class XEP_QuantityXml : XEP_XmlWorkerImpl
     {
@@ -55,6 +56,31 @@ namespace XEP_SectionCheckCommon.DataCache
             _value = value;
             _quantityType = type;
             _name = name;
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to Point return false.
+            XEP_Quantity p = obj as XEP_Quantity;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (MathUtils.CompareDouble(Value, p.Value) &&
+                (QuantityType == p.QuantityType));
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #region XEP_IQuantityManagerHolder Members
