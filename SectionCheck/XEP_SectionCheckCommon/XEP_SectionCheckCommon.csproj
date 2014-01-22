@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataCache\XEP_IConcreteSectionData.cs" />
+    <Compile Include="DataCache\XEP_IESDiagramItem.cs" />
     <Compile Include="Implementations\XEP_ConcreteSectionData.cs" />
     <Compile Include="Implementations\XEP_DataCacheMaker.cs" />
     <Compile Include="DataCache\XEP_IMaterialData.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="DataCache\XEP_ISectionShape.cs" />
     <Compile Include="DataCache\XEP_ISectionShapeItem.cs" />
     <Compile Include="DataCache\XEP_IStructure.cs" />
+    <Compile Include="Implementations\XEP_ESDiagramItem.cs" />
+    <Compile Include="Implementations\XEP_MaterialDataImpl.cs" />
     <Compile Include="Implementations\XEP_OneMemberData.cs" />
     <Compile Include="Implementations\XEP_OneSectionData.cs" />
     <Compile Include="Implementations\XEP_Quantity.cs" />
@@ -87,6 +90,7 @@
     <Compile Include="Implementations\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_MaterialDataConcrete.cs" />
     <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
+    <Compile Include="Infrastructure\XEP_Conventors.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Infrastructure\XEP_QuantityConventerValue.cs" />
@@ -97,6 +101,11 @@
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />
     <Compile Include="Interfaces\XEP_QuantityFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResTrans\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
@@ -108,7 +117,12 @@
       <Name>XEP_Prism</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ResTrans\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

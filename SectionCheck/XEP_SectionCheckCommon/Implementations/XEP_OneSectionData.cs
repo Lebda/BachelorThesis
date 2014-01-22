@@ -49,7 +49,7 @@ namespace XEP_SectionCheckCommon.Implementations
                 for (int counter = 0; counter < xmlForces.Count(); ++counter)
                 {
                     XElement xmlForce = Exceptions.CheckNull<XElement>(xmlForces.ElementAt(counter), "Invalid XML file");
-                    XEP_InternalForceItem item = _data.ResolverForce.Resolve();
+                    XEP_IInternalForceItem item = _data.ResolverForce.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlForce);
                     _data.InternalForces.Add(item);
                 }
@@ -68,7 +68,7 @@ namespace XEP_SectionCheckCommon.Implementations
     [Serializable]
     public class XEP_OneSectionData : XEP_IOneSectionData
     {
-        readonly XEP_IResolver<XEP_InternalForceItem> _resolverForce = null;
+        readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         Guid _guid = Guid.NewGuid();
@@ -76,7 +76,7 @@ namespace XEP_SectionCheckCommon.Implementations
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
         XEP_IConcreteSectionData _concreteSectionData = null;
         // ctors
-        public XEP_OneSectionData(XEP_IResolver<XEP_InternalForceItem> resolverForce, XEP_IResolver<XEP_IConcreteSectionData> resolverConcrete, 
+        public XEP_OneSectionData(XEP_IResolver<XEP_IInternalForceItem> resolverForce, XEP_IResolver<XEP_IConcreteSectionData> resolverConcrete, 
             XEP_IQuantityManager manager)
         {
             _resolverForce = resolverForce;
@@ -84,7 +84,7 @@ namespace XEP_SectionCheckCommon.Implementations
             _xmlWorker = new XEP_OneSectionDataXml(this);
             _concreteSectionData = resolverConcrete.Resolve();
         }
-        public XEP_IResolver<XEP_InternalForceItem> ResolverForce
+        public XEP_IResolver<XEP_IInternalForceItem> ResolverForce
         {
             get
             {

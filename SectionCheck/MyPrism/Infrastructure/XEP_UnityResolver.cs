@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using System;
 
 namespace XEP_Prism.Infrastructure
 {
@@ -20,6 +21,10 @@ namespace XEP_Prism.Infrastructure
 
         public T Resolve()
         {
+            if (_container == null)
+            {
+                throw new ArgumentException("Unity container is null object can not bee resolved !");
+            }
             return _container.Resolve<T>();
         }
     }

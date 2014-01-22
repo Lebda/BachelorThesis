@@ -78,7 +78,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             long type = 0;
             if (long.TryParse(paramValue, NumberStyles.Any, culture, out type))
             {
-                XEP_InternalForceItem forces = value as XEP_InternalForceItem;
+                XEP_IInternalForceItem forces = value as XEP_IInternalForceItem;
                 Exceptions.CheckNull(forces);
                 XEP_IQuantity force = forces.GetItem((eEP_ForceType)type);
                 return force.Name + " " + forces.Manager.GetNameWithUnit(force);

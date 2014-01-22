@@ -21,7 +21,8 @@ namespace XEP_SectionCheck.Services
         readonly XEP_IResolver<XEP_ISectionShape> _resolverXEP_ISectionShape = null;
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverXEP_IInternalForceItem = null;
         readonly XEP_IResolver<XEP_IMaterialDataConcrete> _resolverXEP_IMaterialDataConcrete = null;
-
+        readonly XEP_IResolver<XEP_IMaterialData> _resolverBaseMaterial = null;
+        readonly XEP_IResolver<XEP_IESDiagramItem> _resolverXEP_IESDiagramItem = null;
         public XEP_DataCacheServiceMock(
             XEP_IResolver<XEP_IOneSectionData> resolverXEP_IOneSectionData,
             XEP_IResolver<XEP_IOneMemberData> resolverXEP_IOneMemberData,
@@ -30,7 +31,9 @@ namespace XEP_SectionCheck.Services
             XEP_IResolver<XEP_ISectionShapeItem> resolverXEP_ISectionShapeItem,
             XEP_IResolver<XEP_ISectionShape> resolverXEP_ISectionShape,
             XEP_IResolver<XEP_IInternalForceItem> resolverXEP_IInternalForceItem,
-            XEP_IResolver<XEP_IMaterialDataConcrete> resolverXEP_IMaterialDataConcrete)
+            XEP_IResolver<XEP_IMaterialDataConcrete> resolverXEP_IMaterialDataConcrete,
+            XEP_IResolver<XEP_IMaterialData> resolverBaseMaterial,
+            XEP_IResolver<XEP_IESDiagramItem> resolverXEP_IESDiagramItem)
         {
             _resolverXEP_IOneSectionData = resolverXEP_IOneSectionData;
             _resolverXEP_IOneMemberData = resolverXEP_IOneMemberData;
@@ -40,6 +43,8 @@ namespace XEP_SectionCheck.Services
             _resolverXEP_ISectionShape = resolverXEP_ISectionShape;
             _resolverXEP_IInternalForceItem = resolverXEP_IInternalForceItem;
             _resolverXEP_IMaterialDataConcrete = resolverXEP_IMaterialDataConcrete;
+            _resolverBaseMaterial = resolverBaseMaterial;
+            _resolverXEP_IESDiagramItem = resolverXEP_IESDiagramItem;
         }
 
         #region XEP_IDataCacheService Members
@@ -82,6 +87,21 @@ namespace XEP_SectionCheck.Services
             item.EpsC3 = 1.75 * 1e-3;
             item.EpsCu3 = 3.5 * 1e-3;
             item.N = 2.0;
+            XEP_IMaterialData diagram = _resolverBaseMaterial.Resolve();
+            XEP_IESDiagramItem diagItem = _resolverXEP_IESDiagramItem.Resolve();
+            diagItem.Strain = 0.0;
+            diagItem.Stress = 0.0;
+            diagram.StressStrainDiagram.Add(diagItem);
+            diagItem = _resolverXEP_IESDiagramItem.Resolve();
+            diagItem.Strain = -0.00175;
+            diagItem.Stress = -16666666.6666667;
+            diagram.StressStrainDiagram.Add(diagItem);
+            diagItem = _resolverXEP_IESDiagramItem.Resolve();
+            diagItem.Strain = -0.0035;
+            diagItem.Stress = -16666666.6666667;
+            diagram.StressStrainDiagram.Add(diagItem);
+            item.StressStrainDiagram = diagram.StressStrainDiagram;
+            item.DiagramType = eEP_MaterialDiagramType.eBiliUls;
             return item;
         }
 

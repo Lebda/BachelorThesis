@@ -89,7 +89,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void ActiveForceTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act
 
@@ -104,7 +104,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void CopyForceCommandTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act
             int count = target.InternalForces.Count;
@@ -129,7 +129,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void DeleteForceCommandTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act
             int count = target.InternalForces.Count;
@@ -167,7 +167,7 @@ namespace XEP_CssPropertiesViewModelTest
         {
             // Arrange
             (_dataCache.Structure.MemberData.Values.First()).SectionsData.First().Value.InternalForces.Clear();
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_InternalForceItem>>(_container));
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act
             target.NewForceCommand.Execute(null);

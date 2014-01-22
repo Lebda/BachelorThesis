@@ -11,7 +11,7 @@ namespace XEP_CssProperties.Infrastructure
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            XEP_InternalForceItem force = value as XEP_InternalForceItem;
+            XEP_IInternalForceItem force = value as XEP_IInternalForceItem;
 
             if (force != null)
             {

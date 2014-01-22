@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.ObjectModel;
+using XEP_SectionCheckCommon.Infrastructure;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
     public interface XEP_IMaterialData : XEP_IDataCacheObjectBase
     {
-
+        ObservableCollection<XEP_IESDiagramItem> StressStrainDiagram { get; set; }
+        eEP_MaterialDiagramType DiagramType { get; set; }
     }
 
     public interface XEP_IMaterialDataConcrete : XEP_IMaterialData

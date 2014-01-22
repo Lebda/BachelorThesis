@@ -117,101 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ADD" xml:space="preserve">
-    <value>Add</value>
+  <data name="BILI_ULS" xml:space="preserve">
+    <value>Bilinear for ULS</value>
   </data>
-  <data name="COPY" xml:space="preserve">
-    <value>Copy</value>
+  <data name="LIN_ECFF" xml:space="preserve">
+    <value>Linear without tension,Ec=Eceff</value>
   </data>
-  <data name="CROSS_SECTION" xml:space="preserve">
-    <value>Cross Section</value>
+  <data name="LIN_ECM" xml:space="preserve">
+    <value>Linear without tension,Ec=Ecm</value>
   </data>
-  <data name="DELETE" xml:space="preserve">
-    <value>Delete</value>
+  <data name="LIN_TEN_ECFF" xml:space="preserve">
+    <value>Linear with tension, Ec=Eceff</value>
   </data>
-  <data name="EPS_C1_EXPL" xml:space="preserve">
-    <value>εc₁ explanation</value>
+  <data name="LIN_TEN_ECM" xml:space="preserve">
+    <value>Linear with tension, Ec=Ecm</value>
   </data>
-  <data name="EPS_C1_MARK" xml:space="preserve">
-    <value>εc₁</value>
-    <comment>Do not tanslate !</comment>
+  <data name="PAR_RECT_ULS" xml:space="preserve">
+    <value>Parabola-rectangular for ULS</value>
   </data>
-  <data name="EPS_C2_EXPL" xml:space="preserve">
-    <value>εc₂ explanation</value>
-  </data>
-  <data name="EPS_C2_MARK" xml:space="preserve">
-    <value>εc₂</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="EPS_C3_EXPL" xml:space="preserve">
-    <value>εc₃ explanation</value>
-  </data>
-  <data name="EPS_C3_MARK" xml:space="preserve">
-    <value>εc₃</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="EPS_CU1_EXPL" xml:space="preserve">
-    <value>εcu₁ explanation</value>
-  </data>
-  <data name="EPS_CU1_MARK" xml:space="preserve">
-    <value>εcu₁</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="EPS_CU2_EXPL" xml:space="preserve">
-    <value>εcu₂ explanation</value>
-  </data>
-  <data name="EPS_CU2_MARK" xml:space="preserve">
-    <value>εcu₂</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="EPS_CU3_EXPL" xml:space="preserve">
-    <value>εcu₃ explanation</value>
-  </data>
-  <data name="EPS_CU3_MARK" xml:space="preserve">
-    <value>εcu₃</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="FCK_CUBE_EXPL" xml:space="preserve">
-    <value>Fck cube explanation</value>
-  </data>
-  <data name="FCK_CUBE_MARK" xml:space="preserve">
-    <value>FckCube</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="FCK_EXPL" xml:space="preserve">
-    <value>Fck explantion</value>
-  </data>
-  <data name="FCK_MARK" xml:space="preserve">
-    <value>Fck</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="GEOMETRY" xml:space="preserve">
-    <value>Geometry</value>
-  </data>
-  <data name="INTERNAL_FORCES" xml:space="preserve">
-    <value>Internal Forces</value>
-    <comment>Css properties internal force header</comment>
-  </data>
-  <data name="MATERIAL_SPECIFICATION" xml:space="preserve">
-    <value>Material specification</value>
-  </data>
-  <data name="N_EXPL" xml:space="preserve">
-    <value>N explanation</value>
-  </data>
-  <data name="N_MARK" xml:space="preserve">
-    <value>N</value>
-    <comment>Do not tanslate !</comment>
-  </data>
-  <data name="PARAMETERS" xml:space="preserve">
-    <value>Parameters</value>
-  </data>
-  <data name="PASTE" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="PROPERTIES" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="TYPE" xml:space="preserve">
-    <value>Type</value>
+  <data name="USER_DIAGRAM" xml:space="preserve">
+    <value>User diagram</value>
   </data>
 </root>

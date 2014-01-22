@@ -18,7 +18,7 @@ namespace XEP_CssProperties.ViewModels
     {
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
-        readonly XEP_IOneSectionData _activeSectionData = null;
+        XEP_IOneSectionData _activeSectionData = null;
         private XEP_IInternalForceItem _activeForce = null;
         private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
         private CssDataShape _cssShapeProperty = new CssDataShape(CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey), CustomResources.GetSavePen(CustomResources.CssPen2_SCkey));
@@ -226,6 +226,17 @@ namespace XEP_CssProperties.ViewModels
                 }
                 _internalForces = value;
                 RaisePropertyChanged(InternalForcesPropertyName);
+            }
+        }
+        public const string ActiveSectionDataPropertyName = "ActiveSectionData";
+        public XEP_IOneSectionData ActiveSectionData
+        {
+            get { return _activeSectionData; }
+            set
+            {
+                if (_activeSectionData == value) { return; }
+                _activeSectionData = value;
+                RaisePropertyChanged(ActiveSectionDataPropertyName);
             }
         }
     }

@@ -97,6 +97,159 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to εc₁ explanation.
+        /// </summary>
+        public static string EPS_C1_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_C1_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εc₁.
+        /// </summary>
+        public static string EPS_C1_MARK {
+            get {
+                return ResourceManager.GetString("EPS_C1_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εc₂ explanation.
+        /// </summary>
+        public static string EPS_C2_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_C2_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εc₂.
+        /// </summary>
+        public static string EPS_C2_MARK {
+            get {
+                return ResourceManager.GetString("EPS_C2_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εc₃ explanation.
+        /// </summary>
+        public static string EPS_C3_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_C3_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εc₃.
+        /// </summary>
+        public static string EPS_C3_MARK {
+            get {
+                return ResourceManager.GetString("EPS_C3_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₁ explanation.
+        /// </summary>
+        public static string EPS_CU1_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_CU1_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₁.
+        /// </summary>
+        public static string EPS_CU1_MARK {
+            get {
+                return ResourceManager.GetString("EPS_CU1_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₂ explanation.
+        /// </summary>
+        public static string EPS_CU2_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_CU2_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₂.
+        /// </summary>
+        public static string EPS_CU2_MARK {
+            get {
+                return ResourceManager.GetString("EPS_CU2_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₃ explanation.
+        /// </summary>
+        public static string EPS_CU3_EXPL {
+            get {
+                return ResourceManager.GetString("EPS_CU3_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to εcu₃.
+        /// </summary>
+        public static string EPS_CU3_MARK {
+            get {
+                return ResourceManager.GetString("EPS_CU3_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fck cube explanation.
+        /// </summary>
+        public static string FCK_CUBE_EXPL {
+            get {
+                return ResourceManager.GetString("FCK_CUBE_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FckCube.
+        /// </summary>
+        public static string FCK_CUBE_MARK {
+            get {
+                return ResourceManager.GetString("FCK_CUBE_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fck explantion.
+        /// </summary>
+        public static string FCK_EXPL {
+            get {
+                return ResourceManager.GetString("FCK_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fck.
+        /// </summary>
+        public static string FCK_MARK {
+            get {
+                return ResourceManager.GetString("FCK_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geometry.
+        /// </summary>
+        public static string GEOMETRY {
+            get {
+                return ResourceManager.GetString("GEOMETRY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Forces.
         /// </summary>
         public static string INTERNAL_FORCES {
@@ -106,11 +259,56 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material specification.
+        /// </summary>
+        public static string MATERIAL_SPECIFICATION {
+            get {
+                return ResourceManager.GetString("MATERIAL_SPECIFICATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N explanation.
+        /// </summary>
+        public static string N_EXPL {
+            get {
+                return ResourceManager.GetString("N_EXPL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N.
+        /// </summary>
+        public static string N_MARK {
+            get {
+                return ResourceManager.GetString("N_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        public static string PARAMETERS {
+            get {
+                return ResourceManager.GetString("PARAMETERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste.
         /// </summary>
         public static string PASTE {
             get {
                 return ResourceManager.GetString("PASTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        public static string PROPERTIES {
+            get {
+                return ResourceManager.GetString("PROPERTIES", resourceCulture);
             }
         }
         

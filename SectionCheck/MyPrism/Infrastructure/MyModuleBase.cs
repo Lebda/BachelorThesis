@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
@@ -23,5 +21,13 @@ namespace XEP_Prism.Infrastructure
         public abstract void Initialize();
 
         #endregion
+        static public void RegisterWithResolver<Tinterface, Tmanager, Uimpl, ResolverManager>(IUnityContainer container)
+            where Tmanager : LifetimeManager, new()
+            where ResolverManager : LifetimeManager, new()
+            where Uimpl : class, Tinterface
+        {
+            container.RegisterType<Tinterface, Uimpl>(new Tmanager());
+            container.RegisterType<XEP_IResolver<Tinterface>, XEP_UnityResolver<Tinterface>>(new ResolverManager());
+        }
     }
 }

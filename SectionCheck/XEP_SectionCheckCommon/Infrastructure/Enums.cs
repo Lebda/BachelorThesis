@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -10,6 +8,18 @@ namespace XEP_SectionCheckCommon.Infrastructure
     { //Do not define values with 0 and -1 values if you do not mean to use them as select no flag and select all flags. 
         eULS = 1,
         eSLS = 2,
+    }
+
+    public enum eEP_MaterialDiagramType
+    {
+        eUserInput = 0,
+        eLinTenEcm,
+        eLinTenEcff,
+        eLinEcm,
+        eLinEcff,
+        eBiliUls,
+        eParRectUls,
+        eMaterialDiagramTypeCount // has to be last
     }
 
     public enum eEP_ForceType

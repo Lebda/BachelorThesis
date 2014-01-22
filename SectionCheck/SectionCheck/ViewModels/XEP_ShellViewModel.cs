@@ -24,6 +24,7 @@ namespace XEP_SectionCheck.ViewModels
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/System.Windows.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.Input.xaml");
+            uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.Data.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.DataVisualization.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.GridView.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.RibbonView.xaml");

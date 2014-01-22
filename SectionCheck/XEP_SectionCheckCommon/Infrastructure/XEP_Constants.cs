@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace XEP_SectionCheckCommon.Infrastucture
 {
@@ -13,6 +11,12 @@ namespace XEP_SectionCheckCommon.Infrastucture
         public const String RightContentRegionName = "RightContentRegionName";
         public const String CssPropertiesRegionName = "CssPropertiesRegionName";
         public const String XEP_SectionCheckNs = "XEP_SectionCheck";
-
+        public const string USER_DIAGRAM_ABR = "User";
+        public const string LIN_TEN_ECM_ABR = "LinTenEcm";
+        public const string LIN_TEN_ECFF_ABR = "LinTenEcff";
+        public const string LIN_ECM_ABR = "LinEcm";
+        public const string LIN_ECFF_ABR = "LinEcff";
+        public const string BILI_ULS_ABR = "BiliUls";
+        public const string PAR_RECT_ULS_ABR = "ParRectUls";
     }
 }
