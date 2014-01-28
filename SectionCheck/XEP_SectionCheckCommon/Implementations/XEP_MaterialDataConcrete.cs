@@ -5,10 +5,9 @@ using System.Xml.Linq;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
-using XEP_SectionCheckCommon.Infrastructure;
-using System.ComponentModel.DataAnnotations;
 using XEP_SectionCheckCommon.ResTrans;
 
 namespace XEP_SectionCheckCommon.Implementations
@@ -42,29 +41,19 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
-            xmlElement.Add(new XAttribute(ns + "Fck", _data.Fck));
-            xmlElement.Add(new XAttribute(ns + "FckCube", _data.FckCube));
-            xmlElement.Add(new XAttribute(ns + "EpsC1", _data.EpsC1));
-            xmlElement.Add(new XAttribute(ns + "EpsCu1", _data.EpsCu1));
-            xmlElement.Add(new XAttribute(ns + "EpsC2", _data.EpsC2));
-            xmlElement.Add(new XAttribute(ns + "EpsCu2", _data.EpsCu2));
-            xmlElement.Add(new XAttribute(ns + "EpsC3", _data.EpsC3));
-            xmlElement.Add(new XAttribute(ns + "EpsCu3", _data.EpsCu3));
-            xmlElement.Add(new XAttribute(ns + "N", _data.N));
+            foreach(var item in _data.Data)
+            {
+                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
+            }
         }
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             _data.Name = (string)xmlElement.Attribute(ns + "Name");
-            _data.Fck = (double)xmlElement.Attribute(ns + "Fck");
-            _data.FckCube = (double)xmlElement.Attribute(ns + "FckCube");
-            _data.EpsC1 = (double)xmlElement.Attribute(ns + "EpsC1");
-            _data.EpsCu1 = (double)xmlElement.Attribute(ns + "EpsCu1");
-            _data.EpsC2 = (double)xmlElement.Attribute(ns + "EpsC2");
-            _data.EpsCu2 = (double)xmlElement.Attribute(ns + "EpsCu2");
-            _data.EpsC3 = (double)xmlElement.Attribute(ns + "EpsC3");
-            _data.EpsCu3 = (double)xmlElement.Attribute(ns + "EpsCu3");
-            _data.N = (double)xmlElement.Attribute(ns + "N");
+            foreach (var item in _data.Data)
+            {
+                item.Value = (double)xmlElement.Attribute(ns + item.Name);
+            }
         }
         #endregion
     }
@@ -72,6 +61,12 @@ namespace XEP_SectionCheckCommon.Implementations
     [Serializable]
     public class XEP_MaterialDataConcrete : ObservableObject, XEP_IMaterialDataConcrete
     {
+        ObservableCollection<XEP_IQuantity> _data = new ObservableCollection<XEP_IQuantity>();
+        public ObservableCollection<XEP_IQuantity> Data
+        {
+            get { return _data; }
+            protected set { _data = value; }
+        }
         XEP_IMaterialData _materialBase = null;
         public XEP_IMaterialData MaterialBase
         {
@@ -84,6 +79,24 @@ namespace XEP_SectionCheckCommon.Implementations
             _manager = manager;
             _materialBase = resolverBase.Resolve();
             _xmlWorker = new XEP_MaterialDataConcreteXml(this);
+            _fck = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, FckPropertyName);
+            _fckCube = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, FckCubePropertyName);
+            _epsC1 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC1PropertyName);
+            _epsCu1 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu1PropertyName);
+            _epsC2 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC2PropertyName);
+            _epsCu2 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu2PropertyName);
+            _epsC3 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC3PropertyName);
+            _epsCu3 = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu3PropertyName);
+            _n = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eNoType, NPropertyName);
+            _data.Add(_fck);
+            _data.Add(_fckCube);
+            _data.Add(_epsC1);
+            _data.Add(_epsCu1);
+            _data.Add(_epsC2);
+            _data.Add(_epsCu2);
+            _data.Add(_epsC3);
+            _data.Add(_epsCu3);
+            _data.Add(_n);
         }
 
         #region XEP_IMaterialDataConcrete Members
@@ -95,114 +108,118 @@ namespace XEP_SectionCheckCommon.Implementations
         public eEP_MaterialDiagramType DiagramType
         {
             get { return _materialBase.DiagramType; }
-            set { _materialBase.DiagramType = value; }
+            set 
+            { 
+                _materialBase.DiagramType = value; 
+                
+            }
         }
         //
-        public const string FckPropertyName = "Fck";
-        double _fck = 0.0;
-        public double Fck
+        public static readonly string FckPropertyName = "Fck";
+        XEP_IQuantity _fck = null;
+        public XEP_IQuantity Fck
         {
             get { return _fck; }
             set
             {
                 if (_fck == value) { return; }
-                _fck = value;
+                SetItem(ref value, ref _fck, FckPropertyName);
                 RaisePropertyChanged(FckPropertyName);
             }
         }
         public const string FckCubePropertyName = "FckCube";
-        double _fckCube = 0.0;
-        public double FckCube
+        XEP_IQuantity _fckCube = null;
+        public XEP_IQuantity FckCube
         {
             get { return _fckCube; }
             set
             {
                 if (_fckCube == value) { return; }
-                _fckCube = value;
+                SetItem(ref value, ref _fckCube, FckCubePropertyName);
                 RaisePropertyChanged(FckCubePropertyName);
             }
         }
         public const string EpsC1PropertyName = "EpsC1";
-        double _epsC1 = 0.0;
-        public double EpsC1
+        XEP_IQuantity _epsC1 = null;
+        public XEP_IQuantity EpsC1
         {
             get { return _epsC1; }
             set
             {
                 if (_epsC1 == value) { return; }
-                _epsC1 = value;
+                SetItem(ref value, ref _epsC1, EpsC1PropertyName);
                 RaisePropertyChanged(EpsC1PropertyName);
             }
         }
         public const string EpsCu1PropertyName = "EpsCu1";
-        double _epsCu1 = 0.0;
-        public double EpsCu1
+        XEP_IQuantity _epsCu1 = null;
+        public XEP_IQuantity EpsCu1
         {
             get { return _epsCu1; }
             set
             {
                 if (_epsCu1 == value) { return; }
-                _epsCu1 = value;
+                SetItem(ref value, ref _epsCu1, EpsCu1PropertyName);
                 RaisePropertyChanged(EpsCu1PropertyName);
             }
         }
         public const string EpsC2PropertyName = "EpsC2";
-        double _epsC2 = 0.0;
-        public double EpsC2
+        XEP_IQuantity _epsC2 = null;
+        public XEP_IQuantity EpsC2
         {
             get { return _epsC2; }
             set
             {
                 if (_epsC2 == value) { return; }
-                _epsC2 = value;
+                SetItem(ref value, ref _epsC2, EpsC2PropertyName);
                 RaisePropertyChanged(EpsC2PropertyName);
             }
         }
         public const string EpsCu2PropertyName = "EpsCu2";
-        double _epsCu2 = 0.0;
-        public double EpsCu2
+        XEP_IQuantity _epsCu2 = null;
+        public XEP_IQuantity EpsCu2
         {
             get { return _epsCu2; }
             set
             {
                 if (_epsCu2 == value) { return; }
-                _epsCu2 = value;
+                SetItem(ref value, ref _epsCu2, EpsCu2PropertyName);
                 RaisePropertyChanged(EpsCu2PropertyName);
             }
         }
         public const string EpsC3PropertyName = "EpsC3";
-        double _epsC3 = 0.0;
-        public double EpsC3
+        XEP_IQuantity _epsC3 = null;
+        public XEP_IQuantity EpsC3
         {
             get { return _epsC3; }
             set
             {
                 if (_epsC3 == value) { return; }
-                _epsC3 = value;
+                SetItem(ref value, ref _epsC3, EpsC3PropertyName);
                 RaisePropertyChanged(EpsC3PropertyName);
             }
         }
         public const string EpsCu3PropertyName = "EpsCu3";
-        double _epsCu3 = 0.0;
-        public double EpsCu3
+        XEP_IQuantity _epsCu3 = null;
+        public XEP_IQuantity EpsCu3
         {
             get { return _epsCu3; }
             set
             {
                 if (_epsCu3 == value) { return; }
-                _epsCu3 = value;
+                SetItem(ref value, ref _epsCu3, EpsCu3PropertyName);
                 RaisePropertyChanged(EpsCu3PropertyName);
             }
         }
         public const string NPropertyName = "N";
-        double _n = 0.0;
-        public double N
+        XEP_IQuantity _n = null;
+        public XEP_IQuantity N
         {
             get { return _n; }
             set
             {
                 if (_n == value) { return; }
-                _n = value;
+                SetItem(ref value, ref _n, NPropertyName);
                 RaisePropertyChanged(NPropertyName);
             }
         }
@@ -227,5 +244,36 @@ namespace XEP_SectionCheckCommon.Implementations
             set { _xmlWorker = value; }
         }
         #endregion
+        private void SetItem(ref XEP_IQuantity valueFromBinding, ref XEP_IQuantity property, params string[] names)
+        {
+            if (property == valueFromBinding || !SetItemFromBinding(ref valueFromBinding, ref property))
+            {
+                return;
+            }
+            property = valueFromBinding;
+            foreach (string item in names)
+            {
+                RaisePropertyChanged(item);
+            }
+        }
+        private bool SetItemFromBinding(ref XEP_IQuantity valueFromBinding, ref XEP_IQuantity propertyItem)
+        {
+            if (valueFromBinding == null)
+            {
+                return false;
+            }
+            if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
+            { // setting throw binding
+                valueFromBinding.Manager = propertyItem.Manager;
+                valueFromBinding.Name = propertyItem.Name;
+                valueFromBinding.QuantityType = propertyItem.QuantityType;
+                valueFromBinding.Value = Manager.GetValueManaged(valueFromBinding.Value, valueFromBinding.QuantityType);
+                if (valueFromBinding.Value == propertyItem.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

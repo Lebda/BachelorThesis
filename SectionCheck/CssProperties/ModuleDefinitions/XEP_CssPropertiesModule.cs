@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using XEP_Prism.Infrastructure;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;
+using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.Unity;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
-using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_CssProperties.ModuleDefinitions
 {

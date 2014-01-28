@@ -122,4 +122,35 @@
       <GradientStop Color="#FFEBD84E" Offset="1" />
    </RadialGradientBrush>
 
+   <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBoxAsLabelStyle_SC}"
+       TargetType="TextBox">
+      <Style.Setters>
+         <Setter Property="Background" Value="Transparent" />
+         <Setter Property="BorderBrush" Value="Transparent" />
+         <Setter Property="IsReadOnly" Value="True" />
+         <Setter Property="Foreground" Value="DeepSkyBlue"/>
+      </Style.Setters>
+   </Style>
+
+   <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBoxAsLabelStyleExpressDark_SC}"
+       TargetType="TextBox">
+      <Style.Setters>
+         <Setter Property="Background" Value="Transparent" />
+         <Setter Property="BorderBrush" Value="Transparent" />
+         <Setter Property="IsReadOnly" Value="True" />
+         <Setter Property="Foreground" Value="WhiteSmoke"/>
+      </Style.Setters>
+   </Style>
+
+   <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBox4EditAsLabelStyle_SC}"
+     TargetType="TextBox">
+      <Style.Setters>
+         <Setter Property="Background" Value="Transparent" />
+         <Setter Property="BorderBrush" Value="Transparent" />
+         <Setter Property="IsReadOnly" Value="False" />
+         <Setter Property="HorizontalAlignment" Value="Stretch" />
+         <Setter Property="Foreground" Value="DeepSkyBlue"/>
+      </Style.Setters>
+   </Style>
+
 </ResourceDictionary>

@@ -18,7 +18,7 @@ namespace SectionCheck.Services
             {
                 XEP_QuantityDefinition quantityDefinition = new XEP_QuantityDefinition();
                 quantityDefinition.QuantityName = XEP_QuantityNames.GetUnitName((eEP_QuantityType)counter);
-                quantityDefinition.QuantityNameScale = XEP_QuantityNames.GetScaleName(quantityDefinition.Scale);
+                quantityDefinition.QuantityNameScale = XEP_QuantityNames.GetScaleName(quantityDefinition.Scale, (eEP_QuantityType)counter);
                 _data.Add((eEP_QuantityType)counter, quantityDefinition);
             }
         }
@@ -44,7 +44,7 @@ namespace SectionCheck.Services
         {
             Exceptions.CheckPredicate<double>("Scale can not be zero !!", scaleValue, (param => MathUtils.IsZero(param, 1e-12)));
             _data[type].Scale = scaleValue;
-            _data[type].QuantityNameScale = XEP_QuantityNames.GetScaleName(_data[type].Scale);
+            _data[type].QuantityNameScale = XEP_QuantityNames.GetScaleName(_data[type].Scale, type);
         }
     }
 }

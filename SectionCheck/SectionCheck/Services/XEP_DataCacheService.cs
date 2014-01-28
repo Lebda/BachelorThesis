@@ -14,6 +14,7 @@ namespace SectionCheck.Services
         string _aplicationFolderPathFullName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string _folderName = "XEP_SectionCheck";
         string _fileName = "XEP_DataCache";
+        string _materialLibraryName = "XEP_SectionCheck_MaterialLibrary";
 
         #region XEP_IDataCacheService Members
         public string AplicationFolderPathFullName
@@ -30,6 +31,11 @@ namespace SectionCheck.Services
         {
             get { return _fileName; }
             set { _fileName = value; }
+        }
+        public string MaterialLibraryName
+        {
+            get { return _materialLibraryName; }
+            set { _materialLibraryName = value; }
         }
         public virtual eDataCacheServiceOperation Load(XEP_IDataCache dataCache)
         {
@@ -54,6 +60,19 @@ namespace SectionCheck.Services
                     throw new ApplicationException("Invalid XML file !");
                 }
                 dataCache.XmlWorker.LoadFromXmlElement(elementXml);
+                // read material library
+                FileInfo myFileMatLib = new FileInfo(Path.Combine(myDirectory.FullName, _materialLibraryName + ".xml"));
+                if (myFileMatLib.Exists == false)
+                {
+                    throw new ApplicationException("No xml file for creating material library exists !");
+                }
+                XDocument documentXmlMatLib = XDocument.Load(myFileMatLib.FullName);
+                XElement elementXmlMatLib = documentXmlMatLib.Element(ns + dataCache.MaterialLibrary.XmlWorker.GetXmlElementName());
+                if (elementXmlMatLib == null)
+                {
+                    throw new ApplicationException("Invalid XML file for material library !");
+                }
+                dataCache.MaterialLibrary.XmlWorker.LoadFromXmlElement(elementXmlMatLib);
                 return eDataCacheServiceOperation.eSuccess;
             }
             catch (System.Exception ex)
@@ -70,17 +89,24 @@ namespace SectionCheck.Services
                 myDirectory.Create();
             }
             XDocument documentXml = new XDocument(
-            new XDeclaration("1.0", null, "yes"),
-            new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
-            XElement xmlElement = dataCache.XmlWorker.GetXmlElement();
-            documentXml.Add(xmlElement);
-            documentXml.Save(Path.Combine(myDirectory.FullName, _fileName + ".xml"));
+                new XDeclaration("1.0", null, "yes"),
+                new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
+            SaveOneXmlFile(documentXml, dataCache.XmlWorker.GetXmlElement(), Path.Combine(myDirectory.FullName, _fileName + ".xml"));
+            // Save material library
+            XDocument documentXmlMatLib = new XDocument(
+                new XDeclaration("1.0", null, "yes"),
+                new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
+            SaveOneXmlFile(documentXmlMatLib, dataCache.MaterialLibrary.XmlWorker.GetXmlElement(), Path.Combine(myDirectory.FullName, _materialLibraryName + ".xml"));
             return eDataCacheServiceOperation.eSuccess;
         }
         #endregion
 
         #region METHODS 
-
+        private void SaveOneXmlFile(XDocument documentXml, XElement xmlElement, string xmlFileFullName)
+        {
+            documentXml.Add(xmlElement);
+            documentXml.Save(xmlFileFullName);
+        }
         #endregion
     }
 }

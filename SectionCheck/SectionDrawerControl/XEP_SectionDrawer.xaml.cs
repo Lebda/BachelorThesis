@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using XEP_CommonLibrary.Infrastructure;
-using XEP_SectionDrawer.Infrastructure;
-using ResourceLibrary;
-using XEP_SectionDrawer.Utility;
-using XEP_CommonLibrary.Utility;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Interfaces;
-using XEP_CommonLibrary.InterfaceObjects;
+using XEP_CommonLibrary.Utility;
+using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionDrawer
 {

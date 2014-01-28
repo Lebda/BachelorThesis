@@ -12,6 +12,7 @@
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.DataVisualization.xaml" />
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.GridView.xaml"/>
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.RibbonView.xaml"/>
+            <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Documents.xaml"/>            
          </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
    </Application.Resources>

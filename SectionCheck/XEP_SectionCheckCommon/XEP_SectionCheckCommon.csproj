@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,7 @@
   <ItemGroup>
     <Compile Include="DataCache\XEP_IConcreteSectionData.cs" />
     <Compile Include="DataCache\XEP_IESDiagramItem.cs" />
+    <Compile Include="DataCache\XEP_IMaterialLibrary.cs" />
     <Compile Include="Implementations\XEP_ConcreteSectionData.cs" />
     <Compile Include="Implementations\XEP_DataCacheMaker.cs" />
     <Compile Include="DataCache\XEP_IMaterialData.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="DataCache\XEP_IStructure.cs" />
     <Compile Include="Implementations\XEP_ESDiagramItem.cs" />
     <Compile Include="Implementations\XEP_MaterialDataImpl.cs" />
+    <Compile Include="Implementations\XEP_MaterialLibrary.cs" />
     <Compile Include="Implementations\XEP_OneMemberData.cs" />
     <Compile Include="Implementations\XEP_OneSectionData.cs" />
     <Compile Include="Implementations\XEP_Quantity.cs" />
@@ -93,15 +96,23 @@
     <Compile Include="Infrastructure\XEP_Conventors.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
+    <Compile Include="Infrastructure\XEP_INameGenerator.cs" />
+    <Compile Include="Infrastructure\XEP_NameGenerator.cs" />
     <Compile Include="Infrastructure\XEP_QuantityConventerValue.cs" />
     <Compile Include="Infrastructure\XEP_QuantityNames.cs" />
     <Compile Include="DataCache\XEP_IDataCache.cs" />
+    <Compile Include="Infrastructure\XEP_SkinStyleSelector.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />
     <Compile Include="Interfaces\XEP_QuantityFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResTrans\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Res\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -119,6 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ResTrans\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Res\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

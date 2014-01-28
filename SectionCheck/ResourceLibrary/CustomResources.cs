@@ -27,7 +27,9 @@ namespace ResourceLibrary
         public static ComponentResourceKey VerAxisPen1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "VerAxisPen1_SC"); } }
         public static ComponentResourceKey HorAxisBrush1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "HorAxisBrush1_SC"); } }
         public static ComponentResourceKey VerAxisBrush1_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "VerAxisBrush1_SC"); } }
-
+        public static ComponentResourceKey TextBoxAsLabelStyle_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "TextBoxAsLabelStyle_SC"); } }
+        public static ComponentResourceKey TextBoxAsLabelStyleExpressDark_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "TextBoxAsLabelStyleExpressDark_SC"); } }
+        public static ComponentResourceKey TextBox4EditAsLabelStyle_SCkey { get { return new ComponentResourceKey(typeof(CustomResources), "TextBox4EditAsLabelStyle_SC"); } }
         public static Brush GetSaveBrush(ComponentResourceKey myKey)
         {
             if (Application.Current == null)

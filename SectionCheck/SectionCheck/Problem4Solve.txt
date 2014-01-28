@@ -8,3 +8,80 @@
 
 
 *********************************************
+
+
+                       <!--<telerik:RadPropertyGrid Item="{Binding ActiveSectionData.ConcreteSectionData.MaterialData}" AutoGeneratePropertyDefinitions="False" >
+                           <telerik:RadPropertyGrid.PropertyDefinitions>
+                              <telerik:PropertyDefinition Binding="{Binding Fck}" DisplayName="{x:Static r:Resources.FCK_MARK}" Description="{x:Static r:Resources.FCK_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding Fck, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding FckCube}" DisplayName="{x:Static r:Resources.FCK_CUBE_MARK}" Description="{x:Static r:Resources.FCK_CUBE_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding FckCube, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsC1}" DisplayName="{x:Static r:Resources.EPS_C1_MARK}" Description="{x:Static r:Resources.EPS_C1_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <RichTextBox>
+                                          <FlowDocument>
+                                             <Paragraph >
+                                                H
+                                                <Run BaselineAlignment="Subscript" FontSize="9">2</Run> O
+                                             </Paragraph>
+                                          </FlowDocument>
+                                       </RichTextBox>
+                                       <!--<telerik:RadNumericUpDown Value="{Binding EpsC1, Mode=TwoWay}" />-->
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsCu1}" DisplayName="{x:Static r:Resources.EPS_CU1_MARK}" Description="{x:Static r:Resources.EPS_CU1_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding EpsCu1, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsC2}" DisplayName="{x:Static r:Resources.EPS_C2_MARK}" Description="{x:Static r:Resources.EPS_C2_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding EpsC2, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsCu2}" DisplayName="{x:Static r:Resources.EPS_CU2_MARK}" Description="{x:Static r:Resources.EPS_CU2_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding EpsCu2, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsC3}" DisplayName="{x:Static r:Resources.EPS_C3_MARK}" Description="{x:Static r:Resources.EPS_C3_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding EpsC3, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding EpsCu3}" DisplayName="{x:Static r:Resources.EPS_CU3_MARK}" Description="{x:Static r:Resources.EPS_CU3_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding EpsCu3, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>
+                              <telerik:PropertyDefinition Binding="{Binding N}" DisplayName="{x:Static r:Resources.N_MARK}" Description="{x:Static r:Resources.N_EXPL}" GroupName="{x:Static r:Resources.MATERIAL_SPECIFICATION}">
+                                 <telerik:PropertyDefinition.EditorTemplate>
+                                    <DataTemplate>
+                                       <telerik:RadNumericUpDown Value="{Binding N, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                 </telerik:PropertyDefinition.EditorTemplate>
+                              </telerik:PropertyDefinition>                              
+                           </telerik:RadPropertyGrid.PropertyDefinitions>
+                        </telerik:RadPropertyGrid>

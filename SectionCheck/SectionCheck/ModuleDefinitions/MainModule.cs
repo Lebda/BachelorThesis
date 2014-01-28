@@ -18,7 +18,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
     [Module(ModuleName = "MainModule")]
     public class MainModule : MyModuleBase
     {
-        static bool _isMock = false;
+        static bool _isMock = true;
         public MainModule(IUnityContainer container, IRegionManager regionManager) : base(container, regionManager)
         {
         }
@@ -27,8 +27,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
         {
             RegisterTypes(_container);
             XEP_IQuantityManager manager = UnityContainerExtensions.Resolve<XEP_IQuantityManager>(_container);
-            manager.SetScale(eEP_QuantityType.eForce, 1000.0); // just for test
-            manager.SetScale(eEP_QuantityType.eMoment, 1000.0); // just for test
+            PrepareQuantityManager(ref manager);
             // LOAD DATA from XML
             XEP_IDataCacheService dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(_container);
             dataCacheService.Load(UnityContainerExtensions.Resolve<XEP_IDataCache>(_container));
@@ -40,6 +39,13 @@ namespace XEP_SectionCheck.ModuleDefinitions
             _regionManager.RegisterViewWithRegion(XEP_Constants.MainContentRegionName, () => _container.Resolve<XEP_MainView>());
         }
 
+        static private void PrepareQuantityManager(ref XEP_IQuantityManager manager)
+        { // just for test, move it elsewhere
+            manager.SetScale(eEP_QuantityType.eForce, 1000.0);
+            manager.SetScale(eEP_QuantityType.eMoment, 1000.0);
+            manager.SetScale(eEP_QuantityType.eStress, 1e6);
+            manager.SetScale(eEP_QuantityType.eStrain, 1e-3);
+        }
         static public void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager()); // singleton
@@ -55,6 +61,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
             MyModuleBase.RegisterWithResolver<XEP_IOneMemberData, TransientLifetimeManager, XEP_OneMemberData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IStructure, TransientLifetimeManager, XEP_Structure, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IDataCache, ContainerControlledLifetimeManager, XEP_DataCache, TransientLifetimeManager>(container); // singleton
+            MyModuleBase.RegisterWithResolver<XEP_IMaterialLibrary, ContainerControlledLifetimeManager, XEP_MaterialLibrary, TransientLifetimeManager>(container); // singleton
             if (_isMock)
             {
                 MyModuleBase.RegisterWithResolver<XEP_IDataCacheService, TransientLifetimeManager, XEP_DataCacheServiceMock, TransientLifetimeManager>(container);

@@ -11,5 +11,6 @@ namespace XEP_SectionCheckCommon.DataCache
         string AplicationFolderPathFullName { get; set; }
         string FolderName { get; set; }
         string FileName { get; set; }
+        string MaterialLibraryName { get; set; }
     }
 }

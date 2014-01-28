@@ -28,6 +28,7 @@ namespace XEP_SectionCheck.ViewModels
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.DataVisualization.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.GridView.xaml");
             uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Controls.RibbonView.xaml");
+            uris.Add(@"/Telerik.Windows.Themes." + skinName + @";component/Themes/Telerik.Windows.Documents.xaml");
             Application.Current.Resources.MergedDictionaries.Clear();
             foreach (string item in uris)
             {

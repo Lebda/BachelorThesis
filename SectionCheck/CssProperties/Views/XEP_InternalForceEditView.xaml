@@ -15,14 +15,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
       <Grid.Resources>
-         <Style x:Key="TextBoxAsLabelStyle" TargetType="TextBox">
-            <Style.Setters>
-               <Setter Property="Background" Value="Transparent" />
-               <Setter Property="BorderBrush" Value="Transparent" />
-               <Setter Property="IsReadOnly" Value="True" />
-               <Setter Property="Foreground" Value="DeepSkyBlue"/>
-            </Style.Setters>
-         </Style>
          <Style x:Key="TextBox4EditAsLabelStyle" TargetType="TextBox">
             <Style.Setters>
                <Setter Property="Background" Value="Transparent" />
@@ -116,17 +108,17 @@
                                  <RowDefinition Height="*" />
                                  <RowDefinition Height="*" />
                               </Grid.RowDefinitions>
-                           <TextBox Grid.Column="0" Grid.Row="0" Text="{x:Static r:Resources.TYPE}" Style="{DynamicResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="0" Text="{x:Static r:Resources.TYPE}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
                               <telerik:RadComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Type, Converter={StaticResource converterForceType}, Mode=TwoWay}" IsEditable="False">
                                  <telerik:RadComboBoxItem Content="ULS" />
                                  <telerik:RadComboBoxItem Content="SLS" />
                               </telerik:RadComboBox>
-                           <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=1, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
-                           <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=2, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
-                           <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=3, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
-                           <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=4, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
-                           <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=5, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
-                           <TextBox Grid.Column="0" Grid.Row="6" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=6, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}" />
+                           <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=1, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
+                           <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=2, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
+                           <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=3, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
+                           <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=4, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
+                           <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=5, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
+                           <TextBox Grid.Column="0" Grid.Row="6" Text="{Binding Converter={StaticResource converterForceNameWithUnit}, ConverterParameter=6, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
                            <telerik:RadDataBar Grid.Column="1" Grid.Row="1" Value="{Binding Path=N, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{DynamicResource BarDataBarEditorStyle}"/>
                            <telerik:RadDataBar Grid.Column="1" Grid.Row="2" Value="{Binding Path=Vy, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{DynamicResource BarDataBarEditorStyle}" />
                            <telerik:RadDataBar Grid.Column="1" Grid.Row="3" Value="{Binding Path=Vz, Converter={StaticResource converterForceValueManaged}, Mode=OneWay}" Maximum="{Binding Path=MaxValue, Mode=OneWay}" Minimum="{Binding Path=MinValue, Mode=OneWay}" Style="{DynamicResource BarDataBarEditorStyle}" />
@@ -150,7 +142,7 @@
                         <telerik:GridViewDataColumn Width="1.5*" Header="Value" UniqueName="Value">
                            <telerik:GridViewDataColumn.CellTemplate>
                               <DataTemplate >
-                                 <TextBox Text ="{Binding ShortExplanation, Mode=OneWay}" Style="{DynamicResource TextBoxAsLabelStyle}"/>
+                                 <TextBox Text ="{Binding ShortExplanation, Mode=OneWay}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}"/>
                               </DataTemplate>
                            </telerik:GridViewDataColumn.CellTemplate>
                         </telerik:GridViewDataColumn>

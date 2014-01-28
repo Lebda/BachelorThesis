@@ -36,8 +36,11 @@ namespace XEP_SectionCheckCommon.Infrastructure
     public enum eEP_QuantityType
     {
         eNoType = 0, // has to be first
+        eNoUnit,
         eForce,
         eMoment,
+        eStress,
+        eStrain,
         eQuantityTypeCount // has to be last
     }
 

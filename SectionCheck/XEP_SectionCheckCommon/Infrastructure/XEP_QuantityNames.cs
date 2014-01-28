@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -16,11 +14,20 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 default:
                     name = "";
                     break;
+                case eEP_QuantityType.eNoUnit:
+                    name = "-";
+                    break;
                 case eEP_QuantityType.eForce:
                     name = "N";
                     break;
                 case eEP_QuantityType.eMoment:
                     name = "Nm";
+                    break;
+                case eEP_QuantityType.eStress:
+                    name = "Pa";
+                    break;
+                case eEP_QuantityType.eStrain:
+                    name = "‰";
                     break;
             }
             return name;
@@ -40,9 +47,9 @@ namespace XEP_SectionCheckCommon.Infrastructure
             }
             return name;
         }
-        public static string GetScaleName(double scale)
+        public static string GetScaleName(double scale, eEP_QuantityType type)
         {
-            if (scale == 1.0)
+            if (scale == 1.0 || type == eEP_QuantityType.eStrain || type == eEP_QuantityType.eNoUnit)
             {
                 return "";
             }

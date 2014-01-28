@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
-using XEP_SectionCheckCommon.Interfaces;
 using System.Globalization;
+using System.Linq;
+using System.Windows.Data;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckCommon.Res;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -71,7 +70,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
     public class XEP_QuantityConventerNameWithUnit : IValueConverter
     {
         #region IValueConverter Members
-
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string paramValue = parameter.ToString();
@@ -84,6 +83,85 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 return force.Name + " " + forces.Manager.GetNameWithUnit(force);
             }
             return "";
+        }
+        
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    
+        #endregion
+    }
+    
+    [ValueConversion(typeof(XEP_IQuantity), typeof(string))]
+    public class XEP_QCNameWithUnitGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+            
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            XEP_IQuantity data = value as XEP_IQuantity;
+            Exceptions.CheckNull(data);
+            return data.Name + " " + data.Manager.GetNameWithUnit(data);
+        }
+            
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    
+        #endregion
+    }
+        
+    [ValueConversion(typeof(XEP_IQuantity), typeof(string))]
+    public class XEP_QCManagedValueGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+                
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            XEP_IQuantity data = value as XEP_IQuantity;
+            XEP_IQuantityManager manager = data.Manager;
+            Exceptions.CheckNull(data, manager);
+            return manager.GetValue(data);
+        }
+            
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string dataValue = value.ToString();
+            double result;
+            if (double.TryParse(dataValue, NumberStyles.Any, culture, out result))
+            {
+                XEP_IQuantity finalData = XEP_QuantityFactory.Instance().Create(null, result, eEP_QuantityType.eNoType, "");
+                return finalData;
+            }
+            return null;
+        }
+        #endregion
+    }
+
+    [ValueConversion(typeof(XEP_IQuantity), typeof(string))]
+    public class XEP_QCNameOnMarkGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            XEP_IQuantity data = value as XEP_IQuantity;
+            Exceptions.CheckNull(data);
+            return Resources.ResourceManager.GetString(data.Name + "_MARK");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

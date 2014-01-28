@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
 
@@ -23,8 +24,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Stress", _data.Stress));
-            xmlElement.Add(new XAttribute(ns + "Strain", _data.Strain));
+            xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StressPropertyName, _data.Stress.Value));
+            xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StrainPropertyName, _data.Strain.Value));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -33,8 +34,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Stress = (double)xmlElement.Attribute(ns + "Stress");
-            _data.Strain = (double)xmlElement.Attribute(ns + "Strain");
+            _data.Stress.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StressPropertyName);
+            _data.Strain.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StrainPropertyName);
         }
         #endregion
     }
@@ -50,11 +51,13 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             _manager = manager;
             _xmlWorker = new XEP_ESDiagramItemXml(this);
+            _strain = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, StrainPropertyName);
+            _stress = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, StressPropertyName);
         }
         #region XEP_IESDiagramItem Members
         public const string StrainPropertyName = "Strain";
-        private double _strain = 0.0;
-        public double Strain
+        private XEP_IQuantity _strain = null;
+        public XEP_IQuantity Strain
         {
             get
             {
@@ -71,8 +74,8 @@ namespace XEP_SectionCheckCommon.Implementations
             }
         }
         public const string StressPropertyName = "Stress";
-        private double _stress = 0.0;
-        public double Stress
+        private XEP_IQuantity _stress = null;
+        public XEP_IQuantity Stress
         {
             get
             {
