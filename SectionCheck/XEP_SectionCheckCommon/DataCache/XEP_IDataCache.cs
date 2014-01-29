@@ -7,5 +7,6 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         XEP_IStructure Structure { get; set; }
         XEP_IMaterialLibrary MaterialLibrary { get; set; }
+        XEP_ISetupParameters SetupParameters { get; set; }
     }
 }

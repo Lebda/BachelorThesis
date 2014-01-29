@@ -10,6 +10,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_QuantityXml : XEP_XmlWorkerImpl
     {
         readonly XEP_Quantity _data = null;
@@ -48,7 +49,6 @@ namespace XEP_SectionCheckCommon.Implementations
     {
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
-
         public XEP_Quantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name)
         {
             _xmlWorker = new XEP_QuantityXml(this);
@@ -120,7 +120,6 @@ namespace XEP_SectionCheckCommon.Implementations
             {
                 return Manager.GetValue(this);
             }
-
             set
             {
                 if (Manager.GetValue(this) == value)

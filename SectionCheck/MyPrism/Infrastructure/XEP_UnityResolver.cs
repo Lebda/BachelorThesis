@@ -10,6 +10,7 @@ namespace XEP_Prism.Infrastructure
     /// container to leak into the object.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Serializable]
     public class XEP_UnityResolver<T> : XEP_IResolver<T>
     {
         readonly IUnityContainer _container;

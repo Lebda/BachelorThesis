@@ -9,10 +9,15 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         ObservableCollection<XEP_IESDiagramItem> StressStrainDiagram { get; set; }
         eEP_MaterialDiagramType DiagramType { get; set; }
+        bool MatFromLib { get; set; }
+        void CreatePoints(XEP_ISetupParameters setup);
+        void ResetMatFromLib();
+        XEP_IMaterialData CopyInstance();
     }
 
     public interface XEP_IMaterialDataConcrete : XEP_IMaterialData
     {
+        ObservableCollection<XEP_IQuantity> Data { get; }
         XEP_IQuantity Fck { get; set; }
         XEP_IQuantity FckCube { get; set; }
         XEP_IQuantity EpsC1 { get; set; }
@@ -22,6 +27,5 @@ namespace XEP_SectionCheckCommon.DataCache
         XEP_IQuantity EpsC3 { get; set; }
         XEP_IQuantity EpsCu3 { get; set; }
         XEP_IQuantity N { get; set; }
-        ObservableCollection<XEP_IQuantity> Data { get; }
     }
 }

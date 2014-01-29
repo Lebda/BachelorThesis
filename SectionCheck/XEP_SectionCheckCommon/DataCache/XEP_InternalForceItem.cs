@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using XEP_CommonLibrary.Infrastructure;
 using System.ComponentModel.DataAnnotations;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
 using System.Xml.Linq;
@@ -69,11 +70,13 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
+        XEP_IResolver<XEP_IInternalForceItem> _resolver = null;
 
-        public XEP_InternalForceItem( XEP_IQuantityManager manager)
+        public XEP_InternalForceItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_IInternalForceItem> resolver)
         {
             _manager = Exceptions.CheckNull<XEP_IQuantityManager>(manager);
             _xmlWorker = new XEP_InternalForceItemXml(this);
+            resolver = _resolver;
             _N = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
             _Vy = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
             _Vz = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
@@ -126,15 +129,15 @@ namespace XEP_SectionCheckCommon.DataCache
         }
 
         #region METHODS
-        public XEP_InternalForceItem CopyInstance()
+        public XEP_IInternalForceItem CopyInstance()
         {
-            XEP_InternalForceItem newItem = new XEP_InternalForceItem(_manager);
-            newItem._N.Value = _N.Value;
-            newItem._Vy.Value = _Vy.Value;
-            newItem._Vz.Value = _Vz.Value;
-            newItem._Mx.Value = _Mx.Value;
-            newItem._My.Value = _My.Value;
-            newItem._Mz.Value = _Mz.Value;
+            XEP_IInternalForceItem newItem = _resolver.Resolve();
+            newItem.N.Value = _N.Value;
+            newItem.Vy.Value = _Vy.Value;
+            newItem.Vz.Value = _Vz.Value;
+            newItem.Mx.Value = _Mx.Value;
+            newItem.My.Value = _My.Value;
+            newItem.Mz.Value = _Mz.Value;
             newItem.Name = _name;
             return newItem;
         }

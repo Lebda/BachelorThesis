@@ -12,6 +12,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_SectionShapeXml : XEP_XmlWorkerImpl
     {
         readonly XEP_SectionShape _data = null;

@@ -8,6 +8,7 @@ using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_ConcreteSectionDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_ConcreteSectionData _data = null;

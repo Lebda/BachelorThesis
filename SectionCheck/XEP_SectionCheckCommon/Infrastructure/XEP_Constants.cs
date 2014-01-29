@@ -18,5 +18,7 @@ namespace XEP_SectionCheckCommon.Infrastucture
         public const string LIN_ECFF_ABR = "LinEcff";
         public const string BILI_ULS_ABR = "BiliUls";
         public const string PAR_RECT_ULS_ABR = "ParRectUls";
+
+        public static readonly string NamePropertyName = "Name";
     }
 }

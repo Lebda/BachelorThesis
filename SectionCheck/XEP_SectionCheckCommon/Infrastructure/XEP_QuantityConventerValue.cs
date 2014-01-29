@@ -168,7 +168,53 @@ namespace XEP_SectionCheckCommon.Infrastructure
         {
             throw new NotImplementedException();
         }
+        #endregion
+    }
 
+    [ValueConversion(typeof(XEP_IQuantity), typeof(string))]
+    public class XEP_QCNameOnMarkWithUnitGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            XEP_IQuantity data = value as XEP_IQuantity;
+            Exceptions.CheckNull(data);
+            return Resources.ResourceManager.GetString(data.Name + "_MARK") + " " + data.Manager.GetNameWithUnit(data);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
+
+    [ValueConversion(typeof(double), typeof(string))]
+    public class XEP_DoubleGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double dValue = (double)value;
+            return dValue.ToString("F2", culture);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string dataValue = value.ToString();
+            double result;
+            if (double.TryParse(dataValue, NumberStyles.Any, culture, out result))
+            {
+                return result;
+            }
+            return 0.0; 
+        }
         #endregion
     }
 }

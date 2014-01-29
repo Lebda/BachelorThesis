@@ -9,6 +9,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace SectionCheck.Services
 {
+    [Serializable]
     public class XEP_QuantityManager : XEP_IQuantityManager
     {
         Dictionary<eEP_QuantityType, XEP_QuantityDefinition> _data = new Dictionary<eEP_QuantityType, XEP_QuantityDefinition>();

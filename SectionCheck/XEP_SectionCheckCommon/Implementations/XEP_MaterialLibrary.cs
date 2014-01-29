@@ -11,6 +11,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_MaterialLibraryXml : XEP_XmlWorkerImpl
     {
         readonly XEP_IMaterialLibrary _data = null;
@@ -50,6 +51,7 @@ namespace XEP_SectionCheckCommon.Implementations
         }
     }
 
+    [Serializable]
     public class XEP_MaterialLibrary : XEP_IMaterialLibrary
     {
         XEP_IQuantityManager _manager = null;
@@ -85,6 +87,18 @@ namespace XEP_SectionCheckCommon.Implementations
             set { _name = value; }
         }
         #region XEP_IMaterialLibrary Members
+        public List<XEP_IMaterialDataConcrete> GetMaterialConcreteNames
+        {
+            get
+            {
+                List<XEP_IMaterialDataConcrete> data = new List<XEP_IMaterialDataConcrete>();
+                foreach(var item in _materialDataConcrete)
+                {
+                    data.Add(item.Value);
+                }
+                return data;
+            }
+        }
         public Dictionary<string, XEP_IMaterialDataConcrete> MaterialDataConcrete
         {
             get { return _materialDataConcrete; }
@@ -99,7 +113,7 @@ namespace XEP_SectionCheckCommon.Implementations
             Exceptions.CheckNull(matData);
             if (_materialDataConcrete.ContainsKey(matData.Name))
             {
-                _materialDataConcrete.Remove(matData.Name);
+                matData.Name += "-copy";
             }
             _materialDataConcrete.Add(matData.Name, matData);
             return eDataCacheServiceOperation.eSuccess;

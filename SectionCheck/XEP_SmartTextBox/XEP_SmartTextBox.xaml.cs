@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Telerik.Windows.Documents.Model;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace XEP_SmartTextBox
 {
@@ -39,6 +40,8 @@ namespace XEP_SmartTextBox
 
         static XEP_SmartTextBox()
         {
+            OnlyTextProperty = DependencyProperty.Register(OnlyTextPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
+                new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnlyTextChanged)));
             SmartTextProperty = DependencyProperty.Register(SmartTextPropertyName, typeof(string), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnSmartTextChanged)));
             SubscriptMarkProperty = DependencyProperty.Register(SubscriptMarkPropertyName, typeof(string), typeof(XEP_SmartTextBox),
@@ -47,23 +50,34 @@ namespace XEP_SmartTextBox
                 new FrameworkPropertyMetadata("$", new PropertyChangedCallback(OnSuperScriptMarkChanged)));
             NormalScriptMarkProperty = DependencyProperty.Register(NormalScriptMarkPropertyName, typeof(string), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata("#", new PropertyChangedCallback(OnNormalScriptMarkChanged)));
-            System.Windows.Media.Color color = new System.Windows.Media.Color();
-            color.A = 255;
-            color.R = 0;
-            color.G = 191;
-            color.B = 255;
-            SmartColorProperty = DependencyProperty.Register(SmartColorPropertyName, typeof(System.Windows.Media.Color), typeof(XEP_SmartTextBox),
+            System.Windows.Media.Brush color = System.Windows.Media.Brushes.DeepSkyBlue;
+            SmartColorProperty = DependencyProperty.Register(SmartColorPropertyName, typeof(System.Windows.Media.Brush), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata(color, new PropertyChangedCallback(OnSmartColorChanged)));
+        }
+
+        private static string OnlyTextPropertyName = "OnlyText";
+        public static DependencyProperty OnlyTextProperty;
+
+        public bool OnlyText
+        {
+            get
+            {
+                return (bool)GetValue(OnlyTextProperty);
+            }
+            set
+            {
+                SetValue(OnlyTextProperty, value);
+            }
         }
 
         private static string SmartColorPropertyName = "SmartColor";
         public static DependencyProperty SmartColorProperty;
 
-        public System.Windows.Media.Color SmartColor
+        public System.Windows.Media.Brush SmartColor
         {
             get
             {
-                return (System.Windows.Media.Color)GetValue(SmartColorProperty);
+                return (System.Windows.Media.Brush)GetValue(SmartColorProperty);
             }
             set
             {
@@ -131,12 +145,22 @@ namespace XEP_SmartTextBox
             }
         }
 
+        private static void OnlyTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
+            if ((bool)e.OldValue != (bool)e.NewValue)
+            {
+                smartTextBox.OnlyText = (bool)e.NewValue;
+                smartTextBox.OnSmartTextChangedInternal();
+            }
+        }
+
         private static void OnSmartColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
-            if ((System.Windows.Media.Color)e.OldValue != (System.Windows.Media.Color)e.NewValue)
+            if ((System.Windows.Media.Brush)e.OldValue != (System.Windows.Media.Brush)e.NewValue)
             {
-                smartTextBox.SmartColor = (System.Windows.Media.Color)e.NewValue;
+                smartTextBox.SmartColor = (System.Windows.Media.Brush)e.NewValue;
                 smartTextBox.OnSmartTextChangedInternal();
             }
         }
@@ -198,12 +222,26 @@ namespace XEP_SmartTextBox
 
         private void OnSmartTextChangedInternal()
         {
+            if (OnlyText)
+            {
+                this.richTextBox.Visibility = Visibility.Collapsed;
+                this.MyTextBox.Visibility = Visibility.Visible;
+                this.MyTextBox.Foreground = SmartColor;
+                this.MyTextBox.Text = SmartText;
+                return;
+            }
+            else
+            {
+                this.richTextBox.Visibility = Visibility.Visible;
+                this.MyTextBox.Visibility = Visibility.Collapsed;
+            }
             if (SmartText == null || SmartText == String.Empty)
             {
                 return;
             }
-            Section section = new Section();
-            Paragraph paragraph = new Paragraph();
+            System.Windows.Documents.Paragraph myParagraph = new System.Windows.Documents.Paragraph();
+            FontFamilyConverter ffc = new FontFamilyConverter();
+            myParagraph.FontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
             string value = SmartText;
             foreach (var word in _separatorsAll)
             {
@@ -213,29 +251,30 @@ namespace XEP_SmartTextBox
             for (int counter = 0; counter < wordsAll.Count(); ++counter)
             {
                 string word = wordsAll[counter];
-                Telerik.Windows.Documents.Model.BaselineAlignment alig = Telerik.Windows.Documents.Model.BaselineAlignment.Baseline;
+                FontVariants alig = FontVariants.Normal;
                 if (word.Contains(_separatorsAll[1]))
                 {
-                    alig = Telerik.Windows.Documents.Model.BaselineAlignment.Subscript;
+                    alig = FontVariants.Subscript;
                     word = word.Substring(1);
                 }
                 else if (word.Contains(_separatorsAll[2]))
                 {
-                    alig = Telerik.Windows.Documents.Model.BaselineAlignment.Superscript;
+                    alig = FontVariants.Superscript;
                     word = word.Substring(1);
                 }
                 else if (word.Contains(_separatorsAll[0]))
                 {
                     word = word.Substring(1);
                 }
-                //
-                Span span = new Span(word);
-                span.ForeColor = SmartColor;
-                span.BaselineAlignment = alig;
-                paragraph.Inlines.Add(span);
+
+                Bold myBold = new Bold(new Run(word));
+                myBold.Typography.Variants = alig;
+                myParagraph.Inlines.Add(myBold);
             }
-            section.Blocks.Add(paragraph);
-            this.radRichTextBox.Document.Sections.Add(section);
+            FlowDocument myFlowDoc = new FlowDocument();
+            myFlowDoc.Blocks.Add(myParagraph);
+            this.richTextBox.Foreground = SmartColor;
+            this.richTextBox.Document = myFlowDoc;
         }
     }
 }

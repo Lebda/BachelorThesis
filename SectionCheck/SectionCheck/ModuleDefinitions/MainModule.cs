@@ -54,7 +54,6 @@ namespace XEP_SectionCheck.ModuleDefinitions
             MyModuleBase.RegisterWithResolver<XEP_IESDiagramItem, TransientLifetimeManager, XEP_ESDiagramItem, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IInternalForceItem, TransientLifetimeManager, XEP_InternalForceItem, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_ISectionShape, TransientLifetimeManager, XEP_SectionShape, TransientLifetimeManager>(container);
-            MyModuleBase.RegisterWithResolver<XEP_IMaterialData, TransientLifetimeManager, XEP_MaterialDataImpl, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IMaterialDataConcrete, TransientLifetimeManager, XEP_MaterialDataConcrete, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IConcreteSectionData, TransientLifetimeManager, XEP_ConcreteSectionData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IOneSectionData, TransientLifetimeManager, XEP_OneSectionData, TransientLifetimeManager>(container);
@@ -62,6 +61,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
             MyModuleBase.RegisterWithResolver<XEP_IStructure, TransientLifetimeManager, XEP_Structure, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IDataCache, ContainerControlledLifetimeManager, XEP_DataCache, TransientLifetimeManager>(container); // singleton
             MyModuleBase.RegisterWithResolver<XEP_IMaterialLibrary, ContainerControlledLifetimeManager, XEP_MaterialLibrary, TransientLifetimeManager>(container); // singleton
+            MyModuleBase.RegisterWithResolver<XEP_ISetupParameters, ContainerControlledLifetimeManager, XEP_SetupParameters, TransientLifetimeManager>(container); // singleton
             if (_isMock)
             {
                 MyModuleBase.RegisterWithResolver<XEP_IDataCacheService, TransientLifetimeManager, XEP_DataCacheServiceMock, TransientLifetimeManager>(container);

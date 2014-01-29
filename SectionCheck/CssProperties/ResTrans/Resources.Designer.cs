@@ -70,6 +70,15 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add material to library.
+        /// </summary>
+        public static string ADD_MAT_TO_LIB {
+            get {
+                return ResourceManager.GetString("ADD_MAT_TO_LIB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string COPY {
@@ -93,6 +102,15 @@ namespace XEP_CssProperties.ResTrans {
         public static string DELETE {
             get {
                 return ResourceManager.GetString("DELETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete material from library.
+        /// </summary>
+        public static string DELETE_MAT_FROM_LIB {
+            get {
+                return ResourceManager.GetString("DELETE_MAT_FROM_LIB", resourceCulture);
             }
         }
         
@@ -255,6 +273,24 @@ namespace XEP_CssProperties.ResTrans {
         public static string INTERNAL_FORCES {
             get {
                 return ResourceManager.GetString("INTERNAL_FORCES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library material.
+        /// </summary>
+        public static string MAT_FROM_LIB {
+            get {
+                return ResourceManager.GetString("MAT_FROM_LIB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material properties.
+        /// </summary>
+        public static string MAT_PROP {
+            get {
+                return ResourceManager.GetString("MAT_PROP", resourceCulture);
             }
         }
         

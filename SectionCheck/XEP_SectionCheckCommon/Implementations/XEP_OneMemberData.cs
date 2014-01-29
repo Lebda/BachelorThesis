@@ -11,6 +11,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_OneMemberDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_OneMemberData _data = null;

@@ -10,6 +10,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_OneSectionDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_OneSectionData _data = null;

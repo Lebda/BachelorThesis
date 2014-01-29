@@ -118,6 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EpsC1_MARK" xml:space="preserve">
-    <value>ε@c1$fucker#prdel</value>
+    <value>ε@c1#</value>
+  </data>
+  <data name="EpsC2_MARK" xml:space="preserve">
+    <value>ε@c2#</value>
+  </data>
+  <data name="EpsC3_MARK" xml:space="preserve">
+    <value>ε@c3#</value>
+  </data>
+  <data name="EpsCu1_MARK" xml:space="preserve">
+    <value>ε@cu1#</value>
+  </data>
+  <data name="EpsCu2_MARK" xml:space="preserve">
+    <value>ε@cu2#</value>
+  </data>
+  <data name="EpsCu3_MARK" xml:space="preserve">
+    <value>ε@cu3#</value>
+  </data>
+  <data name="FckCube_MARK" xml:space="preserve">
+    <value>F@ck,Cube#</value>
+  </data>
+  <data name="Fck_MARK" xml:space="preserve">
+    <value>F@ck#</value>
+  </data>
+  <data name="N_MARK" xml:space="preserve">
+    <value>N#</value>
   </data>
 </root>

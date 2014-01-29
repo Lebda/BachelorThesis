@@ -6,6 +6,7 @@ using XEP_SectionCheck.ResTrans;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
 
 namespace SectionCheck.Services
 {
@@ -15,7 +16,7 @@ namespace SectionCheck.Services
         string _folderName = "XEP_SectionCheck";
         string _fileName = "XEP_DataCache";
         string _materialLibraryName = "XEP_SectionCheck_MaterialLibrary";
-
+        string _setupParametersName = "XEP_SectionCheck_SetupParameters";
         #region XEP_IDataCacheService Members
         public string AplicationFolderPathFullName
         {
@@ -37,6 +38,11 @@ namespace SectionCheck.Services
             get { return _materialLibraryName; }
             set { _materialLibraryName = value; }
         }
+        public string SetupParametersName
+        {
+            get { return _setupParametersName; }
+            set { _setupParametersName = value; }
+        }
         public virtual eDataCacheServiceOperation Load(XEP_IDataCache dataCache)
         {
             try
@@ -45,40 +51,34 @@ namespace SectionCheck.Services
                 DirectoryInfo myDirectory = new DirectoryInfo(Path.Combine(ducumentsDirectory.FullName, _folderName));
                 if (myDirectory.Exists == false)
                 {
-                    throw new ApplicationException("No xml file for creating data cache !");
-                }
-                FileInfo myFile = new FileInfo(Path.Combine(myDirectory.FullName, _fileName + ".xml"));
-                if (myFile.Exists == false)
-                {
-                    throw new ApplicationException("No xml file for creating data cache !");
+                    throw new ApplicationException("No directory for xml file load !");
                 }
                 XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-                XDocument documentXml = XDocument.Load(myFile.FullName);
-                XElement elementXml = documentXml.Element(ns + dataCache.XmlWorker.GetXmlElementName());
-                if (elementXml == null)
-                {
-                    throw new ApplicationException("Invalid XML file !");
-                }
-                dataCache.XmlWorker.LoadFromXmlElement(elementXml);
-                // read material library
-                FileInfo myFileMatLib = new FileInfo(Path.Combine(myDirectory.FullName, _materialLibraryName + ".xml"));
-                if (myFileMatLib.Exists == false)
-                {
-                    throw new ApplicationException("No xml file for creating material library exists !");
-                }
-                XDocument documentXmlMatLib = XDocument.Load(myFileMatLib.FullName);
-                XElement elementXmlMatLib = documentXmlMatLib.Element(ns + dataCache.MaterialLibrary.XmlWorker.GetXmlElementName());
-                if (elementXmlMatLib == null)
-                {
-                    throw new ApplicationException("Invalid XML file for material library !");
-                }
-                dataCache.MaterialLibrary.XmlWorker.LoadFromXmlElement(elementXmlMatLib);
+                SaveOneFile(myDirectory, _fileName, ns, dataCache.XmlWorker);
+                SaveOneFile(myDirectory, _materialLibraryName, ns, dataCache.MaterialLibrary.XmlWorker);
+                SaveOneFile(myDirectory, _setupParametersName, ns, dataCache.SetupParameters.XmlWorker);
                 return eDataCacheServiceOperation.eSuccess;
             }
             catch (System.Exception ex)
             {
                 return eDataCacheServiceOperation.eFailed;
             }
+        }
+
+        private void SaveOneFile(DirectoryInfo myDirectory, string fileName, XNamespace ns, XEP_IXmlWorker xmlWorker)
+        {
+            FileInfo myFileSetup = new FileInfo(Path.Combine(myDirectory.FullName, fileName + ".xml"));
+            if (myFileSetup.Exists == false)
+            {
+                throw new ApplicationException("No xml file for load exists !");
+            }
+            XDocument documentXmlSetup = XDocument.Load(myFileSetup.FullName);
+            XElement elementXmlSetup = documentXmlSetup.Element(ns + xmlWorker.GetXmlElementName());
+            if (elementXmlSetup == null)
+            {
+                throw new ApplicationException("Invalid XML file for load !");
+            }
+            xmlWorker.LoadFromXmlElement(elementXmlSetup);
         }
         eDataCacheServiceOperation XEP_IDataCacheService.Save(XEP_IDataCache dataCache)
         {
@@ -97,6 +97,11 @@ namespace SectionCheck.Services
                 new XDeclaration("1.0", null, "yes"),
                 new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
             SaveOneXmlFile(documentXmlMatLib, dataCache.MaterialLibrary.XmlWorker.GetXmlElement(), Path.Combine(myDirectory.FullName, _materialLibraryName + ".xml"));
+            // Save material library
+            XDocument documentXmlSetup = new XDocument(
+                new XDeclaration("1.0", null, "yes"),
+                new XComment(Resources.ResourceManager.GetString("COMMENT_XML")));
+            SaveOneXmlFile(documentXmlSetup, dataCache.SetupParameters.XmlWorker.GetXmlElement(), Path.Combine(myDirectory.FullName, _setupParametersName + ".xml"));
             return eDataCacheServiceOperation.eSuccess;
         }
         #endregion

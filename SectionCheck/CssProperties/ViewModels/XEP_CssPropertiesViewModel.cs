@@ -11,6 +11,7 @@ using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionDrawer.Infrastructure;
 using System.Windows.Media;
+using XEP_SectionCheckCommon.Implementations;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -21,6 +22,9 @@ namespace XEP_CssProperties.ViewModels
         XEP_IOneSectionData _activeSectionData = null;
         private XEP_IInternalForceItem _activeForce = null;
         private ObservableCollection<XEP_IInternalForceItem> _internalForces = null;
+        private XEP_IMaterialDataConcrete _activeMatConcrete = null;
+        private List<XEP_IMaterialDataConcrete> _matConcreteHelp = new List<XEP_IMaterialDataConcrete>();
+        private List<XEP_IMaterialDataConcrete> _matLibNames = new List<XEP_IMaterialDataConcrete>();
         private CssDataShape _cssShapeProperty = new CssDataShape(CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey), CustomResources.GetSavePen(CustomResources.CssPen2_SCkey));
         private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey));
         private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey));
@@ -29,6 +33,7 @@ namespace XEP_CssProperties.ViewModels
         {
             _resolverForce = resolverForce;
             _dataCache = dataCache;
+            _matLibNames = dataCache.MaterialLibrary.GetMaterialConcreteNames;
             if (_dataCache.Structure != null &&_dataCache.Structure.MemberData != null && _dataCache.Structure.MemberData.Values.Count > 0)
             {
                 Dictionary<Guid, XEP_IOneSectionData> sectionsData = (_dataCache.Structure.MemberData.Values.First()).SectionsData;
@@ -36,12 +41,42 @@ namespace XEP_CssProperties.ViewModels
                 {
                     _activeSectionData = sectionsData.First().Value;
                     _internalForces = _activeSectionData.InternalForces;
+                    _matConcreteHelp.Add(_activeSectionData.ConcreteSectionData.MaterialData);
+                    _activeMatConcrete = _activeSectionData.ConcreteSectionData.MaterialData;
                 }
             }
         }
 
         #region Commands
-
+        public ICommand AddMatToLib
+        {
+            get { return new RelayCommand(AddMatToLibExecute, CanAddMatToLibExecute); }
+        }
+        Boolean CanAddMatToLibExecute()
+        {
+            return (this._activeMatConcrete != null) && (_activeMatConcrete.MatFromLib == false);
+        }
+        void AddMatToLibExecute()
+        {
+            if (!CanAddMatToLibExecute())
+            {
+                return;
+            }
+            try
+            {
+                XEP_IMaterialData newItem = this._activeMatConcrete.CopyInstance();
+                XEP_IMaterialDataConcrete  newItemConcrete = newItem as XEP_IMaterialDataConcrete;
+                Exceptions.CheckNull(newItemConcrete);
+                _dataCache.MaterialLibrary.SaveOneMaterialDataConcrete(newItemConcrete);
+                _activeMatConcrete.ResetMatFromLib();
+                MatLibNames = _dataCache.MaterialLibrary.GetMaterialConcreteNames;
+                ResetForm();
+            }
+            catch (Exception ex)
+            {
+                string test = ex.Message;
+            }
+        }
         public ICommand NewForceCommand
         {
             get { return new RelayCommand(NewForceExecute); }
@@ -237,6 +272,41 @@ namespace XEP_CssProperties.ViewModels
                 if (_activeSectionData == value) { return; }
                 _activeSectionData = value;
                 RaisePropertyChanged(ActiveSectionDataPropertyName);
+            }
+        }
+        public static readonly string MaterialDataConcretePropertyName = "MaterialDataConcrete";
+        public List<XEP_IMaterialDataConcrete> MaterialDataConcrete
+        {
+            get { return _matConcreteHelp; }
+            set
+            {
+                if (_matConcreteHelp == value) { return; }
+                _matConcreteHelp = value;
+                RaisePropertyChanged(MaterialDataConcretePropertyName);
+            }
+        }
+
+        public static readonly string ActiveMatConcretePropertyName = "ActiveMatConcrete";
+        public XEP_IMaterialDataConcrete ActiveMatConcrete
+        {
+            get { return _activeMatConcrete; }
+            set
+            {
+                if (_activeMatConcrete == value) { return; }
+                _activeMatConcrete = value;
+                RaisePropertyChanged(ActiveMatConcretePropertyName);
+            }
+        }
+
+        public static readonly string MatLibNamesPropertyName = "MatLibNames";
+        public List<XEP_IMaterialDataConcrete> MatLibNames
+        {
+            get { return _matLibNames; }
+            set
+            {
+                if (_matLibNames == value) { return; }
+                _matLibNames = value;
+                RaisePropertyChanged(MatLibNamesPropertyName);
             }
         }
     }

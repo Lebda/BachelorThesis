@@ -8,6 +8,47 @@
 
 
 *********************************************
+                  <telerik:RadExpander DataContext="{Binding ActiveSectionData.ConcreteSectionData.MaterialData}" 
+                                       Grid.Row="2" Grid.Column="1" IsExpanded="False" VerticalContentAlignment="Top">
+                     <telerik:RadExpander.Header>
+                        <TextBlock Text="{x:Static r:Resources.PROPERTIES}"/>
+                     </telerik:RadExpander.Header>
+                     <telerik:RadExpander.Content>
+                        <telerik:RadExpander IsExpanded="False" VerticalContentAlignment="Stretch" HorizontalAlignment="Left"
+                                             telerik:AnimationManager.IsAnimationEnabled="false">
+                           <telerik:RadExpander.Header>
+                              <TextBlock Text="Material data"/>
+                           </telerik:RadExpander.Header>
+                           <telerik:RadExpander.Content>
+                              <telerik:RadGridView ItemsSource="{Binding Data, Mode=TwoWay}" GridLinesVisibility="Horizontal"
+                                                   AutoGenerateColumns="False"
+                                                   ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                                 <telerik:RadGridView.Columns>
+                                    <telerik:GridViewDataColumn Width="*" Header=" Name" UniqueName="Name" IsReadOnly="True" DataMemberBinding="{Binding Name, Mode=TwoWay}">
+                                       <telerik:GridViewDataColumn.CellTemplate>
+                                          <DataTemplate >
+                                             <smartTB:XEP_SmartTextBox SmartText="{Binding Converter={StaticResource converterMarkWithUnit}, Mode=OneWay}"/>
+                                          </DataTemplate>
+                                       </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn Width="*" Header=" Value" UniqueName="Value" DataMemberBinding="{Binding ManagedValue, Mode=TwoWay}">
+                                       <telerik:GridViewDataColumn.CellTemplate>
+                                          <DataTemplate >
+                                             <smartTB:XEP_SmartTextBox SmartText="{Binding Converter={StaticResource converterManagedValue}}"/>
+                                          </DataTemplate>
+                                       </telerik:GridViewDataColumn.CellTemplate>
+                                       <telerik:GridViewDataColumn.CellEditTemplate>
+                                          <DataTemplate >
+                                             <telerik:RadNumericUpDown Value="{Binding Path=ManagedValue, Mode=TwoWay}" />
+                                          </DataTemplate>
+                                       </telerik:GridViewDataColumn.CellEditTemplate>
+                                    </telerik:GridViewDataColumn>
+                                 </telerik:RadGridView.Columns>
+                              </telerik:RadGridView>
+                           </telerik:RadExpander.Content>
+                        </telerik:RadExpander>
+                     </telerik:RadExpander.Content>
+                  </telerik:RadExpander>
 
 
                        <!--<telerik:RadPropertyGrid Item="{Binding ActiveSectionData.ConcreteSectionData.MaterialData}" AutoGeneratePropertyDefinitions="False" >

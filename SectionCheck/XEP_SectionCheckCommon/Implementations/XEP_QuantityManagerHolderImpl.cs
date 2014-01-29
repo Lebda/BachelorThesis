@@ -7,6 +7,7 @@ using XEP_CommonLibrary.Utility;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     public class XEP_QuantityManagerHolderImpl : XEP_IQuantityManagerHolder
     {
         public XEP_QuantityManagerHolderImpl(XEP_IQuantityManager manager)

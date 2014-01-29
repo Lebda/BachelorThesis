@@ -7,7 +7,7 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     public interface XEP_IInternalForceItem : XEP_IDataCacheObjectBase
     {
-        XEP_InternalForceItem CopyInstance();
+        XEP_IInternalForceItem CopyInstance();
         XEP_IQuantity GetItem(eEP_ForceType type);
         XEP_IQuantity GetMax();
         XEP_IQuantity GetMin();

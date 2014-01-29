@@ -68,6 +68,7 @@
     <Compile Include="DataCache\XEP_IConcreteSectionData.cs" />
     <Compile Include="DataCache\XEP_IESDiagramItem.cs" />
     <Compile Include="DataCache\XEP_IMaterialLibrary.cs" />
+    <Compile Include="DataCache\XEP_ISetupParameters.cs" />
     <Compile Include="Implementations\XEP_ConcreteSectionData.cs" />
     <Compile Include="Implementations\XEP_DataCacheMaker.cs" />
     <Compile Include="DataCache\XEP_IMaterialData.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Implementations\XEP_Quantity.cs" />
     <Compile Include="Implementations\XEP_SectionShape.cs" />
     <Compile Include="Implementations\XEP_SectionShapeItem.cs" />
+    <Compile Include="Implementations\XEP_SetupParameters.cs" />
     <Compile Include="Implementations\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_MaterialDataConcrete.cs" />
     <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Infrastructure\XEP_QuantityNames.cs" />
     <Compile Include="DataCache\XEP_IDataCache.cs" />
     <Compile Include="Infrastructure\XEP_SkinStyleSelector.cs" />
+    <Compile Include="Infrastructure\XEP_ValueConventors.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />

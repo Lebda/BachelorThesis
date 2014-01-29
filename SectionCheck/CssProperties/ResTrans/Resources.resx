@@ -120,6 +120,9 @@
   <data name="ADD" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="ADD_MAT_TO_LIB" xml:space="preserve">
+    <value>Add material to library</value>
+  </data>
   <data name="COPY" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="DELETE" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="DELETE_MAT_FROM_LIB" xml:space="preserve">
+    <value>Delete material from library</value>
   </data>
   <data name="EPS_C1_EXPL" xml:space="preserve">
     <value>εc₁ explanation</value>
@@ -194,6 +200,12 @@
   </data>
   <data name="MATERIAL_SPECIFICATION" xml:space="preserve">
     <value>Material specification</value>
+  </data>
+  <data name="MAT_FROM_LIB" xml:space="preserve">
+    <value>Library material</value>
+  </data>
+  <data name="MAT_PROP" xml:space="preserve">
+    <value>Material properties</value>
   </data>
   <data name="N_EXPL" xml:space="preserve">
     <value>N explanation</value>

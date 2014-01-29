@@ -8,6 +8,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_DataCacheXml : XEP_XmlWorkerImpl
     {
         readonly XEP_IDataCache _data = null;
@@ -33,20 +34,24 @@ namespace XEP_SectionCheckCommon.Implementations
             _data.Structure.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.Structure.XmlWorker.GetXmlElementName()));
         }
     }
+    [Serializable]
     public class XEP_DataCache : XEP_IDataCache
     {
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
         XEP_IStructure _structure = null;
-        XEP_IMaterialLibrary _materialLibrary;
+        XEP_IMaterialLibrary _materialLibrary = null;
+        XEP_ISetupParameters _setupParameters = null;
 
-        public XEP_DataCache(XEP_IResolver<XEP_IStructure> resolver, XEP_IResolver<XEP_IMaterialLibrary> resolverMatLib, XEP_IQuantityManager manager)
+        public XEP_DataCache(XEP_IResolver<XEP_IStructure> resolver, XEP_IResolver<XEP_IMaterialLibrary> resolverMatLib,
+            XEP_IResolver<XEP_ISetupParameters> resolverSetup, XEP_IQuantityManager manager)
         {
             _manager = manager;
             _xmlWorker = new XEP_DataCacheXml(this);
             _structure = resolver.Resolve();
             _materialLibrary = resolverMatLib.Resolve();
+            _setupParameters = resolverSetup.Resolve();
         }
         public XEP_IQuantityManager Manager
         {
@@ -72,6 +77,11 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             get { return _materialLibrary; }
             set { _materialLibrary = value; }
+        }
+        public XEP_ISetupParameters SetupParameters
+        {
+            get { return _setupParameters; }
+            set { _setupParameters = value; }
         }
     }
 }

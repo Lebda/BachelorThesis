@@ -9,6 +9,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
+    [Serializable]
     class XEP_ESDiagramItemXml : XEP_XmlWorkerImpl
     {
         readonly XEP_ESDiagramItem _data = null;

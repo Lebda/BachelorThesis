@@ -61,11 +61,83 @@ namespace XEP_SectionCheckCommon.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ε@c1$fucker#prdel.
+        ///   Looks up a localized string similar to ε@c1#.
         /// </summary>
         public static string EpsC1_MARK {
             get {
                 return ResourceManager.GetString("EpsC1_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ε@c2#.
+        /// </summary>
+        public static string EpsC2_MARK {
+            get {
+                return ResourceManager.GetString("EpsC2_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ε@c3#.
+        /// </summary>
+        public static string EpsC3_MARK {
+            get {
+                return ResourceManager.GetString("EpsC3_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ε@cu1#.
+        /// </summary>
+        public static string EpsCu1_MARK {
+            get {
+                return ResourceManager.GetString("EpsCu1_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ε@cu2#.
+        /// </summary>
+        public static string EpsCu2_MARK {
+            get {
+                return ResourceManager.GetString("EpsCu2_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ε@cu3#.
+        /// </summary>
+        public static string EpsCu3_MARK {
+            get {
+                return ResourceManager.GetString("EpsCu3_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to F@ck#.
+        /// </summary>
+        public static string Fck_MARK {
+            get {
+                return ResourceManager.GetString("Fck_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to F@ck,Cube#.
+        /// </summary>
+        public static string FckCube_MARK {
+            get {
+                return ResourceManager.GetString("FckCube_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N#.
+        /// </summary>
+        public static string N_MARK {
+            get {
+                return ResourceManager.GetString("N_MARK", resourceCulture);
             }
         }
     }

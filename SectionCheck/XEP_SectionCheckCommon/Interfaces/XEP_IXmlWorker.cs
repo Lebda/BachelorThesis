@@ -12,6 +12,7 @@ namespace XEP_SectionCheckCommon.Interfaces
         string GetXmlElementName();
     }
 
+    [Serializable]
     public abstract class XEP_XmlWorkerImpl : XEP_IXmlWorker
     {
         public abstract string GetXmlElementName();

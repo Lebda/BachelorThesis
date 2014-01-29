@@ -7,7 +7,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     public interface XEP_IQuantity : XEP_IDataCacheObjectBase
     {
-        double Value { get; set;}
-        eEP_QuantityType QuantityType { get; set;}
+        double Value { get; set; }
+        double ManagedValue { get; set; }
+        eEP_QuantityType QuantityType { get; set; }
     }
 }
