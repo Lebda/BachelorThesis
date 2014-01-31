@@ -43,7 +43,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -70,7 +71,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + "Name");
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
         }
         #endregion
     }
@@ -93,49 +95,34 @@ namespace XEP_SectionCheckCommon.Implementations
         }
 
         #region XEP_ISectionShape Members
-        public const string ShapeOuterPropertyName = "ShapeOuter";
         public XEP_IResolver<XEP_ISectionShapeItem> Resolver
         {
-            get
-            {
-                return this._resolver;
-            }
+            get { return _resolver; }
         }
+        public static readonly string ShapeOuterPropertyName = "ShapeOuter";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeOuter
         {
             get { return _shapeOuter; }
-            set
-            {
-                if (_shapeOuter == value)
-                {
-                    return;
-                }
-                _shapeOuter = value;
-                RaisePropertyChanged(ShapeOuterPropertyName);
-            }
+            set { SetMember<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeOuter, (_shapeOuter == value), ShapeOuterPropertyName); }
         }
-
-        public const string ShapeInnerPropertyName = "ShapeInner";
+        public static readonly string ShapeInnerPropertyName = "ShapeInner";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeInner
         {
             get { return _shapeInner; }
-            set
-            {
-                if (_shapeInner == value)
-                {
-                    return;
-                }
-                _shapeInner = value;
-                RaisePropertyChanged(ShapeOuterPropertyName);
-            }
+            set { SetMember<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, (_shapeInner == value), ShapeInnerPropertyName); }
         }
         #endregion
-
         #region XEP_IDataCacheObjectBase Members
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IXmlWorker XmlWorker
         {

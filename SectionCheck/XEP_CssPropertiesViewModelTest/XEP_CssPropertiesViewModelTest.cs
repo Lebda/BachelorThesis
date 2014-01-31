@@ -114,12 +114,12 @@ namespace XEP_CssPropertiesViewModelTest
             Assert.AreEqual(target.InternalForces.Count, count);
 
             // Act
-            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.ActiveForce = _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces[0];
             target.CopyForceCommand.Execute(null);
             // Assert
             Assert.IsNull(target.ActiveForce);
             Assert.AreEqual(target.InternalForces.Count, ++count);
-            Assert.AreEqual(_dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First(), _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.Last());
+            Assert.AreEqual(_dataCache.Structure.MemberData[0].SectionsData[0].InternalForces[0], _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.Last());
         }
 
         /// <summary>
@@ -139,14 +139,14 @@ namespace XEP_CssPropertiesViewModelTest
             Assert.AreEqual(target.InternalForces.Count, count);
 
             // Act
-            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.ActiveForce = _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.First();
             target.DelereForceCommand.Execute(null);
             // Assert
             Assert.IsNull(target.ActiveForce);
             Assert.AreEqual(target.InternalForces.Count, --count);
 
             // Act
-            target.ActiveForce = _dataCache.Structure.MemberData.Values.First().SectionsData.First().Value.InternalForces.First();
+            target.ActiveForce = _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.First();
             target.DelereForceCommand.Execute(null);
             // Assert
             Assert.IsNull(target.ActiveForce);
@@ -166,7 +166,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void NewForceCommandTest()
         {
             // Arrange
-            (_dataCache.Structure.MemberData.Values.First()).SectionsData.First().Value.InternalForces.Clear();
+            _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.Clear();
             var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act

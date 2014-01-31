@@ -2,6 +2,7 @@
 using System.Linq;
 using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Interfaces;
 using System.Xml.Linq;
 using XEP_SectionCheckCommon.Infrastucture;
@@ -33,8 +34,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Guid", _data.Id));
-            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -45,19 +46,18 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + "Name");
-            _data.Id = (Guid)xmlElement.Attribute(ns + "Guid");
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
         }
         #endregion
     }
 
     [Serializable]
-    public class XEP_ConcreteSectionData : XEP_IConcreteSectionData
+    public class XEP_ConcreteSectionData : XEP_ObservableObject, XEP_IConcreteSectionData
     {
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        Guid _guid = Guid.NewGuid();
-        string _name = String.Empty;
+        string _name = "Concrete section data";
         XEP_ISectionShape _sectionShape = null;
         XEP_IMaterialDataConcrete _materialData = null;
 
@@ -72,20 +72,28 @@ namespace XEP_SectionCheckCommon.Implementations
             _materialData = resolverMaterialData.Resolve();
         }
         // Properties
+        public static readonly string MaterialDataPropertyName = "MaterialData";
         public XEP_IMaterialDataConcrete MaterialData
         {
             get { return _materialData; }
-            set { _materialData = value; }
+            set { SetMember<XEP_IMaterialDataConcrete>(ref value, ref _materialData, (_materialData == value), MaterialDataPropertyName); }
         }
+        public static readonly string SectionShapePropertyName = "SectionShape";
         public XEP_ISectionShape SectionShape
         {
             get { return _sectionShape; }
-            set { _sectionShape = value; }
+            set { SetMember<XEP_ISectionShape>(ref value, ref _sectionShape, (_sectionShape == value), SectionShapePropertyName); }
         }
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IQuantityManager Manager
         {
@@ -96,11 +104,6 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
-        }
-        public Guid Id
-        {
-            get { return _guid; }
-            set { _guid = value; }
         }
     }
 }

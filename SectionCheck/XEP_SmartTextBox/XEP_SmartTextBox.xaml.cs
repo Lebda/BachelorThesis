@@ -53,21 +53,24 @@ namespace XEP_SmartTextBox
             System.Windows.Media.Brush color = System.Windows.Media.Brushes.DeepSkyBlue;
             SmartColorProperty = DependencyProperty.Register(SmartColorPropertyName, typeof(System.Windows.Media.Brush), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata(color, new PropertyChangedCallback(OnSmartColorChanged)));
+            SupSubSciptProperty = DependencyProperty.Register(SupSubSciptPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
+                new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnSupSubSciptChanged)));
+        }
+  
+        private static string SupSubSciptPropertyName = "SupSubScipt";
+        public static DependencyProperty SupSubSciptProperty;
+        public bool SupSubScipt
+        {
+            get { return (bool)GetValue(SupSubSciptProperty); }
+            set { SetValue(SupSubSciptProperty, value); }
         }
 
         private static string OnlyTextPropertyName = "OnlyText";
         public static DependencyProperty OnlyTextProperty;
-
         public bool OnlyText
         {
-            get
-            {
-                return (bool)GetValue(OnlyTextProperty);
-            }
-            set
-            {
-                SetValue(OnlyTextProperty, value);
-            }
+            get { return (bool)GetValue(OnlyTextProperty); }
+            set { SetValue(OnlyTextProperty, value); }
         }
 
         private static string SmartColorPropertyName = "SmartColor";
@@ -142,6 +145,16 @@ namespace XEP_SmartTextBox
             set
             {
                 SetValue(NormalScriptMarkProperty, value);
+            }
+        }
+
+        private static void OnSupSubSciptChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
+            if ((bool)e.OldValue != (bool)e.NewValue)
+            {
+                smartTextBox.SupSubScipt = (bool)e.NewValue;
+                smartTextBox.OnSmartTextChangedInternal();
             }
         }
 
@@ -242,34 +255,41 @@ namespace XEP_SmartTextBox
             System.Windows.Documents.Paragraph myParagraph = new System.Windows.Documents.Paragraph();
             FontFamilyConverter ffc = new FontFamilyConverter();
             myParagraph.FontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
-            string value = SmartText;
-            foreach (var word in _separatorsAll)
+            if (SupSubScipt == false)
             {
-                value = value.Replace(word, _sepratorInternal[0] + word);
-            }
-            string[] wordsAll = value.Split(_sepratorInternal, StringSplitOptions.RemoveEmptyEntries);
-            for (int counter = 0; counter < wordsAll.Count(); ++counter)
-            {
-                string word = wordsAll[counter];
-                FontVariants alig = FontVariants.Normal;
-                if (word.Contains(_separatorsAll[1]))
-                {
-                    alig = FontVariants.Subscript;
-                    word = word.Substring(1);
-                }
-                else if (word.Contains(_separatorsAll[2]))
-                {
-                    alig = FontVariants.Superscript;
-                    word = word.Substring(1);
-                }
-                else if (word.Contains(_separatorsAll[0]))
-                {
-                    word = word.Substring(1);
-                }
-
-                Bold myBold = new Bold(new Run(word));
-                myBold.Typography.Variants = alig;
+                Bold myBold = new Bold(new Run(SmartText));
                 myParagraph.Inlines.Add(myBold);
+            }
+            else
+            {
+                string value = SmartText;
+                foreach (var word in _separatorsAll)
+                {
+                    value = value.Replace(word, _sepratorInternal[0] + word);
+                }
+                string[] wordsAll = value.Split(_sepratorInternal, StringSplitOptions.RemoveEmptyEntries);
+                for (int counter = 0; counter < wordsAll.Count(); ++counter)
+                {
+                    string word = wordsAll[counter];
+                    FontVariants alig = FontVariants.Normal;
+                    if (word.Contains(_separatorsAll[1]))
+                    {
+                        alig = FontVariants.Subscript;
+                        word = word.Substring(1);
+                    }
+                    else if (word.Contains(_separatorsAll[2]))
+                    {
+                        alig = FontVariants.Superscript;
+                        word = word.Substring(1);
+                    }
+                    else if (word.Contains(_separatorsAll[0]))
+                    {
+                        word = word.Substring(1);
+                    }
+                    Bold myBold = new Bold(new Run(word));
+                    myBold.Typography.Variants = alig;
+                    myParagraph.Inlines.Add(myBold);
+                }
             }
             FlowDocument myFlowDoc = new FlowDocument();
             myFlowDoc.Blocks.Add(myParagraph);

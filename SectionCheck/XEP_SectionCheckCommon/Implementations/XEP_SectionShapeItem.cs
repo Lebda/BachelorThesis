@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using System.Xml.Linq;
-using XEP_CommonLibrary.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
@@ -26,9 +24,10 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Type", (int)_data.Type));
-            xmlElement.Add(new XAttribute(ns + "Y", _data.Point.X));
-            xmlElement.Add(new XAttribute(ns + "Z", _data.Point.Y));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.TypePropertyName, (int)_data.Type));
+            xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.YPropertyName, _data.Y.Value));
+            xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.ZPropertyName, _data.Z.Value));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -37,18 +36,17 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Type = (eEP_CssShapePointType)(int)xmlElement.Attribute(ns + "Type");
-            double posX = (double)xmlElement.Attribute(ns + "Y");
-            double posY = (double)xmlElement.Attribute(ns + "Z");
-            _data.Point = new Point(posX, posY);
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Type = (eEP_CssShapePointType)(int)xmlElement.Attribute(ns + XEP_SectionShapeItem.TypePropertyName);
+            _data.Y.Value = (double)xmlElement.Attribute(ns + XEP_SectionShapeItem.YPropertyName);
+            _data.Z.Value = (double)xmlElement.Attribute(ns + XEP_SectionShapeItem.ZPropertyName);
         }
         #endregion
     }
 
     [Serializable]
-    public class XEP_SectionShapeItem : ObservableObject, XEP_ISectionShapeItem
+    public class XEP_SectionShapeItem : XEP_ObservableObject, XEP_ISectionShapeItem
     {
-        Point _point = new Point(0.0, 0.0);
         eEP_CssShapePointType _type = eEP_CssShapePointType.eOuter;
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
@@ -58,29 +56,28 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             _manager = manager;
             _xmlWorker = new XEP_SectionShapeItemXml(this);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, YPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, ZPropertyName);
+
         }
         #region XEP_ISectionShapeItem Members
-        public const string PointPropertyName = "Point";
-        public Point Point
+        public static readonly string YPropertyName = "Y";
+        public XEP_IQuantity Y
         {
-            get
-            {
-                return _point;
-            }
-            set
-            {
-                if (_point == value)
-                {
-                    return;
-                }
-                _point = value;
-                RaisePropertyChanged(PointPropertyName);
-            }
+            get { return GetOneQuantity(YPropertyName); }
+            set { SetItem(ref value, YPropertyName); }
         }
+        public static readonly string ZPropertyName = "Z";
+        public XEP_IQuantity Z
+        {
+            get { return GetOneQuantity(ZPropertyName); }
+            set { SetItem(ref value, ZPropertyName); }
+        }
+        public static readonly string TypePropertyName = "Type";
         public eEP_CssShapePointType Type
         {
             get { return _type; }
-            set { _type = value; }
+            set { SetMember<eEP_CssShapePointType>(ref value, ref _type, (_type == value), TypePropertyName); }
         }
         #endregion
 
@@ -88,7 +85,13 @@ namespace XEP_SectionCheckCommon.Implementations
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IXmlWorker XmlWorker
         {

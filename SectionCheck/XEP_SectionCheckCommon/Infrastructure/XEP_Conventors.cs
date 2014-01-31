@@ -1,12 +1,25 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using XEP_SectionCheckCommon.ResTrans;
 using XEP_SectionCheckCommon.Infrastucture;
+using System.Windows.Media;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
     public static class XEP_Conventors
     {
+        static public PointCollection TransformOne(ObservableCollection<XEP_ISectionShapeItem> shape)
+        {
+            PointCollection points = new PointCollection();
+            foreach (XEP_ISectionShapeItem item in shape)
+            {
+                points.Add(new System.Windows.Point(item.Y.Value, item.Z.Value));
+            }
+            return points;
+        }
+
         public static string ConvertDiagramType(eEP_MaterialDiagramType type, bool longName = true)
         {
             string retVal;

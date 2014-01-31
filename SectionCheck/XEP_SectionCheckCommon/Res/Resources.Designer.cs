@@ -140,5 +140,23 @@ namespace XEP_SectionCheckCommon.Res {
                 return ResourceManager.GetString("N_MARK", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to fucekr.
+        /// </summary>
+        public static string Y_MARK {
+            get {
+                return ResourceManager.GetString("Y_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Z#.
+        /// </summary>
+        public static string Z_MARK {
+            get {
+                return ResourceManager.GetString("Z_MARK", resourceCulture);
+            }
+        }
     }
 }

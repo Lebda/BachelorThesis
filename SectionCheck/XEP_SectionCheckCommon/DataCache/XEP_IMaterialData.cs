@@ -17,7 +17,6 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public interface XEP_IMaterialDataConcrete : XEP_IMaterialData
     {
-        ObservableCollection<XEP_IQuantity> Data { get; }
         XEP_IQuantity Fck { get; set; }
         XEP_IQuantity FckCube { get; set; }
         XEP_IQuantity EpsC1 { get; set; }

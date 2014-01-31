@@ -37,6 +37,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
     {
         eNoType = 0, // has to be first
         eNoUnit,
+        eCssLength,
         eForce,
         eMoment,
         eStress,

@@ -8,6 +8,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -29,10 +30,16 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.MaterialDataConcrete.Values)
+            foreach (var item in _data.MaterialDataConcrete)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
+        }
+        protected override void AddAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -49,15 +56,21 @@ namespace XEP_SectionCheckCommon.Implementations
                 }
             }
         }
+        protected override void LoadAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+        }
     }
 
     [Serializable]
-    public class XEP_MaterialLibrary : XEP_IMaterialLibrary
+    public class XEP_MaterialLibrary : XEP_ObservableObject, XEP_IMaterialLibrary
     {
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        string _name = String.Empty;
-        Dictionary<string, XEP_IMaterialDataConcrete> _materialDataConcrete = new Dictionary<string, XEP_IMaterialDataConcrete>();
+        string _name = "Material library";
+        ObservableCollection<XEP_IMaterialDataConcrete> _materialDataConcrete = new ObservableCollection<XEP_IMaterialDataConcrete>();
         readonly XEP_IResolver<XEP_IMaterialDataConcrete> _resolverMatConcrete;
 
         public XEP_MaterialLibrary(XEP_IQuantityManager manager, XEP_IResolver<XEP_IMaterialDataConcrete> resolverMatConcrete)
@@ -84,49 +97,36 @@ namespace XEP_SectionCheckCommon.Implementations
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         #region XEP_IMaterialLibrary Members
-        public List<XEP_IMaterialDataConcrete> GetMaterialConcreteNames
-        {
-            get
-            {
-                List<XEP_IMaterialDataConcrete> data = new List<XEP_IMaterialDataConcrete>();
-                foreach(var item in _materialDataConcrete)
-                {
-                    data.Add(item.Value);
-                }
-                return data;
-            }
-        }
-        public Dictionary<string, XEP_IMaterialDataConcrete> MaterialDataConcrete
+        public static readonly string MaterialDataConcretePropertyName = "MaterialDataConcrete";
+        public ObservableCollection<XEP_IMaterialDataConcrete> MaterialDataConcrete
         {
             get { return _materialDataConcrete; }
-            set { _materialDataConcrete = value; }
+            set { SetMember<ObservableCollection<XEP_IMaterialDataConcrete>>(ref value, ref _materialDataConcrete, (_materialDataConcrete == value), MaterialDataConcretePropertyName); }
         }
         public XEP_IMaterialDataConcrete GetOneMaterialDataConcrete(string matName)
         {
-            return Common.GetDataDictionary<string, XEP_IMaterialDataConcrete>(matName, _materialDataConcrete);
+            return GetOneData<XEP_IMaterialDataConcrete>(_materialDataConcrete, matName);
+        }
+        public XEP_IMaterialDataConcrete GetOneMaterialDataConcrete(Guid id)
+        {
+            return GetOneData<XEP_IMaterialDataConcrete>(_materialDataConcrete, id);
         }
         public eDataCacheServiceOperation SaveOneMaterialDataConcrete(XEP_IMaterialDataConcrete matData)
         {
-            Exceptions.CheckNull(matData);
-            if (_materialDataConcrete.ContainsKey(matData.Name))
-            {
-                matData.Name += "-copy";
-            }
-            _materialDataConcrete.Add(matData.Name, matData);
-            return eDataCacheServiceOperation.eSuccess;
+            return SaveOneData<XEP_IMaterialDataConcrete>(_materialDataConcrete, matData);
         }
         public eDataCacheServiceOperation RemoveOneMaterialDataConcrete(XEP_IMaterialDataConcrete matData)
         {
-            Exceptions.CheckNull(matData);
-            if (_materialDataConcrete.ContainsKey(matData.Name))
-            {
-                _materialDataConcrete.Remove(matData.Name);
-                return eDataCacheServiceOperation.eSuccess;
-            }
-            return eDataCacheServiceOperation.eNotFound;
+            return RemoveOneData<XEP_IMaterialDataConcrete>(_materialDataConcrete, matData);
         }
         #endregion
     }

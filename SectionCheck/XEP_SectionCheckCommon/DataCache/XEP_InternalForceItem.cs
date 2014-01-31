@@ -66,7 +66,7 @@ namespace XEP_SectionCheckCommon.DataCache
     }
 
     [Serializable]
-    public class XEP_InternalForceItem : ObservableObject, XEP_IInternalForceItem
+    public class XEP_InternalForceItem : XEP_ObservableObject, XEP_IInternalForceItem
     {
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
@@ -77,13 +77,12 @@ namespace XEP_SectionCheckCommon.DataCache
             _manager = Exceptions.CheckNull<XEP_IQuantityManager>(manager);
             _xmlWorker = new XEP_InternalForceItemXml(this);
             resolver = _resolver;
-            _N = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
-            _Vy = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
-            _Vz = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
-            _Mx = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
-            _My = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
-            _Mz = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
-            _name = "Force";
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
         }
 
         public override bool Equals(System.Object obj)
@@ -102,42 +101,46 @@ namespace XEP_SectionCheckCommon.DataCache
             }
 
             // Return true if the fields match:
-            return (_N.Equals(p._N) && _Vy.Equals(p._Vy) && _Vz.Equals(p._Vz) && _Mx.Equals(p._Mx) && _My.Equals(p._My) && _Mz.Equals(p._Mz));
+            return (N.Equals(p.N) && Vy.Equals(p.Vy) && Vz.Equals(p.Vz) && Mx.Equals(p.Mx) && My.Equals(p.My) && Mz.Equals(p.Mz));
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-
-        public XEP_IXmlWorker XmlWorker
+        string _name = "Internal force";
+        public string Name
         {
-            get
-            {
-                return this._xmlWorker;
-            }
-            set
-            {
-                this._xmlWorker = value;
-            }
+            get { return _name; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
         }
-
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
+        }
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
+        }
+        public XEP_IXmlWorker XmlWorker
+        {
+            get { return _xmlWorker; }
+            set { _xmlWorker = value; }
         }
 
         #region METHODS
         public XEP_IInternalForceItem CopyInstance()
         {
             XEP_IInternalForceItem newItem = _resolver.Resolve();
-            newItem.N.Value = _N.Value;
-            newItem.Vy.Value = _Vy.Value;
-            newItem.Vz.Value = _Vz.Value;
-            newItem.Mx.Value = _Mx.Value;
-            newItem.My.Value = _My.Value;
-            newItem.Mz.Value = _Mz.Value;
+            newItem.N.Value = N.Value;
+            newItem.Vy.Value = Vy.Value;
+            newItem.Vz.Value = Vz.Value;
+            newItem.Mx.Value = Mx.Value;
+            newItem.My.Value = My.Value;
+            newItem.Mz.Value = Mz.Value;
             newItem.Name = _name;
             return newItem;
         }
@@ -163,23 +166,23 @@ namespace XEP_SectionCheckCommon.DataCache
         public XEP_IQuantity GetMax()
         {
             List<XEP_IQuantity> data = new List<XEP_IQuantity>();
-            data.Add(_N);
-            data.Add(_Vy);
-            data.Add(_Vz);
-            data.Add(_Mx);
-            data.Add(_My);
-            data.Add(_Mz);
+            data.Add(N);
+            data.Add(Vy);
+            data.Add(Vz);
+            data.Add(Mx);
+            data.Add(My);
+            data.Add(Mz);
             return MathUtils.FindMaxValue<XEP_IQuantity>(data, item => item.Value);
         }
         public XEP_IQuantity GetMin()
         {
             List<XEP_IQuantity> data = new List<XEP_IQuantity>();
-            data.Add(_N);
-            data.Add(_Vy);
-            data.Add(_Vz);
-            data.Add(_Mx);
-            data.Add(_My);
-            data.Add(_Mz);
+            data.Add(N);
+            data.Add(Vy);
+            data.Add(Vz);
+            data.Add(Mx);
+            data.Add(My);
+            data.Add(Mz);
             return MathUtils.FindMinValue<XEP_IQuantity>(data, item => item.Value);
         }
         public string GetString()
@@ -209,333 +212,74 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         #endregion
 
-        /// <summary>
-        /// The <see cref="MaxValue" /> property's name.
-        /// </summary>
-        public const string MaxValuePropertyName = "MaxValue";
-
-        /// <summary>
-        /// Sets and gets the MaxValue property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string MaxValuePropertyName = "MaxValue";
         public double MaxValue
         {
-            get
-            {
-                return Manager.GetValue(GetMax());
-            }
-            set
-            { // should not be called
-                Exceptions.CheckNull(null);
-                RaisePropertyChanged(MaxValuePropertyName);
-            }
+            get { return Manager.GetValue(GetMax()); }
+            set { RaisePropertyChanged(MaxValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="MinValue" /> property's name.
-        /// </summary>
-        public const string MinValuePropertyName = "MinValue";
-
-        /// <summary>
-        /// Sets and gets the MaxValue property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string MinValuePropertyName = "MinValue";
         public double MinValue
         {
-            get
-            {
-                return Manager.GetValue(GetMin());
-            }
-            set
-            { // should not be called
-                Exceptions.CheckNull(null);
-                RaisePropertyChanged(MinValuePropertyName);
-            }
+            get { return Manager.GetValue(GetMin()); }
+            set { RaisePropertyChanged(MinValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="ShortExplanation" /> property's name.
-        /// </summary>
-        public const string ShortExplanationPropertyName = "ShortExplanation";
-
-        /// <summary>
-        /// Sets and gets the ShortExplanation property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string ShortExplanationPropertyName = "ShortExplanation";
         public string ShortExplanation
         {
-            get
-            {
-                return GetString();
-            }
-            set
-            { // should not be called
-                Exceptions.CheckNull(null);
-                RaisePropertyChanged(ShortExplanationPropertyName);
-            }
+            get { return GetString(); }
+            set { RaisePropertyChanged(ShortExplanationPropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="UsedInCheck" /> property's name.
-        /// </summary>
-        public const string UsedInCheckPropertyName = "UsedInCheck";
-
+        public static readonly string UsedInCheckPropertyName = "UsedInCheck";
         private bool _usedInCheck = false;
-        /// <summary>
-        /// Sets and gets the UsedInCheck property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public bool UsedInCheck
         {
-            get
-            {
-                return _usedInCheck;
-            }
-
-            set
-            {
-                if (_usedInCheck == value)
-                {
-                    return;
-                }
-                _usedInCheck = value;
-                RaisePropertyChanged(UsedInCheckPropertyName);
-            }
+            get { return _usedInCheck; }
+            set { SetMember<bool>(ref value, ref _usedInCheck, (_usedInCheck == value), UsedInCheckPropertyName); }
         }
 
-        /// <summary>
-        /// The <see cref="Name" /> property's name.
-        /// </summary>
-        public const string NamePropertyName = "Name";
-
-        private string _name = "";
-
-        /// <summary>
-        /// Sets and gets the Name property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        [Required]
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                if (_name == value)
-                {
-                    return;
-                }
-                _name = value;
-                RaisePropertyChanged(NamePropertyName);
-            }
-        }
-
-
-        /// <summary>
-        /// The <see cref="Type" /> property's name.
-        /// </summary>
-        public const string TypePropertyName = "Type";
-
+        public static readonly string TypePropertyName = "Type";
         private eEP_ForceItemType _type = eEP_ForceItemType.eULS;
-
-        /// <summary>
-        /// Sets and gets the Type property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        /// 
-        [Required]
         public eEP_ForceItemType Type
         {
-            get
-            {
-                return _type;
-            }
-            set
-            {
-                if (_type == value)
-                {
-                    return;
-                }
-                _type = value;
-                RaisePropertyChanged(TypePropertyName);
-                RaisePropertyChanged(ShortExplanationPropertyName);
-            }
+            get { return _type; }
+            set { SetMember<eEP_ForceItemType>(ref value, ref _type, (_type == value), TypePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="N" /> property's name.
-        /// </summary>
-        public const string NPropertyName = "N";
-
-        private XEP_IQuantity _N = null;
-
-        /// <summary>
-        /// Sets and gets the N property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        /// 
-        [Required]
+        public static readonly string NPropertyName = "N";
         public XEP_IQuantity N
         {
-            get
-            {
-                return _N;
-            }
-            set
-            {
-                SetForceItem(ref value, ref _N, NPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(NPropertyName); }
+            set { SetItem(ref value, NPropertyName, NPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
-
-        private void SetForceItem(ref XEP_IQuantity valueFromBinding, ref XEP_IQuantity property, params string[] names)
-        {
-            if (property == valueFromBinding || !SetItemFromBinding(ref valueFromBinding, ref property))
-            {
-                return;
-            }
-            property = valueFromBinding;
-            foreach(string item in names)
-            {
-                RaisePropertyChanged(item);
-            }
-        }
-        private bool SetItemFromBinding(ref XEP_IQuantity valueFromBinding, ref XEP_IQuantity propertyItem)
-        {
-            if (valueFromBinding == null)
-            {
-                return false;
-            }
-            if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
-            { // setting throw binding
-                valueFromBinding.Manager = propertyItem.Manager;
-                valueFromBinding.Name = propertyItem.Name;
-                valueFromBinding.QuantityType = propertyItem.QuantityType;
-                valueFromBinding.Value = Manager.GetValueManaged(valueFromBinding.Value, valueFromBinding.QuantityType);
-                if (valueFromBinding.Value == propertyItem.Value)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        /// <summary>
-        /// The <see cref="Vy" /> property's name.
-        /// </summary>
-        public const string VyPropertyName = "Vy";
-
-        private XEP_IQuantity _Vy = null;
-
-        /// <summary>
-        /// Sets and gets the Vy property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string VyPropertyName = "Vy";
         public XEP_IQuantity Vy
         {
-            get
-            {
-                return _Vy;
-            }
-
-            set
-            {
-                SetForceItem(ref value, ref _Vy, VyPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(VyPropertyName); }
+            set { SetItem(ref value, VyPropertyName, VyPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="Vz" /> property's name.
-        /// </summary>
-        public const string VzPropertyName = "Vz";
-
-        private XEP_IQuantity _Vz = null;
-
-        /// <summary>
-        /// Sets and gets the Vz property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string VzPropertyName = "Vz";
         public XEP_IQuantity Vz
         {
-            get
-            {
-                return _Vz;
-            }
-
-            set
-            {
-                SetForceItem(ref value, ref _Vz, VzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(VzPropertyName); }
+            set { SetItem(ref value, VzPropertyName, VzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="Mx" /> property's name.
-        /// </summary>
-        public const string MxPropertyName = "Mx";
-
-        private XEP_IQuantity _Mx = null;
-
-        /// <summary>
-        /// Sets and gets the Mx property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string MxPropertyName = "Mx";
         public XEP_IQuantity Mx
         {
-            get
-            {
-                return _Mx;
-            }
-            set
-            {
-                SetForceItem(ref value, ref _Mx, MxPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(MxPropertyName); }
+            set { SetItem(ref value, MxPropertyName, MxPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="My" /> property's name.
-        /// </summary>
-        public const string MyPropertyName = "My";
-
-        private XEP_IQuantity _My = null;
-
-        /// <summary>
-        /// Sets and gets the My property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string MyPropertyName = "My";
         public XEP_IQuantity My
         {
-            get
-            {
-                return _My;
-            }
-            set
-            {
-                SetForceItem(ref value, ref _My, MyPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(MyPropertyName); }
+            set { SetItem(ref value, MyPropertyName, MyPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
-
-        /// <summary>
-        /// The <see cref="Mz" /> property's name.
-        /// </summary>
-        public const string MzPropertyName = "Mz";
-
-        private XEP_IQuantity _Mz = null;
-
-        /// <summary>
-        /// Sets and gets the Mz property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        public static readonly string MzPropertyName = "Mz";
         public XEP_IQuantity Mz
         {
-            get
-            {
-                return _Mz;
-            }
-            set
-            {
-                SetForceItem(ref value, ref _Mz, MzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName);
-            }
+            get { return GetOneQuantity(MzPropertyName); }
+            set { SetItem(ref value, MzPropertyName, MzPropertyName, ShortExplanationPropertyName, MaxValuePropertyName, MinValuePropertyName); }
         }
     }
 }

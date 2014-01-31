@@ -7,6 +7,7 @@ using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -38,8 +39,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Guid", _data.Id));
-            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -60,20 +61,19 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes( XElement xmlElement )
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + "Name");
-            _data.Id = (Guid)xmlElement.Attribute(ns + "Guid");
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
         }
         #endregion
     }
 
     [Serializable]
-    public class XEP_OneSectionData : XEP_IOneSectionData
+    public class XEP_OneSectionData : XEP_ObservableObject, XEP_IOneSectionData
     {
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        Guid _guid = Guid.NewGuid();
-        string _name = String.Empty;
+        string _name = "Section data";
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
         XEP_IConcreteSectionData _concreteSectionData = null;
         // ctors
@@ -93,15 +93,28 @@ namespace XEP_SectionCheckCommon.Implementations
             }
         }
         #region XEP_IOneSectionData
+        public static readonly string ConcreteSectionDataPropertyName = "ConcreteSectionData";
         public XEP_IConcreteSectionData ConcreteSectionData
         {
             get { return _concreteSectionData; }
-            set { _concreteSectionData = value; }
+            set { SetMember<XEP_IConcreteSectionData>(ref value, ref _concreteSectionData, (_concreteSectionData == value), ConcreteSectionDataPropertyName); }
+        }
+        public static readonly string InternalForcesPropertyName = "InternalForces";
+        public ObservableCollection<XEP_IInternalForceItem> InternalForces
+        {
+            get { return _internalForces; }
+            set { SetMember<ObservableCollection<XEP_IInternalForceItem>>(ref value, ref _internalForces, (_internalForces == value), InternalForcesPropertyName); }
         }
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IQuantityManager Manager
         {
@@ -112,17 +125,6 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
-        }
-        public Guid Id
-        {
-            get { return _guid; }
-            set { _guid = value; }
-        }
-        //
-        public ObservableCollection<XEP_IInternalForceItem> InternalForces
-        {
-            get { return _internalForces; }
-            set { _internalForces = value; }
         }
         #endregion
     }

@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_CssPropertiesViewModelT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SmartTextBox", "XEP_SmartTextBox\XEP_SmartTextBox.csproj", "{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_PrismCommandsTelerik", "XEP_PrismCommandsTelerik\XEP_PrismCommandsTelerik.csproj", "{19AA1546-648C-4D1C-8161-605EC09263C8}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SectionCheck.vsmdi
@@ -155,6 +157,16 @@ Global
 		{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}.Release|x86.ActiveCfg = Release|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,6 +5,7 @@ using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -28,18 +29,30 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             xmlElement.Add(_data.Structure.XmlWorker.GetXmlElement());
         }
+        protected override void AddAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+        }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             _data.Structure.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.Structure.XmlWorker.GetXmlElementName()));
         }
+        protected override void LoadAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+        }
     }
     [Serializable]
-    public class XEP_DataCache : XEP_IDataCache
+    public class XEP_DataCache : XEP_ObservableObject, XEP_IDataCache
     {
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        string _name = String.Empty;
+        string _name = "Data cache";
         XEP_IStructure _structure = null;
         XEP_IMaterialLibrary _materialLibrary = null;
         XEP_ISetupParameters _setupParameters = null;
@@ -66,22 +79,31 @@ namespace XEP_SectionCheckCommon.Implementations
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
         }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
+        }
+        public static readonly string StructurePropertyName = "Structure";
         public XEP_IStructure Structure
         {
             get { return _structure; }
-            set { _structure = value; }
+            set { SetMember<XEP_IStructure>(ref value, ref _structure, (_structure == value), StructurePropertyName); }
         }
+        public static readonly string MaterialLibraryPropertyName = "MaterialLibrary";
         public XEP_IMaterialLibrary MaterialLibrary
         {
             get { return _materialLibrary; }
-            set { _materialLibrary = value; }
+            set { SetMember<XEP_IMaterialLibrary>(ref value, ref _materialLibrary, (_materialLibrary == value), MaterialLibraryPropertyName); }
         }
+        public static readonly string SetupParametersPropertyName = "SetupParameters";
         public XEP_ISetupParameters SetupParameters
         {
             get { return _setupParameters; }
-            set { _setupParameters = value; }
+            set { SetMember<XEP_ISetupParameters>(ref value, ref _setupParameters, (_setupParameters == value), SetupParametersPropertyName); }
         }
     }
 }

@@ -103,6 +103,10 @@
       <Project>{08F6A7FD-12C9-44BC-B977-23007717EC52}</Project>
       <Name>ResourceLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
+      <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
+      <Name>XEP_SectionCheckCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

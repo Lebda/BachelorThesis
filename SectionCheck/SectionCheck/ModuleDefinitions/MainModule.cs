@@ -45,6 +45,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
             manager.SetScale(eEP_QuantityType.eMoment, 1000.0);
             manager.SetScale(eEP_QuantityType.eStress, 1e6);
             manager.SetScale(eEP_QuantityType.eStrain, 1e-3);
+            manager.SetScale(eEP_QuantityType.eCssLength, 1e-3);
         }
         static public void RegisterTypes(IUnityContainer container)
         {

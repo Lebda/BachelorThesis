@@ -45,7 +45,7 @@ namespace XEP_SectionCheckCommon.Implementations
     }
 
     [Serializable]
-    public class XEP_Quantity : ObservableObject, XEP_IQuantity
+    public class XEP_Quantity : XEP_ObservableObject, XEP_IQuantity
     {
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
@@ -216,6 +216,13 @@ namespace XEP_SectionCheckCommon.Implementations
                 _name = value;
                 RaisePropertyChanged(NamePropertyName);
             }
+        }
+
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
     }
 

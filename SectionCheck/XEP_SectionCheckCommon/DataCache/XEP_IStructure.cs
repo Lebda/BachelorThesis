@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_CommonLibrary.Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -9,7 +11,7 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         void Clear();
         XEP_IOneMemberData GetOneMemberData(Guid guid);
-        Dictionary<Guid, XEP_IOneMemberData> MemberData{ get; set; }
+        ObservableCollection<XEP_IOneMemberData> MemberData { get; set; }
         eDataCacheServiceOperation SaveOneMemberData(XEP_IOneMemberData memberData);
         eDataCacheServiceOperation RemoveOneMemberData(XEP_IOneMemberData memberData);
     }

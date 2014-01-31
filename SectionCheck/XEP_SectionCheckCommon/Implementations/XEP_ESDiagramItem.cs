@@ -25,6 +25,7 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
             xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StressPropertyName, _data.Stress.Value));
             xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StrainPropertyName, _data.Strain.Value));
         }
@@ -35,6 +36,7 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void LoadAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
             _data.Stress.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StressPropertyName);
             _data.Strain.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StrainPropertyName);
         }
@@ -42,7 +44,7 @@ namespace XEP_SectionCheckCommon.Implementations
     }
 
     [Serializable]
-    public class XEP_ESDiagramItem : ObservableObject, XEP_IESDiagramItem
+    public class XEP_ESDiagramItem : XEP_ObservableObject, XEP_IESDiagramItem
     {
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
@@ -52,52 +54,34 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             _manager = manager;
             _xmlWorker = new XEP_ESDiagramItemXml(this);
-            _strain = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, StrainPropertyName);
-            _stress = XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, StressPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, StrainPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStress, StressPropertyName);
         }
         #region XEP_IESDiagramItem Members
-        public const string StrainPropertyName = "Strain";
-        private XEP_IQuantity _strain = null;
+        public static readonly string StrainPropertyName = "Strain";
         public XEP_IQuantity Strain
         {
-            get
-            {
-                return _strain;
-            }
-            set
-            {
-                if (_strain == value)
-                {
-                    return;
-                }
-                _strain = value;
-                RaisePropertyChanged(StrainPropertyName);
-            }
+            get { return GetOneQuantity(StrainPropertyName); }
+            set { SetItem(ref value, StrainPropertyName); }
         }
-        public const string StressPropertyName = "Stress";
-        private XEP_IQuantity _stress = null;
+        public static readonly string StressPropertyName = "Stress";
         public XEP_IQuantity Stress
         {
-            get
-            {
-                return _stress;
-            }
-            set
-            {
-                if (_stress == value)
-                {
-                    return;
-                }
-                _stress = value;
-                RaisePropertyChanged(StressPropertyName);
-            }
+            get { return GetOneQuantity(StressPropertyName); }
+            set { SetItem(ref value, StressPropertyName); }
         }
         #endregion
         #region XEP_IDataCacheObjectBase Members
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IXmlWorker XmlWorker
         {

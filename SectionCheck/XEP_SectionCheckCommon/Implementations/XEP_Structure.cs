@@ -8,6 +8,8 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using XEP_CommonLibrary.Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -29,10 +31,16 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.GetMemberData().Values)
+            foreach (var item in _data.MemberData)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
+        }
+        protected override void AddAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -49,16 +57,22 @@ namespace XEP_SectionCheckCommon.Implementations
                 }
             }
         }
+        protected override void LoadAtributes(XElement xmlElement)
+        {
+            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
+            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+        }
     }
 
     [Serializable]
-    public class XEP_Structure : XEP_IStructure
+    public class XEP_Structure : XEP_ObservableObject, XEP_IStructure
     {
         readonly XEP_IResolver<XEP_IOneMemberData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        Dictionary<Guid, XEP_IOneMemberData> _memberData = new Dictionary<Guid, XEP_IOneMemberData>();
-        string _name = "";
+        ObservableCollection<XEP_IOneMemberData> _memberData = new ObservableCollection<XEP_IOneMemberData>();
+        string _name = "Structure";
         public XEP_Structure(XEP_IResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
         {
             _resolver = resolver;
@@ -73,10 +87,11 @@ namespace XEP_SectionCheckCommon.Implementations
                 return this._resolver;
             }
         }
-        public Dictionary<Guid, XEP_IOneMemberData> MemberData
+        public static readonly string MemberDataPropertyName = "MemberData";
+        public ObservableCollection<XEP_IOneMemberData> MemberData
         {
             get { return _memberData; }
-            set { _memberData = value; }
+            set { SetMember<ObservableCollection<XEP_IOneMemberData>>(ref value, ref _memberData, (_memberData == value), MemberDataPropertyName); }
         }
 
         public XEP_IQuantityManager Manager
@@ -92,42 +107,30 @@ namespace XEP_SectionCheckCommon.Implementations
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
         }
-
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
+        }
         public void Clear()
         {
             _memberData.Clear();
         }
-        public Dictionary<Guid, XEP_IOneMemberData> GetMemberData()
-        {
-            return _memberData;
-        }
         public XEP_IOneMemberData GetOneMemberData(Guid guid)
         {
-            return Common.GetDataDictionary<Guid, XEP_IOneMemberData>(guid, _memberData);
+            return GetOneData<XEP_IOneMemberData>(_memberData, guid);
         }
         public eDataCacheServiceOperation SaveOneMemberData(XEP_IOneMemberData memberData)
         {
-            Exceptions.CheckNull(memberData);
-            if (_memberData.ContainsKey(memberData.Id))
-            {
-                _memberData.Remove(memberData.Id);
-            }
-            _memberData.Add(memberData.Id, memberData);
-            return eDataCacheServiceOperation.eSuccess;
+            return SaveOneData<XEP_IOneMemberData>(_memberData, memberData);
         }
         public eDataCacheServiceOperation RemoveOneMemberData(XEP_IOneMemberData memberData)
         {
-            Exceptions.CheckNull(memberData);
-            if (_memberData.ContainsKey(memberData.Id))
-            {
-                _memberData.Remove(memberData.Id);
-                return eDataCacheServiceOperation.eSuccess;
-            }
-            return eDataCacheServiceOperation.eNotFound;
+            return RemoveOneData<XEP_IOneMemberData>(_memberData, memberData);
         }
         #endregion
-
     }
 }

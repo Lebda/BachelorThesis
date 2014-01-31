@@ -7,10 +7,37 @@ using System.Linq.Expressions;
 
 namespace XEP_CommonLibrary.Infrastructure
 {
-
     [Serializable]
     public abstract class ObservableObject : INotifyPropertyChanged
     {
+        protected bool SetMember<T>(ref T newValue, ref T member, bool areEqual, params string[] names4Raised)
+        {
+            if (areEqual) 
+            { 
+                return false; 
+            }
+            member = newValue;
+            foreach (string item in names4Raised)
+            {
+                RaisePropertyChanged(item);
+            }
+            return true;
+        }
+
+        protected bool SetMember<T>(ref T newValue, ref T member, bool areEqual, Action fce, params string[] names4Raised)
+        {
+            if (areEqual)
+            {
+                return false;
+            }
+            fce();
+            member = newValue;
+            foreach (string item in names4Raised)
+            {
+                RaisePropertyChanged(item);
+            }
+            return true;
+        }
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

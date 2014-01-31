@@ -100,11 +100,13 @@
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Infrastructure\XEP_INameGenerator.cs" />
     <Compile Include="Infrastructure\XEP_NameGenerator.cs" />
+    <Compile Include="Infrastructure\XEP_ObservableObject.cs" />
     <Compile Include="Infrastructure\XEP_QuantityConventerValue.cs" />
     <Compile Include="Infrastructure\XEP_QuantityNames.cs" />
     <Compile Include="DataCache\XEP_IDataCache.cs" />
     <Compile Include="Infrastructure\XEP_SkinStyleSelector.cs" />
     <Compile Include="Infrastructure\XEP_ValueConventors.cs" />
+    <Compile Include="Infrastructure\XEP_ViewModelHelp.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />

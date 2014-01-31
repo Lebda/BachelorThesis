@@ -56,6 +56,7 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
             xmlElement.Add(new XAttribute(ns + XEP_MaterialDataConcrete.DiagramTypePropertyName, XEP_Conventors.ConvertDiagramType(_data.DiagramType, false)));
             xmlElement.Add(new XAttribute(ns + XEP_MaterialDataConcrete.MatFromLibPropertyName, _data.MatFromLib));
             foreach(var item in _data.Data)
@@ -67,6 +68,7 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
             _data.DiagramType = XEP_Conventors.ConvertDiagramType((string)xmlElement.Attribute(ns + XEP_MaterialDataConcrete.DiagramTypePropertyName), false);
             _data.MatFromLib = (bool)xmlElement.Attribute(ns + XEP_MaterialDataConcrete.MatFromLibPropertyName);
             foreach (var item in _data.Data)
@@ -78,19 +80,15 @@ namespace XEP_SectionCheckCommon.Implementations
     }
 
     [Serializable]
-    public class XEP_MaterialDataConcrete : ObservableObject, XEP_IMaterialDataConcrete
+    public class XEP_MaterialDataConcrete : XEP_ObservableObject, XEP_IMaterialDataConcrete
     {
-        ObservableCollection<XEP_IQuantity> _data = new ObservableCollection<XEP_IQuantity>();
-        public ObservableCollection<XEP_IQuantity> Data
-        {
-            get { return _data; }
-        }
         readonly XEP_IResolver<XEP_IESDiagramItem> _resolverDiagramItem = null;
+        readonly XEP_IResolver<XEP_IMaterialDataConcrete> _resolver = null;
         public XEP_IResolver<XEP_IESDiagramItem> ResolverDiagramItem
         {
             get { return _resolverDiagramItem; }
         }
-        XEP_IResolver<XEP_IMaterialDataConcrete> _resolver = null;
+
         // ctors
         public XEP_MaterialDataConcrete(XEP_IQuantityManager manager,
             XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem,
@@ -100,15 +98,15 @@ namespace XEP_SectionCheckCommon.Implementations
             _xmlWorker = new XEP_MaterialDataConcreteXml(this);
             _resolverDiagramItem = resolverDiagramItem;
             _resolver = resolver;
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, FckPropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStress, FckCubePropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC1PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu1PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC2PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu2PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsC3PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu3PropertyName));
-            _data.Add(XEP_QuantityFactory.Instance().Create(_manager, 0.0, eEP_QuantityType.eNoUnit, NPropertyName));
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStress, FckPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStress, FckCubePropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsC1PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu1PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsC2PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu2PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsC3PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, EpsCu3PropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eNoUnit, NPropertyName);
         }
 
         #region XEP_IMaterialDataConcrete Members
@@ -116,7 +114,7 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             _matFromLib = true;
             RaisePropertyChanged(MatFromLibPropertyName);
-            foreach (var item in _data)
+            foreach (var item in Data)
             {
                 RaisePropertyChanged(item.Name);
             }
@@ -128,9 +126,11 @@ namespace XEP_SectionCheckCommon.Implementations
             copy.StressStrainDiagram = DeepCopy.Make<ObservableCollection<XEP_IESDiagramItem>>(_stressStrainDiagram);
             copy.DiagramType = _diagramType;
             copy.MatFromLib = _matFromLib;
-            for (int counter = 0; counter < _data.Count - 1; ++counter)
+            XEP_MaterialDataConcrete copyCon = copy as XEP_MaterialDataConcrete;
+            Exceptions.CheckNull(copyCon);
+            for (int counter = 0; counter < Data.Count - 1; ++counter)
             {
-                copy.Data[counter] = DeepCopy.Make<XEP_IQuantity>(_data[counter]);
+                copyCon.Data[counter] = DeepCopy.Make<XEP_IQuantity>(Data[counter]);
             }
             return copy;
         }
@@ -166,24 +166,14 @@ namespace XEP_SectionCheckCommon.Implementations
         public ObservableCollection<XEP_IESDiagramItem> StressStrainDiagram
         {
             get { return _stressStrainDiagram; }
-            set
-            {
-                if (_stressStrainDiagram == value) { return; }
-                _stressStrainDiagram = value;
-                RaisePropertyChanged(StressStrainDiagramPropertyName);
-            }
+            set { SetMember < ObservableCollection<XEP_IESDiagramItem>>(ref value, ref _stressStrainDiagram, (_stressStrainDiagram == value), StressStrainDiagramPropertyName); }
         }
         public static readonly string DiagramTypePropertyName = "DiagramType";
         private eEP_MaterialDiagramType _diagramType = eEP_MaterialDiagramType.eBiliUls;
         public eEP_MaterialDiagramType DiagramType
         {
             get { return _diagramType; }
-            set
-            {
-                if (_diagramType == value) { return; }
-                _diagramType = value;
-                RaisePropertyChanged(DiagramTypePropertyName);
-            }
+            set { SetMember<eEP_MaterialDiagramType>(ref value, ref _diagramType, (_diagramType == value), DiagramTypePropertyName); }
         }
         public static readonly string MatFromLibPropertyName = "MatFromLib";
         private bool _matFromLib = true;
@@ -199,7 +189,7 @@ namespace XEP_SectionCheckCommon.Implementations
                 if (_matFromLib == value) { return; }
                 _matFromLib = value;
                 RaisePropertyChanged(MatFromLibPropertyName);
-                foreach (var item in _data)
+                foreach (var item in Data)
                 {
                     RaisePropertyChanged(item.Name);
                 }
@@ -209,107 +199,73 @@ namespace XEP_SectionCheckCommon.Implementations
         public static readonly string FckPropertyName = "Fck";
         public XEP_IQuantity Fck
         {
-            get { return _data[0]; }
-            set
-            {
-                if (_data[0] == value) { return; }
-                SetItem(ref value, ref _data, 0, _data[0].Name);
-            }
+            get { return GetOneQuantity(FckPropertyName); }
+            set { SetItem(ref value, FckPropertyName); }
         }
-        public const string FckCubePropertyName = "FckCube";
+        public static readonly string FckCubePropertyName = "FckCube";
         public XEP_IQuantity FckCube
         {
-            get { return _data[1]; }
-            set
-            {
-                if (_data[1] == value) { return; }
-                SetItem(ref value, ref _data, 1, _data[1].Name);
-            }
+            get { return GetOneQuantity(FckCubePropertyName); }
+            set { SetItem(ref value, FckCubePropertyName); }
         }
-        public const string EpsC1PropertyName = "EpsC1";
+        public static readonly string EpsC1PropertyName = "EpsC1";
         public XEP_IQuantity EpsC1
         {
-            get { return _data[2]; }
-            set
-            {
-                if (_data[2] == value) { return; }
-                SetItem(ref value, ref _data, 2, _data[2].Name);
-            }
+            get { return GetOneQuantity(EpsC1PropertyName); }
+            set { SetItem(ref value, EpsC1PropertyName); }
         }
-        public const string EpsCu1PropertyName = "EpsCu1";
+        public static readonly string EpsCu1PropertyName = "EpsCu1";
         public XEP_IQuantity EpsCu1
         {
-            get { return _data[3]; }
-            set
-            {
-                if (_data[3] == value) { return; }
-                SetItem(ref value, ref _data, 3, _data[3].Name);
-            }
+            get { return GetOneQuantity(EpsCu1PropertyName); }
+            set { SetItem(ref value, EpsCu1PropertyName); }
         }
-        public const string EpsC2PropertyName = "EpsC2";
+        public static readonly string EpsC2PropertyName = "EpsC2";
         public XEP_IQuantity EpsC2
         {
-            get { return _data[4]; }
-            set
-            {
-                if (_data[4] == value) { return; }
-                SetItem(ref value, ref _data, 4, _data[4].Name);
-            }
+            get { return GetOneQuantity(EpsC2PropertyName); }
+            set { SetItem(ref value, EpsC2PropertyName); }
         }
-        public const string EpsCu2PropertyName = "EpsCu2";
+        public static readonly string EpsCu2PropertyName = "EpsCu2";
         public XEP_IQuantity EpsCu2
         {
-            get { return _data[5]; }
-            set
-            {
-                if (_data[5] == value) { return; }
-                SetItem(ref value, ref _data, 5, _data[5].Name);
-            }
+            get { return GetOneQuantity(EpsCu2PropertyName); }
+            set { SetItem(ref value, EpsCu2PropertyName); }
         }
-        public const string EpsC3PropertyName = "EpsC3";
+        public static readonly string EpsC3PropertyName = "EpsC3";
         public XEP_IQuantity EpsC3
         {
-            get { return _data[6]; }
-            set
-            {
-                if (_data[6] == value) { return; }
-                SetItem(ref value, ref _data, 6, _data[6].Name);
-            }
+            get { return GetOneQuantity(EpsC3PropertyName); }
+            set { SetItem(ref value, EpsC3PropertyName); }
         }
-        public const string EpsCu3PropertyName = "EpsCu3";
+        public static readonly string EpsCu3PropertyName = "EpsCu3";
         public XEP_IQuantity EpsCu3
         {
-            get { return _data[7]; }
-            set
-            {
-                if (_data[7] == value) { return; }
-                SetItem(ref value, ref _data, 7, _data[7].Name);
-            }
+            get { return GetOneQuantity(EpsCu3PropertyName); }
+            set { SetItem(ref value, EpsCu3PropertyName); }
         }
-        public const string NPropertyName = "N";
+        public static readonly string NPropertyName = "N";
         public XEP_IQuantity N
         {
-            get { return _data[8]; }
-            set
-            {
-                if (_data[8] == value) { return; }
-                SetItem(ref value, ref _data, 8, _data[8].Name);
-            }
+            get { return GetOneQuantity(NPropertyName); }
+            set { SetItem(ref value, NPropertyName); }
         }
         #endregion
         #region XEP_IDataCacheObjectBase Members
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
+        //
         public string Name
         {
             get { return _name; }
-            set
-            {
-                if (_name == value) { return; }
-                _name = value;
-                RaisePropertyChanged(XEP_Constants.NamePropertyName);
-            }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         public XEP_IQuantityManager Manager
         {
@@ -322,36 +278,5 @@ namespace XEP_SectionCheckCommon.Implementations
             set { _xmlWorker = value; }
         }
         #endregion
-        private void SetItem(ref XEP_IQuantity valueFromBinding, ref ObservableCollection<XEP_IQuantity> data, int index, params string[] names)
-        {
-            if (data[index] == valueFromBinding || !SetItemFromBinding(ref valueFromBinding, data[index]))
-            {
-                return;
-            }
-            data[index] = valueFromBinding;
-            foreach (string item in names)
-            {
-                RaisePropertyChanged(item);
-            }
-        }
-        private bool SetItemFromBinding(ref XEP_IQuantity valueFromBinding, XEP_IQuantity propertyItem)
-        {
-            if (valueFromBinding == null)
-            {
-                return false;
-            }
-            if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
-            { // setting throw binding
-                valueFromBinding.Manager = propertyItem.Manager;
-                valueFromBinding.Name = propertyItem.Name;
-                valueFromBinding.QuantityType = propertyItem.QuantityType;
-                valueFromBinding.Value = Manager.GetValueManaged(valueFromBinding.Value, valueFromBinding.QuantityType);
-                if (valueFromBinding.Value == propertyItem.Value)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

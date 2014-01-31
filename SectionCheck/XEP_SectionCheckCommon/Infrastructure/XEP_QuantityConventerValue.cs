@@ -131,7 +131,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             XEP_IQuantity data = value as XEP_IQuantity;
             XEP_IQuantityManager manager = data.Manager;
             Exceptions.CheckNull(data, manager);
-            return manager.GetValue(data);
+            return manager.GetValue(data).ToString();
         }
             
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

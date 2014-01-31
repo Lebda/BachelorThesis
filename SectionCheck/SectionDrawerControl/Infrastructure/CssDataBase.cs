@@ -5,10 +5,12 @@ using System.Text;
 using XEP_CommonLibrary.Infrastructure;
 using System.Windows.Media;
 using XEP_CommonLibrary.Utility;
+using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionDrawer.Infrastructure
 {
-    public abstract class CssDataBase : ObservableObject, IPathGeometryCreator, IVisualObejctDrawingData
+    [Serializable]
+    public abstract class CssDataBase : XEP_ObservableObject, IPathGeometryCreator, IVisualObejctDrawingData
     {
         public CssDataBase()
         {
@@ -26,12 +28,12 @@ namespace XEP_SectionDrawer.Infrastructure
 
         #region IVisualObejctDrawingData Members
 
-        Pen IVisualObejctDrawingData.GetPen()
+        public Pen GetPen()
         {
             return _visualPenProperty;
         }
 
-        Brush IVisualObejctDrawingData.GetBrush()
+        public Brush GetBrush()
         {
             return _visualBrushProperty;
         }

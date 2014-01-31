@@ -29,6 +29,9 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 case eEP_QuantityType.eStrain:
                     name = "‰";
                     break;
+                case eEP_QuantityType.eCssLength:
+                    name = "m";
+                    break;
             }
             return name;
         }

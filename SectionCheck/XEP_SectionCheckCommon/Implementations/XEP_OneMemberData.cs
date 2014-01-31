@@ -8,6 +8,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -30,7 +31,7 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.SectionsData.Values)
+            foreach (var item in _data.SectionsData)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
@@ -66,14 +67,13 @@ namespace XEP_SectionCheckCommon.Implementations
     }
 
     [Serializable]
-    public class XEP_OneMemberData : XEP_IOneMemberData
+    public class XEP_OneMemberData : XEP_ObservableObject, XEP_IOneMemberData
     {
         readonly XEP_IResolver<XEP_IOneSectionData> _resolver = null;
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
-        Dictionary<Guid, XEP_IOneSectionData> _sectionsData = new Dictionary<Guid, XEP_IOneSectionData>();
-        Guid _guid = Guid.NewGuid();
-        string _name = String.Empty;
+        ObservableCollection<XEP_IOneSectionData> _sectionsData = new ObservableCollection<XEP_IOneSectionData>();
+        string _name = "Member data";
 
         public XEP_OneMemberData(XEP_IResolver<XEP_IOneSectionData> resolver, XEP_IQuantityManager manager)
         {
@@ -84,10 +84,7 @@ namespace XEP_SectionCheckCommon.Implementations
         #region XEP_IOneMemberData Members
         public XEP_IResolver<XEP_IOneSectionData> Resolver
         {
-            get
-            {
-                return this._resolver;
-            }
+            get { return _resolver; }
         }
         public XEP_IQuantityManager Manager
         {
@@ -102,41 +99,31 @@ namespace XEP_SectionCheckCommon.Implementations
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
         }
+        Guid _guid = Guid.NewGuid();
         public Guid Id
         {
             get { return _guid; }
-            set { _guid = value; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
+        }
+        public static readonly string SectionsDataPropertyName = "SectionsData";
+        public ObservableCollection<XEP_IOneSectionData> SectionsData
+        {
+            get { return _sectionsData; }
+            set { SetMember<ObservableCollection<XEP_IOneSectionData>>(ref value, ref _sectionsData, (_sectionsData == value), SectionsDataPropertyName); }
         }
         public XEP_IOneSectionData GetOneSectionData(Guid guid)
         {
-            return Common.GetDataDictionary<Guid, XEP_IOneSectionData>(guid, _sectionsData);
-        }
-        public Dictionary<Guid, XEP_IOneSectionData> SectionsData
-        {
-            get { return _sectionsData; }
-            set { _sectionsData = value; }
+            return GetOneData<XEP_IOneSectionData>(_sectionsData, guid);
         }
         public eDataCacheServiceOperation SaveOneSectionData(XEP_IOneSectionData sectionData)
         {
-            Exceptions.CheckNull(sectionData);
-            if (_sectionsData.ContainsKey(sectionData.Id))
-            {
-                _sectionsData.Remove(sectionData.Id);
-            }
-            _sectionsData.Add(sectionData.Id, sectionData);
-            return eDataCacheServiceOperation.eSuccess;
+            return SaveOneData<XEP_IOneSectionData>(_sectionsData, sectionData);
         }
         public eDataCacheServiceOperation RemoveOneSectionData(XEP_IOneSectionData sectionData)
         {
-            Exceptions.CheckNull(sectionData);
-            if (_sectionsData.ContainsKey(sectionData.Id))
-            {
-                _sectionsData.Remove(sectionData.Id);
-                return eDataCacheServiceOperation.eSuccess;
-            }
-            return eDataCacheServiceOperation.eNotFound;
+            return RemoveOneData<XEP_IOneSectionData>(_sectionsData, sectionData);
         }
         #endregion
     }

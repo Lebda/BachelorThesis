@@ -11,21 +11,26 @@ using System.Windows.Input;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.DrawingGraph;
 using XEP_SectionDrawer.Interfaces;
+using System.Collections.ObjectModel;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.Implementations;
 
 namespace XEP_SectionDrawUI.ViewModels
 {
     public class XEP_DrawSectionViewModel : ObservableObject
     {
         ICssDataService _cssDataService = null;
+        readonly XEP_IResolver<XEP_ISectionShapeItem> _resolverItem = null;
         public ICssDataService CssDataService
         {
             get { return _cssDataService; }
             set { _cssDataService = value; }
         }
-        public XEP_DrawSectionViewModel(ICssDataService cssDataService)
+        public XEP_DrawSectionViewModel(ICssDataService cssDataService, XEP_IResolver<XEP_ISectionShapeItem> resolverItem)
         {
             _cssDataService = cssDataService;
-
+            _resolverItem = resolverItem;
 
             _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete),
             Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
@@ -232,17 +237,51 @@ namespace XEP_SectionDrawUI.ViewModels
         {
             get
             {
-                _cssShapeProperty.CssShapeOuter.Add(new Point(0.15, -0.25));
-                _cssShapeProperty.CssShapeOuter.Add(new Point(0.15, 0.25));
-                _cssShapeProperty.CssShapeOuter.Add(new Point(-0.15, 0.25));
-                _cssShapeProperty.CssShapeOuter.Add(new Point(-0.15, -0.25));
-                _cssShapeProperty.CssShapeOuter.Add(new Point(0.15, -0.25));
+                ObservableCollection<XEP_ISectionShapeItem> data = new ObservableCollection<XEP_ISectionShapeItem>();
+                XEP_ISectionShapeItem item = _resolverItem.Resolve();
+                item.Y.Value = 0.15;
+                item.Z.Value = -0.25;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = 0.15;
+                item.Z.Value = 0.25;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = -0.15;
+                item.Z.Value = 0.25;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = -0.15;
+                item.Z.Value = -0.25;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = 0.15;
+                item.Z.Value = -0.25;
+                data.Add(item);
+                _cssShapeProperty.CssShapeOuter = data;
                 //
-                _cssShapeProperty.CssShapeInner.Add(new Point(0.05, -0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(-0.05, -0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(-0.05, 0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(0.05, 0.05));
-                _cssShapeProperty.CssShapeInner.Add(new Point(0.05, -0.05));
+                data = new ObservableCollection<XEP_ISectionShapeItem>();
+                item = _resolverItem.Resolve();
+                item.Y.Value = 0.05;
+                item.Z.Value = -0.05;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = -0.05;
+                item.Z.Value = -0.05;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = -0.05;
+                item.Z.Value = 0.05;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = 0.05;
+                item.Z.Value = 0.05;
+                data.Add(item);
+                item = _resolverItem.Resolve();
+                item.Y.Value = 0.05;
+                item.Z.Value = -0.05;
+                data.Add(item);
+                _cssShapeProperty.CssShapeInner = data;
                 return _cssShapeProperty;
             }
             set

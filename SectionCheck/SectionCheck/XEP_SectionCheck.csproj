@@ -257,6 +257,10 @@
       <Project>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</Project>
       <Name>XEP_SectionDrawer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XEP_PrismCommandsTelerik\XEP_PrismCommandsTelerik.csproj">
+      <Project>{19AA1546-648C-4D1C-8161-605EC09263C8}</Project>
+      <Name>XEP_PrismCommandsTelerik</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
       <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
       <Name>XEP_SectionCheckCommon</Name>
