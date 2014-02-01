@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using XEP_SectionCheckCommon.Infrastructure;
+using System.Windows;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -10,6 +11,8 @@ namespace XEP_SectionCheckCommon.DataCache
         double Value { get; set; }
         double ManagedValue { get; set; }
         eEP_QuantityType QuantityType { get; set; }
+        Visibility VisibleState { get; set; }
+        bool IsReadOnly { get; set; }
         XEP_IQuantity CopyInstance();
         bool IsTrue();
         void SetBool(bool value);

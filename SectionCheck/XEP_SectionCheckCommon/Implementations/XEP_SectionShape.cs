@@ -10,6 +10,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
 using System.ComponentModel;
+using System.Windows;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -111,13 +112,13 @@ namespace XEP_SectionCheckCommon.Implementations
         public XEP_IQuantity PolygonMode
         {
             get { return GetOneQuantity(PolygonModePropertyName); }
-            set { SetItemWithActions(ref value, PolygonModePropertyName, () => !PolygonMode.IsTrue(), Recalculate); }
+            set { SetItemWithActions(ref value, PolygonModePropertyName, null, Recalculate); }
         }
         public static readonly string HoleModePropertyName = "HoleMode";
         public XEP_IQuantity HoleMode
         {
             get { return GetOneQuantity(HoleModePropertyName); }
-            set { SetItemWithActions(ref value, HoleModePropertyName, () => true, Recalculate); }
+            set { SetItemWithActions(ref value, HoleModePropertyName, null, Recalculate); }
         }
         public static readonly string HholePropertyName = "Hhole";
         public XEP_IQuantity Hhole
@@ -178,17 +179,57 @@ namespace XEP_SectionCheckCommon.Implementations
             {
                 Hhole.Value = 0.0;
             }
+            PolygonMode.VisibleState = Visibility.Visible;
+            HoleMode.VisibleState = Visibility.Visible;
+            HoleMode.IsReadOnly = false;
+            PolygonMode.IsReadOnly = false;
             if (PolygonMode.IsTrue())
             {
                 H.Value = 0.0; B.Value = 0.0; Hhole.Value = 0.0; Bhole.Value = 0.0;
+                H.VisibleState = Visibility.Collapsed;
+                B.VisibleState = Visibility.Collapsed;
+                Hhole.VisibleState = Visibility.Collapsed;
+                Bhole.VisibleState = Visibility.Collapsed;
+                H.IsReadOnly = true;
+                B.IsReadOnly = true;
+                Hhole.IsReadOnly = true;
+                Bhole.IsReadOnly = true;
             }
             else
             {
+                if (H.Value <= 0)
+                {
+                    H.Value = 0.5;
+                }
+                if (B.Value <= 0)
+                {
+                    B.Value = 0.3;
+                }
+                if (Bhole.Value <= 0)
+                {
+                    Bhole.Value = 0.0;
+                }
+                if (Hhole.Value <= 0)
+                {
+                    Hhole.Value = 0.0;
+                }
+                H.VisibleState = Visibility.Visible;
+                B.VisibleState = Visibility.Visible;
+                Hhole.VisibleState = Visibility.Visible;
+                Bhole.VisibleState = Visibility.Visible;
+                H.IsReadOnly = false;
+                B.IsReadOnly = false;
+                Hhole.IsReadOnly = false;
+                Bhole.IsReadOnly = false;
                 _shapeOuter = XEP_ViewModelHelp.CreateRectShape(_resolver, B.Value / 2.0, H.Value / 2.0, true);
                 _shapeInner = XEP_ViewModelHelp.CreateRectShape(_resolver, Bhole.Value / 2.0, Hhole.Value / 2.0, false);
             }
             if (!HoleMode.IsTrue())
             {
+                Hhole.VisibleState = Visibility.Collapsed;
+                Bhole.VisibleState = Visibility.Collapsed;
+                Hhole.IsReadOnly = true;
+                Bhole.IsReadOnly = true;
                 Hhole.Value = 0.0; Bhole.Value = 0.0;
                 _shapeInner.Clear();
             }

@@ -57,6 +57,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             return eDataCacheServiceOperation.eSuccess;
         }
 
+        [field: NonSerialized]
         ObservableCollection<XEP_IQuantity> _data = new ObservableCollection<XEP_IQuantity>();
         Dictionary<string, int> _indexes = new Dictionary<string, int>();
 
@@ -69,18 +70,17 @@ namespace XEP_SectionCheckCommon.Infrastructure
             TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
             return true;
         }
-        public bool CallPropertySet4NewManagedValue(string propertyName, double newValue)
+        public bool CallPropertySet4NewManagedValue(string propertyName, double newManagedValue)
         {
             VerifyPropertyName(propertyName);
             XEP_IQuantity testObject = GetOneQuantity(propertyName);
-            if (testObject.ManagedValue == newValue)
+            if (testObject.ManagedValue == newManagedValue)
             {
                 return false;
             }
             XEP_IQuantity copy = testObject.CopyInstance();
-            copy.ManagedValue = newValue;
+            copy.ManagedValue = newManagedValue;
             double valueOld = testObject.ManagedValue;
-            TypeDescriptor.GetProperties(this);
             TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
             if (testObject.ManagedValue == valueOld)
             {

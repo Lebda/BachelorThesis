@@ -8,6 +8,29 @@ using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class XEP_BoolNegConventer : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool? data = value as bool?;
+            if (data != null)
+            {
+                return (data.Equals(true)) ? false : true;
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
     [ValueConversion(typeof(bool), typeof(XEP_IQuantity))]
     public class XEP_IsBoolIQuantityConventer : IValueConverter
     {

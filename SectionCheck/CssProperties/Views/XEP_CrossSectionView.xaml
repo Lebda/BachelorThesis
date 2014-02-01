@@ -18,6 +18,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
    <Grid>
       <Grid.Resources>
+         <commonSec:XEP_BoolNegConventer x:Key="negator"/>
          <commonSec:XEP_ValueConBoolOnVisibility x:Key="conventorVisibility" TrueOnVisible="True" />
          <commonSec:XEP_ValueConBoolOnVisibility x:Key="conventorVisibilityFalse" TrueOnVisible="False" />
          <commonSec:XEP_QCNameWithUnitGeneral x:Key="converterNameWithUnit"/>
@@ -36,8 +37,15 @@
          <DataTemplate x:Key="DoubleTemplate">
             <smartTB:XEP_SmartTextBox SmartText="{Binding Path=ManagedValue, Converter={StaticResource converterDouble}, Mode=TwoWay}" SupSubScipt="False"/>
          </DataTemplate>
+         <DataTemplate x:Key="DoubleTemplateEdit">
+            <telerik:RadNumericUpDown Value="{Binding Path=ManagedValue, Converter={StaticResource converterDouble}, Mode=TwoWay}" 
+                                      IsEditable="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                                      IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                                      Style="{DynamicResource RadNumericUpDownStyle}"/>
+         </DataTemplate>
          <DataTemplate x:Key="BoolTemplate">
-            <CheckBox IsEnabled="{Binding Path=TestEnabled, Mode=OneWay}" IsChecked="{Binding Path=ManagedValue, Converter={StaticResource converterDoubleOnBool}, Mode=TwoWay}" Checked="CheckBox_Checked" />
+            <CheckBox IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}" 
+                      IsChecked="{Binding Path=ManagedValue, Converter={StaticResource converterDoubleOnBool}, Mode=TwoWay}"/>
          </DataTemplate>
          <commonSec:XEP_IsBoolIQuantityConventer x:Key="converter"/>
          <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converter}">
@@ -54,6 +62,22 @@
                </commonlib:XEP_ConditionalDataTemplateRule>
             </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
          </commonlib:XEP_ConditionalDataTemplateSelector>
+
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selectorEditorTemplate" ConditionConverter="{StaticResource converter}">
+            <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>True</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplateEdit}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>False</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+            </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+         </commonlib:XEP_ConditionalDataTemplateSelector>
+
       </Grid.Resources>
       <telerik:RadExpander IsExpanded="True" VerticalContentAlignment="Top">
          <telerik:RadExpander.Header>
@@ -126,20 +150,24 @@
                         </telerik:PropertyDefinition>
                         </telerik:RadPropertyGrid.PropertyDefinitions>
                         </telerik:RadPropertyGrid>-->
-                        <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.Data, Mode=TwoWay}" GridLinesVisibility="Horizontal"
+                        <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.Data, Mode=TwoWay}" 
+                                             GridLinesVisibility="Horizontal"
                                              AutoGenerateColumns="False"
                                              prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeCssParamCommand}"
-                                             ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed" CellEditEnded="RadGridView_CellEditEnded" CellValidated="RadGridView_CellValidated" CellValidating="RadGridView_CellValidating" CellLoaded="RadGridView_CellLoaded" CellUnloaded="RadGridView_CellUnloaded" SelectedCellsChanged="RadGridView_SelectedCellsChanged" SelectedCellsChanging="RadGridView_SelectedCellsChanging" SelectionChanged="RadGridView_SelectionChanged" SelectionChanging="RadGridView_SelectionChanging" DataLoaded="RadGridView_DataLoaded" DataContextChanged="RadGridView_DataContextChanged" BeginningEdit="RadGridView_BeginningEdit" CurrentCellChanged="RadGridView_CurrentCellChanged">
+                                             ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
                            <telerik:RadGridView.Columns>
-                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Mode=OneWay}" IsReadOnly="True" Header="{x:Static r:Resources.NAME}" UniqueName="Name" >
+                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Mode=OneWay}" IsReadOnly="True" 
+                                                          Header="{x:Static r:Resources.NAME}" UniqueName="Name" >
                                  <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate >
                                        <smartTB:XEP_SmartTextBox SmartText="{Binding Converter={StaticResource converterMarkWithUnit}, Mode=OneWay}"/>
                                     </DataTemplate>
                                  </telerik:GridViewDataColumn.CellTemplate>
                               </telerik:GridViewDataColumn>
-                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}" IsReadOnly="{Binding Path=TestEnabled, Mode=OneWay}"
+                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}" 
+                                                          IsReadOnly="{Binding Path=IsReadOnly, Mode=OneWay}"
                                                           CellTemplateSelector="{StaticResource selector}"
+                                                          CellEditTemplateSelector="{StaticResource selectorEditorTemplate}"
                                                           Header="{x:Static r:Resources.VALUE}" UniqueName="Value" />
                            </telerik:RadGridView.Columns>
                         </telerik:RadGridView>

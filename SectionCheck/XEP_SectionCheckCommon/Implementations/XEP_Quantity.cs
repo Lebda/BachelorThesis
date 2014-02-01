@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Xml.Linq;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Utility;
@@ -74,12 +75,14 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return null; }
             set { return; }
         }
+        [field: NonSerialized]
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
         }
+        [field: NonSerialized]
         XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
@@ -105,17 +108,34 @@ namespace XEP_SectionCheckCommon.Implementations
             }
             _value = MathUtils.GetDoubleFromBool(value);
         }
+        public XEP_IQuantity CopyInstance()
+        { // do not copy owner has to be set from outside !
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(_manager, _value, _quantityType, _name);
+            data.VisibleState = _visibleState;
+            data.IsReadOnly = _isReadOnly;
+            return data;
+        }
+        Visibility _visibleState = Visibility.Visible;
+        public static readonly string VisibleStatePropertyName = "VisibleState";
+        public System.Windows.Visibility VisibleState
+        {
+            get { return _visibleState; }
+            set { SetMember<Visibility>(ref value, ref _visibleState, (_visibleState == value), VisibleStatePropertyName); }
+        }
+        bool _isReadOnly = false;
+        public static readonly string IsReadOnlyPropertyName = "IsReadOnly";
+        public bool IsReadOnly
+        {
+            get { return _isReadOnly; }
+            set { SetMember<bool>(ref value, ref _isReadOnly, (_isReadOnly == value), IsReadOnlyPropertyName); }
+
+        }
         XEP_IDataCacheObjectBase _owner = null;
         public static readonly string OwnerPropertyName = "Owner";
         public XEP_IDataCacheObjectBase Owner
         {
             get { return _owner; }
             set { SetMember<XEP_IDataCacheObjectBase>(ref value, ref _owner, (_owner == value), OwnerPropertyName); }
-        }
-        public XEP_IQuantity CopyInstance()
-        { // do not copy owner has to be set from outside !
-            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(_manager, _value, _quantityType, _name);
-            return data;
         }
         public static readonly string ManagedValuePropertyName = "ManagedValue";
         public double ManagedValue
