@@ -17,14 +17,14 @@ namespace XEP_SectionDrawer.Infrastructure
         void UpdateBaseGeometry(MatrixTransform conventer);
     }
 
-    public interface IPathGeometryCreator
-    {
-        PathGeometry Create();
-    }
-
-    public interface IVisualObejctDrawingData
-    {
-        Pen GetPen();
-        Brush GetBrush();
-    }
+//     public interface IPathGeometryCreator
+//     {
+//         PathGeometry Create();
+//     }
+// 
+//     public interface IVisualObejctDrawingData
+//     {
+//         Pen GetPen();
+//         Brush GetBrush();
+//     }
 }

@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Linq;
-using XEP_CommonLibrary.Infrastructure;
-using System.Windows;
-using System.Windows.Media;
-using XEP_CommonLibrary.Utility;
-using XEP_SectionDrawer.Infrastructure;
-using ResourceLibrary;
-using XEP_CommonLibrary.Factories;
-using System.Windows.Input;
-using XEP_CommonLibrary.Interfaces;
-using XEP_CommonLibrary.DrawingGraph;
-using XEP_SectionDrawer.Interfaces;
 using System.Collections.ObjectModel;
-using XEP_SectionCheckCommon.DataCache;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using ResourceLibrary;
+using XEP_CommonLibrary.DrawingGraph;
+using XEP_CommonLibrary.Factories;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Interfaces;
+using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.Implementations;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionDrawer.Infrastructure;
+using XEP_SectionDrawer.Interfaces;
 
 namespace XEP_SectionDrawUI.ViewModels
 {
@@ -22,25 +22,43 @@ namespace XEP_SectionDrawUI.ViewModels
     {
         ICssDataService _cssDataService = null;
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolverItem = null;
+
         public ICssDataService CssDataService
         {
-            get { return _cssDataService; }
-            set { _cssDataService = value; }
+            get
+            {
+                return _cssDataService;
+            }
+            set
+            {
+                _cssDataService = value;
+            }
         }
+
         public XEP_DrawSectionViewModel(ICssDataService cssDataService, XEP_IResolver<XEP_ISectionShapeItem> resolverItem)
         {
+            _cssReinforcementProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.ReinfBrush1_SCkey);
+            _cssReinforcementProperty.VisualPen = CustomResources.GetSavePen(CustomResources.ReinfPen1_SCkey);
+            _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
+            _fibersConcreteProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.ConcreteStrainBrush1_SCkey);
+            _fibersConcreteProperty.VisualPen = CustomResources.GetSavePen(CustomResources.ConcreteStrainPen1_SCkey);
+            _fibersReinforcementProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eReinforcement));
+            _fibersReinforcementProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.ReinfStrainBrush1_SCkey);
+            _fibersReinforcementProperty.VisualPen = CustomResources.GetSavePen(CustomResources.ReinfStrainPen1_SCkey);
+            _cssCompressPartProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CompressPartBrush1_SCkey);
+            _cssCompressPartProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CompressPartPen1_SCkey);
+            _cssShapeProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CssBrush1_SCkey);
+            _cssShapeProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CssPen1_SCkey);
+            _cssAxisHorizontalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey);
+            _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
+            _cssAxisVerticalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey);
+            _cssAxisVerticalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey);
             _cssDataService = cssDataService;
             _resolverItem = resolverItem;
-
-            _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete),
-            Application.Current.TryFindResource(CustomResources.ConcreteStrainBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.ConcreteStrainPen1_SCkey) as Pen);
-            _fibersReinforcementProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eReinforcement),
-             Application.Current.TryFindResource(CustomResources.ReinfStrainBrush1_SCkey) as Brush,
-             Application.Current.TryFindResource(CustomResources.ReinfStrainPen1_SCkey) as Pen);
         }
 
         #region METHODS
+        
         void LoadCssData()
         {
             Exceptions.CheckNull(_cssDataService);
@@ -52,18 +70,26 @@ namespace XEP_SectionDrawUI.ViewModels
             FibersConcrete = _cssDataService.GetCssDataFibersConcrete();
             FibersReinforcement = _cssDataService.GetCssDataFibersReinforcement();
         }
+        
         #endregion // METHODS
-
+        
         #region COMMANDS
+        
         public ICommand TestComand
         {
-            get { return new RelayCommand(TestExecute, CanTestExecute); }
+            get
+            {
+                return new RelayCommand(TestExecute, CanTestExecute);
+            }
         }
+        
         Boolean CanTestExecute()
         {
             return true;
         }
+
         long counter1 = 0;
+        
         void TestExecute()
         {
             if (counter1 % 2 == 0)
@@ -77,13 +103,14 @@ namespace XEP_SectionDrawUI.ViewModels
                 this.FibersReinforcement = Test3(this.FibersReinforcement, 1e-4);
             }
             counter1++;
-
         }
-        #endregion
 
+        #endregion
+        
         public const string FibersConcretePropertyName = "FibersConcrete";
-        private CssDataFibers _fibersConcreteProperty = null;
-        public CssDataFibers FibersConcrete
+        private XEP_ICssDataFibers _fibersConcreteProperty = null;
+        
+        public XEP_ICssDataFibers FibersConcrete
         {
             get
             {
@@ -99,9 +126,10 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(FibersConcretePropertyName);
             }
         }
-        public CssDataFibers Test2(double test)
+        
+        public XEP_ICssDataFibers Test2(double test)
         {
-            CssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
+            XEP_ICssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.30285, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(2600000, 57.0204 * test));
             data.Fibers.Add(fiber);
@@ -118,9 +146,10 @@ namespace XEP_SectionDrawUI.ViewModels
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
             return data;
         }
-        public CssDataFibers Test1(double test)
+        
+        public XEP_ICssDataFibers Test1(double test)
         {
-            CssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
+            XEP_ICssDataFibers data = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(0.15, -0.25), -0.25, eCssComponentType.eConcrete);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(-2600000, -20 * test));
             data.Fibers.Add(fiber);
@@ -137,10 +166,11 @@ namespace XEP_SectionDrawUI.ViewModels
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(-0.15, 0.0), new Point(0.150, 0.0));
             return data;
         }
-
+        
         public const string FibersReinforcementPropertyName = "FibersReinforcement";
-        private CssDataFibers _fibersReinforcementProperty = null;
-        public CssDataFibers FibersReinforcement
+        private XEP_ICssDataFibers _fibersReinforcementProperty = null;
+        
+        public XEP_ICssDataFibers FibersReinforcement
         {
             get
             {
@@ -156,9 +186,12 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(FibersReinforcementPropertyName);
             }
         }
-        private CssDataFibers Test3(CssDataFibers fibers, double test)
+        
+        private XEP_ICssDataFibers Test3(XEP_ICssDataFibers fibers, double test)
         {
-            CssDataFibers data = new CssDataFibers(fibers.GeometryMaker, fibers.VisualBrush, fibers.VisualPen);
+            XEP_ICssDataFibers data = new CssDataFibers(fibers.GeometryMaker);
+            data.VisualBrush = fibers.VisualBrush;
+            data.VisualPen = fibers.VisualPen;
             data.NeuAxis = fibers.NeuAxis;
             ICssDataFiber fiber = CssFiberFactory.Instance().Create(0, new Point(-0.1, -0.2), -0.4257188, eCssComponentType.eReinforcement);
             fiber.SetFiberData(SSInFiber.s_name, new SSInFiber(302600000, 79.5265 * test));
@@ -171,12 +204,11 @@ namespace XEP_SectionDrawUI.ViewModels
             data.NeuAxis = Line2DFactory.Instance().Create(new Point(0.0266539, 0.250), new Point(0.150, 0.1460493));
             return data;
         }
-
+        
         public const string CssReinforcementPropertyName = "CssReinforcement";
-        private CssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement(
-            Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen);
-        public CssDataReinforcement CssReinforcement
+        private XEP_ICssDataReinforcement _cssReinforcementProperty = new CssDataReinforcement();
+        
+        public XEP_ICssDataReinforcement CssReinforcement
         {
             get
             {
@@ -197,12 +229,11 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(CssReinforcementPropertyName);
             }
         }
-
+        
         public const string CssCompressPartPropertyName = "CssCompressPart";
-        private CssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart(
-            Application.Current.TryFindResource(CustomResources.CompressPartBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.CompressPartPen1_SCkey) as Pen);
-        public CssDataCompressPart CssCompressPart
+        private XEP_ICssDataCompressPart _cssCompressPartProperty = new CssDataCompressPart();
+        
+        public XEP_ICssDataCompressPart CssCompressPart
         {
             get
             {
@@ -217,7 +248,7 @@ namespace XEP_SectionDrawUI.ViewModels
                 _cssCompressPartProperty.CssCompressPart.Add(new Point(0.15, 0.1460493));
                 return _cssCompressPartProperty;
             }
-
+            
             set
             {
                 if (_cssCompressPartProperty == value)
@@ -228,12 +259,11 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(CssCompressPartPropertyName);
             }
         }
-
+        
         public const string CssShapePropertyName = "CssShape";
-        private CssDataShape _cssShapeProperty = new CssDataShape(
-            Application.Current.TryFindResource(CustomResources.CssBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.CssPen1_SCkey) as Pen);
-        public CssDataShape CssShape
+        private XEP_ICssDataShape _cssShapeProperty = new CssDataShape();
+        
+        public XEP_ICssDataShape CssShape
         {
             get
             {
@@ -294,12 +324,11 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(CssShapePropertyName);
             }
         }
-
+        
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
-        private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(
-            Application.Current.TryFindResource(CustomResources.HorAxisBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.HorAxisPen1_SCkey) as Pen);
-        public CssDataAxis CssAxisHorizontal
+        private XEP_ICssDataBase _cssAxisHorizontalProperty = new CssDataAxis();
+
+        public XEP_ICssDataBase CssAxisHorizontal
         {
             get
             {
@@ -315,18 +344,17 @@ namespace XEP_SectionDrawUI.ViewModels
                 RaisePropertyChanged(CssAxisHorizontalPropertyName);
             }
         }
-
+        
         public const string CssAxisVerticalPropertyName = "CssAxisVertical";
-        private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(
-            Application.Current.TryFindResource(CustomResources.VerAxisBrush1_SCkey) as Brush,
-            Application.Current.TryFindResource(CustomResources.VerAxisPen1_SCkey) as Pen);
-        public CssDataAxis CssAxisVertical
+        private XEP_ICssDataBase _cssAxisVerticalProperty = new CssDataAxis();
+
+        public XEP_ICssDataBase CssAxisVertical
         {
             get
             {
                 return _cssAxisVerticalProperty;
             }
-
+            
             set
             {
                 if (_cssAxisVerticalProperty == value)
@@ -339,4 +367,3 @@ namespace XEP_SectionDrawUI.ViewModels
         }
     }
 }
-

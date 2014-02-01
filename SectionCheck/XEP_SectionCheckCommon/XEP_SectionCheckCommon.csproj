@@ -106,6 +106,7 @@
     <Compile Include="Infrastructure\XEP_SkinStyleSelector.cs" />
     <Compile Include="Infrastructure\XEP_ValueConventors.cs" />
     <Compile Include="Infrastructure\XEP_ViewModelHelp.cs" />
+    <Compile Include="Interfaces\XEP_DrawingInterFaces.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManager.cs" />
     <Compile Include="Interfaces\XEP_IQuantityManagerHolder.cs" />
     <Compile Include="Interfaces\XEP_IXmlWorker.cs" />

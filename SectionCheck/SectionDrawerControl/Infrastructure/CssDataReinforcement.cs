@@ -1,144 +1,109 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using XEP_CommonLibrary.Infrastructure;
 using System.Windows;
-using XEP_SectionDrawer.Utility;
-using XEP_CommonLibrary.Utility;
+using System.Windows.Media;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
-using System.Collections.ObjectModel;
+using XEP_CommonLibrary.Infrastructure;
+using XEP_CommonLibrary.Utility;
+using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionDrawer.Infrastructure
 {
     [Serializable]
-    public class CssDataOneReinf : ObservableObject, ICloneable
+    public class CssDataOneReinf : ObservableObject, XEP_ICssDataOneReinf
     {
         public CssDataOneReinf()
         {
         }
         public CssDataOneReinf(double horPos, double verPos, double diam)
         {
-            _barPointProperty.X = horPos;
-            _barPointProperty.Y = verPos;
-            _diameterProperty = diam;
+            _barPoint.X = horPos;
+            _barPoint.Y = verPos;
+            _diam = diam;
         }
-        /// <summary>
-        /// The <see cref="Diameter" /> property's name.
-        /// </summary>
-        public const string DiameterPropertyName = "Diameter";
 
-        private double _diameterProperty = 0.0;
-
-        /// <summary>
-        /// Sets and gets the Radius property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        #region XEP_ICssDataOneReinf Members
+        double _diam = 0.0;
+        public static readonly string DiamPropertyName = "Diam";
         public double Diam
         {
-            get
-            {
-                return _diameterProperty;
-            }
-
-            set
-            {
-                if (_diameterProperty == value)
-                {
-                    return;
-                }
-                _diameterProperty = value;
-                RaisePropertyChanged(DiameterPropertyName);
-            }
+            get { return _diam; }
+            set { SetMember<double>(ref value, ref _diam, _diam == value, DiamPropertyName); }
         }
-
-
-        /// <summary>
-        /// The <see cref="BarPoint" /> property's name.
-        /// </summary>
-        public const string BarPointPropertyName = "BarPoint";
-
-        private Point _barPointProperty = new Point();
-        public Point BarPoint
-        {
-            get
-            {
-                return _barPointProperty;
-            }
-            set
-            {
-                if (_barPointProperty == value)
-                {
-                    return;
-                }
-                _barPointProperty = value;
-                RaisePropertyChanged(BarPointPropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="BarArea" /> property's name.
-        /// </summary>
-        public const string BarAreaPropertyName = "BarArea";
-
-        private double _barAreaProperty = 0.0;
-
-        /// <summary>
-        /// Sets and gets the BarArea property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        double _barArea = 0.0;
+        public static readonly string BarAreaPropertyName = "BarArea";
         public double BarArea
         {
-            get
-            {
-                return _barAreaProperty;
-            }
-
-            set
-            {
-                if (_barAreaProperty == value)
-                {
-                    return;
-                }
-                _barAreaProperty = value;
-                RaisePropertyChanged(BarAreaPropertyName);
-            }
+            get { return _diam; }
+            set { SetMember<double>(ref value, ref _barArea, _barArea == value, BarAreaPropertyName); }
         }
+        Point _barPoint = new Point();
+        public static readonly string BarPointPropertyName = "BarPoint";
+        public Point BarPoint
+        {
+            get { return _barPoint; }
+            set { SetMember<Point>(ref value, ref _barPoint, _barPoint == value, BarPointPropertyName); }
+        }
+        #endregion
 
         #region ICloneable Members
         public object Clone()
         {
-            CssDataOneReinf clone = new CssDataOneReinf();
-            clone._diameterProperty = _diameterProperty;
-            clone._barAreaProperty = _barAreaProperty;
-            clone._barPointProperty = GeometryOperations.Copy(_barPointProperty);
+            XEP_ICssDataOneReinf clone = new CssDataOneReinf();
+            clone.Diam = _diam;
+            clone.BarArea = _barArea;
+            clone.BarPoint = GeometryOperations.Copy(_barPoint);
             return clone;
         }
         #endregion
     }
 
-    public class CssDataReinforcement : CssDataBase
+    public class CssDataReinforcement : ObservableObject, XEP_ICssDataReinforcement
     {
         public CssDataReinforcement()
-            : base( Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush, 
-                    Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen)
         {
-        }
-        public CssDataReinforcement(Brush newBrush, Pen newPen)
-            : base(newBrush, newPen)
-        {
+
         }
 
-        public override PathGeometry Create()
+        #region IVisualObejctDrawingData Members
+        private Pen _visualPen = Application.Current.TryFindResource(CustomResources.ReinfPen1_SCkey) as Pen;
+        public static readonly string VisualPenPropertyName = "VisualPen";
+        public Pen VisualPen
+        {
+            get { return _visualPen; }
+            set { SetMember<Pen>(ref value, ref _visualPen, _visualPen == value, VisualPenPropertyName); }
+        }
+        private Brush _visualBrush = Application.Current.TryFindResource(CustomResources.ReinfBrush1_SCkey) as Brush;
+        public static readonly string VisualBrushPropertyName = "VisualBrush";
+        public Brush VisualBrush
+        {
+            get { return _visualBrush; }
+            set { SetMember<Brush>(ref value, ref _visualBrush, _visualBrush == value, VisualPenPropertyName); }
+        }
+        #endregion
+
+        #region IVisualObejctDrawingData Members
+        public Pen GetPen()
+        {
+            return _visualPen;
+        }
+        public Brush GetBrush()
+        {
+            return _visualBrush;
+        }
+        #endregion
+
+        #region IPathGeometryCreator Members
+        public PathGeometry Create()
         {
             PathGeometry myPathGeometry = new PathGeometry();
-            if (Common.IsEmpty(_barDataProperty))
+            if (Common.IsEmpty(_barData))
             {
                 return myPathGeometry;
             }
-            foreach(CssDataOneReinf iter in _barDataProperty)
+            foreach (CssDataOneReinf iter in _barData)
             {
                 EllipseGeometry circle = new EllipseGeometry(iter.BarPoint, iter.Diam / 2, iter.Diam / 2);
                 myPathGeometry.AddGeometry(circle);
@@ -146,35 +111,16 @@ namespace XEP_SectionDrawer.Infrastructure
             myPathGeometry.FillRule = FillRule.Nonzero;
             return myPathGeometry;
         }
-        //
-        /// <summary>
-        /// The <see cref="BarData" /> property's name.
-        /// </summary>
-        public const string BarDataPropertyName = "BarData";
+        #endregion
 
-        private ObservableCollection<CssDataOneReinf> _barDataProperty = new ObservableCollection<CssDataOneReinf>();
-
-        /// <summary>
-        /// Sets and gets the BarData property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<CssDataOneReinf> BarData
+        #region XEP_ICssDataReinforcement Members
+        ObservableCollection<XEP_ICssDataOneReinf> _barData = new ObservableCollection<XEP_ICssDataOneReinf>();
+        public static readonly string BarDataPropertyName = "BarData";
+        public ObservableCollection<XEP_ICssDataOneReinf> BarData
         {
-            get
-            {
-                return _barDataProperty;
-            }
-
-            set
-            {
-                if (_barDataProperty == value)
-                {
-                    return;
-                }
-                _barDataProperty = value;
-                RaisePropertyChanged(BarDataPropertyName);
-            }
+            get { return _barData; }
+            set { SetMember<ObservableCollection<XEP_ICssDataOneReinf>>(ref value, ref _barData, _barData == value, BarDataPropertyName); }
         }
-
+        #endregion
     }
 }

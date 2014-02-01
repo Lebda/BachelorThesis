@@ -13,6 +13,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionDrawer.Infrastructure;
 using XEP_SectionCheckCommon.Implementations;
+using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -32,12 +33,18 @@ namespace XEP_CssProperties.ViewModels
         private XEP_IMaterialDataConcrete _activeMatConcrete = null;
         private XEP_IMaterialLibrary _materialLibrary = null;
         private List<XEP_IMaterialDataConcrete> _matConcreteHelp = new List<XEP_IMaterialDataConcrete>();
-        private CssDataShape _cssShapeProperty = new CssDataShape(CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey), CustomResources.GetSavePen(CustomResources.CssPen2_SCkey));
-        private CssDataAxis _cssAxisHorizontalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey));
-        private CssDataAxis _cssAxisVerticalProperty = new CssDataAxis(CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey), CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey));
+        private XEP_ICssDataShape _cssShapeProperty = new CssDataShape();
+        private XEP_ICssDataBase _cssAxisHorizontalProperty = new CssDataAxis();
+        private XEP_ICssDataBase _cssAxisVerticalProperty = new CssDataAxis();
 
         public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_IResolver<XEP_IInternalForceItem> resolverForce)
         {
+            _cssShapeProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey);
+            _cssShapeProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CssPen2_SCkey);
+            _cssAxisHorizontalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey);
+            _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
+            _cssAxisVerticalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey);
+            _cssAxisVerticalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey);
             _resolverForce = resolverForce;
             _dataCache = dataCache;
             _materialLibrary = dataCache.MaterialLibrary;
@@ -66,7 +73,7 @@ namespace XEP_CssProperties.ViewModels
             if (e.EditAction == GridViewEditAction.Commit && dataTest != null && dataTest.Owner != null)
             {
                 //dataTest.Owner.CallPropertySet4ManagedValue(dataTest.Name, (double)e.OldValues["ManagedValue"]);
-                CssShape = CssShape.CopyInstance();
+                CssShape = CssShape.Clone() as XEP_ICssDataShape;
             }
         }
         public ICommand ChangeShapeCommand
@@ -81,7 +88,7 @@ namespace XEP_CssProperties.ViewModels
             if (e.EditAction == GridViewEditAction.Commit)
             {
                 _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
-                CssShape = CssShape.CopyInstance();
+                CssShape = CssShape.Clone() as XEP_ICssDataShape;
             }
         }
 
@@ -108,7 +115,7 @@ namespace XEP_CssProperties.ViewModels
                 _activeMatConcrete.ResetMatFromLib();
                 _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
                 _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
-                CssShape = CssShape.CopyInstance();
+                CssShape = CssShape.Clone() as XEP_ICssDataShape;
                 RaisePropertyChanged(CssShapePropertyName);
                 ResetForm();
             }
@@ -190,7 +197,7 @@ namespace XEP_CssProperties.ViewModels
 
 
         public const string CssShapePropertyName = "CssShape";
-        public CssDataShape CssShape
+        public XEP_ICssDataShape CssShape
         {
             get
             {
@@ -211,7 +218,7 @@ namespace XEP_CssProperties.ViewModels
         }
 
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
-        public CssDataAxis CssAxisHorizontal
+        public XEP_ICssDataBase CssAxisHorizontal
         {
             get
             {
@@ -228,7 +235,7 @@ namespace XEP_CssProperties.ViewModels
             }
         }
         public const string CssAxisVerticalPropertyName = "CssAxisVertical";
-        public CssDataAxis CssAxisVertical
+        public XEP_ICssDataBase CssAxisVertical
         {
             get
             {
