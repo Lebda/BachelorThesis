@@ -9,6 +9,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using System.ComponentModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -45,6 +46,10 @@ namespace XEP_SectionCheckCommon.Implementations
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
             xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+            foreach (var item in _data.Data)
+            {
+                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
+            }
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -73,14 +78,22 @@ namespace XEP_SectionCheckCommon.Implementations
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
             _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+            foreach (var item in _data.Data)
+            {
+                item.Value = (double)xmlElement.Attribute(ns + item.Name);
+            }
         }
         #endregion
     }
 
     [Serializable]
-    public class XEP_SectionShape : ObservableObject, XEP_ISectionShape
+    public class XEP_SectionShape : XEP_ObservableObject, XEP_ISectionShape
     {
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolver = null;
+        public XEP_IResolver<XEP_ISectionShapeItem> Resolver
+        {
+            get { return _resolver; }
+        }
         XEP_IXmlWorker _xmlWorker = null;
         XEP_IQuantityManager _manager = null;
         string _name = "Section shape";
@@ -92,27 +105,114 @@ namespace XEP_SectionCheckCommon.Implementations
             _resolver = sectionShapeItemResolver;
             _manager = manager;
             _xmlWorker = new XEP_SectionShapeXml(this);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eBool, PolygonModePropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, HPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BPropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eBool, HoleModePropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BholePropertyName);
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, HholePropertyName);
         }
 
         #region XEP_ISectionShape Members
-        public XEP_IResolver<XEP_ISectionShapeItem> Resolver
+        public static readonly string PolygonModePropertyName = "PolygonMode";
+        public bool PolygonMode
         {
-            get { return _resolver; }
+            get { return GetOneQuantityBool(PolygonModePropertyName); }
+            set{ SetItemBoolWithActions(ref value, PolygonModePropertyName, () => !PolygonMode, Recalculate);}
+        }
+        public static readonly string HoleModePropertyName = "HoleMode";
+        public bool HoleMode
+        {
+            get { return GetOneQuantityBool(HoleModePropertyName); }
+            set { SetItemBoolWithActions(ref value, HoleModePropertyName, () => true, Recalculate); }
+        }
+        public static readonly string HholePropertyName = "Hhole";
+        public XEP_IQuantity Hhole
+        {
+            get { return GetOneQuantity(HholePropertyName); }
+            set { SetItemWithActions(ref value, HholePropertyName, () => !PolygonMode && HoleMode, Recalculate); }
+        }
+        public static readonly string BholePropertyName = "Bhole";
+        public XEP_IQuantity Bhole
+        {
+            get { return GetOneQuantity(BholePropertyName); }
+            set { SetItemWithActions(ref value, BholePropertyName, () => !PolygonMode && HoleMode, Recalculate); }
+        }
+        public static readonly string HPropertyName = "H";
+        public XEP_IQuantity H
+        {
+            get { return GetOneQuantity(HPropertyName); }
+            set { SetItemWithActions(ref value, HPropertyName, () => !PolygonMode, Recalculate); }
+        }
+        public static readonly string BPropertyName = "B";
+        public XEP_IQuantity B
+        {
+            get { return GetOneQuantity(BPropertyName); }
+            set { SetItemWithActions(ref value, BPropertyName, () => !PolygonMode, Recalculate); }
         }
         public static readonly string ShapeOuterPropertyName = "ShapeOuter";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeOuter
         {
             get { return _shapeOuter; }
-            set { SetMember<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeOuter, (_shapeOuter == value), ShapeOuterPropertyName); }
+            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeOuter, () => _shapeOuter != value, Recalculate);}
         }
         public static readonly string ShapeInnerPropertyName = "ShapeInner";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeInner
         {
             get { return _shapeInner; }
-            set { SetMember<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, (_shapeInner == value), ShapeInnerPropertyName); }
+            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, () => _shapeInner != value, Recalculate); }
         }
         #endregion
+
+        #region METHODS
+        public void Recalculate()
+        {
+            if (PolygonMode)
+            {
+                H.Value = 0.0; B.Value = 0.0; Hhole.Value = 0.0; Bhole.Value = 0.0;
+            }
+            else
+            {
+                _shapeOuter = XEP_ViewModelHelp.CreateRectShape(_resolver, B.Value / 2.0, H.Value / 2.0, true);
+                _shapeInner = XEP_ViewModelHelp.CreateRectShape(_resolver, Bhole.Value / 2.0, Hhole.Value / 2.0, false);
+            }
+            if (!HoleMode)
+            {
+                Hhole.Value = 0.0; Bhole.Value = 0.0;
+                _shapeInner = null;
+            }
+            RaisePropertyChanged(ShapeOuterPropertyName);
+            RaisePropertyChanged(ShapeInnerPropertyName);
+            foreach (var item in Data)
+            {
+                RaisePropertyChanged(item.Name);
+            }
+
+        }
+
+        #endregion
+
         #region XEP_IDataCacheObjectBase Members
+        public void Test(string name, double oldValue)
+        {
+            TestInternal(name, oldValue, (s) => { this.H = s; }, () => this.H);
+            TestInternal(name, oldValue, (s) => { this.B = s; }, () => this.B);
+            TestInternal(name, oldValue, (s) => { this.Bhole = s; }, () => this.Bhole);
+            TestInternal(name, oldValue, (s) => { this.Hhole = s; }, () => this.Hhole);
+        }
+        void TestInternal(string name, double oldValue, Action<XEP_IQuantity> propertySetter, Func<XEP_IQuantity> propertyGetter)
+        {
+            if (propertyGetter().Name == name)
+            {
+                XEP_IQuantity copy = DeepCopy.Make<XEP_IQuantity>(propertyGetter());
+                propertyGetter().ManagedValue = oldValue;
+                propertySetter(copy);
+            }
+        }
+        public void SetOneQuantity(string index, double oldManagedValue)
+        {
+            Action<XEP_IQuantity> test = (s) => { this.H = s; };
+        }
         public string Name
         {
             get { return _name; }
@@ -135,5 +235,7 @@ namespace XEP_SectionCheckCommon.Implementations
             set { _manager = value; }
         }
         #endregion
+
+
     }
 }

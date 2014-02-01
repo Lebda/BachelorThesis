@@ -61,6 +61,24 @@ namespace XEP_SectionCheckCommon.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to B#.
+        /// </summary>
+        public static string B_MARK {
+            get {
+                return ResourceManager.GetString("B_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B@hole#.
+        /// </summary>
+        public static string Bhole_MARK {
+            get {
+                return ResourceManager.GetString("Bhole_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ε@c1#.
         /// </summary>
         public static string EpsC1_MARK {
@@ -133,11 +151,47 @@ namespace XEP_SectionCheckCommon.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to H#.
+        /// </summary>
+        public static string H_MARK {
+            get {
+                return ResourceManager.GetString("H_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H@hole#.
+        /// </summary>
+        public static string Hhole_MARK {
+            get {
+                return ResourceManager.GetString("Hhole_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hole mode#.
+        /// </summary>
+        public static string HoleMode_MARK {
+            get {
+                return ResourceManager.GetString("HoleMode_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N#.
         /// </summary>
         public static string N_MARK {
             get {
                 return ResourceManager.GetString("N_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polygon mode#.
+        /// </summary>
+        public static string PolygonMode_MARK {
+            get {
+                return ResourceManager.GetString("PolygonMode_MARK", resourceCulture);
             }
         }
         

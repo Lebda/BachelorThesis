@@ -322,6 +322,15 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string NAME {
+            get {
+                return ResourceManager.GetString("NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameters.
         /// </summary>
         public static string PARAMETERS {
@@ -354,6 +363,15 @@ namespace XEP_CssProperties.ResTrans {
         public static string TYPE {
             get {
                 return ResourceManager.GetString("TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string VALUE {
+            get {
+                return ResourceManager.GetString("VALUE", resourceCulture);
             }
         }
     }

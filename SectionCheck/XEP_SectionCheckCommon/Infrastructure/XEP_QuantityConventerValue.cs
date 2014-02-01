@@ -217,4 +217,23 @@ namespace XEP_SectionCheckCommon.Infrastructure
         }
         #endregion
     }
+
+    [ValueConversion(typeof(bool), typeof(double))]
+    public class XEP_BoolOnDoubleGeneral : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double myValue = (double)value;
+            return MathUtils.GetBoolFromDouble(myValue);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool myValue = (bool)value;
+            return MathUtils.GetDoubleFromBool(myValue);
+        }
+        #endregion
+    }
 }

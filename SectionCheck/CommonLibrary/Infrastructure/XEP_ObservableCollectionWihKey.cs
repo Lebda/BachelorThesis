@@ -10,10 +10,11 @@ namespace XEP_CommonLibrary.Infrastructure
     [Serializable]
     public class XEP_ObservableCollectionWihKey<T, U>
     {
-        readonly ObservableCollection<T> _data = new ObservableCollection<T>();
+        ObservableCollection<T> _data = new ObservableCollection<T>();
         public ObservableCollection<T> Data
         {
             get { return _data; }
+            set { _data = value; }
         }
         readonly Dictionary<U, int> _indexes = new Dictionary<U, int>();
         int _counter = 0;

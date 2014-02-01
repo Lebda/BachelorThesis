@@ -12,6 +12,7 @@ using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionDrawer.Infrastructure;
+using XEP_SectionCheckCommon.Implementations;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -48,18 +49,38 @@ namespace XEP_CssProperties.ViewModels
         }
 
         #region Commands
-        public ICommand ChangeOuterShapeCommand
+        public ICommand ChangeCssParamCommand
         {
-            get { return new RelayCommand<GridViewRowEditEndedEventArgs>(ChangeOuterShapeExecute); }
+            get { return new RelayCommand<GridViewRowEditEndedEventArgs>(ChangeCssParamCommandExecute); }
         }
-
-        //public DelegateCommand TestCommand2 { get; set; }
-        public void ChangeOuterShapeExecute(object obj)
+        public void ChangeCssParamCommandExecute(object obj)
         {
             GridViewRowEditEndedEventArgs e = obj as GridViewRowEditEndedEventArgs;
+            XEP_IQuantity dataTest = e.EditedItem as XEP_IQuantity;
+
+            if (dataTest != null)
+            {
+                ActiveSectionData.ConcreteSectionData.SectionShape.Test(dataTest.Name, (double)e.OldValues["ManagedValue"]);
+                CssShape = CssShape.CopyInstance();
+            }
+            else if (e.EditAction == GridViewEditAction.Commit)
+            {
+                _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
+                CssShape = CssShape.CopyInstance();
+            }
+        }
+        public ICommand ChangeShapeCommand
+        {
+            get { return new RelayCommand<GridViewRowEditEndedEventArgs>(ChangeShapeCommandExecute); }
+        }
+        public void ChangeShapeCommandExecute(object obj)
+        {
+            GridViewRowEditEndedEventArgs e = obj as GridViewRowEditEndedEventArgs;
+            XEP_IQuantity dataTest = e.EditedItem as XEP_IQuantity;
 
             if (e.EditAction == GridViewEditAction.Commit)
             {
+                _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
                 CssShape = CssShape.CopyInstance();
             }
         }

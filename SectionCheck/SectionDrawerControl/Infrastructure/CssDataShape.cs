@@ -69,10 +69,18 @@ namespace XEP_SectionDrawer.Infrastructure
         void TransformOuter()
         {
             _cssShapeOuterInternal = XEP_Conventors.TransformOne(_cssShapeOuter);
+            if (_cssShapeOuter.Count != 0)
+            {
+                _cssShapeOuterInternal.Add(new Point(_cssShapeOuter[0].Y.Value, _cssShapeOuter[0].Z.Value));
+            }
         }
         void TransformInner()
         {
             _cssShapeInnerInternal = XEP_Conventors.TransformOne(_cssShapeInner);
+            if (_cssShapeInner.Count != 0)
+            {
+                _cssShapeInnerInternal.Add(new Point(_cssShapeInner[0].Y.Value, _cssShapeInner[0].Z.Value));
+            }
         }
         #endregion
     }

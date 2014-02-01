@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bhole_MARK" xml:space="preserve">
+    <value>B@hole#</value>
+  </data>
+  <data name="B_MARK" xml:space="preserve">
+    <value>B#</value>
+  </data>
   <data name="EpsC1_MARK" xml:space="preserve">
     <value>ε@c1#</value>
   </data>
@@ -141,8 +147,20 @@
   <data name="Fck_MARK" xml:space="preserve">
     <value>F@ck#</value>
   </data>
+  <data name="Hhole_MARK" xml:space="preserve">
+    <value>H@hole#</value>
+  </data>
+  <data name="HoleMode_MARK" xml:space="preserve">
+    <value>Hole mode#</value>
+  </data>
+  <data name="H_MARK" xml:space="preserve">
+    <value>H#</value>
+  </data>
   <data name="N_MARK" xml:space="preserve">
     <value>N#</value>
+  </data>
+  <data name="PolygonMode_MARK" xml:space="preserve">
+    <value>Polygon mode#</value>
   </data>
   <data name="Y_MARK" xml:space="preserve">
     <value>fucekr</value>

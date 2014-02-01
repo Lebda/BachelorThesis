@@ -34,8 +34,8 @@ namespace XEP_SectionCheckCommon.Implementations
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
             xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -70,6 +70,7 @@ namespace XEP_SectionCheckCommon.Implementations
             _xmlWorker = new XEP_ConcreteSectionDataXml(this);
             _sectionShape = resolverShape.Resolve();
             _materialData = resolverMaterialData.Resolve();
+
         }
         // Properties
         public static readonly string MaterialDataPropertyName = "MaterialData";

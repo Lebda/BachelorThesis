@@ -207,6 +207,9 @@
   <data name="MAT_PROP" xml:space="preserve">
     <value>Material properties - </value>
   </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="N_EXPL" xml:space="preserve">
     <value>N explanation</value>
   </data>
@@ -225,5 +228,8 @@
   </data>
   <data name="TYPE" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="VALUE" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

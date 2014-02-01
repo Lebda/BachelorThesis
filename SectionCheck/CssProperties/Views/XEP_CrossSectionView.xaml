@@ -25,6 +25,7 @@
          <commonSec:XEP_DoubleGeneral x:Key="converterDouble"/>
          <commonSec:XEP_QCNameOnMarkGeneral x:Key="converterMark"/>
          <commonSec:XEP_QCNameOnMarkWithUnitGeneral x:Key="converterMarkWithUnit"/>
+         <commonSec:XEP_BoolOnDoubleGeneral x:Key="converterDoubleOnBool"/>
          <Style  x:Key="RadNumericUpDownStyle"  BasedOn="{StaticResource RadNumericUpDownStyle}"
                  TargetType="telerik:RadNumericUpDown">
             <Style.Setters>
@@ -32,24 +33,45 @@
                <Setter Property="Background" Value="Transparent"/>
             </Style.Setters>
          </Style>
+         <DataTemplate x:Key="DoubleTemplate">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=ManagedValue, Converter={StaticResource converterDouble}, Mode=TwoWay}" SupSubScipt="False"/>
+         </DataTemplate>
+         <DataTemplate x:Key="BoolTemplate">
+            <CheckBox IsChecked="{Binding Path=ManagedValue, Converter={StaticResource converterDoubleOnBool}, Mode=TwoWay}"/>
+         </DataTemplate>
+         <commonSec:XEP_IsBoolIQuantityConventer x:Key="converter"/>
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converter}">
+            <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>True</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Boolean>False</core:Boolean>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+            </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+         </commonlib:XEP_ConditionalDataTemplateSelector>
       </Grid.Resources>
       <telerik:RadExpander IsExpanded="True" VerticalContentAlignment="Top">
          <telerik:RadExpander.Header>
-            <TextBlock Text="{x:Static r:Resources.CROSS_SECTION}"/>
+            <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.CROSS_SECTION}" SupSubScipt="False"/>
          </telerik:RadExpander.Header>
          <telerik:RadExpander.Content>
             <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
                <Grid>
                   <Grid.ColumnDefinitions>
                      <ColumnDefinition Width="*" />
-                     <ColumnDefinition Width="3*" />
+                     <ColumnDefinition Width="2*" />
                   </Grid.ColumnDefinitions>
                   <Grid.RowDefinitions>
                      <RowDefinition Height="Auto"/>
                      <RowDefinition Height="Auto"/>
                      <RowDefinition Height="Auto"/>
                   </Grid.RowDefinitions>
-                  <Viewbox Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+                  <Viewbox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
                      <lib:XEP_SectionDrawerUC x:Name="drawingScene" Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3"
                                               CssShape4Draw="{Binding Path=CssShape, Mode=TwoWay}"
                                               CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal, Mode=TwoWay}"
@@ -57,39 +79,132 @@
                   </Viewbox>
                   <telerik:RadExpander Grid.Row="0" Grid.Column="1" IsExpanded="False" VerticalContentAlignment="Top">
                      <telerik:RadExpander.Header>
-                        <TextBlock Text="{x:Static r:Resources.GEOMETRY}"/>
+                        <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.PARAMETERS}" SupSubScipt="False"/>
                      </telerik:RadExpander.Header>
                      <telerik:RadExpander.Content>
-                        <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.ShapeOuter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal"
+                        <!--<telerik:RadPropertyGrid
+                        Item="{Binding ActiveSectionData.ConcreteSectionData.SectionShape, Mode=TwoWay}"
+                        LabelColumnWidth="0"
+                        IsManipulationEnabled="False"
+                        AutoGeneratePropertyDefinitions="False">
+                        <telerik:RadPropertyGrid.PropertyDefinitions>
+                        <telerik:PropertyDefinition Binding="{Binding Path=H, Converter={StaticResource converterManagedValue}, Mode=TwoWay}"
+                        IsReadOnly="False"
+                        GroupName="{x:Static r:Resources.PARAMETERS}"
+                        DisplayName="{x:Static r:Resources.PARAMETERS}"
+                        Description="{x:Static r:Resources.PARAMETERS}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                        <Grid>
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <smartTB:XEP_SmartTextBox Grid.Column="0" SmartText="{Binding Path=H, Converter={StaticResource converterMarkWithUnit}, Mode=OneWay}"/>
+                        <telerik:RadNumericUpDown Grid.Column="1" Value="{Binding Path=H, Converter={StaticResource converterManagedValue}, Mode=TwoWay}" />
+                        </Grid>
+                        </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                        </telerik:PropertyDefinition>
+                        <telerik:PropertyDefinition Binding="{Binding Path=B, Converter={StaticResource converterManagedValue}, Mode=TwoWay}"
+                        IsReadOnly="False"
+                        GroupName="{x:Static r:Resources.PARAMETERS}"
+                        DisplayName="{x:Static r:Resources.PARAMETERS}"
+                        Description="{x:Static r:Resources.PARAMETERS}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                        <Grid>
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <smartTB:XEP_SmartTextBox Grid.Column="0" SmartText="{Binding Path=B, Converter={StaticResource converterMarkWithUnit}, Mode=OneWay}"/>
+                        <telerik:RadNumericUpDown Grid.Column="1" Value="{Binding Path=B, Converter={StaticResource converterManagedValue}, Mode=TwoWay}" />
+                        </Grid>
+                        </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                        </telerik:PropertyDefinition>
+                        </telerik:RadPropertyGrid.PropertyDefinitions>
+                        </telerik:RadPropertyGrid>-->
+                        <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.Data, Mode=TwoWay}" GridLinesVisibility="Horizontal"
                                              AutoGenerateColumns="False"
-                                             prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeOuterShapeCommand}"
-                                             ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                                             prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeCssParamCommand}"
+                                             ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                                             >
                            <telerik:RadGridView.Columns>
-                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay}" IsReadOnly="False" 
-                                                          Header="Y[mm]" UniqueName="Ypos" >
+                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Mode=OneWay}" IsReadOnly="True" Header="{x:Static r:Resources.NAME}" UniqueName="Name" >
                                  <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate >
-                                       <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
+                                       <smartTB:XEP_SmartTextBox SmartText="{Binding Converter={StaticResource converterMarkWithUnit}, Mode=OneWay}"/>
                                     </DataTemplate>
                                  </telerik:GridViewDataColumn.CellTemplate>
                               </telerik:GridViewDataColumn>
-                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" 
-                                                          Header="Z[mm]" UniqueName="Zpos" >
-                                 <telerik:GridViewDataColumn.CellTemplate>
-                                    <DataTemplate >
-                                       <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
-                                    </DataTemplate>
-                                 </telerik:GridViewDataColumn.CellTemplate>
-                              </telerik:GridViewDataColumn>
+                              <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}" IsReadOnly="False" CellTemplateSelector="{StaticResource selector}"
+                                                          Header="{x:Static r:Resources.VALUE}" UniqueName="Value" />
                            </telerik:RadGridView.Columns>
                         </telerik:RadGridView>
                      </telerik:RadExpander.Content>
                   </telerik:RadExpander>
+                  <telerik:RadExpander Grid.Row="1" Grid.Column="1" IsExpanded="False" VerticalContentAlignment="Top">
+                     <telerik:RadExpander.Header>
+                        <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.GEOMETRY}" SupSubScipt="False"/>
+                     </telerik:RadExpander.Header>
+                     <telerik:RadExpander.Content>
+                        <StackPanel>
+                           <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.ShapeOuter, Mode=TwoWay}" GridLinesVisibility="Horizontal"
+                                                AutoGenerateColumns="False"
+                                                prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeShapeCommand}"
+                                                ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                              <telerik:RadGridView.Columns>
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay}" IsReadOnly="False" 
+                                                             Header="Y[mm]" UniqueName="Ypos" >
+                                    <telerik:GridViewDataColumn.CellTemplate>
+                                       <DataTemplate >
+                                          <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
+                                       </DataTemplate>
+                                    </telerik:GridViewDataColumn.CellTemplate>
+                                 </telerik:GridViewDataColumn>
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" 
+                                                             Header="Z[mm]" UniqueName="Zpos" >
+                                    <telerik:GridViewDataColumn.CellTemplate>
+                                       <DataTemplate >
+                                          <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
+                                       </DataTemplate>
+                                    </telerik:GridViewDataColumn.CellTemplate>
+                                 </telerik:GridViewDataColumn>
+                              </telerik:RadGridView.Columns>
+                           </telerik:RadGridView>
+                           <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.ShapeInner, Mode=TwoWay}" GridLinesVisibility="Horizontal"
+                                                AutoGenerateColumns="False"
+                                                prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeShapeCommand}"
+                                                ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
+                              <telerik:RadGridView.Columns>
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay}" IsReadOnly="False" 
+                                                             Header="Y[mm]" UniqueName="Ypos" >
+                                    <telerik:GridViewDataColumn.CellTemplate>
+                                       <DataTemplate >
+                                          <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
+                                       </DataTemplate>
+                                    </telerik:GridViewDataColumn.CellTemplate>
+                                 </telerik:GridViewDataColumn>
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" 
+                                                             Header="Z[mm]" UniqueName="Zpos" >
+                                    <telerik:GridViewDataColumn.CellTemplate>
+                                       <DataTemplate >
+                                          <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" OnlyText="False" SupSubScipt="False"/>
+                                       </DataTemplate>
+                                    </telerik:GridViewDataColumn.CellTemplate>
+                                 </telerik:GridViewDataColumn>
+                              </telerik:RadGridView.Columns>
+                           </telerik:RadGridView>
+                        </StackPanel>
+                     </telerik:RadExpander.Content>
+                  </telerik:RadExpander>
                   <telerik:RadExpander 
-                     Grid.Row="1" Grid.Column="1" IsExpanded="False" VerticalContentAlignment="Top">
+                     Grid.Row="2" Grid.Column="1" IsExpanded="False" VerticalContentAlignment="Top">
                      <telerik:RadExpander.Header>
                         <StackPanel Orientation="Horizontal">
-                           <TextBlock Text="{x:Static r:Resources.MAT_PROP}"/>
+                           <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.MAT_PROP}" SupSubScipt="False"/>
                            <telerik:RadComboBox ItemsSource="{Binding MatLibNames}" VerticalAlignment="Center" DisplayMemberPath="Name"
                                                 SelectedIndex="0" />
                         </StackPanel>

@@ -6,6 +6,7 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Implementations;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Interfaces;
+using System.Text;
 
 namespace SectionCheck.Services
 {
@@ -25,7 +26,14 @@ namespace SectionCheck.Services
         }
         public string GetNameWithUnit(XEP_IQuantity source)
         {
-            return "[" + _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName + "]";
+            Exceptions.CheckNull(source);
+            string builder = String.Empty;
+            bool isSpecialType = (source.QuantityType == eEP_QuantityType.eBool || source.QuantityType == eEP_QuantityType.eEnum);
+            if (!isSpecialType)
+            {
+                builder = "[" + _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName + "]";
+            }
+            return builder;
         }
         public string GetName(XEP_IQuantity source)
         {

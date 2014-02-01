@@ -93,7 +93,7 @@ namespace XEP_SectionCheck.Services
         private XEP_IConcreteSectionData GetConcreteSectionData()
         {
             XEP_IConcreteSectionData data = _resolverXEP_IConcreteSectionData.Resolve();
-            data.Name = "Concrete section data in section 1";
+            data.Name = "Concrete section parts";
             data.SectionShape = GetSectionShape();
             data.MaterialData = GetMaterialDataConcrete(_resolverSetup.Resolve());
             return data;
@@ -138,30 +138,15 @@ namespace XEP_SectionCheck.Services
 
         private XEP_ISectionShape GetSectionShape()
         {
-            ObservableCollection<XEP_ISectionShapeItem> shape = new ObservableCollection<XEP_ISectionShapeItem>();
-            XEP_ISectionShapeItem item = _resolverXEP_ISectionShapeItem.Resolve();
-            item.Y.Value = 0.15;
-            item.Z.Value =  -0.25;
-            shape.Add(item);
-            item = _resolverXEP_ISectionShapeItem.Resolve();
-            item.Y.Value = 0.15;
-            item.Z.Value = 0.25;
-            shape.Add(item);
-            item = _resolverXEP_ISectionShapeItem.Resolve();
-            item.Y.Value = -0.15;
-            item.Z.Value = 0.25;
-            shape.Add(item);
-            item = _resolverXEP_ISectionShapeItem.Resolve();
-            item.Y.Value = -0.15;
-            item.Z.Value = -0.25;
-            shape.Add(item);
-            item = _resolverXEP_ISectionShapeItem.Resolve();
-            item.Y.Value = 0.15;
-            item.Z.Value = -0.25;
-            shape.Add(item);
-            XEP_ISectionShape newSectionShape = _resolverXEP_ISectionShape.Resolve();
-            newSectionShape.ShapeOuter = shape;
-            return newSectionShape;
+            XEP_ISectionShape data = _resolverXEP_ISectionShape.Resolve();
+            data.B.Value = 0.3;
+            data.H.Value = 0.5;
+            data.Hhole.Value = 0.05;
+            data.Bhole.Value = 0.05;
+            data.PolygonMode = false;
+            data.HoleMode = true;
+            data.Name = "Concrete part 1";
+            return data;
         }
 
         XEP_IInternalForceItem CreateForce()

@@ -4,9 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Globalization;
+using XEP_SectionCheckCommon.DataCache;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
+    [ValueConversion(typeof(bool), typeof(XEP_IQuantity))]
+    public class XEP_IsBoolIQuantityConventer : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            XEP_IQuantity data = value as XEP_IQuantity;
+            if (data != null)
+            {
+                return (data.QuantityType==eEP_QuantityType.eBool) ? true : false;
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
     [ValueConversion(typeof(bool), typeof(System.Windows.Visibility))]
     public class XEP_ValueConBoolOnVisibility : IValueConverter
     {

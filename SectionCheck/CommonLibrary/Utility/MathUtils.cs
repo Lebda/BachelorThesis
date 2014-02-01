@@ -91,5 +91,26 @@ namespace XEP_CommonLibrary.Utility
             }
             return minObject;
         }
+
+        static public bool GetBoolFromDouble(double value)
+        {
+            if (MathUtils.CompareDouble(value, 0.0, 1e-6))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        static public double GetDoubleFromBool(bool value)
+        {
+            if (value == false)
+            {
+                return 0.0;
+            }
+            else
+            {
+                return 1.0;
+            }
+        }
     }
 }

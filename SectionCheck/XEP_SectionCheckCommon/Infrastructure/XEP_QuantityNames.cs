@@ -11,6 +11,8 @@ namespace XEP_SectionCheckCommon.Infrastructure
             switch (type)
             {
                 case eEP_QuantityType.eNoType:
+                case eEP_QuantityType.eBool:
+                case eEP_QuantityType.eEnum:
                 default:
                     name = "";
                     break;
@@ -52,7 +54,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
         }
         public static string GetScaleName(double scale, eEP_QuantityType type)
         {
-            if (scale == 1.0 || type == eEP_QuantityType.eStrain || type == eEP_QuantityType.eNoUnit)
+            if (scale == 1.0 || type == eEP_QuantityType.eStrain || type == eEP_QuantityType.eNoUnit || type == eEP_QuantityType.eBool|| type == eEP_QuantityType.eEnum)
             {
                 return "";
             }
