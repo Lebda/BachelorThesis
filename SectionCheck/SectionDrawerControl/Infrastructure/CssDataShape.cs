@@ -32,15 +32,19 @@ namespace XEP_SectionDrawer.Infrastructure
             TransformInner();
         }
 
-         public CssDataShape CopyInstance()
+        public CssDataShape CopyInstance()
         {
             CssDataShape data = new CssDataShape(GetBrush(), GetPen());
-            data.CssShapeOuter = DeepCopy.Make<ObservableCollection<XEP_ISectionShapeItem>>(_cssShapeOuter);
-            data.CssShapeInner = DeepCopy.Make<ObservableCollection<XEP_ISectionShapeItem>>(_cssShapeInner);
+            foreach (var item in _cssShapeOuter)
+            {
+                data.CssShapeOuter.Add(item.CopyInstance());
+            }
+            foreach (var item in _cssShapeInner)
+            {
+                data.CssShapeInner.Add(item.CopyInstance());
+            }
             return data;
         }
-
-
         public override PathGeometry Create()
         {
             TransformOuter();

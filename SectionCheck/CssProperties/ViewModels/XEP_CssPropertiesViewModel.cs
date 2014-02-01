@@ -18,6 +18,12 @@ namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : XEP_ObservableObject
     {
+        bool _testEnabled = false;
+        public bool TestEnabled
+        {
+            get { return _testEnabled; }
+            set { _testEnabled = value; }
+        }
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
         XEP_IOneSectionData _activeSectionData = null;
@@ -57,15 +63,9 @@ namespace XEP_CssProperties.ViewModels
         {
             GridViewRowEditEndedEventArgs e = obj as GridViewRowEditEndedEventArgs;
             XEP_IQuantity dataTest = e.EditedItem as XEP_IQuantity;
-
-            if (dataTest != null)
+            if (e.EditAction == GridViewEditAction.Commit && dataTest != null && dataTest.Owner != null)
             {
-                ActiveSectionData.ConcreteSectionData.SectionShape.Test(dataTest.Name, (double)e.OldValues["ManagedValue"]);
-                CssShape = CssShape.CopyInstance();
-            }
-            else if (e.EditAction == GridViewEditAction.Commit)
-            {
-                _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
+                //dataTest.Owner.CallPropertySet4ManagedValue(dataTest.Name, (double)e.OldValues["ManagedValue"]);
                 CssShape = CssShape.CopyInstance();
             }
         }

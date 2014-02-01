@@ -9,7 +9,6 @@ using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_ConcreteSectionDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_ConcreteSectionData _data = null;
@@ -52,7 +51,6 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_ConcreteSectionData : XEP_ObservableObject, XEP_IConcreteSectionData
     {
         XEP_IQuantityManager _manager = null;

@@ -5,10 +5,11 @@ using XEP_CommonLibrary.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
-    [Serializable]
     public class XEP_ObservableObject : ObservableObject
     {
         public static T GetOneData<T>(ObservableCollection<T> source, string name)
@@ -56,47 +57,84 @@ namespace XEP_SectionCheckCommon.Infrastructure
             return eDataCacheServiceOperation.eSuccess;
         }
 
-        readonly XEP_ObservableCollectionWihKey<XEP_IQuantity, string> _data = new XEP_ObservableCollectionWihKey<XEP_IQuantity, string>();
+        ObservableCollection<XEP_IQuantity> _data = new ObservableCollection<XEP_IQuantity>();
+        Dictionary<string, int> _indexes = new Dictionary<string, int>();
+
+        public bool CallPropertySet4ManagedValue(string propertyName, double oldValue)
+        {
+            VerifyPropertyName(propertyName);
+            XEP_IQuantity testObject = GetOneQuantity(propertyName);
+            XEP_IQuantity copy = testObject.CopyInstance();
+            testObject.ManagedValue = oldValue;
+            TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
+            return true;
+        }
+        public bool CallPropertySet4NewManagedValue(string propertyName, double newValue)
+        {
+            VerifyPropertyName(propertyName);
+            XEP_IQuantity testObject = GetOneQuantity(propertyName);
+            if (testObject.ManagedValue == newValue)
+            {
+                return false;
+            }
+            XEP_IQuantity copy = testObject.CopyInstance();
+            copy.ManagedValue = newValue;
+            double valueOld = testObject.ManagedValue;
+            TypeDescriptor.GetProperties(this);
+            TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
+            if (testObject.ManagedValue == valueOld)
+            {
+                return false;
+            }
+            foreach (var item in _data)
+            { // raise property change in rest
+                item.ManagedValue = item.ManagedValue;
+            }
+            return true;
+        }
         public static readonly string DataPropertyName = "Data";
-        public ObservableCollection<XEP_IQuantity> Data
+        public virtual ObservableCollection<XEP_IQuantity> Data
         {
             get
             {
-                return _data.Data;
+                return _data;
             }
             set 
             { 
-                _data.Data = value;
+                _data = value;
                 RaisePropertyChanged(DataPropertyName);
             }
         }
-
-        protected XEP_ObservableCollectionWihKey<XEP_IQuantity, string> CopyAllQuanties()
-        {
-            return _data.CopyAll();
-        }
-
-        protected void AddOneQuantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name)
-        {
-            XEP_IQuantity newObject = XEP_QuantityFactory.Instance().Create(manager, value, type, name);
-            _data.AddOne(newObject, name);
-        }
-
         public XEP_IQuantity GetOneQuantity(string name)
         {
-            return _data.GetOne(name);
+            return _data[_indexes[name]];
         }
-
         public bool GetOneQuantityBool(string name)
         {
-            return MathUtils.GetBoolFromDouble(_data.GetOne(name).Value);
+            return MathUtils.GetBoolFromDouble(GetOneQuantity(name).Value);
         }
-
+        protected void CopyAllQuanties(XEP_ObservableObject source, XEP_IDataCacheObjectBase owner)
+        {
+            _indexes = DeepCopy.Make<Dictionary<string, int>>(source._indexes);
+            _data.Clear();
+            foreach (var item in source._data)
+            {
+                _data.Add(item.CopyInstance());
+                item.Owner = owner;
+            }
+        }
+        protected void AddOneQuantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null)
+        {
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(manager, value, type, name);
+            data.Owner = owner;
+            _data.Add(data);
+            _indexes.Add(name, _data.Count - 1);
+        }
         protected void ClearQuanties()
         {
             _data.Clear();
+            _indexes.Clear();
         }
-
         protected void SetItemBoolWithActions(ref bool valueFromBinding, string index, Func<bool> isSetValid, Action provideNeccessary, params string[] names)
         {
             if (isSetValid != null && !isSetValid())
@@ -112,12 +150,10 @@ namespace XEP_SectionCheckCommon.Infrastructure
             FinishSet(provideNeccessary, index, names);
             return;
         }
-
         protected void SetItem(ref XEP_IQuantity valueFromBinding, string index, params string[] names)
         {
             SetItemWithActions(ref valueFromBinding, index, null, null, names);
         }
-
         protected void SetItemWithActions(ref XEP_IQuantity valueFromBinding, string index, Func<bool> isSetValid, Action provideNeccessary, params string[] names)
         {
             if (isSetValid != null && !isSetValid())
@@ -132,7 +168,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
             data4Index.Value = valueFromBinding.Value;
             FinishSet(provideNeccessary, index, names);
         }
-
         protected void SetMemberWithAction<T>(ref T newValue, ref T member, Func<bool> isSetValid, Action provideNeccessary, params string[] names4Raised)
         {
             if (isSetValid != null && !isSetValid())
@@ -149,7 +184,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 RaisePropertyChanged(item);
             }
         }
-
         private void FinishSet(Action provideNeccessary, string index, params string[] names)
         {
             if (provideNeccessary != null)
@@ -168,7 +202,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 }
             }
         }
-
         private bool SetItemFromBinding(ref XEP_IQuantity valueFromBinding, XEP_IQuantity propertyItem)
         {
             if (valueFromBinding == null)
@@ -177,6 +210,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             }
             if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
             { // setting throw binding
+                valueFromBinding.Owner = propertyItem.Owner;
                 valueFromBinding.Manager = propertyItem.Manager;
                 valueFromBinding.Name = propertyItem.Name;
                 valueFromBinding.QuantityType = propertyItem.QuantityType;

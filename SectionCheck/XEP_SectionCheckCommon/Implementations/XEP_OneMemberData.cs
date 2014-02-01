@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_OneMemberDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_OneMemberData _data = null;
@@ -66,7 +65,6 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_OneMemberData : XEP_ObservableObject, XEP_IOneMemberData
     {
         readonly XEP_IResolver<XEP_IOneSectionData> _resolver = null;

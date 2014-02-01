@@ -13,7 +13,6 @@ using XEP_CommonLibrary.Utility;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_MaterialDataConcreteXml : XEP_XmlWorkerImpl
     {
         readonly XEP_MaterialDataConcrete _data = null;
@@ -79,7 +78,6 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_MaterialDataConcrete : XEP_ObservableObject, XEP_IMaterialDataConcrete
     {
         readonly XEP_IResolver<XEP_IESDiagramItem> _resolverDiagramItem = null;
@@ -123,15 +121,14 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             XEP_IMaterialDataConcrete copy = _resolver.Resolve();
             copy.Name = _name;
-            copy.StressStrainDiagram = DeepCopy.Make<ObservableCollection<XEP_IESDiagramItem>>(_stressStrainDiagram);
+            foreach (var item in _stressStrainDiagram)
+            {
+                copy.StressStrainDiagram.Add(item.CopyInstance());
+            }
+            XEP_MaterialDataConcrete copyCon = copy as XEP_MaterialDataConcrete;
+            copyCon.CopyAllQuanties(this, copy);
             copy.DiagramType = _diagramType;
             copy.MatFromLib = _matFromLib;
-            XEP_MaterialDataConcrete copyCon = copy as XEP_MaterialDataConcrete;
-            Exceptions.CheckNull(copyCon);
-            for (int counter = 0; counter < Data.Count - 1; ++counter)
-            {
-                copyCon.Data[counter] = DeepCopy.Make<XEP_IQuantity>(Data[counter]);
-            }
             return copy;
         }
         public void CreatePoints(XEP_ISetupParameters setup)

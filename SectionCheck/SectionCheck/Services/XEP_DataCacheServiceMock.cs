@@ -143,9 +143,10 @@ namespace XEP_SectionCheck.Services
             data.H.Value = 0.5;
             data.Hhole.Value = 0.05;
             data.Bhole.Value = 0.05;
-            data.PolygonMode = false;
-            data.HoleMode = true;
+            data.PolygonMode.SetBool(false);
+            data.HoleMode.SetBool(true);
             data.Name = "Concrete part 1";
+            data.Recalculate();
             return data;
         }
 

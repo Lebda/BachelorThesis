@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using XEP_CommonLibrary.Infrastructure;
@@ -10,7 +11,7 @@ using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
+
     class XEP_QuantityXml : XEP_XmlWorkerImpl
     {
         readonly XEP_Quantity _data = null;
@@ -44,11 +45,8 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_Quantity : XEP_ObservableObject, XEP_IQuantity
     {
-        XEP_IXmlWorker _xmlWorker = null;
-        XEP_IQuantityManager _manager = null;
         public XEP_Quantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name)
         {
             _xmlWorker = new XEP_QuantityXml(this);
@@ -58,172 +56,127 @@ namespace XEP_SectionCheckCommon.Implementations
             _name = name;
         }
 
-        public override bool Equals(System.Object obj)
-        {
-            // If parameter is null return false.
-            if (obj == null)
-            {
-                return false;
-            }
-
-            // If parameter cannot be cast to Point return false.
-            XEP_Quantity p = obj as XEP_Quantity;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return (MathUtils.CompareDouble(Value, p.Value) &&
-                (QuantityType == p.QuantityType));
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        #region XEP_IQuantityManagerHolder Members
-
-        public XEP_IXmlWorker XmlWorker
-        {
-            get
-            {
-                return this._xmlWorker;
-            }
-            set
-            {
-                this._xmlWorker = value;
-            }
-        }
-
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// The <see cref="ManagedValue" /> property's name.
-        /// </summary>
-        public const string ManagedValuePropertyName = "ManagedValue";
-
-        /// <summary>
-        /// Sets and gets the ManagedValue property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public double ManagedValue
-        {
-            get
-            {
-                return Manager.GetValue(this);
-            }
-            set
-            {
-                if (Manager.GetValue(this) == value)
-                {
-                    return;
-                }
-                _value = Manager.GetValueManaged(value, _quantityType);
-                RaisePropertyChanged(ValuePropertyName);
-                RaisePropertyChanged(ManagedValuePropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="Value" /> property's name.
-        /// </summary>
-        public const string ValuePropertyName = "Value";
-
-        private double _value = 0.0;
-
-        /// <summary>
-        /// Sets and gets the Value property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public double Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                if (_value == value)
-                {
-                    return;
-                }
-                _value = value;
-                RaisePropertyChanged(ValuePropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="QuantityType" /> property's name.
-        /// </summary>
-        public const string QuantityTypePropertyName = "QuantityType";
-
-        private eEP_QuantityType _quantityType = eEP_QuantityType.eNoType;
-
-        /// <summary>
-        /// Sets and gets the QuantityType property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public eEP_QuantityType QuantityType
-        {
-            get
-            {
-                return _quantityType;
-            }
-
-            set
-            {
-                if (_quantityType == value)
-                {
-                    return;
-                }
-                _quantityType = value;
-                RaisePropertyChanged(QuantityTypePropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="Name" /> property's name.
-        /// </summary>
-        public const string NamePropertyName = "Name";
-
-        private string _name = "";
-        /// <summary>
-        /// Sets and gets the Name property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        #region XEP_IDataCacheObjectBase Members
+        string _name = "Quantity";
         public string Name
         {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                if (_name == value)
-                {
-                    return;
-                }
-                _name = value;
-                RaisePropertyChanged(NamePropertyName);
-            }
+            get { return _name; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
         }
-
         Guid _guid = Guid.NewGuid();
         public Guid Id
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        public override ObservableCollection<XEP_IQuantity> Data
+        {
+            get { return null; }
+            set { return; }
+        }
+        XEP_IXmlWorker _xmlWorker = null;
+        public XEP_IXmlWorker XmlWorker
+        {
+            get { return _xmlWorker; }
+            set { _xmlWorker = value; }
+        }
+        XEP_IQuantityManager _manager = null;
+        public XEP_IQuantityManager Manager
+        {
+            get { return _manager; }
+            set { _manager = value; }
+        }
+        #endregion
+
+        #region XEP_IQuantity Members
+        public bool IsTrue()
+        {
+            if (_quantityType != eEP_QuantityType.eBool)
+            {
+                throw new ArgumentException();
+            }
+            return MathUtils.GetBoolFromDouble(_value);
+        }
+        public void SetBool(bool value)
+        {
+            if (_quantityType != eEP_QuantityType.eBool)
+            {
+                throw new ArgumentException();
+            }
+            _value = MathUtils.GetDoubleFromBool(value);
+        }
+        XEP_IDataCacheObjectBase _owner = null;
+        public static readonly string OwnerPropertyName = "Owner";
+        public XEP_IDataCacheObjectBase Owner
+        {
+            get { return _owner; }
+            set { SetMember<XEP_IDataCacheObjectBase>(ref value, ref _owner, (_owner == value), OwnerPropertyName); }
+        }
+        public XEP_IQuantity CopyInstance()
+        { // do not copy owner has to be set from outside !
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(_manager, _value, _quantityType, _name);
+            return data;
+        }
+        public static readonly string ManagedValuePropertyName = "ManagedValue";
+        public double ManagedValue
+        {
+            get { return Manager.GetValue(this); }
+            set
+            {
+                RaisePropertyChanged(ManagedValuePropertyName); // I need it
+                if (ManagedValue == value)
+                {
+                    return;
+                }
+                if (Owner != null)
+                {
+                    if (Owner.CallPropertySet4NewManagedValue(_name, value))
+                    {
+                        RaisePropertyChanged(ValuePropertyName);
+                    }
+                }
+                else
+                {
+                    _value = Manager.GetValueManaged(value, _quantityType);
+                    RaisePropertyChanged(ValuePropertyName);
+                }
+            }
+        }
+        public static readonly string ValuePropertyName = "Value";
+        private double _value = 0.0;
+        public double Value
+        {
+            get { return _value; }
+            set { SetMember<double>(ref value, ref _value, (_value == value), ValuePropertyName); }
+        }
+        public static readonly string QuantityTypePropertyName = "QuantityType";
+        private eEP_QuantityType _quantityType = eEP_QuantityType.eNoType;
+        public eEP_QuantityType QuantityType
+        {
+            get { return _quantityType; }
+            set { SetMember<eEP_QuantityType>(ref value, ref _quantityType, (_quantityType == value), QuantityTypePropertyName); }
+        }
+        #endregion
+
+        #region METHODS
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            XEP_Quantity p = obj as XEP_Quantity;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+            return (MathUtils.CompareDouble(Value, p.Value) && (QuantityType == p.QuantityType));
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
     }
 
     [Serializable]

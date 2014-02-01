@@ -12,7 +12,6 @@ using XEP_SectionCheckCommon.Infrastucture;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_SetupParametersXml : XEP_XmlWorkerImpl
     {
         readonly XEP_SetupParameters _data = null;
@@ -58,7 +57,6 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_SetupParameters : XEP_ObservableObject, XEP_ISetupParameters
     {
         public XEP_SetupParameters(XEP_IQuantityManager manager)

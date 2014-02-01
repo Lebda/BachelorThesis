@@ -11,7 +11,6 @@ using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_OneSectionDataXml : XEP_XmlWorkerImpl
     {
         readonly XEP_OneSectionData _data = null;
@@ -67,7 +66,6 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_OneSectionData : XEP_ObservableObject, XEP_IOneSectionData
     {
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;

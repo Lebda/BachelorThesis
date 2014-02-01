@@ -9,7 +9,6 @@ using XEP_SectionCheckCommon.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_DataCacheXml : XEP_XmlWorkerImpl
     {
         readonly XEP_IDataCache _data = null;
@@ -47,7 +46,7 @@ namespace XEP_SectionCheckCommon.Implementations
             _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
         }
     }
-    [Serializable]
+
     public class XEP_DataCache : XEP_ObservableObject, XEP_IDataCache
     {
         XEP_IQuantityManager _manager = null;

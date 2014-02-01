@@ -7,5 +7,6 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         XEP_IQuantity Strain { get; set; }
         XEP_IQuantity Stress { get; set; }
+        XEP_IESDiagramItem CopyInstance();
     }
 }

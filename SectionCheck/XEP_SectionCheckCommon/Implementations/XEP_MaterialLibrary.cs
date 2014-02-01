@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_MaterialLibraryXml : XEP_XmlWorkerImpl
     {
         readonly XEP_IMaterialLibrary _data = null;
@@ -64,7 +63,6 @@ namespace XEP_SectionCheckCommon.Implementations
         }
     }
 
-    [Serializable]
     public class XEP_MaterialLibrary : XEP_ObservableObject, XEP_IMaterialLibrary
     {
         XEP_IQuantityManager _manager = null;

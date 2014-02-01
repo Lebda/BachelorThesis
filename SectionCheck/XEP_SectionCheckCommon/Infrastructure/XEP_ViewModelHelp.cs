@@ -11,13 +11,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
 {
     static public class XEP_ViewModelHelp
     {
-        public static XEP_IQuantity SetWithDeepCopy(XEP_IQuantity target, double value)
-        {
-            XEP_IQuantity copy = DeepCopy.Make<XEP_IQuantity>(target);
-            copy.Value = value;
-            return copy;
-        }
-
         public static ObservableCollection<XEP_ISectionShapeItem> CreateRectShape(XEP_IResolver<XEP_ISectionShapeItem> resolver, double bPos, double hPos, bool outerDir)
         {
             Exceptions.CheckNull(resolver);

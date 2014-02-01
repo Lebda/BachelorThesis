@@ -8,13 +8,12 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         ObservableCollection<XEP_ISectionShapeItem> ShapeOuter { get; set; }
         ObservableCollection<XEP_ISectionShapeItem> ShapeInner { get; set; }
-        bool PolygonMode { get; set; }
+        XEP_IQuantity PolygonMode { get; set; }
         XEP_IQuantity H { get; set; }
         XEP_IQuantity B { get; set; }
-        bool HoleMode { get; set; }
+        XEP_IQuantity HoleMode { get; set; }
         XEP_IQuantity Hhole { get; set; }
         XEP_IQuantity Bhole { get; set; }
         void Recalculate();
-        void Test(string name, double oldValue);
     }
 }

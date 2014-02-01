@@ -10,5 +10,6 @@ namespace XEP_SectionCheckCommon.DataCache
         XEP_IQuantity Y { get; set; }
         XEP_IQuantity Z { get; set; }
         eEP_CssShapePointType Type { get; set; }
+        XEP_ISectionShapeItem CopyInstance();
     }
 }

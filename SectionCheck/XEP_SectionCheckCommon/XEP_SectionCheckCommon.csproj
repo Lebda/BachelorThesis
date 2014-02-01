@@ -70,7 +70,6 @@
     <Compile Include="DataCache\XEP_IMaterialLibrary.cs" />
     <Compile Include="DataCache\XEP_ISetupParameters.cs" />
     <Compile Include="Implementations\XEP_ConcreteSectionData.cs" />
-    <Compile Include="Implementations\XEP_DataCacheMaker.cs" />
     <Compile Include="DataCache\XEP_IMaterialData.cs" />
     <Compile Include="DataCache\XEP_IDataCacheObjectBase.cs" />
     <Compile Include="DataCache\XEP_IDataCacheService.cs" />
@@ -94,7 +93,7 @@
     <Compile Include="Implementations\XEP_SetupParameters.cs" />
     <Compile Include="Implementations\XEP_Structure.cs" />
     <Compile Include="Implementations\XEP_MaterialDataConcrete.cs" />
-    <Compile Include="Implementations\XEP_QuantityManagerHolderImpl.cs" />
+    <Compile Include="Infrastructure\Factories.cs" />
     <Compile Include="Infrastructure\XEP_Conventors.cs" />
     <Compile Include="Infrastructure\XEP_Constants.cs" />
     <Compile Include="Infrastructure\Enums.cs" />

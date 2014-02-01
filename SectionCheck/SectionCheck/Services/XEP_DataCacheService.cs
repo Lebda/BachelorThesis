@@ -61,6 +61,7 @@ namespace SectionCheck.Services
             }
             catch (System.Exception ex)
             {
+                string error = ex.ToString();
                 return eDataCacheServiceOperation.eFailed;
             }
         }

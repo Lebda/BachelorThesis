@@ -6,10 +6,10 @@ using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
-    [Serializable]
     class XEP_ESDiagramItemXml : XEP_XmlWorkerImpl
     {
         readonly XEP_ESDiagramItem _data = null;
@@ -43,21 +43,26 @@ namespace XEP_SectionCheckCommon.Implementations
         #endregion
     }
 
-    [Serializable]
     public class XEP_ESDiagramItem : XEP_ObservableObject, XEP_IESDiagramItem
     {
-        XEP_IXmlWorker _xmlWorker = null;
-        XEP_IQuantityManager _manager = null;
-        string _name = "StressStrainDiagramPoint";
-
-        public XEP_ESDiagramItem(XEP_IQuantityManager manager)
+        readonly XEP_IResolver<XEP_IESDiagramItem> _resolverDiagramItem = null;
+        public XEP_ESDiagramItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem)
         {
+            _resolverDiagramItem = resolverDiagramItem;
             _manager = manager;
             _xmlWorker = new XEP_ESDiagramItemXml(this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStrain, StrainPropertyName);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eStress, StressPropertyName);
         }
         #region XEP_IESDiagramItem Members
+        public XEP_IESDiagramItem CopyInstance()
+        {
+            XEP_IESDiagramItem newObject = _resolverDiagramItem.Resolve();
+            XEP_ESDiagramItem newThis = newObject as XEP_ESDiagramItem;
+            newThis.CopyAllQuanties(this, newObject);
+            newObject.Name = _name;
+            return newObject;
+        }
         public static readonly string StrainPropertyName = "Strain";
         public XEP_IQuantity Strain
         {
@@ -72,6 +77,7 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         #endregion
         #region XEP_IDataCacheObjectBase Members
+        string _name = "StressStrainDiagramPoint";
         public string Name
         {
             get { return _name; }
@@ -83,11 +89,13 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
         }
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
