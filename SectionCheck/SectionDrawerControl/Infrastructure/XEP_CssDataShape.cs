@@ -9,18 +9,21 @@ using XEP_CommonLibrary.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Interfaces;
+using XEP_Prism.Infrastructure;
 
 namespace XEP_SectionDrawer.Infrastructure
 {
     [Serializable]
-    public class CssDataShape : ObservableObject, XEP_ICssDataShape
+    public class XEP_CssDataShape : ObservableObject, XEP_ICssDataShape
     {
         // Members
         PointCollection _cssShapeOuterInternal = new PointCollection();
         PointCollection _cssShapeInnerInternal = new PointCollection();
+        readonly XEP_IResolver<XEP_ICssDataShape> _resolverICssDataShape = null;
         // ctor
-         public CssDataShape()
+        public XEP_CssDataShape(XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape)
         {
+            _resolverICssDataShape = resolverICssDataShape;
             TransformOuter();
             TransformInner();
         }
@@ -69,7 +72,7 @@ namespace XEP_SectionDrawer.Infrastructure
          #region ICloneable Members
          public object Clone()
          {
-             XEP_ICssDataShape data = new CssDataShape();
+             XEP_ICssDataShape data = _resolverICssDataShape.Resolve();
              foreach (var item in _cssShapeOuter)
              {
                  data.CssShapeOuter.Add(item.CopyInstance());
@@ -83,6 +86,15 @@ namespace XEP_SectionDrawer.Infrastructure
          #endregion
 
          #region XEP_ICssDataShape Members
+         public void RecreateShape(ObservableCollection<XEP_ISectionShapeItem> cssShapeOuter, ObservableCollection<XEP_ISectionShapeItem> cssShapeInner)
+         {
+             _cssShapeOuter = cssShapeOuter;
+             _cssShapeInner = cssShapeInner;
+             TransformOuter();
+             TransformInner();
+             RaisePropertyChanged(CssShapeOuterPropertyName);
+             RaisePropertyChanged(CssShapeInnerPropertyName);
+         }
          ObservableCollection<XEP_ISectionShapeItem> _cssShapeOuter = new ObservableCollection<XEP_ISectionShapeItem>();
          public static readonly string CssShapeOuterPropertyName = "CssShapeOuter";
          public ObservableCollection<XEP_ISectionShapeItem> CssShapeOuter
@@ -102,6 +114,10 @@ namespace XEP_SectionDrawer.Infrastructure
         #region METHODS
         void TransformOuter()
         {
+            if (_cssShapeOuter == null)
+            {
+                return;
+            }
             _cssShapeOuterInternal = XEP_Conventors.TransformOne(_cssShapeOuter);
             if (_cssShapeOuter.Count != 0)
             {
@@ -110,6 +126,10 @@ namespace XEP_SectionDrawer.Infrastructure
         }
         void TransformInner()
         {
+            if (_cssShapeInner == null)
+            {
+                return;
+            }
             _cssShapeInnerInternal = XEP_Conventors.TransformOne(_cssShapeInner);
             if (_cssShapeInner.Count != 0)
             {

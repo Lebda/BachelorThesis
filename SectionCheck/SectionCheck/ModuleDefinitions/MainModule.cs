@@ -12,6 +12,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheck.Services;
+using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionCheck.ModuleDefinitions
 {
@@ -49,6 +50,8 @@ namespace XEP_SectionCheck.ModuleDefinitions
         }
         static public void RegisterTypes(IUnityContainer container)
         {
+            MyModuleBase.RegisterWithResolver<XEP_ICssDataShape, TransientLifetimeManager, XEP_CssDataShape, TransientLifetimeManager>(container);
+
             container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager()); // singleton
             // data cache object registration
             MyModuleBase.RegisterWithResolver<XEP_ISectionShapeItem, TransientLifetimeManager, XEP_SectionShapeItem, TransientLifetimeManager>(container);

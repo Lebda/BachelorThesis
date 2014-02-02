@@ -78,7 +78,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Models\XEP_SectionShapeModel.cs" />
-    <Compile Include="Services\CssDataService.cs" />
     <Compile Include="ModuleDefinitions\XEP_SectionDrawModule.cs" />
     <Compile Include="ViewModels\XEP_DrawSectionViewModel.cs" />
     <Compile Include="Views\XEP_DrawSectionView.xaml.cs">
@@ -110,7 +109,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
       <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>

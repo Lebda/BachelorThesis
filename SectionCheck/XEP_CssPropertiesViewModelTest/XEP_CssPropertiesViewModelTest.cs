@@ -13,6 +13,7 @@ using XEP_SectionCheckCommon.Infrastructure;
 using Microsoft.Practices.Unity;
 using XEP_SectionCheck.ModuleDefinitions;
 using System.Collections.Generic;
+using XEP_SectionDrawUI.ModuleDefinitions;
 
 namespace XEP_CssPropertiesViewModelTest
 {
@@ -28,6 +29,7 @@ namespace XEP_CssPropertiesViewModelTest
         static IUnityContainer _container = new UnityContainer();
         static XEP_IDataCache _dataCache = null;
         static XEP_IDataCacheService _dataCacheService = null;
+        static XEP_CssPropertiesViewModel s_target = null;
 
         private TestContext testContextInstance;
 
@@ -56,6 +58,7 @@ namespace XEP_CssPropertiesViewModelTest
         public static void MyClassInitialize(TestContext testContext)
         {
             MainModule.RegisterTypes(_container);
+            XEP_SectionDrawModule.RegisterTypes(_container);
             _dataCacheService = UnityContainerExtensions.Resolve<XEP_IDataCacheService>(_container);
             _dataCacheService.FileName = "UT_DataCache";
             _dataCache = UnityContainerExtensions.Resolve<XEP_IDataCache>(_container);
@@ -72,6 +75,9 @@ namespace XEP_CssPropertiesViewModelTest
         public void MyTestInitialize()
         {
             _dataCacheService.Load(_dataCache);
+            s_target = new XEP_CssPropertiesViewModel(_dataCache,
+                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container),
+                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_ICssDataShape>>(_container));
         }
         
         //Use TestCleanup to run code after each test has run
@@ -89,12 +95,11 @@ namespace XEP_CssPropertiesViewModelTest
         public void ActiveForceTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
 
             // Act
 
             // Assert
-            Assert.IsNull(target.ActiveForce);
+            Assert.IsNull(s_target.ActiveForce);
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void CopyForceCommandTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
+            var target = s_target;
 
             // Act
             int count = target.InternalForces.Count;
@@ -129,7 +134,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void DeleteForceCommandTest()
         {
             // Arrange
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
+            var target = s_target;
 
             // Act
             int count = target.InternalForces.Count;
@@ -167,7 +172,8 @@ namespace XEP_CssPropertiesViewModelTest
         {
             // Arrange
             _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.Clear();
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container));
+            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container),
+                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_ICssDataShape>>(_container));
 
             // Act
             target.NewForceCommand.Execute(null);

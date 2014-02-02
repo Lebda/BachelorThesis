@@ -26,6 +26,7 @@ namespace XEP_CssProperties.ViewModels
             set { _testEnabled = value; }
         }
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
+        //readonly XEP_IResolver<XEP_ICssDataShape> _resolverICssDataShape = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
         XEP_IOneSectionData _activeSectionData = null;
         private XEP_IInternalForceItem _activeForce = null;
@@ -33,14 +34,18 @@ namespace XEP_CssProperties.ViewModels
         private XEP_IMaterialDataConcrete _activeMatConcrete = null;
         private XEP_IMaterialLibrary _materialLibrary = null;
         private List<XEP_IMaterialDataConcrete> _matConcreteHelp = new List<XEP_IMaterialDataConcrete>();
-        private XEP_ICssDataShape _cssShapeProperty = new CssDataShape();
+        //private XEP_ICssDataShape _cssShapeProperty = null;
         private XEP_ICssDataBase _cssAxisHorizontalProperty = new CssDataAxis();
         private XEP_ICssDataBase _cssAxisVerticalProperty = new CssDataAxis();
 
-        public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, XEP_IResolver<XEP_IInternalForceItem> resolverForce)
+        public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, 
+            XEP_IResolver<XEP_IInternalForceItem> resolverForce,
+            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape)
         {
-            _cssShapeProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey);
-            _cssShapeProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CssPen2_SCkey);
+//             _resolverICssDataShape = resolverICssDataShape;
+//             _cssShapeProperty = _resolverICssDataShape.Resolve();
+//             _cssShapeProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey);
+//             _cssShapeProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CssPen2_SCkey);
             _cssAxisHorizontalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey);
             _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
             _cssAxisVerticalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey);
@@ -73,7 +78,7 @@ namespace XEP_CssProperties.ViewModels
             if (e.EditAction == GridViewEditAction.Commit && dataTest != null && dataTest.Owner != null)
             {
                 //dataTest.Owner.CallPropertySet4ManagedValue(dataTest.Name, (double)e.OldValues["ManagedValue"]);
-                CssShape = CssShape.Clone() as XEP_ICssDataShape;
+                //CssShape = CssShape.Clone() as XEP_ICssDataShape;
             }
         }
         public ICommand ChangeShapeCommand
@@ -88,7 +93,7 @@ namespace XEP_CssProperties.ViewModels
             if (e.EditAction == GridViewEditAction.Commit)
             {
                 _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
-                CssShape = CssShape.Clone() as XEP_ICssDataShape;
+                //CssShape = CssShape.Clone() as XEP_ICssDataShape;
             }
         }
 
@@ -113,10 +118,10 @@ namespace XEP_CssProperties.ViewModels
                 Exceptions.CheckNull(newItemConcrete);
                 _dataCache.MaterialLibrary.SaveOneMaterialDataConcrete(newItemConcrete);
                 _activeMatConcrete.ResetMatFromLib();
-                _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
-                _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
-                CssShape = CssShape.Clone() as XEP_ICssDataShape;
-                RaisePropertyChanged(CssShapePropertyName);
+//                 _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
+//                 _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
+//                 CssShape = CssShape.Clone() as XEP_ICssDataShape;
+//                 RaisePropertyChanged(CssShapePropertyName);
                 ResetForm();
             }
             catch (Exception ex)
@@ -196,26 +201,26 @@ namespace XEP_CssProperties.ViewModels
         #endregion
 
 
-        public const string CssShapePropertyName = "CssShape";
-        public XEP_ICssDataShape CssShape
-        {
-            get
-            {
-                Exceptions.CheckIsNull(_cssShapeProperty, _cssShapeProperty.CssShapeOuter, _cssShapeProperty.CssShapeInner);
-                _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
-                _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
-                return _cssShapeProperty;
-            }
-            protected set
-            {
-                if (_cssShapeProperty == value)
-                {
-                    return;
-                }
-                _cssShapeProperty = value;
-                RaisePropertyChanged(CssShapePropertyName);
-            }
-        }
+//         public const string CssShapePropertyName = "CssShape";
+//         public XEP_ICssDataShape CssShape
+//         {
+//             get
+//             {
+//                 Exceptions.CheckIsNull(_cssShapeProperty, _cssShapeProperty.CssShapeOuter, _cssShapeProperty.CssShapeInner);
+//                 _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
+//                 _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
+//                 return _cssShapeProperty;
+//             }
+//             protected set
+//             {
+//                 if (_cssShapeProperty == value)
+//                 {
+//                     return;
+//                 }
+//                 _cssShapeProperty = value;
+//                 RaisePropertyChanged(CssShapePropertyName);
+//             }
+//         }
 
         public const string CssAxisHorizontalPropertyName = "CssAxisHorizontal";
         public XEP_ICssDataBase CssAxisHorizontal

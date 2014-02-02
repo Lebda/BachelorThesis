@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using ResourceLibrary;
 using XEP_CommonLibrary.DrawingGraph;
 using XEP_CommonLibrary.Factories;
@@ -14,29 +13,18 @@ using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionDrawer.Infrastructure;
-using XEP_SectionDrawer.Interfaces;
 
 namespace XEP_SectionDrawUI.ViewModels
 {
     public class XEP_DrawSectionViewModel : ObservableObject
     {
-        ICssDataService _cssDataService = null;
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolverItem = null;
+        readonly XEP_IResolver<XEP_ICssDataShape> _resolverICssDataShape = null;
 
-        public ICssDataService CssDataService
+        public XEP_DrawSectionViewModel(XEP_IResolver<XEP_ISectionShapeItem> resolverItem, XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape)
         {
-            get
-            {
-                return _cssDataService;
-            }
-            set
-            {
-                _cssDataService = value;
-            }
-        }
-
-        public XEP_DrawSectionViewModel(ICssDataService cssDataService, XEP_IResolver<XEP_ISectionShapeItem> resolverItem)
-        {
+            _resolverICssDataShape = resolverICssDataShape;
+            _cssShapeProperty = _resolverICssDataShape.Resolve();
             _cssReinforcementProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.ReinfBrush1_SCkey);
             _cssReinforcementProperty.VisualPen = CustomResources.GetSavePen(CustomResources.ReinfPen1_SCkey);
             _fibersConcreteProperty = new CssDataFibers(GeometryMakerFactory.Instance().Create(eCssComponentType.eConcrete));
@@ -53,23 +41,10 @@ namespace XEP_SectionDrawUI.ViewModels
             _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
             _cssAxisVerticalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey);
             _cssAxisVerticalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.VerAxisPen1_SCkey);
-            _cssDataService = cssDataService;
             _resolverItem = resolverItem;
         }
 
         #region METHODS
-        
-        void LoadCssData()
-        {
-            Exceptions.CheckNull(_cssDataService);
-            CssShape = _cssDataService.GetCssDataShape();
-            CssAxisVertical = _cssDataService.GetCssDataAxisVertical();
-            CssAxisHorizontal = _cssDataService.GetCssDataAxisHorizontal();
-            CssCompressPart = _cssDataService.GetCssDataCompressPart();
-            CssReinforcement = _cssDataService.GetCssDataReinforcement();
-            FibersConcrete = _cssDataService.GetCssDataFibersConcrete();
-            FibersReinforcement = _cssDataService.GetCssDataFibersReinforcement();
-        }
         
         #endregion // METHODS
         
@@ -261,8 +236,7 @@ namespace XEP_SectionDrawUI.ViewModels
         }
         
         public const string CssShapePropertyName = "CssShape";
-        private XEP_ICssDataShape _cssShapeProperty = new CssDataShape();
-        
+        private XEP_ICssDataShape _cssShapeProperty = null;
         public XEP_ICssDataShape CssShape
         {
             get

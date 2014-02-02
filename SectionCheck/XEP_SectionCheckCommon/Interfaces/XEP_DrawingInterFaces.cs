@@ -47,6 +47,7 @@ namespace XEP_SectionCheckCommon.Interfaces
     {
         ObservableCollection<XEP_ISectionShapeItem> CssShapeOuter { get; set; }
         ObservableCollection<XEP_ISectionShapeItem> CssShapeInner { get; set; }
+        void RecreateShape(ObservableCollection<XEP_ISectionShapeItem> cssShapeOuter, ObservableCollection<XEP_ISectionShapeItem> cssShapeInner);
     }
     
     public interface XEP_ICssDataFibers : XEP_ICssDataBase

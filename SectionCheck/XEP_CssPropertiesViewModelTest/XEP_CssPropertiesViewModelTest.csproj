@@ -115,6 +115,10 @@
       <Project>{D8D68A21-8031-49AF-88DD-6EE7DA6F0A75}</Project>
       <Name>XEP_SectionDrawer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SectionDrawUI\XEP_SectionDrawUI.csproj">
+      <Project>{F19FA488-62E3-44B0-AF8F-AF2A3F217EA5}</Project>
+      <Name>XEP_SectionDrawUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
       <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
       <Name>XEP_SectionCheckCommon</Name>

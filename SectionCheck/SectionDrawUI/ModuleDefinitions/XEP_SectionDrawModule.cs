@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using XEP_Prism.Infrastructure;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;
-using SectionDrawUI.Services;
-using XEP_SectionDrawer.Interfaces;
+using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.Unity;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionDrawUI.ModuleDefinitions
 {
@@ -20,11 +20,15 @@ namespace XEP_SectionDrawUI.ModuleDefinitions
 
         public override void Initialize()
         {
-            // Services
-            _container.RegisterType<ICssDataService, CssDataService>();
+            RegisterTypes(_container);
 
             // Regions
            _regionManager.RegisterViewWithRegion(XEP_Constants.MiddleContentRegionName, () => _container.Resolve<XEP_DrawSectionView>());
+        }
+
+        static public void RegisterTypes(IUnityContainer container)
+        {
+            MyModuleBase.RegisterWithResolver<XEP_ICssDataShape, TransientLifetimeManager, XEP_CssDataShape, TransientLifetimeManager>(container);
         }
     }
 }

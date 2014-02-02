@@ -88,14 +88,20 @@ namespace XEP_SectionCheckCommon.Implementations
 
     public class XEP_SectionShape : XEP_ObservableObject, XEP_ISectionShape
     {
+        // Members
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolver = null;
+        readonly XEP_IResolver<XEP_ICssDataShape> _resolverICssDataShape = null;
         public XEP_IResolver<XEP_ISectionShapeItem> Resolver
         {
             get { return _resolver; }
         }
 
-        public XEP_SectionShape(XEP_IResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, XEP_IQuantityManager manager)
+        public XEP_SectionShape(XEP_IResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, 
+            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape,
+            XEP_IQuantityManager manager)
         {
+            _resolverICssDataShape = resolverICssDataShape;
+            _cssShape = _resolverICssDataShape.Resolve();
             _resolver = sectionShapeItemResolver;
             _manager = manager;
             _xmlWorker = new XEP_SectionShapeXml(this);
@@ -105,9 +111,17 @@ namespace XEP_SectionCheckCommon.Implementations
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eBool, HoleModePropertyName, this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BholePropertyName, this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, HholePropertyName, this);
+            Recalculate();
         }
 
         #region XEP_ISectionShape Members
+        XEP_ICssDataShape _cssShape = null;
+        public static readonly string CssShapePropertyName = "CssShape";
+        public XEP_ICssDataShape CssShape
+        {
+            get { return _cssShape; }
+            set { SetMemberWithAction<XEP_ICssDataShape>(ref value, ref _cssShape, () => _cssShape != value, Recalculate); }
+        }
         public static readonly string PolygonModePropertyName = "PolygonMode";
         public XEP_IQuantity PolygonMode
         {
@@ -233,6 +247,9 @@ namespace XEP_SectionCheckCommon.Implementations
                 Hhole.Value = 0.0; Bhole.Value = 0.0;
                 _shapeInner.Clear();
             }
+            _cssShape.RecreateShape(_shapeOuter, _shapeInner);
+            _cssShape = CssShape.Clone() as XEP_ICssDataShape;
+            RaisePropertyChanged(CssShapePropertyName);
             RaisePropertyChanged(ShapeOuterPropertyName);
             RaisePropertyChanged(ShapeInnerPropertyName);
             foreach (var item in Data)
