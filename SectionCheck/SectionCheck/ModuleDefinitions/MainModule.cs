@@ -51,9 +51,10 @@ namespace XEP_SectionCheck.ModuleDefinitions
         static public void RegisterTypes(IUnityContainer container)
         {
             MyModuleBase.RegisterWithResolver<XEP_ICssDataShape, TransientLifetimeManager, XEP_CssDataShape, TransientLifetimeManager>(container);
-
-            container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager()); // singleton
+            // SINGLETONS
+            container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager());
             // data cache object registration
+            MyModuleBase.RegisterWithResolver<XEP_IDataCacheNotificationData, TransientLifetimeManager, XEP_DataCacheNotificationData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_ISectionShapeItem, TransientLifetimeManager, XEP_SectionShapeItem, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IESDiagramItem, TransientLifetimeManager, XEP_ESDiagramItem, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IInternalForceItem, TransientLifetimeManager, XEP_InternalForceItem, TransientLifetimeManager>(container);
@@ -63,9 +64,9 @@ namespace XEP_SectionCheck.ModuleDefinitions
             MyModuleBase.RegisterWithResolver<XEP_IOneSectionData, TransientLifetimeManager, XEP_OneSectionData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IOneMemberData, TransientLifetimeManager, XEP_OneMemberData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IStructure, TransientLifetimeManager, XEP_Structure, TransientLifetimeManager>(container);
-            MyModuleBase.RegisterWithResolver<XEP_IDataCache, ContainerControlledLifetimeManager, XEP_DataCache, TransientLifetimeManager>(container); // singleton
-            MyModuleBase.RegisterWithResolver<XEP_IMaterialLibrary, ContainerControlledLifetimeManager, XEP_MaterialLibrary, TransientLifetimeManager>(container); // singleton
-            MyModuleBase.RegisterWithResolver<XEP_ISetupParameters, ContainerControlledLifetimeManager, XEP_SetupParameters, TransientLifetimeManager>(container); // singleton
+            MyModuleBase.RegisterWithResolver<XEP_IDataCache, ContainerControlledLifetimeManager, XEP_DataCache, TransientLifetimeManager>(container); //SINGLETONS
+            MyModuleBase.RegisterWithResolver<XEP_IMaterialLibrary, ContainerControlledLifetimeManager, XEP_MaterialLibrary, TransientLifetimeManager>(container); //SINGLETONS
+            MyModuleBase.RegisterWithResolver<XEP_ISetupParameters, ContainerControlledLifetimeManager, XEP_SetupParameters, TransientLifetimeManager>(container); //SINGLETONS
             if (_isMock)
             {
                 MyModuleBase.RegisterWithResolver<XEP_IDataCacheService, TransientLifetimeManager, XEP_DataCacheServiceMock, TransientLifetimeManager>(container);

@@ -67,8 +67,6 @@ namespace XEP_SectionCheckCommon.Implementations
     public class XEP_Structure : XEP_ObservableObject, XEP_IStructure
     {
         readonly XEP_IResolver<XEP_IOneMemberData> _resolver = null;
-        XEP_IQuantityManager _manager = null;
-        XEP_IXmlWorker _xmlWorker = null;
         ObservableCollection<XEP_IOneMemberData> _memberData = new ObservableCollection<XEP_IOneMemberData>();
         string _name = "Structure";
         public XEP_Structure(XEP_IResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
@@ -91,28 +89,6 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _memberData; }
             set { SetMember<ObservableCollection<XEP_IOneMemberData>>(ref value, ref _memberData, (_memberData == value), MemberDataPropertyName); }
         }
-
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
-        }
-        public XEP_IXmlWorker XmlWorker
-        {
-            get { return _xmlWorker; }
-            set { _xmlWorker = value; }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
-        }
-        Guid _guid = Guid.NewGuid();
-        public Guid Id
-        {
-            get { return _guid; }
-            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
-        }
         public void Clear()
         {
             _memberData.Clear();
@@ -128,6 +104,37 @@ namespace XEP_SectionCheckCommon.Implementations
         public eDataCacheServiceOperation RemoveOneMemberData(XEP_IOneMemberData memberData)
         {
             return RemoveOneData<XEP_IOneMemberData>(_memberData, memberData);
+        }
+        #endregion
+
+
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
+        XEP_IQuantityManager _manager = null;
+        public XEP_IQuantityManager Manager
+        {
+            get { return _manager; }
+            set { _manager = value; }
+        }
+        XEP_IXmlWorker _xmlWorker = null;
+        public XEP_IXmlWorker XmlWorker
+        {
+            get { return _xmlWorker; }
+            set { _xmlWorker = value; }
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { SetMember<string>(ref value, ref _name, (_name == value), XEP_Constants.NamePropertyName); }
+        }
+        Guid _guid = Guid.NewGuid();
+        public Guid Id
+        {
+            get { return _guid; }
+            set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         #endregion
     }

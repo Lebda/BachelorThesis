@@ -83,6 +83,11 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _sectionShape; }
             set { SetMember<XEP_ISectionShape>(ref value, ref _sectionShape, (_sectionShape == value), SectionShapePropertyName); }
         }
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         public string Name
         {
             get { return _name; }
@@ -104,5 +109,6 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
         }
+        #endregion
     }
 }

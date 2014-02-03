@@ -15,6 +15,10 @@ namespace XEP_SectionCheckCommon.Infrastructure
         {
             Exceptions.CheckNull(resolver);
             ObservableCollection<XEP_ISectionShapeItem> shape = new ObservableCollection<XEP_ISectionShapeItem>();
+            if (MathUtils.IsLessOrEqual(bPos, 0.0) || MathUtils.IsLessOrEqual(hPos, 0.0))
+            {
+                return shape;
+            }
             XEP_ISectionShapeItem item = resolver.Resolve();
             item.Y.Value = bPos;
             item.Z.Value = -hPos;

@@ -65,6 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCache\XEP_IDataCacheNotificationData.cs" />
     <Compile Include="DataCache\XEP_IConcreteSectionData.cs" />
     <Compile Include="DataCache\XEP_IESDiagramItem.cs" />
     <Compile Include="DataCache\XEP_IMaterialLibrary.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="DataCache\XEP_ISectionShape.cs" />
     <Compile Include="DataCache\XEP_ISectionShapeItem.cs" />
     <Compile Include="DataCache\XEP_IStructure.cs" />
+    <Compile Include="Implementations\XEP_DataCacheNotificationData.cs" />
     <Compile Include="Implementations\XEP_ESDiagramItem.cs" />
     <Compile Include="Implementations\XEP_MaterialDataImpl.cs" />
     <Compile Include="Implementations\XEP_MaterialLibrary.cs" />

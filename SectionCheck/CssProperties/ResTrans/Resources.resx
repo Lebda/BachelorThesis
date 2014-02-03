@@ -129,6 +129,12 @@
   <data name="CROSS_SECTION" xml:space="preserve">
     <value>Cross Section</value>
   </data>
+  <data name="CROSS_SEC_INNER_SHAPE" xml:space="preserve">
+    <value>Cross section inner shape</value>
+  </data>
+  <data name="CROSS_SEC_OUTER_SHAPE" xml:space="preserve">
+    <value>Cross section outer shape</value>
+  </data>
   <data name="DELETE" xml:space="preserve">
     <value>Delete</value>
   </data>

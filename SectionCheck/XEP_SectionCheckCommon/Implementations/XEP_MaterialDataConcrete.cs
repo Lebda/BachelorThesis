@@ -249,6 +249,10 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         #endregion
         #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;

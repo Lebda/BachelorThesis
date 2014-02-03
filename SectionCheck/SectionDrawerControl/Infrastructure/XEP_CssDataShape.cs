@@ -75,11 +75,11 @@ namespace XEP_SectionDrawer.Infrastructure
              XEP_ICssDataShape data = _resolverICssDataShape.Resolve();
              foreach (var item in _cssShapeOuter)
              {
-                 data.CssShapeOuter.Add(item.CopyInstance());
+                 data.CssShapeOuter.Add(item.Clone() as XEP_ISectionShapeItem);
              }
              foreach (var item in _cssShapeInner)
              {
-                 data.CssShapeInner.Add(item.CopyInstance());
+                 data.CssShapeInner.Add(item.Clone() as XEP_ISectionShapeItem);
              }
              return data;
          }

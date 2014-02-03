@@ -5,14 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"             
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" MinWidth="100">
+             d:DesignHeight="300" d:DesignWidth="300" HorizontalContentAlignment="Left">
    <Grid>
       <StackPanel>
-      <RichTextBox x:Name="richTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" 
-                   MinWidth="100" Foreground="#FF00BFFF" BorderThickness="0" Focusable="False">
+         <RichTextBox x:Name="myRichTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent"
+                    Foreground="#FF00BFFF" BorderThickness="0" Focusable="False">
       </RichTextBox>
-      <TextBox x:Name="MyTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed" 
-                   MinWidth="100" Foreground="#FF00BFFF" BorderThickness="0" Focusable="False" TextWrapping="NoWrap">
+         <TextBox x:Name="MyTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed" FontWeight="Bold"
+                    Foreground="#FF00BFFF" BorderThickness="0" Focusable="False" >
       </TextBox>
       </StackPanel>
    </Grid>

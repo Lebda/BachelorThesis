@@ -55,6 +55,7 @@
     <Compile Include="Infrastructure\PropertySupport.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Infrastructure\XEP_DataContextSpy.cs" />
+    <Compile Include="Infrastructure\XEP_FlowDocumentExtension.cs" />
     <Compile Include="Infrastructure\XEP_ObservableCollectionWihKey.cs" />
     <Compile Include="Interfaces\InterfaceObjects.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />

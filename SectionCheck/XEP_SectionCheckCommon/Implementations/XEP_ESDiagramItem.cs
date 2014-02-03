@@ -76,7 +76,12 @@ namespace XEP_SectionCheckCommon.Implementations
             set { SetItem(ref value, StressPropertyName); }
         }
         #endregion
+
         #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         string _name = "StressStrainDiagramPoint";
         public string Name
         {

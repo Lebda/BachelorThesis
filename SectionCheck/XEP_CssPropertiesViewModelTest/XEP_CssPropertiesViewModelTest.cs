@@ -75,9 +75,7 @@ namespace XEP_CssPropertiesViewModelTest
         public void MyTestInitialize()
         {
             _dataCacheService.Load(_dataCache);
-            s_target = new XEP_CssPropertiesViewModel(_dataCache,
-                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container),
-                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_ICssDataShape>>(_container));
+            s_target = UnityContainerExtensions.Resolve<XEP_CssPropertiesViewModel>(_container);
         }
         
         //Use TestCleanup to run code after each test has run
@@ -172,8 +170,7 @@ namespace XEP_CssPropertiesViewModelTest
         {
             // Arrange
             _dataCache.Structure.MemberData[0].SectionsData[0].InternalForces.Clear();
-            var target = new XEP_CssPropertiesViewModel(_dataCache, UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IInternalForceItem>>(_container),
-                UnityContainerExtensions.Resolve<XEP_IResolver<XEP_ICssDataShape>>(_container));
+            var target = s_target;
 
             // Act
             target.NewForceCommand.Execute(null);

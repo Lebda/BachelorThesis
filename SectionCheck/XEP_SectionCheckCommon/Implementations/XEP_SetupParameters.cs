@@ -108,11 +108,13 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return GetOneQuantity(FiEffPropertyName); }
             set { SetItem(ref value, FiEffPropertyName); }
         }
-
         #endregion
+
         #region XEP_IDataCacheObjectBase Members
-        XEP_IQuantityManager _manager = null;
-        XEP_IXmlWorker _xmlWorker = null;
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         string _name = String.Empty;
         public string Name
         {
@@ -125,11 +127,13 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
         }
+        XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }

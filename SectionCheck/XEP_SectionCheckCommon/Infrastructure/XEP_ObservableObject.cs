@@ -61,15 +61,18 @@ namespace XEP_SectionCheckCommon.Infrastructure
         ObservableCollection<XEP_IQuantity> _data = new ObservableCollection<XEP_IQuantity>();
         Dictionary<string, int> _indexes = new Dictionary<string, int>();
 
-        public bool CallPropertySet4ManagedValue(string propertyName, double oldValue)
+        public void NotifyOwnerProperty(XEP_IDataCacheNotificationData notificationData)
         {
-            VerifyPropertyName(propertyName);
-            XEP_IQuantity testObject = GetOneQuantity(propertyName);
-            XEP_IQuantity copy = testObject.CopyInstance();
-            testObject.ManagedValue = oldValue;
-            TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
-            return true;
+            if (notificationData != null && notificationData.Owner != null)
+            {
+                Action<XEP_IDataCacheNotificationData> notificationMethod = notificationData.Owner.GetNotifyOwnerAction();
+                if (notificationMethod != null)
+                {
+                    notificationMethod(notificationData);
+                }
+            }
         }
+
         public bool CallPropertySet4NewManagedValue(string propertyName, double newManagedValue)
         {
             VerifyPropertyName(propertyName);
@@ -135,26 +138,12 @@ namespace XEP_SectionCheckCommon.Infrastructure
             _data.Clear();
             _indexes.Clear();
         }
-        protected void SetItemBoolWithActions(ref bool valueFromBinding, string index, Func<bool> isSetValid, Action provideNeccessary, params string[] names)
-        {
-            if (isSetValid != null && !isSetValid())
-            {
-                return;
-            }
-            XEP_IQuantity data4Index = GetOneQuantity(index);
-            if (valueFromBinding == MathUtils.GetBoolFromDouble(data4Index.Value))
-            {
-                return;
-            }
-            data4Index.Value = MathUtils.GetDoubleFromBool(valueFromBinding);
-            FinishSet(provideNeccessary, index, names);
-            return;
-        }
+
         protected void SetItem(ref XEP_IQuantity valueFromBinding, string index, params string[] names)
         {
             SetItemWithActions(ref valueFromBinding, index, null, null, names);
         }
-        protected void SetItemWithActions(ref XEP_IQuantity valueFromBinding, string index, Func<bool> isSetValid, Action provideNeccessary, params string[] names)
+        protected void SetItemWithActions(ref XEP_IQuantity valueFromBinding, string index, Func<bool> isSetValid, Action<string> provideNeccessary, params string[] names)
         {
             if (isSetValid != null && !isSetValid())
             {
@@ -168,27 +157,27 @@ namespace XEP_SectionCheckCommon.Infrastructure
             data4Index.Value = valueFromBinding.Value;
             FinishSet(provideNeccessary, index, names);
         }
-        protected void SetMemberWithAction<T>(ref T newValue, ref T member, Func<bool> isSetValid, Action provideNeccessary, params string[] names4Raised)
+        protected void SetMemberWithAction<T>(ref T newValue, ref T member, Func<bool> isSetValid, Action<string> provideNeccessary, params string[] names4Raised)
         {
             if (isSetValid != null && !isSetValid())
             {
                 return;
             }
             member = newValue;
-            if (provideNeccessary != null)
+            if (provideNeccessary != null && names4Raised != null && names4Raised.Count() != 0)
             {
-                provideNeccessary();
+                provideNeccessary(names4Raised[0]);
             }
             foreach (string item in names4Raised)
             {
                 RaisePropertyChanged(item);
             }
         }
-        private void FinishSet(Action provideNeccessary, string index, params string[] names)
+        private void FinishSet(Action<string> provideNeccessary, string index, params string[] names)
         {
             if (provideNeccessary != null)
             {
-                provideNeccessary();
+                provideNeccessary(index);
             }
             if (names == null || names.Count() == 0)
             {

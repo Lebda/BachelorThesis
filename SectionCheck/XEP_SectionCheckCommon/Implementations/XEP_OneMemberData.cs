@@ -68,8 +68,6 @@ namespace XEP_SectionCheckCommon.Implementations
     public class XEP_OneMemberData : XEP_ObservableObject, XEP_IOneMemberData
     {
         readonly XEP_IResolver<XEP_IOneSectionData> _resolver = null;
-        XEP_IQuantityManager _manager = null;
-        XEP_IXmlWorker _xmlWorker = null;
         ObservableCollection<XEP_IOneSectionData> _sectionsData = new ObservableCollection<XEP_IOneSectionData>();
         string _name = "Member data";
 
@@ -79,16 +77,19 @@ namespace XEP_SectionCheckCommon.Implementations
             _resolver = resolver;
             _xmlWorker = new XEP_OneMemberDataXml(this);
         }
-        #region XEP_IOneMemberData Members
-        public XEP_IResolver<XEP_IOneSectionData> Resolver
+
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
-            get { return _resolver; }
+            return null;
         }
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
         }
+        XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }
@@ -104,6 +105,13 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
+        }
+        #endregion
+
+        #region XEP_IOneMemberData Members
+        public XEP_IResolver<XEP_IOneSectionData> Resolver
+        {
+            get { return _resolver; }
         }
         public static readonly string SectionsDataPropertyName = "SectionsData";
         public ObservableCollection<XEP_IOneSectionData> SectionsData

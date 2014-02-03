@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Telerik.Windows.Documents.Model;
+using XEP_CommonLibrary.Infrastructure;
 
 namespace XEP_SmartTextBox
 {
@@ -12,12 +14,18 @@ namespace XEP_SmartTextBox
     /// </summary>
     public partial class XEP_SmartTextBox : UserControl
     {
-        string[] _sepratorInternal = {"&"};
+        string[] _sepratorInternal = { "&" };
+
         private string[] SepratorInternal
         {
-            get { return _sepratorInternal; }
+            get
+            {
+                return _sepratorInternal;
+            }
         }
+
         string[] _separatorsAll = new string[3];
+
         private string[] SeparatorsAll
         {
             get
@@ -30,18 +38,35 @@ namespace XEP_SmartTextBox
             }
         }
 
+        FontFamily _fontFamily;
+
+//         public XEP_SmartTextBox()
+//         {
+//             InitializeComponent();
+//             _separatorsAll[0] = NormalScriptMark;
+//             _separatorsAll[1] = SubscriptMark;
+//             _separatorsAll[2] = SuperScriptMark;
+//             FontFamilyConverter ffc = new FontFamilyConverter();
+//             _fontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
+//             OnSmartTextChangedInternal();
+//         }
+
         public XEP_SmartTextBox()
         {
             InitializeComponent();
             _separatorsAll[0] = NormalScriptMark;
             _separatorsAll[1] = SubscriptMark;
             _separatorsAll[2] = SuperScriptMark;
+            FontFamilyConverter ffc = new FontFamilyConverter();
+            _fontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
+            OnSmartTextChangedInternal();
+            myRichTextBox.TextChanged += new TextChangedEventHandler((o, e) => myRichTextBox.Width = XEP_FlowDocumentExtensions.GetFormattedText(myRichTextBox.Document).WidthIncludingTrailingWhitespace + 20);
         }
 
         static XEP_SmartTextBox()
         {
-            OnlyTextProperty = DependencyProperty.Register(OnlyTextPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
-                new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnlyTextChanged)));
+            IsOnlyTextBoxProperty = DependencyProperty.Register(IsOnlyTextBoxPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
+                new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsOnlyTextBoxChanged)));
             SmartTextProperty = DependencyProperty.Register(SmartTextPropertyName, typeof(string), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnSmartTextChanged)));
             SubscriptMarkProperty = DependencyProperty.Register(SubscriptMarkPropertyName, typeof(string), typeof(XEP_SmartTextBox),
@@ -55,22 +80,53 @@ namespace XEP_SmartTextBox
                 new FrameworkPropertyMetadata(color, new PropertyChangedCallback(OnSmartColorChanged)));
             SupSubSciptProperty = DependencyProperty.Register(SupSubSciptPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnSupSubSciptChanged)));
-        }
-  
-        private static string SupSubSciptPropertyName = "SupSubScipt";
-        public static DependencyProperty SupSubSciptProperty;
-        public bool SupSubScipt
-        {
-            get { return (bool)GetValue(SupSubSciptProperty); }
-            set { SetValue(SupSubSciptProperty, value); }
+            IsTextReadOnlyProperty = DependencyProperty.Register(IsTextReadOnlyPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
+                new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnIsTextReadOnlyChanged)));
         }
 
-        private static string OnlyTextPropertyName = "OnlyText";
-        public static DependencyProperty OnlyTextProperty;
-        public bool OnlyText
+        private static string IsTextReadOnlyPropertyName = "IsTextReadOnly";
+        public static DependencyProperty IsTextReadOnlyProperty;
+
+        public bool IsTextReadOnly
         {
-            get { return (bool)GetValue(OnlyTextProperty); }
-            set { SetValue(OnlyTextProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsTextReadOnlyProperty);
+            }
+            set
+            {
+                SetValue(IsTextReadOnlyProperty, value);
+            }
+        }
+
+        private static string SupSubSciptPropertyName = "SupSubScipt";
+        public static DependencyProperty SupSubSciptProperty;
+
+        public bool SupSubScipt
+        {
+            get
+            {
+                return (bool)GetValue(SupSubSciptProperty);
+            }
+            set
+            {
+                SetValue(SupSubSciptProperty, value);
+            }
+        }
+
+        private static string IsOnlyTextBoxPropertyName = "IsOnlyTextBox";
+        public static DependencyProperty IsOnlyTextBoxProperty;
+
+        public bool IsOnlyTextBox
+        {
+            get
+            {
+                return (bool)GetValue(IsOnlyTextBoxProperty);
+            }
+            set
+            {
+                SetValue(IsOnlyTextBoxProperty, value);
+            }
         }
 
         private static string SmartColorPropertyName = "SmartColor";
@@ -158,12 +214,22 @@ namespace XEP_SmartTextBox
             }
         }
 
-        private static void OnlyTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnIsTextReadOnlyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
             if ((bool)e.OldValue != (bool)e.NewValue)
             {
-                smartTextBox.OnlyText = (bool)e.NewValue;
+                smartTextBox.IsTextReadOnly = (bool)e.NewValue;
+                smartTextBox.OnSmartTextChangedInternal();
+            }
+        }
+
+        private static void OnIsOnlyTextBoxChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
+            if ((bool)e.OldValue != (bool)e.NewValue)
+            {
+                smartTextBox.IsOnlyTextBox = (bool)e.NewValue;
                 smartTextBox.OnSmartTextChangedInternal();
             }
         }
@@ -223,7 +289,7 @@ namespace XEP_SmartTextBox
             XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
             if ((string)e.NewValue == smartTextBox.SepratorInternal[0])
             {
-                throw new ArgumentException(String.Format("Mark con not be set on {0} !!", smartTextBox.SepratorInternal[0]));
+                throw new ArgumentException(String.Format("Mark can not be set on {0} !!", smartTextBox.SepratorInternal[0]));
             }
             if ((string)e.OldValue != (string)e.NewValue)
             {
@@ -235,17 +301,20 @@ namespace XEP_SmartTextBox
 
         private void OnSmartTextChangedInternal()
         {
-            if (OnlyText)
+            this.MyTextBox.IsReadOnly = IsTextReadOnly;
+            this.myRichTextBox.IsReadOnly = IsTextReadOnly;
+            this.MyTextBox.Text = SmartText;
+            if (IsOnlyTextBox)
             {
-                this.richTextBox.Visibility = Visibility.Collapsed;
+                this.myRichTextBox.Visibility = Visibility.Collapsed;
                 this.MyTextBox.Visibility = Visibility.Visible;
                 this.MyTextBox.Foreground = SmartColor;
-                this.MyTextBox.Text = SmartText;
+                this.MyTextBox.FontFamily = _fontFamily;
                 return;
             }
             else
             {
-                this.richTextBox.Visibility = Visibility.Visible;
+                this.myRichTextBox.Visibility = Visibility.Visible;
                 this.MyTextBox.Visibility = Visibility.Collapsed;
             }
             if (SmartText == null || SmartText == String.Empty)
@@ -253,8 +322,7 @@ namespace XEP_SmartTextBox
                 return;
             }
             System.Windows.Documents.Paragraph myParagraph = new System.Windows.Documents.Paragraph();
-            FontFamilyConverter ffc = new FontFamilyConverter();
-            myParagraph.FontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
+            myParagraph.FontFamily = _fontFamily;
             if (SupSubScipt == false)
             {
                 Bold myBold = new Bold(new Run(SmartText));
@@ -291,10 +359,11 @@ namespace XEP_SmartTextBox
                     myParagraph.Inlines.Add(myBold);
                 }
             }
-            FlowDocument myFlowDoc = new FlowDocument();
-            myFlowDoc.Blocks.Add(myParagraph);
-            this.richTextBox.Foreground = SmartColor;
-            this.richTextBox.Document = myFlowDoc;
+            FlowDocument rtbFlowDoc = new FlowDocument();
+            rtbFlowDoc.Blocks.Add(myParagraph);
+            this.myRichTextBox.Foreground = SmartColor;
+            rtbFlowDoc.TextAlignment = TextAlignment.Left;
+            this.myRichTextBox.Document = rtbFlowDoc;
         }
     }
 }

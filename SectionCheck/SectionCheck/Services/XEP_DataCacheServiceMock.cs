@@ -146,7 +146,7 @@ namespace XEP_SectionCheck.Services
             data.PolygonMode.SetBool(false);
             data.HoleMode.SetBool(true);
             data.Name = "Concrete part 1";
-            data.Recalculate();
+            data.Intergrity(null);
             return data;
         }
 

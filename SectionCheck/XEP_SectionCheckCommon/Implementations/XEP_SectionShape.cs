@@ -11,6 +11,7 @@ using XEP_SectionCheckCommon.Infrastucture;
 using XEP_SectionCheckCommon.Interfaces;
 using System.ComponentModel;
 using System.Windows;
+using System.Text;
 
 namespace XEP_SectionCheckCommon.Implementations
 {
@@ -109,73 +110,78 @@ namespace XEP_SectionCheckCommon.Implementations
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, HPropertyName, this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BPropertyName, this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eBool, HoleModePropertyName, this);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BholePropertyName, this);
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, HholePropertyName, this);
-            Recalculate();
+            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, BholePropertyName, this);
+            Intergrity(null);
         }
 
         #region XEP_ISectionShape Members
+        string _description = String.Empty;
+        public static readonly string DescriptionPropertyName = "Description";
+        public string Description
+        {
+            get { return _description; }
+            set { SetMemberWithAction<string>(ref value, ref _description, () => _description != value, Intergrity); }
+        }
         XEP_ICssDataShape _cssShape = null;
         public static readonly string CssShapePropertyName = "CssShape";
         public XEP_ICssDataShape CssShape
         {
             get { return _cssShape; }
-            set { SetMemberWithAction<XEP_ICssDataShape>(ref value, ref _cssShape, () => _cssShape != value, Recalculate); }
+            set { SetMemberWithAction<XEP_ICssDataShape>(ref value, ref _cssShape, () => _cssShape != value, Intergrity); }
         }
         public static readonly string PolygonModePropertyName = "PolygonMode";
         public XEP_IQuantity PolygonMode
         {
             get { return GetOneQuantity(PolygonModePropertyName); }
-            set { SetItemWithActions(ref value, PolygonModePropertyName, null, Recalculate); }
+            set { SetItemWithActions(ref value, PolygonModePropertyName, null, Intergrity); }
         }
         public static readonly string HoleModePropertyName = "HoleMode";
         public XEP_IQuantity HoleMode
         {
             get { return GetOneQuantity(HoleModePropertyName); }
-            set { SetItemWithActions(ref value, HoleModePropertyName, null, Recalculate); }
+            set { SetItemWithActions(ref value, HoleModePropertyName, null, Intergrity); }
         }
         public static readonly string HholePropertyName = "Hhole";
         public XEP_IQuantity Hhole
         {
             get { return GetOneQuantity(HholePropertyName); }
-            set { SetItemWithActions(ref value, HholePropertyName, () => !PolygonMode.IsTrue() && HoleMode.IsTrue(), Recalculate); }
+            set { SetItemWithActions(ref value, HholePropertyName, () => !PolygonMode.IsTrue() && HoleMode.IsTrue(), Intergrity); }
         }
         public static readonly string BholePropertyName = "Bhole";
         public XEP_IQuantity Bhole
         {
             get { return GetOneQuantity(BholePropertyName); }
-            set { SetItemWithActions(ref value, BholePropertyName, () => !PolygonMode.IsTrue() && HoleMode.IsTrue(), Recalculate); }
+            set { SetItemWithActions(ref value, BholePropertyName, () => !PolygonMode.IsTrue() && HoleMode.IsTrue(), Intergrity); }
         }
         public static readonly string HPropertyName = "H";
         public XEP_IQuantity H
         {
             get { return GetOneQuantity(HPropertyName); }
-            set { SetItemWithActions(ref value, HPropertyName, () => !PolygonMode.IsTrue(), Recalculate); }
+            set { SetItemWithActions(ref value, HPropertyName, () => !PolygonMode.IsTrue(), Intergrity); }
         }
         public static readonly string BPropertyName = "B";
         public XEP_IQuantity B
         {
             get { return GetOneQuantity(BPropertyName); }
-            set { SetItemWithActions(ref value, BPropertyName, () => !PolygonMode.IsTrue(), Recalculate); }
+            set { SetItemWithActions(ref value, BPropertyName, () => !PolygonMode.IsTrue(), Intergrity); }
         }
         ObservableCollection<XEP_ISectionShapeItem> _shapeOuter = new ObservableCollection<XEP_ISectionShapeItem>();
         public static readonly string ShapeOuterPropertyName = "ShapeOuter";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeOuter
         {
             get { return _shapeOuter; }
-            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeOuter, () => _shapeOuter != value, Recalculate);}
+            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeOuter, () => _shapeOuter != value, Intergrity, ShapeOuterPropertyName); }
         }
         ObservableCollection<XEP_ISectionShapeItem> _shapeInner = new ObservableCollection<XEP_ISectionShapeItem>();
         public static readonly string ShapeInnerPropertyName = "ShapeInner";
         public ObservableCollection<XEP_ISectionShapeItem> ShapeInner
         {
             get { return _shapeInner; }
-            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, () => _shapeInner != value, Recalculate); }
+            set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, () => _shapeInner != value, Intergrity, ShapeInnerPropertyName); }
         }
-        #endregion
 
-        #region METHODS
-        public void Recalculate()
+        public void Intergrity(string propertyCallerName)
         {
             if (H.Value < 0)
             {
@@ -211,6 +217,7 @@ namespace XEP_SectionCheckCommon.Implementations
             }
             else
             {
+                PolygonMode.VisibleState = Visibility.Collapsed;
                 if (H.Value <= 0)
                 {
                     H.Value = 0.5;
@@ -242,6 +249,7 @@ namespace XEP_SectionCheckCommon.Implementations
             {
                 Hhole.VisibleState = Visibility.Collapsed;
                 Bhole.VisibleState = Visibility.Collapsed;
+                HoleMode.VisibleState = Visibility.Collapsed;
                 Hhole.IsReadOnly = true;
                 Bhole.IsReadOnly = true;
                 Hhole.Value = 0.0; Bhole.Value = 0.0;
@@ -249,17 +257,83 @@ namespace XEP_SectionCheckCommon.Implementations
             }
             _cssShape.RecreateShape(_shapeOuter, _shapeInner);
             _cssShape = CssShape.Clone() as XEP_ICssDataShape;
-            RaisePropertyChanged(CssShapePropertyName);
-            RaisePropertyChanged(ShapeOuterPropertyName);
-            RaisePropertyChanged(ShapeInnerPropertyName);
+            foreach (var item in _shapeOuter)
+            {
+                item.NotificationData.Owner = this;
+                foreach (var oneQunatity in item.Data)
+                {
+                    oneQunatity.IsReadOnly = !PolygonMode.IsTrue();
+                }
+            }
+            foreach (var item in _shapeInner)
+            {
+                item.NotificationData.Owner = this;
+                foreach (var oneQunatity in item.Data)
+                {
+                    oneQunatity.IsReadOnly = !PolygonMode.IsTrue();
+                }
+            }
+            _description = CreateDescription();
+            // Raise all
             foreach (var item in Data)
             {
                 RaisePropertyChanged(item.Name);
             }
+            RaisePropertyChanged(CssShapePropertyName);
+            RaisePropertyChanged(ShapeOuterPropertyName);
+            RaisePropertyChanged(ShapeInnerPropertyName);
+            RaisePropertyChanged(DescriptionPropertyName);
+        }
+        #endregion
+
+        #region METHODS
+        string CreateDescription()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append((PolygonMode.IsTrue()) ? ("Polygon") : ("Rectangle: "));
+            if (!PolygonMode.IsTrue())
+            {
+                builder.Append(BPropertyName + "= ");
+                builder.Append(B.ManagedValue.ToString());
+                builder.Append(", ");
+                //
+                builder.Append(HPropertyName + "= ");
+                builder.Append(H.ManagedValue.ToString());
+            }
+            return builder.ToString();
+            
         }
         #endregion
 	
         #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return (notificationData) =>
+                {
+                    if (notificationData != null && notificationData.Owner != this)
+                    {
+                        Exceptions.CheckNull(null);
+                    }
+                    _cssShape.RecreateShape(_shapeOuter, _shapeInner);
+                    _cssShape = CssShape.Clone() as XEP_ICssDataShape;
+                    RaisePropertyChanged(CssShapePropertyName);
+                    if (notificationData.Notifier != null)
+                    {
+                        XEP_ISectionShapeItem notifier = notificationData.Notifier as XEP_ISectionShapeItem;
+                        if (notifier !=null)
+                        {
+                            if (notifier.Type == eEP_CssShapePointType.eOuter)
+                            {
+                                RaisePropertyChanged(ShapeOuterPropertyName);
+                            }
+                            else if (notifier.Type == eEP_CssShapePointType.eInner)
+                            {
+                                RaisePropertyChanged(ShapeInnerPropertyName);
+                            }
+                        }
+                    }
+                };
+        }
         string _name = "Section shape";
         public string Name
         {

@@ -58,6 +58,10 @@ namespace XEP_SectionCheckCommon.Implementations
         }
 
         #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         string _name = "Quantity";
         public string Name
         {

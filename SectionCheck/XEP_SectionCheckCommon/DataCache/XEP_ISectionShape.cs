@@ -16,6 +16,7 @@ namespace XEP_SectionCheckCommon.DataCache
         XEP_IQuantity HoleMode { get; set; }
         XEP_IQuantity Hhole { get; set; }
         XEP_IQuantity Bhole { get; set; }
-        void Recalculate();
+        string Description { get; set; }
+        void Intergrity(string propertyCallerName);
     }
 }

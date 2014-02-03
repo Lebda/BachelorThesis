@@ -26,8 +26,10 @@ namespace XEP_SectionCheckCommon.Implementations
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
             xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.TypePropertyName, (int)_data.Type));
-            xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.YPropertyName, _data.Y.Value));
-            xmlElement.Add(new XAttribute(ns + XEP_SectionShapeItem.ZPropertyName, _data.Z.Value));
+            foreach (var item in _data.Data)
+            {
+                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
+            }
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -38,8 +40,10 @@ namespace XEP_SectionCheckCommon.Implementations
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
             _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
             _data.Type = (eEP_CssShapePointType)(int)xmlElement.Attribute(ns + XEP_SectionShapeItem.TypePropertyName);
-            _data.Y.Value = (double)xmlElement.Attribute(ns + XEP_SectionShapeItem.YPropertyName);
-            _data.Z.Value = (double)xmlElement.Attribute(ns + XEP_SectionShapeItem.ZPropertyName);
+            foreach (var item in _data.Data)
+            {
+                item.Value = (double)xmlElement.Attribute(ns + item.Name);
+            }
         }
         #endregion
     }
@@ -48,8 +52,9 @@ namespace XEP_SectionCheckCommon.Implementations
     {
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolver = null;
 
-        public XEP_SectionShapeItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_ISectionShapeItem> resolver)
+        public XEP_SectionShapeItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_ISectionShapeItem> resolver, XEP_IResolver<XEP_IDataCacheNotificationData> notificationDataRes)
         {
+            _notificationData = notificationDataRes.Resolve();
             _resolver = resolver;
             _manager = manager;
             _xmlWorker = new XEP_SectionShapeItemXml(this);
@@ -57,9 +62,9 @@ namespace XEP_SectionCheckCommon.Implementations
             AddOneQuantity(_manager, 0.0, eEP_QuantityType.eCssLength, ZPropertyName);
 
         }
-        #region XEP_ISectionShapeItem Members
-        public XEP_ISectionShapeItem CopyInstance()
-        {
+        #region ICloneable Members
+        public object Clone()
+        {  // do not copy owner has to be set from outside !
             XEP_ISectionShapeItem copy = _resolver.Resolve();
             copy.Name = _name;
             XEP_SectionShapeItem copyDescendant = copy as XEP_SectionShapeItem;
@@ -67,17 +72,25 @@ namespace XEP_SectionCheckCommon.Implementations
             copy.Type = _type;
             return copy;
         }
+        #endregion
+
+        #region XEP_ISectionShapeItem Members
+        readonly XEP_IDataCacheNotificationData _notificationData = null;
+        public XEP_IDataCacheNotificationData NotificationData
+        {
+            get { return _notificationData; }
+        }
         public static readonly string YPropertyName = "Y";
         public XEP_IQuantity Y
         {
             get { return GetOneQuantity(YPropertyName); }
-            set { SetItem(ref value, YPropertyName); }
+            set { SetItemWithActions(ref value, YPropertyName, null, Intergrity); }
         }
         public static readonly string ZPropertyName = "Z";
         public XEP_IQuantity Z
         {
             get { return GetOneQuantity(ZPropertyName); }
-            set { SetItem(ref value, ZPropertyName); }
+            set { SetItemWithActions(ref value, ZPropertyName, null, Intergrity); }
         }
         eEP_CssShapePointType _type = eEP_CssShapePointType.eOuter;
         public static readonly string TypePropertyName = "Type";
@@ -88,7 +101,26 @@ namespace XEP_SectionCheckCommon.Implementations
         }
         #endregion
 
+        #region METHODS
+        void Intergrity(string propertyName)
+        {
+            // Check object integrity
+
+            // Notify owner
+            if (_notificationData != null)
+            {
+                _notificationData.Notifier = this;
+                _notificationData.PropertyNotifier = propertyName;
+                NotifyOwnerProperty(_notificationData);
+            }
+        }
+        #endregion
+
         #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         string _name = "ShapePoint";
         public string Name
         {

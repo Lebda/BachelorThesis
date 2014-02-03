@@ -19,12 +19,7 @@ namespace XEP_CssProperties.ViewModels
 {
     public class XEP_CssPropertiesViewModel : XEP_ObservableObject
     {
-        bool _testEnabled = false;
-        public bool TestEnabled
-        {
-            get { return _testEnabled; }
-            set { _testEnabled = value; }
-        }
+        readonly XEP_IResolver<XEP_ISectionShapeItem> _resolverShapeItem = null;
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
         //readonly XEP_IResolver<XEP_ICssDataShape> _resolverICssDataShape = null;
         readonly XEP_IDataCache _dataCache = null; // singleton
@@ -40,12 +35,10 @@ namespace XEP_CssProperties.ViewModels
 
         public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, 
             XEP_IResolver<XEP_IInternalForceItem> resolverForce,
-            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape)
+            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape,
+            XEP_IResolver<XEP_ISectionShapeItem> resolverShapeItem)
         {
-//             _resolverICssDataShape = resolverICssDataShape;
-//             _cssShapeProperty = _resolverICssDataShape.Resolve();
-//             _cssShapeProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.CssBrush2_SCkey);
-//             _cssShapeProperty.VisualPen = CustomResources.GetSavePen(CustomResources.CssPen2_SCkey);
+            _resolverShapeItem = resolverShapeItem;
             _cssAxisHorizontalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey);
             _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
             _cssAxisVerticalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.VerAxisBrush1_SCkey);
@@ -66,36 +59,142 @@ namespace XEP_CssProperties.ViewModels
             }
         }
 
-        #region Commands
-        public ICommand ChangeCssParamCommand
+        #region Cross section COMANDS
+        XEP_ISectionShapeItem _activeShapeItem = null;
+        public static readonly string ActiveShapeItemPropertyName = "ActiveShapeItem";
+        public XEP_ISectionShapeItem ActiveShapeItem
         {
-            get { return new RelayCommand<GridViewRowEditEndedEventArgs>(ChangeCssParamCommandExecute); }
+            get { return _activeShapeItem; }
+            set { SetMemberWithAction<XEP_ISectionShapeItem>(ref value, ref _activeShapeItem, () => _activeShapeItem != value, null); }
         }
-        public void ChangeCssParamCommandExecute(object obj)
+        // ADD
+        public ICommand NewPointCommand
         {
-            GridViewRowEditEndedEventArgs e = obj as GridViewRowEditEndedEventArgs;
-            XEP_IQuantity dataTest = e.EditedItem as XEP_IQuantity;
-            if (e.EditAction == GridViewEditAction.Commit && dataTest != null && dataTest.Owner != null)
+            get { return new RelayCommand(NewPointExecute, CanNewPointExecute); }
+        }
+        void NewPointExecute()
+        {
+            if (_activeSectionData != null)
             {
-                //dataTest.Owner.CallPropertySet4ManagedValue(dataTest.Name, (double)e.OldValues["ManagedValue"]);
-                //CssShape = CssShape.Clone() as XEP_ICssDataShape;
+                AddPointInternal(_activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter, _resolverShapeItem, true);
+            }
+            ResetCrossSectionForm();
+        }
+        private void AddPointInternal(ObservableCollection<XEP_ISectionShapeItem> shape, XEP_IResolver<XEP_ISectionShapeItem> resolverShapeItem, bool isOuter = true)
+        {
+            if (shape == null)
+            {
+                return;
+            }
+            if (shape.Count() == 0)
+            {
+                XEP_ISectionShapeItem newItem = resolverShapeItem.Resolve();
+                newItem.Type = (isOuter) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+                shape.Add(newItem);
+            }
+            else
+            {
+                shape.Add(shape.Last().Clone() as XEP_ISectionShapeItem);
             }
         }
-        public ICommand ChangeShapeCommand
+        Boolean CanNewPointExecute()
         {
-            get { return new RelayCommand<GridViewRowEditEndedEventArgs>(ChangeShapeCommandExecute); }
+            if (_activeSectionData != null)
+            {
+                return _activeSectionData.ConcreteSectionData.SectionShape.PolygonMode.IsTrue();
+            }
+            return false;
         }
-        public void ChangeShapeCommandExecute(object obj)
+        public ICommand NewPointInnerCommand
         {
-            GridViewRowEditEndedEventArgs e = obj as GridViewRowEditEndedEventArgs;
-            XEP_IQuantity dataTest = e.EditedItem as XEP_IQuantity;
+            get { return new RelayCommand(NewPointInnerExecute, CanNewPointExecute); }
+        }
+        void NewPointInnerExecute()
+        {
+            if (_activeSectionData != null)
+            {
+                AddPointInternal(_activeSectionData.ConcreteSectionData.SectionShape.ShapeInner, _resolverShapeItem);
+            }
+            ResetCrossSectionForm();
+        }
+        // DELETE
+        public ICommand DeletePointCommand
+        {
+            get { return new RelayCommand(DeletePointExecute, CanDeletePointExecute); }
+        }
+        Boolean CanDeletePointExecute()
+        {
+            return (_activeShapeItem != null && _activeShapeItem.Type == eEP_CssShapePointType.eOuter && CanNewPointExecute());
+        }
+        public ICommand DeletePointInnerCommand
+        {
+            get { return new RelayCommand(DeletePointExecute, CanDeletePointInnerExecute); }
+        }
+        Boolean CanDeletePointInnerExecute()
+        {
+            return (_activeShapeItem != null && _activeShapeItem.Type == eEP_CssShapePointType.eInner && CanNewPointExecute());
+        }
+        void DeletePointExecute()
+        {
+            try
+            {
+                if (_activeShapeItem.Type == eEP_CssShapePointType.eOuter)
+                {
+                    _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter.Remove(_activeShapeItem);
+                }
+                else if (_activeShapeItem.Type == eEP_CssShapePointType.eInner)
+                {
+                    _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner.Remove(_activeShapeItem);
+                }
+                ResetCrossSectionForm();
+            }
+            catch (Exception ex)
+            {
+                string test = ex.Message;
+            }
+        }
+        // COPY
+        public ICommand CopyPointCommand
+        {
+            get { return new RelayCommand(CopyPointExecute, CanDeletePointExecute); }
+        }
+        public ICommand CopyPointInnerCommand
+        {
+            get { return new RelayCommand(CopyPointExecute, CanDeletePointInnerExecute); }
+        }
+        void CopyPointExecute()
+        {
+            try
+            {
+                XEP_ISectionShapeItem newItem = _activeShapeItem.Clone() as XEP_ISectionShapeItem;
+                newItem.Name += "-copy";
+                if (_activeShapeItem.Type == eEP_CssShapePointType.eOuter)
+                {
+                    _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter.Add(newItem);
+                }
+                else if (_activeShapeItem.Type == eEP_CssShapePointType.eInner)
+                {
+                    _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner.Add(newItem);
+                }
+                ResetCrossSectionForm();
+            }
+            catch (Exception ex)
+            {
+                string test = ex.Message;
+            }
+        }
+        // RESET
+        void ResetCrossSectionForm()
+        {
+            if (_activeSectionData != null)
+            {
+                _activeSectionData.ConcreteSectionData.SectionShape.Intergrity(null);
+            }
+            _activeShapeItem = null;
+        }
+        #endregion
 
-            if (e.EditAction == GridViewEditAction.Commit)
-            {
-                _activeSectionData.ConcreteSectionData.SectionShape.Recalculate();
-                //CssShape = CssShape.Clone() as XEP_ICssDataShape;
-            }
-        }
+        #region Commands
 
         public ICommand AddMatToLib
         {
@@ -118,10 +217,6 @@ namespace XEP_CssProperties.ViewModels
                 Exceptions.CheckNull(newItemConcrete);
                 _dataCache.MaterialLibrary.SaveOneMaterialDataConcrete(newItemConcrete);
                 _activeMatConcrete.ResetMatFromLib();
-//                 _cssShapeProperty.CssShapeOuter = _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter;
-//                 _cssShapeProperty.CssShapeInner = _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner;
-//                 CssShape = CssShape.Clone() as XEP_ICssDataShape;
-//                 RaisePropertyChanged(CssShapePropertyName);
                 ResetForm();
             }
             catch (Exception ex)

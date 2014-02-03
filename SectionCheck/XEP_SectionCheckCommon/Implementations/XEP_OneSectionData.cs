@@ -103,6 +103,13 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _internalForces; }
             set { SetMember<ObservableCollection<XEP_IInternalForceItem>>(ref value, ref _internalForces, (_internalForces == value), InternalForcesPropertyName); }
         }
+        #endregion
+
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         public string Name
         {
             get { return _name; }

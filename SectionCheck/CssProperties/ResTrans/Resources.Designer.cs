@@ -88,6 +88,24 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cross section inner shape.
+        /// </summary>
+        public static string CROSS_SEC_INNER_SHAPE {
+            get {
+                return ResourceManager.GetString("CROSS_SEC_INNER_SHAPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cross section outer shape.
+        /// </summary>
+        public static string CROSS_SEC_OUTER_SHAPE {
+            get {
+                return ResourceManager.GetString("CROSS_SEC_OUTER_SHAPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cross Section.
         /// </summary>
         public static string CROSS_SECTION {

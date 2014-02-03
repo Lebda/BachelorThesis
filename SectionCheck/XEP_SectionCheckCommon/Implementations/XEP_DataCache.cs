@@ -49,9 +49,6 @@ namespace XEP_SectionCheckCommon.Implementations
 
     public class XEP_DataCache : XEP_ObservableObject, XEP_IDataCache
     {
-        XEP_IQuantityManager _manager = null;
-        XEP_IXmlWorker _xmlWorker = null;
-        string _name = "Data cache";
         XEP_IStructure _structure = null;
         XEP_IMaterialLibrary _materialLibrary = null;
         XEP_ISetupParameters _setupParameters = null;
@@ -65,16 +62,25 @@ namespace XEP_SectionCheckCommon.Implementations
             _materialLibrary = resolverMatLib.Resolve();
             _setupParameters = resolverSetup.Resolve();
         }
+
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
         }
+        XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
         }
+        string _name = "Data cache";
         public string Name
         {
             get { return _name; }
@@ -86,6 +92,8 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        #endregion
+
         public static readonly string StructurePropertyName = "Structure";
         public XEP_IStructure Structure
         {

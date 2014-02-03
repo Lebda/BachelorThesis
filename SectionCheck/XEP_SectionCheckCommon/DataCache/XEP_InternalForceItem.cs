@@ -68,8 +68,6 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_InternalForceItem : XEP_ObservableObject, XEP_IInternalForceItem
     {
-        XEP_IXmlWorker _xmlWorker = null;
-        XEP_IQuantityManager _manager = null;
         XEP_IResolver<XEP_IInternalForceItem> _resolver = null;
 
         public XEP_InternalForceItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_IInternalForceItem> resolver)
@@ -108,6 +106,11 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             return base.GetHashCode();
         }
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         string _name = "Internal force";
         public string Name
         {
@@ -120,17 +123,19 @@ namespace XEP_SectionCheckCommon.DataCache
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        XEP_IQuantityManager _manager = null;
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
             set { _manager = value; }
         }
+        XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
         }
-
+        #endregion
         #region METHODS
         public XEP_IInternalForceItem CopyInstance()
         {

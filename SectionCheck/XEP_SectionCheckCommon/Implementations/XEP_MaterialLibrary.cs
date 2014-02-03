@@ -82,6 +82,11 @@ namespace XEP_SectionCheckCommon.Implementations
         {
             get { return _resolverMatConcrete; }
         }
+        #region XEP_IDataCacheObjectBase Members
+        public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
+        {
+            return null;
+        }
         public XEP_IQuantityManager Manager
         {
             get { return _manager; }
@@ -103,6 +108,8 @@ namespace XEP_SectionCheckCommon.Implementations
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
+        #endregion
+
         #region XEP_IMaterialLibrary Members
         public static readonly string MaterialDataConcretePropertyName = "MaterialDataConcrete";
         public ObservableCollection<XEP_IMaterialDataConcrete> MaterialDataConcrete
