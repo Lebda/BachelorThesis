@@ -18,10 +18,10 @@ namespace XEP_SmartComboBox
         {
             InitializeComponent();
             OnSmartComboBoxChangedInternal();
-            _mySmartComboBox.SelectionChanged += new SelectionChangedEventHandler((o, e) => { OnSelectionChangedChanged(o, e);});
+            _mySmartComboBox.SelectionChanged += new SelectionChangedEventHandler((o, e) => { OnSelectionChanged(o, e);});
 
         }
-        private void OnSelectionChangedChanged(object sender, SelectionChangedEventArgs e)
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RadComboBox myComboBox = sender as RadComboBox;
             if (myComboBox == null || Quantity_XEP == null || Quantity_XEP.Enum2StringManager == null || e == null || e.AddedItems == null || e.AddedItems.Count == 0)

@@ -69,7 +69,6 @@ namespace XEP_SectionCheckCommon.DataCache
         public XEP_Structure(XEP_IResolver<XEP_IOneMemberData> resolver, XEP_IQuantityManager manager)
         {
             _resolver = resolver;
-            _manager = manager;
             _xmlWorker = new XEP_StructurXml(this);
         }
         #region XEP_IStructure
@@ -104,17 +103,10 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         #endregion
 
-
         #region XEP_IDataCacheObjectBase Members
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker

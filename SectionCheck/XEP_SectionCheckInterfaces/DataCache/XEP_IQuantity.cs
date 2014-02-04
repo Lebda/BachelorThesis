@@ -15,6 +15,7 @@ namespace XEP_SectionCheckInterfaces.DataCache
         Visibility VisibleState { get; set; }
         bool IsReadOnly { get; set; }
         string EnumName { get; set; }
+        XEP_IQuantityManager Manager { get; set; }
         XEP_IEnum2StringManager Enum2StringManager { get; set; }
         // Methods
         bool IsTrue();

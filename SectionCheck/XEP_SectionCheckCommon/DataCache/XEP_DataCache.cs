@@ -53,10 +53,8 @@ namespace XEP_SectionCheckCommon.DataCache
         XEP_ISetupParameters _setupParameters = null;
 
         public XEP_DataCache(XEP_IResolver<XEP_IStructure> resolver, XEP_IResolver<XEP_IMaterialLibrary> resolverMatLib,
-            XEP_IResolver<XEP_ISetupParameters> resolverSetup, XEP_IQuantityManager manager, XEP_IEnum2StringManager enum2StringManager)
+            XEP_IResolver<XEP_ISetupParameters> resolverSetup)
         {
-            _enum2StringManager = enum2StringManager;
-            _manager = manager;
             _xmlWorker = new XEP_DataCacheXml(this);
             _structure = resolver.Resolve();
             _materialLibrary = resolverMatLib.Resolve();
@@ -67,12 +65,6 @@ namespace XEP_SectionCheckCommon.DataCache
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
@@ -93,14 +85,6 @@ namespace XEP_SectionCheckCommon.DataCache
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
         #endregion
-
-        XEP_IEnum2StringManager _enum2StringManager;
-        public static readonly string Enum2StringManagerPropertyName = "Enum2StringManager";
-        public XEP_IEnum2StringManager Enum2StringManager
-        {
-            get { return _enum2StringManager; }
-            set { SetMember<XEP_IEnum2StringManager>(ref value, ref _enum2StringManager, (_enum2StringManager == value), Enum2StringManagerPropertyName); }
-        }
 
         public static readonly string StructurePropertyName = "Structure";
         public XEP_IStructure Structure

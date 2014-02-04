@@ -96,13 +96,11 @@ namespace XEP_SectionCheckCommon.DataCache
         }
 
         public XEP_SectionShape(XEP_IResolver<XEP_ISectionShapeItem> sectionShapeItemResolver, 
-            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape,
-            XEP_IQuantityManager manager)
+            XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape)
         {
             _resolverICssDataShape = resolverICssDataShape;
             _cssShape = _resolverICssDataShape.Resolve();
             _resolver = sectionShapeItemResolver;
-            _manager = manager;
             _xmlWorker = new XEP_SectionShapeXml(this);
             AddOneQuantity(0.0, eEP_QuantityType.eBool, PolygonModePropertyName, this);
             AddOneQuantity(0.0, eEP_QuantityType.eCssLength, HPropertyName, this);
@@ -337,12 +335,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         #endregion
 

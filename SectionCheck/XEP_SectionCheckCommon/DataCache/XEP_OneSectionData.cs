@@ -68,17 +68,14 @@ namespace XEP_SectionCheckCommon.DataCache
     public class XEP_OneSectionData : XEP_ObservableObject, XEP_IOneSectionData
     {
         readonly XEP_IResolver<XEP_IInternalForceItem> _resolverForce = null;
-        XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = "Section data";
         ObservableCollection<XEP_IInternalForceItem> _internalForces = new ObservableCollection<XEP_IInternalForceItem>();
         XEP_IConcreteSectionData _concreteSectionData = null;
         // ctors
-        public XEP_OneSectionData(XEP_IResolver<XEP_IInternalForceItem> resolverForce, XEP_IResolver<XEP_IConcreteSectionData> resolverConcrete, 
-            XEP_IQuantityManager manager)
+        public XEP_OneSectionData(XEP_IResolver<XEP_IInternalForceItem> resolverForce, XEP_IResolver<XEP_IConcreteSectionData> resolverConcrete)
         {
             _resolverForce = resolverForce;
-            _manager = manager;
             _xmlWorker = new XEP_OneSectionDataXml(this);
             _concreteSectionData = resolverConcrete.Resolve();
         }
@@ -119,11 +116,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
-        }
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         public XEP_IXmlWorker XmlWorker
         {

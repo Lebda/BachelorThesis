@@ -202,7 +202,6 @@ namespace XEP_SectionCheckCommon.Infrastructure
             if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
             { // setting throw binding
                 valueFromBinding.Owner = propertyItem.Owner;
-                valueFromBinding.Manager = propertyItem.Manager;
                 valueFromBinding.Name = propertyItem.Name;
                 valueFromBinding.QuantityType = propertyItem.QuantityType;
                 valueFromBinding.Value = valueFromBinding.Manager.GetValueManaged(valueFromBinding.Value, valueFromBinding.QuantityType);

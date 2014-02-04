@@ -69,9 +69,8 @@ namespace XEP_SectionCheckCommon.DataCache
         ObservableCollection<XEP_IOneSectionData> _sectionsData = new ObservableCollection<XEP_IOneSectionData>();
         string _name = "Member data";
 
-        public XEP_OneMemberData(XEP_IResolver<XEP_IOneSectionData> resolver, XEP_IQuantityManager manager)
+        public XEP_OneMemberData(XEP_IResolver<XEP_IOneSectionData> resolver)
         {
-            _manager = manager;
             _resolver = resolver;
             _xmlWorker = new XEP_OneMemberDataXml(this);
         }
@@ -80,12 +79,6 @@ namespace XEP_SectionCheckCommon.DataCache
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker

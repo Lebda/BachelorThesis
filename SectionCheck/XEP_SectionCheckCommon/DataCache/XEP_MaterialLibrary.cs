@@ -63,15 +63,13 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public class XEP_MaterialLibrary : XEP_ObservableObject, XEP_IMaterialLibrary
     {
-        XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = "Material library";
         ObservableCollection<XEP_IMaterialDataConcrete> _materialDataConcrete = new ObservableCollection<XEP_IMaterialDataConcrete>();
         readonly XEP_IResolver<XEP_IMaterialDataConcrete> _resolverMatConcrete;
 
-        public XEP_MaterialLibrary(XEP_IQuantityManager manager, XEP_IResolver<XEP_IMaterialDataConcrete> resolverMatConcrete)
+        public XEP_MaterialLibrary(XEP_IResolver<XEP_IMaterialDataConcrete> resolverMatConcrete)
         {
-            _manager = manager;
             _xmlWorker = new XEP_MaterialLibraryXml(this);
             _resolverMatConcrete = resolverMatConcrete;
         }
@@ -84,11 +82,6 @@ namespace XEP_SectionCheckCommon.DataCache
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
-        }
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         public XEP_IXmlWorker XmlWorker
         {

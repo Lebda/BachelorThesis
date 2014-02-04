@@ -49,11 +49,10 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         readonly XEP_IResolver<XEP_ISectionShapeItem> _resolver = null;
 
-        public XEP_SectionShapeItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_ISectionShapeItem> resolver, XEP_IResolver<XEP_IDataCacheNotificationData> notificationDataRes)
+        public XEP_SectionShapeItem(XEP_IResolver<XEP_ISectionShapeItem> resolver, XEP_IResolver<XEP_IDataCacheNotificationData> notificationDataRes)
         {
             _notificationData = notificationDataRes.Resolve();
             _resolver = resolver;
-            _manager = manager;
             _xmlWorker = new XEP_SectionShapeItemXml(this);
             AddOneQuantity(0.0, eEP_QuantityType.eCssLength, YPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eCssLength, ZPropertyName);
@@ -134,12 +133,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         #endregion
     }

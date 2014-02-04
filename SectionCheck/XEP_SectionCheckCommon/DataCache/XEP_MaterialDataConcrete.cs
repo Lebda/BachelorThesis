@@ -82,11 +82,10 @@ namespace XEP_SectionCheckCommon.DataCache
         }
 
         // ctors
-        public XEP_MaterialDataConcrete(XEP_IQuantityManager manager,
+        public XEP_MaterialDataConcrete(
             XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem,
             XEP_IResolver<XEP_IMaterialDataConcrete> resolver)
         {
-            _manager = manager;
             _xmlWorker = new XEP_MaterialDataConcreteXml(this);
             _resolverDiagramItem = resolverDiagramItem;
             _resolver = resolver;
@@ -267,12 +266,12 @@ namespace XEP_SectionCheckCommon.DataCache
             set { SetItemWithActions(ref value, NPropertyName, () => !GetOneQuantity(NPropertyName).Equals(value), Intergrity); }
         }
         #endregion
+
         #region XEP_IDataCacheObjectBase Members
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
         }
-        XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
         //
@@ -286,11 +285,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
-        }
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         public XEP_IXmlWorker XmlWorker
         {

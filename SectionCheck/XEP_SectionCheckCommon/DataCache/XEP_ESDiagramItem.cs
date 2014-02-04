@@ -44,10 +44,9 @@ namespace XEP_SectionCheckCommon.DataCache
     public class XEP_ESDiagramItem : XEP_ObservableObject, XEP_IESDiagramItem
     {
         readonly XEP_IResolver<XEP_IESDiagramItem> _resolverDiagramItem = null;
-        public XEP_ESDiagramItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem)
+        public XEP_ESDiagramItem(XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem)
         {
             _resolverDiagramItem = resolverDiagramItem;
-            _manager = manager;
             _xmlWorker = new XEP_ESDiagramItemXml(this);
             AddOneQuantity(0.0, eEP_QuantityType.eStrain, StrainPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eStress, StressPropertyName);
@@ -97,12 +96,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _xmlWorker; }
             set { _xmlWorker = value; }
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         #endregion
     }

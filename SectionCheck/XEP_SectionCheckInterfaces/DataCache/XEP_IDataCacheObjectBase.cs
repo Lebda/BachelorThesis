@@ -13,6 +13,5 @@ namespace XEP_SectionCheckInterfaces.DataCache
         void NotifyOwnerProperty(XEP_IDataCacheNotificationData notificationData);
         Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction();
         XEP_IXmlWorker XmlWorker { get; set; }
-        XEP_IQuantityManager Manager { get; set; }
     }
 }

@@ -81,7 +81,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 XEP_IInternalForceItem forces = value as XEP_IInternalForceItem;
                 Exceptions.CheckNull(forces);
                 XEP_IQuantity force = forces.GetItem((eEP_ForceType)type);
-                return force.Name + " " + forces.Manager.GetNameWithUnit(force);
+                return force.Name + " " + force.Manager.GetNameWithUnit(force);
             }
             return "";
         }

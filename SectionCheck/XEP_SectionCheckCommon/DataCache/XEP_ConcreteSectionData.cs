@@ -52,7 +52,6 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public class XEP_ConcreteSectionData : XEP_ObservableObject, XEP_IConcreteSectionData
     {
-        XEP_IQuantityManager _manager = null;
         XEP_IXmlWorker _xmlWorker = null;
         string _name = "Concrete section data";
         XEP_ISectionShape _sectionShape = null;
@@ -60,10 +59,8 @@ namespace XEP_SectionCheckCommon.DataCache
 
         // ctors
         public XEP_ConcreteSectionData(XEP_IResolver<XEP_ISectionShape> resolverShape,
-            XEP_IResolver<XEP_IMaterialDataConcrete> resolverMaterialData,
-            XEP_IQuantityManager manager)
+            XEP_IResolver<XEP_IMaterialDataConcrete> resolverMaterialData)
         {
-            _manager = manager;
             _xmlWorker = new XEP_ConcreteSectionDataXml(this);
             _sectionShape = resolverShape.Resolve();
             _materialData = resolverMaterialData.Resolve();
@@ -97,11 +94,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
-        }
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         public XEP_IXmlWorker XmlWorker
         {

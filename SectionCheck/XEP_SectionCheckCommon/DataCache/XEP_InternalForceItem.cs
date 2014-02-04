@@ -68,9 +68,8 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         XEP_IResolver<XEP_IInternalForceItem> _resolver = null;
 
-        public XEP_InternalForceItem(XEP_IQuantityManager manager, XEP_IResolver<XEP_IInternalForceItem> resolver)
+        public XEP_InternalForceItem(XEP_IResolver<XEP_IInternalForceItem> resolver)
         {
-            _manager = Exceptions.CheckNull<XEP_IQuantityManager>(manager);
             _xmlWorker = new XEP_InternalForceItemXml(this);
             resolver = _resolver;
             AddOneQuantity(0.0, eEP_QuantityType.eForce, NPropertyName);
@@ -121,12 +120,6 @@ namespace XEP_SectionCheckCommon.DataCache
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
-        }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
         {
@@ -134,6 +127,7 @@ namespace XEP_SectionCheckCommon.DataCache
             set { _xmlWorker = value; }
         }
         #endregion
+
         #region METHODS
         public XEP_IInternalForceItem CopyInstance()
         {
@@ -195,22 +189,22 @@ namespace XEP_SectionCheckCommon.DataCache
             builder.Append(";");
             builder.Append(" ");
             //
-            builder.Append(_manager.GetValue(N));
+            builder.Append(N.ManagedValue);
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_manager.GetValue(Vy));
+            builder.Append(Vy.ManagedValue);
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_manager.GetValue(Vz));
+            builder.Append(Vz.ManagedValue);
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_manager.GetValue(Mx));
+            builder.Append(Mx.ManagedValue);
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_manager.GetValue(My));
+            builder.Append(My.ManagedValue);
             builder.Append(";");
             builder.Append(" ");
-            builder.Append(_manager.GetValue(Mz));
+            builder.Append(Mz.ManagedValue);
             return builder.ToString();
         }
         #endregion
@@ -218,13 +212,13 @@ namespace XEP_SectionCheckCommon.DataCache
         public static readonly string MaxValuePropertyName = "MaxValue";
         public double MaxValue
         {
-            get { return Manager.GetValue(GetMax()); }
+            get { return N.Manager.GetValue(GetMax()); }
             set { RaisePropertyChanged(MaxValuePropertyName); }
         }
         public static readonly string MinValuePropertyName = "MinValue";
         public double MinValue
         {
-            get { return Manager.GetValue(GetMin()); }
+            get { return N.Manager.GetValue(GetMin()); }
             set { RaisePropertyChanged(MinValuePropertyName); }
         }
         public static readonly string ShortExplanationPropertyName = "ShortExplanation";

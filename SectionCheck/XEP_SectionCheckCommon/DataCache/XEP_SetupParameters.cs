@@ -54,9 +54,8 @@ namespace XEP_SectionCheckCommon.DataCache
 
     public class XEP_SetupParameters : XEP_ObservableObject, XEP_ISetupParameters
     {
-        public XEP_SetupParameters(XEP_IQuantityManager manager)
+        public XEP_SetupParameters()
         {
-            _manager = manager;
             _xmlWorker = new XEP_SetupParametersXml(this);
             AddOneQuantity(0.0, eEP_QuantityType.eNoUnit, GammaCPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eNoUnit, GammaSPropertyName);
@@ -121,12 +120,6 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
-        }
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
         }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker
