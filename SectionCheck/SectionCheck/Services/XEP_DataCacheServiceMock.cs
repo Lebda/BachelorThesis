@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using SectionCheck.Services;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheck.Services
 {
@@ -112,8 +111,8 @@ namespace XEP_SectionCheck.Services
             item.EpsC3.Value = 1.75 * 1e-3;
             item.EpsCu3.Value = 3.5 * 1e-3;
             item.N.Value = 2.0;
-            item.DiagramType = eEP_MaterialDiagramType.eBiliUls;
-            item.MatFromLib = true;
+            item.DiagramType.SetEnumValue(XEP_eMaterialDiagramType.BiliUls);
+            item.MatFromLibMode.SetBool(true);
             item.CreatePoints(setup);
             return item;
         }
@@ -130,8 +129,8 @@ namespace XEP_SectionCheck.Services
             item.EpsC3.Value = 1.75 * 1e-3;
             item.EpsCu3.Value = 3.5 * 1e-3;
             item.N.Value = 2.0;
-            item.MatFromLib = true;
-            item.DiagramType = eEP_MaterialDiagramType.eBiliUls;
+            item.MatFromLibMode.SetBool(true);
+            item.DiagramType.SetEnumValue(XEP_eMaterialDiagramType.BiliUls);
             item.CreatePoints(setup);
             return item;
         }

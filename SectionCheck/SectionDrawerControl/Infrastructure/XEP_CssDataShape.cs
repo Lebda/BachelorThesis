@@ -6,10 +6,10 @@ using System.Windows.Media;
 using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 
 namespace XEP_SectionDrawer.Infrastructure
 {

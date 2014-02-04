@@ -7,7 +7,7 @@ using ResourceLibrary;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Utility;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 
 namespace XEP_SectionDrawer.Infrastructure
 {

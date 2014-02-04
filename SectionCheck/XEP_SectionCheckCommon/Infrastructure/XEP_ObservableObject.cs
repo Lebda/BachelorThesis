@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using XEP_CommonLibrary.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Utility;
-using System.Collections.Generic;
-using System.ComponentModel;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -81,7 +82,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             {
                 return false;
             }
-            XEP_IQuantity copy = testObject.CopyInstance();
+            XEP_IQuantity copy = testObject.Clone() as XEP_IQuantity;
             copy.ManagedValue = newManagedValue;
             double valueOld = testObject.ManagedValue;
             TypeDescriptor.GetProperties(this)[propertyName].SetValue(this, copy);
@@ -122,14 +123,15 @@ namespace XEP_SectionCheckCommon.Infrastructure
             _data.Clear();
             foreach (var item in source._data)
             {
-                _data.Add(item.CopyInstance());
+                _data.Add(item.Clone() as XEP_IQuantity);
                 item.Owner = owner;
             }
         }
-        protected void AddOneQuantity(XEP_IQuantityManager manager, double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null)
+        protected void AddOneQuantity(double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null, string enumName = null)
         {
-            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(manager, value, type, name);
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(value, type, name, enumName);
             data.Owner = owner;
+            data.EnumName = enumName;
             _data.Add(data);
             _indexes.Add(name, _data.Count - 1);
         }

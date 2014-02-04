@@ -8,10 +8,9 @@ using XEP_CommonLibrary.DrawingGraph;
 using XEP_CommonLibrary.Factories;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Interfaces;
-using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionDrawUI.ViewModels

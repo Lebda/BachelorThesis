@@ -3,10 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using XEP_SectionCheck.ResTrans;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Infrastucture;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace SectionCheck.Services
 {

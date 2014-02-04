@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Logging;
+using System.Windows;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.UnityExtensions;
-using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
-using System.Windows;
 using XEP_Prism.Infrastructure;
 using XEP_SectionCheck.ModuleDefinitions;
 

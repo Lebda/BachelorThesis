@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using XEP_CommonLibrary.Infrastructure;
-using System.Windows.Input;
-using System.Windows;
 using System.Collections.Generic;
-using System.Windows.Threading;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using XEP_CommonLibrary.Infrastructure;
 
 namespace XEP_SectionCheck.ViewModels
 {

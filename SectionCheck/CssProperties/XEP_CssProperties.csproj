@@ -212,6 +212,14 @@
       <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
       <Name>XEP_SectionCheckCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckInterfaces\XEP_SectionCheckInterfaces.csproj">
+      <Project>{9947B483-7749-4745-8561-51C1C66B34A7}</Project>
+      <Name>XEP_SectionCheckInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SmartComboBox\XEP_SmartComboBox.csproj">
+      <Project>{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}</Project>
+      <Name>XEP_SmartComboBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XEP_SmartTextBox\XEP_SmartTextBox.csproj">
       <Project>{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}</Project>
       <Name>XEP_SmartTextBox</Name>

@@ -77,7 +77,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Models\XEP_SectionShapeModel.cs" />
     <Compile Include="ModuleDefinitions\XEP_SectionDrawModule.cs" />
     <Compile Include="ViewModels\XEP_DrawSectionViewModel.cs" />
     <Compile Include="Views\XEP_DrawSectionView.xaml.cs">
@@ -132,6 +131,14 @@
     <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
       <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
       <Name>XEP_SectionCheckCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckInterfaces\XEP_SectionCheckInterfaces.csproj">
+      <Project>{9947B483-7749-4745-8561-51C1C66B34A7}</Project>
+      <Name>XEP_SectionCheckInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SmartComboBox\XEP_SmartComboBox.csproj">
+      <Project>{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}</Project>
+      <Name>XEP_SmartComboBox</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

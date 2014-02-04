@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using XEP_SectionCheck.ViewModels;
 using Microsoft.Practices.Unity;
+using XEP_SectionCheck.ViewModels;
 
 namespace XEP_SectionCheck
 {

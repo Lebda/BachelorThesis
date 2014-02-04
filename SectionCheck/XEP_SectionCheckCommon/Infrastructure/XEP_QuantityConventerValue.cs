@@ -4,8 +4,9 @@ using System.Linq;
 using System.Windows.Data;
 using XEP_CommonLibrary.Utility;
 using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheckCommon.Res;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -60,7 +61,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             double result;
             if (double.TryParse(forceValue, NumberStyles.Any, culture, out result))
             {
-                XEP_IQuantity finalForce = XEP_QuantityFactory.Instance().Create(null, result, eEP_QuantityType.eNoType, "");
+                XEP_IQuantity finalForce = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null, null);
                 return finalForce;
             }
             return null;
@@ -140,7 +141,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             double result;
             if (double.TryParse(dataValue, NumberStyles.Any, culture, out result))
             {
-                XEP_IQuantity finalData = XEP_QuantityFactory.Instance().Create(null, result, eEP_QuantityType.eNoType, "");
+                XEP_IQuantity finalData = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null, null);
                 return finalData;
             }
             return null;

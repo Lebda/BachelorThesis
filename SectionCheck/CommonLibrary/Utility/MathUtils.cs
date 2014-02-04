@@ -53,6 +53,36 @@ namespace XEP_CommonLibrary.Utility
         {
             return (IsGreaterOrEqual(val,minRange,limit)&&IsLessOrEqual(val,maxRange,limit));
         }
+        public static double CorrectOnRange(double value, double minRange, double maxRange, double limit = 1e-6)
+        {
+            if (!IsOnInterval(value, minRange, maxRange, limit))
+            {
+                if (IsLessOrEqual(value, minRange, limit))
+                {
+                    value = minRange;
+                }
+                else
+                {
+                    value = maxRange;
+                }
+            }
+            return value;
+        }
+        public static double CorrectInRange(double value, double minRange, double maxRange, double limit = 1e-6)
+        {
+            if (!IsInInterval(value, minRange, maxRange, limit))
+            {
+                if (IsLessThan(value, minRange, limit))
+                {
+                    value = minRange;
+                }
+                else
+                {
+                    value = maxRange;
+                }
+            }
+            return value;
+        }
         static public T FindMaxValue<T>(List<T> list, Converter<T, double> projection)
         {
             if (list.Count == 0)

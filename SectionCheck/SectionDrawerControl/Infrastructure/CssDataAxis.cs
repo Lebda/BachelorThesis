@@ -3,8 +3,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using ResourceLibrary;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_CommonLibrary.Infrastructure;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 
 namespace XEP_SectionDrawer.Infrastructure
 {

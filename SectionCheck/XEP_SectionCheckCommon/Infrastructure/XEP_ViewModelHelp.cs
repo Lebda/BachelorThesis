@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_CommonLibrary.Utility;
 using System.Collections.ObjectModel;
+using System.Linq;
+using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -22,22 +21,22 @@ namespace XEP_SectionCheckCommon.Infrastructure
             XEP_ISectionShapeItem item = resolver.Resolve();
             item.Y.Value = bPos;
             item.Z.Value = -hPos;
-            item.Type = (outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+            item.PointType.SetEnumValue((outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner));
             shape.Add(item);
             item = resolver.Resolve();
             item.Y.Value = (outerDir) ? (bPos) : (-bPos);
             item.Z.Value = (outerDir) ? (hPos) : (-hPos);
-            item.Type = (outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+            item.PointType.SetEnumValue((outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner));
             shape.Add(item);
             item = resolver.Resolve();
             item.Y.Value = (outerDir) ? (-bPos) : (-bPos);
             item.Z.Value = (outerDir) ? (hPos) : (hPos);
-            item.Type = (outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+            item.PointType.SetEnumValue((outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner));
             shape.Add(item);
             item = resolver.Resolve();
             item.Y.Value = (outerDir) ? (-bPos) : (bPos);
             item.Z.Value = (outerDir) ? (-hPos) : (hPos);
-            item.Type = (outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+            item.PointType.SetEnumValue((outerDir) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner));
             shape.Add(item);
             return shape;
         }

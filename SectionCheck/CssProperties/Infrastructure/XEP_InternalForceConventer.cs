@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
-using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckInterfaces.DataCache;
 
 namespace XEP_CssProperties.Infrastructure
 {

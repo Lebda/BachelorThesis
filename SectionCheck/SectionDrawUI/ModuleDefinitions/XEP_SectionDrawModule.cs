@@ -4,8 +4,8 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.Infrastucture;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.Infrastructure;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionDrawUI.ModuleDefinitions

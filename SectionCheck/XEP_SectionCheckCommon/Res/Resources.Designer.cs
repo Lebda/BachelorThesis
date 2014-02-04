@@ -79,6 +79,15 @@ namespace XEP_SectionCheckCommon.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diagram type#.
+        /// </summary>
+        public static string DiagramType_MARK {
+            get {
+                return ResourceManager.GetString("DiagramType_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ε@c1#.
         /// </summary>
         public static string EpsC1_MARK {
@@ -174,6 +183,15 @@ namespace XEP_SectionCheckCommon.Res {
         public static string HoleMode_MARK {
             get {
                 return ResourceManager.GetString("HoleMode_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material from library#.
+        /// </summary>
+        public static string MatFromLibMode_MARK {
+            get {
+                return ResourceManager.GetString("MatFromLibMode_MARK", resourceCulture);
             }
         }
         

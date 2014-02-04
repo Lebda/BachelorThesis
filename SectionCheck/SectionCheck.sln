@@ -34,6 +34,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SmartTextBox", "XEP_Sma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_PrismCommandsTelerik", "XEP_PrismCommandsTelerik\XEP_PrismCommandsTelerik.csproj", "{19AA1546-648C-4D1C-8161-605EC09263C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SectionCheckInterfaces", "XEP_SectionCheckInterfaces\XEP_SectionCheckInterfaces.csproj", "{9947B483-7749-4745-8561-51C1C66B34A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEP_SmartComboBox", "XEP_SmartComboBox\XEP_SmartComboBox.csproj", "{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SMART_CONTROLS", "SMART_CONTROLS", "{68E0ABBC-6BA1-4B86-B1B2-3A777E2115B6}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SectionCheck.vsmdi
@@ -167,6 +173,26 @@ Global
 		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{19AA1546-648C-4D1C-8161-605EC09263C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9947B483-7749-4745-8561-51C1C66B34A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,5 +200,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9DE2ECA8-142A-4575-A220-B77ED441755A} = {82FF582A-1B19-4E67-971C-5A3928209E0D}
 		{7AE4D3E0-F235-4EB6-B06D-04F767329C57} = {82FF582A-1B19-4E67-971C-5A3928209E0D}
+		{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB} = {68E0ABBC-6BA1-4B86-B1B2-3A777E2115B6}
+		{C3D66DD6-0F37-4C87-9008-A1F14FB7D245} = {68E0ABBC-6BA1-4B86-B1B2-3A777E2115B6}
 	EndGlobalSection
 EndGlobal

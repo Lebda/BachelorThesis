@@ -109,7 +109,7 @@
                                  <RowDefinition Height="*" />
                               </Grid.RowDefinitions>
                            <TextBox Grid.Column="0" Grid.Row="0" Text="{x:Static r:Resources.TYPE}"  Style="{DynamicResource {x:Static res:CustomResources.TextBoxAsLabelStyle_SCkey}}" />
-                              <telerik:RadComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Type, Converter={StaticResource converterForceType}, Mode=TwoWay}" IsEditable="False">
+                           <telerik:RadComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Type, Converter={StaticResource converterForceType}, Mode=TwoWay}" IsEditable="False">
                                  <telerik:RadComboBoxItem Content="ULS" />
                                  <telerik:RadComboBoxItem Content="SLS" />
                               </telerik:RadComboBox>

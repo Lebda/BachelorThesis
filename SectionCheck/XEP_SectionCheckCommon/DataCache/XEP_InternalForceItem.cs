@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XEP_CommonLibrary.Infrastructure;
-using System.ComponentModel.DataAnnotations;
-using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.Interfaces;
-using XEP_CommonLibrary.Utility;
 using System.Xml.Linq;
-using XEP_SectionCheckCommon.Infrastucture;
+using XEP_CommonLibrary.Utility;
+using XEP_Prism.Infrastructure;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheckCommon.DataCache
 {
@@ -75,12 +73,12 @@ namespace XEP_SectionCheckCommon.DataCache
             _manager = Exceptions.CheckNull<XEP_IQuantityManager>(manager);
             _xmlWorker = new XEP_InternalForceItemXml(this);
             resolver = _resolver;
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, NPropertyName);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, VyPropertyName);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eForce, VzPropertyName);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MxPropertyName);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MyPropertyName);
-            AddOneQuantity(_manager, 0.0, eEP_QuantityType.eMoment, MzPropertyName);
+            AddOneQuantity(0.0, eEP_QuantityType.eForce, NPropertyName);
+            AddOneQuantity(0.0, eEP_QuantityType.eForce, VyPropertyName);
+            AddOneQuantity(0.0, eEP_QuantityType.eForce, VzPropertyName);
+            AddOneQuantity(0.0, eEP_QuantityType.eMoment, MxPropertyName);
+            AddOneQuantity( 0.0, eEP_QuantityType.eMoment, MyPropertyName);
+            AddOneQuantity(0.0, eEP_QuantityType.eMoment, MzPropertyName);
         }
 
         public override bool Equals(System.Object obj)

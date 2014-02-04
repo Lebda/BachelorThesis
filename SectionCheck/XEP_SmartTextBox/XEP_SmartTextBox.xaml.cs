@@ -40,17 +40,6 @@ namespace XEP_SmartTextBox
 
         FontFamily _fontFamily;
 
-//         public XEP_SmartTextBox()
-//         {
-//             InitializeComponent();
-//             _separatorsAll[0] = NormalScriptMark;
-//             _separatorsAll[1] = SubscriptMark;
-//             _separatorsAll[2] = SuperScriptMark;
-//             FontFamilyConverter ffc = new FontFamilyConverter();
-//             _fontFamily = (FontFamily)ffc.ConvertFromString("Palatino Linotype");
-//             OnSmartTextChangedInternal();
-//         }
-
         public XEP_SmartTextBox()
         {
             InitializeComponent();

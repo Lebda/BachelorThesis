@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Windows;
+using XEP_CommonLibrary.Utility;
 
 namespace XEP_CommonLibrary.Infrastructure
 {
@@ -32,6 +34,23 @@ namespace XEP_CommonLibrary.Infrastructure
             }
 
             return memberExpression.Member.Name;
+        }
+
+        public static void OnMyPropertyChanged<TpropHolder, TproVal>(TpropHolder sender, DependencyPropertyChangedEventArgs e, Action<TproVal> setter, Action callback)
+            where TpropHolder : class
+        {
+            Exceptions.CheckNull(sender, e);
+            if (e.OldValue != e.NewValue)
+            {
+                if (setter != null)
+                {
+                    setter((TproVal)e.NewValue);
+                }
+                if (callback != null)
+                {
+                    callback();
+                }
+            }
         }
     }
 }

@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="XEP_DrawingCanvas.cs" />
     <Compile Include="Infrastructure\CssDataAxis.cs" />
-    <Compile Include="Infrastructure\CssDataBase.cs" />
     <Compile Include="Infrastructure\CssDataCompressPart.cs" />
     <Compile Include="Infrastructure\CssDataReinforcement.cs" />
     <Compile Include="Infrastructure\XEP_CssDataShape.cs" />
@@ -109,6 +108,10 @@
     <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
       <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
       <Name>XEP_SectionCheckCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckInterfaces\XEP_SectionCheckInterfaces.csproj">
+      <Project>{9947B483-7749-4745-8561-51C1C66B34A7}</Project>
+      <Name>XEP_SectionCheckInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

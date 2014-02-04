@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.Infrastucture;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_CssProperties.ModuleDefinitions
 {

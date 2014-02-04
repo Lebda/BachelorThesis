@@ -6,7 +6,7 @@ using System.Windows.Media;
 using XEP_CommonLibrary.Geometry;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.Utility;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionDrawer

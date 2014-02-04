@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
 using System.Globalization;
-using XEP_SectionCheckCommon.DataCache;
+using System.Linq;
+using System.Windows.Data;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
 
 namespace XEP_SectionCheckCommon.Infrastructure
 {
@@ -19,6 +18,40 @@ namespace XEP_SectionCheckCommon.Infrastructure
             if (data != null)
             {
                 return (data.Equals(true)) ? false : true;
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    [ValueConversion(typeof(Int32), typeof(XEP_IQuantity))]
+    public class XEP_SBYTEIQuantity_Conventer : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            XEP_IQuantity data = value as XEP_IQuantity;
+            if (data != null)
+            {
+                if (data.QuantityType == eEP_QuantityType.eBool)
+                {
+                    return 1;
+                }
+                else if (data.QuantityType == eEP_QuantityType.eEnum)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             return null;
         }

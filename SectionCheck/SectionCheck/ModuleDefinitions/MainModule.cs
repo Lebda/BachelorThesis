@@ -6,12 +6,11 @@ using Microsoft.Practices.Unity;
 using SectionCheck.Services;
 using XEP_CommonLibrary.Services;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_SectionCheckCommon.Implementations;
-using XEP_SectionCheckCommon.Infrastructure;
-using XEP_SectionCheckCommon.Infrastucture;
-using XEP_SectionCheckCommon.Interfaces;
 using XEP_SectionCheck.Services;
+using XEP_SectionCheckCommon.DataCache;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 using XEP_SectionDrawer.Infrastructure;
 
 namespace XEP_SectionCheck.ModuleDefinitions
@@ -53,7 +52,9 @@ namespace XEP_SectionCheck.ModuleDefinitions
             MyModuleBase.RegisterWithResolver<XEP_ICssDataShape, TransientLifetimeManager, XEP_CssDataShape, TransientLifetimeManager>(container);
             // SINGLETONS
             container.RegisterType<XEP_IQuantityManager, XEP_QuantityManager>(new ContainerControlledLifetimeManager());
+            MyModuleBase.RegisterWithResolver<XEP_IEnum2StringManager, ContainerControlledLifetimeManager, XEP_Enum2StringManager, TransientLifetimeManager>(container); //SINGLETONS
             // data cache object registration
+            MyModuleBase.RegisterWithResolver<XEP_IQuantity, TransientLifetimeManager, XEP_Quantity, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IDataCacheNotificationData, TransientLifetimeManager, XEP_DataCacheNotificationData, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_ISectionShapeItem, TransientLifetimeManager, XEP_SectionShapeItem, TransientLifetimeManager>(container);
             MyModuleBase.RegisterWithResolver<XEP_IESDiagramItem, TransientLifetimeManager, XEP_ESDiagramItem, TransientLifetimeManager>(container);
@@ -78,6 +79,8 @@ namespace XEP_SectionCheck.ModuleDefinitions
             }
             //load container
             container.RegisterType<IDialogService, ModalDialogService>(new TransientLifetimeManager());
+            // Prepare pure singletons
+            XEP_QuantityFactory.Instance().Resolver = UnityContainerExtensions.Resolve<XEP_IResolver<XEP_IQuantity>>(container);
         }
     }
 }

@@ -8,7 +8,7 @@ using XEP_CommonLibrary.Factories;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Interfaces;
 using XEP_CommonLibrary.Utility;
-using XEP_SectionCheckCommon.Interfaces;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 
 namespace XEP_SectionDrawer.Infrastructure
 {

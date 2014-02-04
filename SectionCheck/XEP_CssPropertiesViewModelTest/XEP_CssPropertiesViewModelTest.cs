@@ -1,19 +1,11 @@
-﻿using XEP_CssProperties.ViewModels;
+﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using XEP_SectionCheckCommon.DataCache;
-using XEP_Prism.Infrastructure;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
-using Moq;
-using XEP_SectionCheckCommon.Interfaces;
-using SectionCheck.Services;
-using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
 using Microsoft.Practices.Unity;
+using XEP_CssProperties.ViewModels;
 using XEP_SectionCheck.ModuleDefinitions;
-using System.Collections.Generic;
 using XEP_SectionDrawUI.ModuleDefinitions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace XEP_CssPropertiesViewModelTest
 {

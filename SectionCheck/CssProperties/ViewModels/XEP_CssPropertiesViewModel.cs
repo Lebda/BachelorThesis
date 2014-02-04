@@ -4,16 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using ResourceLibrary;
-using Telerik.Windows.Controls;
-using Telerik.Windows.Controls.GridView;
 using XEP_CommonLibrary.Infrastructure;
 using XEP_CommonLibrary.Utility;
 using XEP_Prism.Infrastructure;
-using XEP_SectionCheckCommon.DataCache;
 using XEP_SectionCheckCommon.Infrastructure;
+using XEP_SectionCheckInterfaces.DataCache;
+using XEP_SectionCheckInterfaces.Infrastructure;
+using XEP_SectionCheckInterfaces.SectionDrawer;
 using XEP_SectionDrawer.Infrastructure;
-using XEP_SectionCheckCommon.Implementations;
-using XEP_SectionCheckCommon.Interfaces;
 
 namespace XEP_CssProperties.ViewModels
 {
@@ -32,12 +30,19 @@ namespace XEP_CssProperties.ViewModels
         //private XEP_ICssDataShape _cssShapeProperty = null;
         private XEP_ICssDataBase _cssAxisHorizontalProperty = new CssDataAxis();
         private XEP_ICssDataBase _cssAxisVerticalProperty = new CssDataAxis();
-
+        XEP_IEnum2StringManager _enum2StringManager = null; // singleton
+        public XEP_IEnum2StringManager Enum2StringManager
+        {
+            get { return _enum2StringManager; }
+            set { _enum2StringManager = value; }
+        }
         public XEP_CssPropertiesViewModel(XEP_IDataCache dataCache, 
             XEP_IResolver<XEP_IInternalForceItem> resolverForce,
             XEP_IResolver<XEP_ICssDataShape> resolverICssDataShape,
-            XEP_IResolver<XEP_ISectionShapeItem> resolverShapeItem)
+            XEP_IResolver<XEP_ISectionShapeItem> resolverShapeItem,
+             XEP_IEnum2StringManager enum2StringManager)
         {
+            _enum2StringManager = enum2StringManager;
             _resolverShapeItem = resolverShapeItem;
             _cssAxisHorizontalProperty.VisualBrush = CustomResources.GetSaveBrush(CustomResources.HorAxisBrush1_SCkey);
             _cssAxisHorizontalProperty.VisualPen = CustomResources.GetSavePen(CustomResources.HorAxisPen1_SCkey);
@@ -89,7 +94,7 @@ namespace XEP_CssProperties.ViewModels
             if (shape.Count() == 0)
             {
                 XEP_ISectionShapeItem newItem = resolverShapeItem.Resolve();
-                newItem.Type = (isOuter) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner);
+                newItem.PointType.SetEnumValue((isOuter) ? (eEP_CssShapePointType.eOuter) : (eEP_CssShapePointType.eInner));
                 shape.Add(newItem);
             }
             else
@@ -124,7 +129,7 @@ namespace XEP_CssProperties.ViewModels
         }
         Boolean CanDeletePointExecute()
         {
-            return (_activeShapeItem != null && _activeShapeItem.Type == eEP_CssShapePointType.eOuter && CanNewPointExecute());
+            return (_activeShapeItem != null && _activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eOuter && CanNewPointExecute());
         }
         public ICommand DeletePointInnerCommand
         {
@@ -132,17 +137,17 @@ namespace XEP_CssProperties.ViewModels
         }
         Boolean CanDeletePointInnerExecute()
         {
-            return (_activeShapeItem != null && _activeShapeItem.Type == eEP_CssShapePointType.eInner && CanNewPointExecute());
+            return (_activeShapeItem != null && _activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eInner && CanNewPointExecute());
         }
         void DeletePointExecute()
         {
             try
             {
-                if (_activeShapeItem.Type == eEP_CssShapePointType.eOuter)
+                if (_activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eOuter)
                 {
                     _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter.Remove(_activeShapeItem);
                 }
-                else if (_activeShapeItem.Type == eEP_CssShapePointType.eInner)
+                else if (_activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eInner)
                 {
                     _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner.Remove(_activeShapeItem);
                 }
@@ -168,11 +173,11 @@ namespace XEP_CssProperties.ViewModels
             {
                 XEP_ISectionShapeItem newItem = _activeShapeItem.Clone() as XEP_ISectionShapeItem;
                 newItem.Name += "-copy";
-                if (_activeShapeItem.Type == eEP_CssShapePointType.eOuter)
+                if (_activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eOuter)
                 {
                     _activeSectionData.ConcreteSectionData.SectionShape.ShapeOuter.Add(newItem);
                 }
-                else if (_activeShapeItem.Type == eEP_CssShapePointType.eInner)
+                else if (_activeShapeItem.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eInner)
                 {
                     _activeSectionData.ConcreteSectionData.SectionShape.ShapeInner.Add(newItem);
                 }
@@ -202,7 +207,7 @@ namespace XEP_CssProperties.ViewModels
         }
         Boolean CanAddMatToLibExecute()
         {
-            return (this._activeMatConcrete != null) && (_activeMatConcrete.MatFromLib == false);
+            return (this._activeMatConcrete != null) && (!_activeMatConcrete.MatFromLibMode.IsTrue());
         }
         void AddMatToLibExecute()
         {
@@ -212,7 +217,7 @@ namespace XEP_CssProperties.ViewModels
             }
             try
             {
-                XEP_IMaterialData newItem = this._activeMatConcrete.CopyInstance();
+                XEP_IMaterialData newItem = this._activeMatConcrete.Clone() as XEP_IMaterialData;
                 XEP_IMaterialDataConcrete  newItemConcrete = newItem as XEP_IMaterialDataConcrete;
                 Exceptions.CheckNull(newItemConcrete);
                 _dataCache.MaterialLibrary.SaveOneMaterialDataConcrete(newItemConcrete);

@@ -168,4 +168,10 @@
   <data name="Z_MARK" xml:space="preserve">
     <value>Z#</value>
   </data>
+  <data name="DiagramType_MARK" xml:space="preserve">
+    <value>Diagram type#</value>
+  </data>
+  <data name="MatFromLibMode_MARK" xml:space="preserve">
+    <value>Material from library#</value>
+  </data>
 </root>
