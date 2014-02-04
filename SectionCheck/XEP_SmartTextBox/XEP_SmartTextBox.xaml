@@ -8,11 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="300" HorizontalContentAlignment="Left">
    <Grid>
       <StackPanel>
-         <RichTextBox x:Name="myRichTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent"
-                    Foreground="#FF00BFFF" BorderThickness="0" Focusable="False">
+         <telerik:RadComboBox x:Name="_mySmartComboBox4Color" Visibility="Collapsed" Text="4Color"/>
+         <RichTextBox x:Name="myRichTextBox" Foreground="{Binding ElementName=_mySmartComboBox4Color, Path=Foreground}" 
+                      IsReadOnly="True" Background="Transparent" BorderBrush="Transparent"
+                     BorderThickness="0" Focusable="False">
       </RichTextBox>
-         <TextBox x:Name="MyTextBox" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed" FontWeight="Bold"
-                    Foreground="#FF00BFFF" BorderThickness="0" Focusable="False" >
+         <TextBox x:Name="MyTextBox" Foreground="{Binding ElementName=_mySmartComboBox4Color, Path=Foreground}"
+                  IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed" FontWeight="Bold"
+                     BorderThickness="0" Focusable="False" >
       </TextBox>
       </StackPanel>
    </Grid>

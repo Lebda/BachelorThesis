@@ -64,9 +64,6 @@ namespace XEP_SmartTextBox
                 new FrameworkPropertyMetadata("$", new PropertyChangedCallback(OnSuperScriptMarkChanged)));
             NormalScriptMarkProperty = DependencyProperty.Register(NormalScriptMarkPropertyName, typeof(string), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata("#", new PropertyChangedCallback(OnNormalScriptMarkChanged)));
-            System.Windows.Media.Brush color = System.Windows.Media.Brushes.DeepSkyBlue;
-            SmartColorProperty = DependencyProperty.Register(SmartColorPropertyName, typeof(System.Windows.Media.Brush), typeof(XEP_SmartTextBox),
-                new FrameworkPropertyMetadata(color, new PropertyChangedCallback(OnSmartColorChanged)));
             SupSubSciptProperty = DependencyProperty.Register(SupSubSciptPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
                 new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnSupSubSciptChanged)));
             IsTextReadOnlyProperty = DependencyProperty.Register(IsTextReadOnlyPropertyName, typeof(bool), typeof(XEP_SmartTextBox),
@@ -115,21 +112,6 @@ namespace XEP_SmartTextBox
             set
             {
                 SetValue(IsOnlyTextBoxProperty, value);
-            }
-        }
-
-        private static string SmartColorPropertyName = "SmartColor";
-        public static DependencyProperty SmartColorProperty;
-
-        public System.Windows.Media.Brush SmartColor
-        {
-            get
-            {
-                return (System.Windows.Media.Brush)GetValue(SmartColorProperty);
-            }
-            set
-            {
-                SetValue(SmartColorProperty, value);
             }
         }
 
@@ -223,16 +205,6 @@ namespace XEP_SmartTextBox
             }
         }
 
-        private static void OnSmartColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
-            if ((System.Windows.Media.Brush)e.OldValue != (System.Windows.Media.Brush)e.NewValue)
-            {
-                smartTextBox.SmartColor = (System.Windows.Media.Brush)e.NewValue;
-                smartTextBox.OnSmartTextChangedInternal();
-            }
-        }
-
         private static void OnSmartTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             XEP_SmartTextBox smartTextBox = (XEP_SmartTextBox)sender;
@@ -297,7 +269,6 @@ namespace XEP_SmartTextBox
             {
                 this.myRichTextBox.Visibility = Visibility.Collapsed;
                 this.MyTextBox.Visibility = Visibility.Visible;
-                this.MyTextBox.Foreground = SmartColor;
                 this.MyTextBox.FontFamily = _fontFamily;
                 return;
             }
@@ -314,7 +285,7 @@ namespace XEP_SmartTextBox
             myParagraph.FontFamily = _fontFamily;
             if (SupSubScipt == false)
             {
-                Bold myBold = new Bold(new Run(SmartText));
+                Run myBold = new Run(SmartText);
                 myParagraph.Inlines.Add(myBold);
             }
             else
@@ -343,14 +314,13 @@ namespace XEP_SmartTextBox
                     {
                         word = word.Substring(1);
                     }
-                    Bold myBold = new Bold(new Run(word));
+                    Run myBold = new Run(word);
                     myBold.Typography.Variants = alig;
                     myParagraph.Inlines.Add(myBold);
                 }
             }
             FlowDocument rtbFlowDoc = new FlowDocument();
             rtbFlowDoc.Blocks.Add(myParagraph);
-            this.myRichTextBox.Foreground = SmartColor;
             rtbFlowDoc.TextAlignment = TextAlignment.Left;
             this.myRichTextBox.Document = rtbFlowDoc;
         }
