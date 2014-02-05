@@ -120,6 +120,7 @@ namespace XEP_SectionCheck.Services
         private XEP_IMaterialDataConcrete GetMaterialDataConcrete2(XEP_ISetupParameters setup)
         {
             XEP_IMaterialDataConcrete item = _resolverXEP_IMaterialDataConcrete.Resolve();
+            item.MaterialName.ValueName = "C30/37";
             item.Name = "C30/37";
             item.Fck.Value = 30.0 * 1e6;
             item.FckCube.Value = 37.0 * 1e6;

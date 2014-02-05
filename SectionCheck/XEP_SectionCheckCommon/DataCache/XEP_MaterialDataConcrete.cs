@@ -156,6 +156,10 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         public void Intergrity(string propertyCallerName)
         {
+            if (propertyCallerName == MaterialNamePropertyName)
+            {
+                return;
+            }
             foreach (var item in Data)
             {
                 item.Value = MathUtils.CorrectOnRange(item.Value, 0.0, double.MaxValue);

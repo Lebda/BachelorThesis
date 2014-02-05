@@ -187,6 +187,15 @@ namespace XEP_SectionCheckCommon.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material name#.
+        /// </summary>
+        public static string MaterialName_MARK {
+            get {
+                return ResourceManager.GetString("MaterialName_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Material from library#.
         /// </summary>
         public static string MatFromLibMode_MARK {

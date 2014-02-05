@@ -119,59 +119,82 @@
   </resheader>
   <data name="Bhole_MARK" xml:space="preserve">
     <value>B@hole#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="B_MARK" xml:space="preserve">
     <value>B#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsC1_MARK" xml:space="preserve">
     <value>ε@c1#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsC2_MARK" xml:space="preserve">
     <value>ε@c2#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsC3_MARK" xml:space="preserve">
     <value>ε@c3#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsCu1_MARK" xml:space="preserve">
     <value>ε@cu1#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsCu2_MARK" xml:space="preserve">
     <value>ε@cu2#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="EpsCu3_MARK" xml:space="preserve">
     <value>ε@cu3#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="FckCube_MARK" xml:space="preserve">
     <value>F@ck,Cube#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="Fck_MARK" xml:space="preserve">
     <value>F@ck#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="Hhole_MARK" xml:space="preserve">
     <value>H@hole#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="HoleMode_MARK" xml:space="preserve">
     <value>Hole mode#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="H_MARK" xml:space="preserve">
     <value>H#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="N_MARK" xml:space="preserve">
     <value>N#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="PolygonMode_MARK" xml:space="preserve">
     <value>Polygon mode#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="Y_MARK" xml:space="preserve">
     <value>fucekr</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="Z_MARK" xml:space="preserve">
     <value>Z#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="DiagramType_MARK" xml:space="preserve">
     <value>Diagram type#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
   <data name="MatFromLibMode_MARK" xml:space="preserve">
     <value>Material from library#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
+  </data>
+  <data name="MaterialName_MARK" xml:space="preserve">
+    <value>Material name#</value>
+    <comment>marks @,#,$ are for internal purpose do not translate</comment>
   </data>
 </root>

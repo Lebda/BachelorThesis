@@ -71,39 +71,70 @@
                                        IsReadOnly_XEP="{Binding Path=IsReadOnly, Mode=OneWay}"
                                        IsEnabled_XEP="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"/>
          </DataTemplate>
+         <DataTemplate x:Key="StringTemplate">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=ValueNameManaged, Mode=TwoWay}" SupSubScipt="False"/>
+         </DataTemplate>
+         <DataTemplate x:Key="StringEditTemplate">
+            <TextBox Text="{Binding Path=ValueNameManaged, Mode=TwoWay}" 
+                     IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     />
+         </DataTemplate>
+
          <commonSec:XEP_IsBoolIQuantityConventer x:Key="converter"/>
-         <commonSec:XEP_Int32IQuantity_Conventer x:Key="converterSBYTE"/>
-         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converterSBYTE}">
+         <commonSec:XEP_Int32IQuantity_Conventer x:Key="converterQuantityType"/>
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converterQuantityType}">
             <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+               
                <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplate}">
                   <commonlib:XEP_ConditionalDataTemplateRule.Value>
                      <core:Int32>0</core:Int32>
                   </commonlib:XEP_ConditionalDataTemplateRule.Value>
                </commonlib:XEP_ConditionalDataTemplateRule>
+               
                <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
                   <commonlib:XEP_ConditionalDataTemplateRule.Value>
                      <core:Int32>1</core:Int32>
                   </commonlib:XEP_ConditionalDataTemplateRule.Value>
                </commonlib:XEP_ConditionalDataTemplateRule>
+               
                <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource EnumTemplate}">
                   <commonlib:XEP_ConditionalDataTemplateRule.Value>
                      <core:Int32>2 </core:Int32>
                   </commonlib:XEP_ConditionalDataTemplateRule.Value>
                </commonlib:XEP_ConditionalDataTemplateRule>
 
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource StringTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>3</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+               
             </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
          </commonlib:XEP_ConditionalDataTemplateSelector>
 
-         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selectorEditorTemplate" ConditionConverter="{StaticResource converter}">
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selectorEditorTemplate" ConditionConverter="{StaticResource converterQuantityType}">
             <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
-               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
-                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
-                     <core:Boolean>True</core:Boolean>
-                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
-               </commonlib:XEP_ConditionalDataTemplateRule>
                <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplateEdit}">
                   <commonlib:XEP_ConditionalDataTemplateRule.Value>
-                     <core:Boolean>False</core:Boolean>
+                     <core:Int32>0</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>1</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource EnumTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>2</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource StringEditTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>3</core:Int32>
                   </commonlib:XEP_ConditionalDataTemplateRule.Value>
                </commonlib:XEP_ConditionalDataTemplateRule>
             </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
@@ -146,7 +177,7 @@
                                                 AutoGenerateColumns="False"
                                                 ShowColumnHeaders="True" ShowGroupPanel="False" RowIndicatorVisibility="Collapsed">
                               <telerik:RadGridView.Columns>
-                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Mode=OneWay}" IsReadOnly="True" 
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=Name,Mode=OneWay}" IsReadOnly="True" 
                                                              Header="{x:Static r:Resources.NAME}" UniqueName="Name" >
                                     <telerik:GridViewDataColumn.CellTemplate>
                                        <DataTemplate >
@@ -154,8 +185,7 @@
                                        </DataTemplate>
                                     </telerik:GridViewDataColumn.CellTemplate>
                                  </telerik:GridViewDataColumn>
-                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}" 
-                                                             IsReadOnly="{Binding Path=IsReadOnly, Mode=OneWay}"
+                                 <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}"
                                                              CellTemplateSelector="{StaticResource selector}"
                                                              CellEditTemplateSelector="{StaticResource selectorEditorTemplate}"
                                                              Header="{x:Static r:Resources.VALUE}" UniqueName="Value" />
@@ -240,8 +270,7 @@
                                           </DataTemplate>
                                        </telerik:GridViewDataColumn.CellTemplate>
                                     </telerik:GridViewDataColumn>
-                                    <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}" 
-                                                                IsReadOnly="{Binding Path=IsReadOnly, Mode=OneWay}"
+                                    <telerik:GridViewDataColumn Width="*" DataMemberBinding="{Binding Path=ManagedValue, Mode=TwoWay}"
                                                                 CellTemplateSelector="{StaticResource selector}"
                                                                 CellEditTemplateSelector="{StaticResource selectorEditorTemplate}"
                                                                 Header="{x:Static r:Resources.VALUE}" UniqueName="Value" />
@@ -251,7 +280,6 @@
                               <telerik:RadButton Content="{x:Static r:Resources.ADD_MAT_TO_LIB}" Command="{Binding Path=AddMatToLib}" Visibility="{Binding Path=ActiveMatConcrete.MatFromLibMode, Converter={StaticResource conventorVisibilityFalse}, Mode=OneWay}"
                               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                               </StackPanel>-->
-                              <smartCB:XEP_SmartComboBox />
                            </StackPanel>
                         </telerik:RadExpander.Content>
                      </telerik:RadExpander>
