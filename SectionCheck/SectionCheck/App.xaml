@@ -35,6 +35,7 @@
          <DataTemplate x:Key="QuantityManagedTemplateY">
             <TextBox Text="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      IsEnabled="{Binding Path=Y.IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     IsReadOnly="{Binding Path=Y.IsReadOnly, Mode=OneWay}"
                      />
          </DataTemplate>
          <DataTemplate x:Key="QuantityManagedNoModifTemplateZ">
@@ -44,6 +45,7 @@
          <DataTemplate x:Key="QuantityManagedTemplateZ">
             <TextBox Text="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      IsEnabled="{Binding Path=Z.IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     IsReadOnly="{Binding Path=Z.IsReadOnly, Mode=OneWay}"
                      />
          </DataTemplate>
          <DataTemplate x:Key="DoubleTemplate">

@@ -13,16 +13,13 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_InternalForceItemXml : XEP_XmlWorkerImpl
     {
-        public static readonly string XmlName = "XEP_InternalForceItem";
-        readonly XEP_InternalForceItem _data = null;
-        public XEP_InternalForceItemXml(XEP_InternalForceItem data)
+        public XEP_InternalForceItemXml(XEP_IInternalForceItem data) : base (data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
         {
-            return XmlName;
+            return "XEP_InternalForceItem";
         }
         protected override string GetXmlElementComment()
         {
@@ -30,35 +27,39 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
+            XEP_IInternalForceItem customer = GetXmlCustomer<XEP_IInternalForceItem>();
             for (int counter = (int)eEP_ForceType.eN; counter < (int)eEP_ForceType.eForceTypeCount; ++counter)
             {
-                xmlElement.Add(_data.GetItem((eEP_ForceType)counter).XmlWorker.GetXmlElement());
+                xmlElement.Add(customer.GetItem((eEP_ForceType)counter).XmlWorker.GetXmlElement());
             }
         }
         protected override void AddAtributes(XElement xmlElement)
         {
+            XEP_IInternalForceItem customer = GetXmlCustomer<XEP_IInternalForceItem>();
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
-            xmlElement.Add(new XAttribute(ns + "Type", (int)_data.Type));
-            xmlElement.Add(new XAttribute(ns + "UsedInCheck", _data.UsedInCheck));
+            xmlElement.Add(new XAttribute(ns + "Name", customer.Name));
+            xmlElement.Add(new XAttribute(ns + "Type", (int)customer.Type));
+            xmlElement.Add(new XAttribute(ns + "UsedInCheck", customer.UsedInCheck));
         }
         protected override void LoadElements(XElement xmlElement)
         {
+            XEP_IInternalForceItem customer = GetXmlCustomer<XEP_IInternalForceItem>();
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlForces = xmlElement.Elements(ns + _data.GetItem(eEP_ForceType.eN).XmlWorker.GetXmlElementName());
+            var xmlForces = xmlElement.Elements(ns + customer.GetItem(eEP_ForceType.eN).XmlWorker.GetXmlElementName());
             Exceptions.CheckPredicate<int, int>("Invalid XML file", xmlForces.Count(), (int)eEP_ForceType.eForceTypeCount, (xmlCount, itemCount) => xmlCount < itemCount);
             for (int counter = (int)eEP_ForceType.eN; counter < (int)eEP_ForceType.eForceTypeCount; ++counter)
             {
                 XElement xmlForce = Exceptions.CheckNull<XElement>(xmlForces.ElementAt(counter), "Invalid definition of board field in XML file");
-                _data.GetItem((eEP_ForceType)counter).XmlWorker.LoadFromXmlElement(xmlForce);
+                customer.GetItem((eEP_ForceType)counter).XmlWorker.LoadFromXmlElement(xmlForce);
             }
         }
         protected override void LoadAtributes(XElement xmlElement)
         {
+            XEP_IInternalForceItem customer = GetXmlCustomer<XEP_IInternalForceItem>();
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + "Name");
-            _data.Type = (eEP_ForceItemType )(int)xmlElement.Attribute(ns + "Type");
-            _data.UsedInCheck = (bool)xmlElement.Attribute(ns + "UsedInCheck");
+            customer.Name = (string)xmlElement.Attribute(ns + "Name");
+            customer.Type = (eEP_ForceItemType)(int)xmlElement.Attribute(ns + "Type");
+            customer.UsedInCheck = (bool)xmlElement.Attribute(ns + "UsedInCheck");
         }
         #endregion
     }
@@ -66,18 +67,19 @@ namespace XEP_SectionCheckCommon.DataCache
     [Serializable]
     public class XEP_InternalForceItem : XEP_ObservableObject, XEP_IInternalForceItem
     {
-        XEP_IResolver<XEP_IInternalForceItem> _resolver = null;
+        readonly XEP_IResolver<XEP_IInternalForceItem> _resolver = null;
 
         public XEP_InternalForceItem(XEP_IResolver<XEP_IInternalForceItem> resolver)
         {
             _xmlWorker = new XEP_InternalForceItemXml(this);
-            resolver = _resolver;
+            _resolver = resolver;
             AddOneQuantity(0.0, eEP_QuantityType.eForce, NPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eForce, VyPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eForce, VzPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eMoment, MxPropertyName);
             AddOneQuantity( 0.0, eEP_QuantityType.eMoment, MyPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eMoment, MzPropertyName);
+            Intergrity(null);
         }
 
         public override bool Equals(System.Object obj)
@@ -104,6 +106,10 @@ namespace XEP_SectionCheckCommon.DataCache
             return base.GetHashCode();
         }
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

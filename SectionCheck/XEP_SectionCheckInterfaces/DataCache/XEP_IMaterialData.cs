@@ -12,7 +12,6 @@ namespace XEP_SectionCheckInterfaces.DataCache
         XEP_IQuantity MaterialName { get; set; }
         void CreatePoints(XEP_ISetupParameters setup);
         void ResetMatFromLib();
-        void Intergrity(string propertyCallerName);
     }
 
     public interface XEP_IMaterialDataConcrete : XEP_IMaterialData

@@ -10,10 +10,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_DataCacheXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_IDataCache _data = null;
-        public XEP_DataCacheXml(XEP_IDataCache data)
+        public XEP_DataCacheXml(XEP_IDataCache data) : base(data)
         {
-            _data = data;
         }
         public override string GetXmlElementName()
         {
@@ -25,24 +23,14 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            xmlElement.Add(_data.Structure.XmlWorker.GetXmlElement());
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+            XEP_IDataCache customer = GetXmlCustomer<XEP_IDataCache>();
+            xmlElement.Add(customer.Structure.XmlWorker.GetXmlElement());
         }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Structure.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.Structure.XmlWorker.GetXmlElementName()));
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+            XEP_IDataCache customer = GetXmlCustomer<XEP_IDataCache>();
+            customer.Structure.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + customer.Structure.XmlWorker.GetXmlElementName()));
         }
     }
 
@@ -59,9 +47,14 @@ namespace XEP_SectionCheckCommon.DataCache
             _structure = resolver.Resolve();
             _materialLibrary = resolverMatLib.Resolve();
             _setupParameters = resolverSetup.Resolve();
+            Intergrity(null);
         }
 
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

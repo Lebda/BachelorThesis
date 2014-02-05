@@ -13,10 +13,9 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_MaterialDataConcreteXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_MaterialDataConcrete _data = null;
-        public XEP_MaterialDataConcreteXml(XEP_MaterialDataConcrete data)
+        public XEP_MaterialDataConcreteXml(XEP_IMaterialDataConcrete data)
+            : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -29,7 +28,8 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.StressStrainDiagram)
+            XEP_IMaterialDataConcrete customer = GetXmlCustomer<XEP_IMaterialDataConcrete>();
+            foreach (var item in customer.StressStrainDiagram)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
@@ -37,36 +37,17 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlElemColection = xmlElement.Elements(ns + _data.ResolverDiagramItem.Resolve().XmlWorker.GetXmlElementName());
+            XEP_MaterialDataConcrete customer = GetXmlCustomer<XEP_MaterialDataConcrete>();
+            var xmlElemColection = xmlElement.Elements(ns + customer.ResolverDiagramItem.Resolve().XmlWorker.GetXmlElementName());
             if (xmlElemColection != null && xmlElemColection.Count() > 0)
             {
                 for (int counter = 0; counter < xmlElemColection.Count(); ++counter)
                 {
                     XElement xmlElemItem = Exceptions.CheckNull<XElement>(xmlElemColection.ElementAt(counter), "Invalid XML file");
-                    XEP_IESDiagramItem item = _data.ResolverDiagramItem.Resolve();
+                    XEP_IESDiagramItem item = customer.ResolverDiagramItem.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlElemItem);
-                    _data.StressStrainDiagram.Add(item);
+                    customer.StressStrainDiagram.Add(item);
                 }
-            }
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
-            foreach(var item in _data.Data)
-            {
-                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
-            }
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
-            foreach (var item in _data.Data)
-            {
-                item.Value = (double)xmlElement.Attribute(ns + item.Name);
             }
         }
         #endregion
@@ -86,7 +67,7 @@ namespace XEP_SectionCheckCommon.DataCache
             XEP_IResolver<XEP_IESDiagramItem> resolverDiagramItem,
             XEP_IResolver<XEP_IMaterialDataConcrete> resolver)
         {
-            _xmlWorker = new XEP_MaterialDataConcreteXml(this);
+            XmlWorker = new XEP_MaterialDataConcreteXml(this);
             _resolverDiagramItem = resolverDiagramItem;
             _resolver = resolver;
             AddOneQuantity(0.0, eEP_QuantityType.eString, MaterialNamePropertyName, this, null, MaterialNamePropertyName);
@@ -101,6 +82,7 @@ namespace XEP_SectionCheckCommon.DataCache
             AddOneQuantity( 0.0, eEP_QuantityType.eStrain, EpsC3PropertyName, this);
             AddOneQuantity(0.0, eEP_QuantityType.eStrain, EpsCu3PropertyName, this);
             AddOneQuantity(0.0, eEP_QuantityType.eNoUnit, NPropertyName, this);
+            Intergrity(null);
         }
 
         #region ICloneable Members
@@ -122,11 +104,7 @@ namespace XEP_SectionCheckCommon.DataCache
         public void ResetMatFromLib()
         {
             MatFromLibMode.SetBool(true);
-            RaisePropertyChanged(MatFromLibPropertyName);
-            foreach (var item in Data)
-            {
-                RaisePropertyChanged(item.Name);
-            }
+            Intergrity(null);
         }
         public void CreatePoints(XEP_ISetupParameters setup)
         {
@@ -187,6 +165,7 @@ namespace XEP_SectionCheckCommon.DataCache
                     }
                 }
             }
+            Name = MaterialName.ValueName;
             DiagramType.IsReadOnly = false;
             // Raise all
             foreach (var item in Data)
@@ -207,7 +186,7 @@ namespace XEP_SectionCheckCommon.DataCache
         public XEP_IQuantity MaterialName
         {
             get { return GetOneQuantity(MaterialNamePropertyName); }
-            set { SetItemWithActions(ref value, MaterialNamePropertyName, null, Intergrity); }
+            set { SetItemWithActions(ref value, MaterialNamePropertyName, () => !MaterialName.Equals(value), Intergrity); }
         }
         public static readonly string DiagramTypePropertyName = "DiagramType";
         public XEP_IQuantity DiagramType
@@ -226,13 +205,13 @@ namespace XEP_SectionCheckCommon.DataCache
         public XEP_IQuantity Fck
         {
             get { return GetOneQuantity(FckPropertyName); }
-            set { SetItemWithActions(ref value, FckPropertyName, () => !GetOneQuantity(FckPropertyName).Equals(value), Intergrity); }
+            set { SetItemWithActions(ref value, FckPropertyName, () => !Fck.Equals(value), Intergrity); }
         }
         public static readonly string FckCubePropertyName = "FckCube";
         public XEP_IQuantity FckCube
         {
             get { return GetOneQuantity(FckCubePropertyName); }
-            set { SetItemWithActions(ref value, FckCubePropertyName, () => !GetOneQuantity(FckCubePropertyName).Equals(value), Intergrity); }
+            set { SetItemWithActions(ref value, FckCubePropertyName, () => !FckCube.Equals(value), Intergrity); }
         }
         public static readonly string EpsC1PropertyName = "EpsC1";
         public XEP_IQuantity EpsC1
@@ -283,9 +262,7 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             return null;
         }
-        XEP_IXmlWorker _xmlWorker = null;
         string _name = String.Empty;
-        //
         public string Name
         {
             get { return _name; }
@@ -297,11 +274,7 @@ namespace XEP_SectionCheckCommon.DataCache
             get { return _guid; }
             set { SetMember<Guid>(ref value, ref _guid, (_guid == value), XEP_Constants.GuidPropertyName); }
         }
-        public XEP_IXmlWorker XmlWorker
-        {
-            get { return _xmlWorker; }
-            set { _xmlWorker = value; }
-        }
+        public XEP_IXmlWorker XmlWorker {get; set;}
         #endregion
     }
 }

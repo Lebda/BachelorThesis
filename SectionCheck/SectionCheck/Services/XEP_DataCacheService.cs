@@ -52,9 +52,9 @@ namespace SectionCheck.Services
                     throw new ApplicationException("No directory for xml file load !");
                 }
                 XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-                SaveOneFile(myDirectory, _fileName, ns, dataCache.XmlWorker);
-                SaveOneFile(myDirectory, _materialLibraryName, ns, dataCache.MaterialLibrary.XmlWorker);
-                SaveOneFile(myDirectory, _setupParametersName, ns, dataCache.SetupParameters.XmlWorker);
+                LoadOneFile(myDirectory, _fileName, ns, dataCache.XmlWorker);
+                LoadOneFile(myDirectory, _materialLibraryName, ns, dataCache.MaterialLibrary.XmlWorker);
+                LoadOneFile(myDirectory, _setupParametersName, ns, dataCache.SetupParameters.XmlWorker);
                 return eDataCacheServiceOperation.eSuccess;
             }
             catch (System.Exception ex)
@@ -64,7 +64,7 @@ namespace SectionCheck.Services
             }
         }
 
-        private void SaveOneFile(DirectoryInfo myDirectory, string fileName, XNamespace ns, XEP_IXmlWorker xmlWorker)
+        private void LoadOneFile(DirectoryInfo myDirectory, string fileName, XNamespace ns, XEP_IXmlWorker xmlWorker)
         {
             FileInfo myFileSetup = new FileInfo(Path.Combine(myDirectory.FullName, fileName + ".xml"));
             if (myFileSetup.Exists == false)

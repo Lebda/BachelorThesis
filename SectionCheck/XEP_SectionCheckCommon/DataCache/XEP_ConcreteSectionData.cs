@@ -10,10 +10,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_ConcreteSectionDataXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_ConcreteSectionData _data = null;
-        public XEP_ConcreteSectionDataXml(XEP_ConcreteSectionData data)
+        public XEP_ConcreteSectionDataXml(XEP_IConcreteSectionData data) : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -26,26 +24,16 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            xmlElement.Add(_data.SectionShape.XmlWorker.GetXmlElement());
-            xmlElement.Add(_data.MaterialData.XmlWorker.GetXmlElement());
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+            XEP_IConcreteSectionData customer = GetXmlCustomer<XEP_IConcreteSectionData>();
+            xmlElement.Add(customer.SectionShape.XmlWorker.GetXmlElement());
+            xmlElement.Add(customer.MaterialData.XmlWorker.GetXmlElement());
         }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.SectionShape.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.SectionShape.XmlWorker.GetXmlElementName()));
-            _data.MaterialData.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.MaterialData.XmlWorker.GetXmlElementName()));
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+            XEP_IConcreteSectionData customer = GetXmlCustomer<XEP_IConcreteSectionData>();
+            customer.SectionShape.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + customer.SectionShape.XmlWorker.GetXmlElementName()));
+            customer.MaterialData.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + customer.MaterialData.XmlWorker.GetXmlElementName()));
         }
         #endregion
     }
@@ -64,6 +52,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _xmlWorker = new XEP_ConcreteSectionDataXml(this);
             _sectionShape = resolverShape.Resolve();
             _materialData = resolverMaterialData.Resolve();
+            Intergrity(null);
 
         }
         // Properties
@@ -80,6 +69,10 @@ namespace XEP_SectionCheckCommon.DataCache
             set { SetMember<XEP_ISectionShape>(ref value, ref _sectionShape, (_sectionShape == value), SectionShapePropertyName); }
         }
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

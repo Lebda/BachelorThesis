@@ -12,10 +12,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_StructurXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_Structure _data = null;
-        public XEP_StructurXml(XEP_Structure data)
+        public XEP_StructurXml(XEP_IStructure data) : base(data)
         {
-            _data = data;
         }
         public override string GetXmlElementName()
         {
@@ -27,37 +25,27 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.MemberData)
+            XEP_IStructure customer = GetXmlCustomer<XEP_IStructure>();
+            foreach (var item in customer.MemberData)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
         }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
-        }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlItems = xmlElement.Elements(ns + _data.Resolver.Resolve().XmlWorker.GetXmlElementName());
+            XEP_Structure customer = GetXmlCustomer<XEP_Structure>();
+            var xmlItems = xmlElement.Elements(ns + customer.Resolver.Resolve().XmlWorker.GetXmlElementName());
             if (xmlItems != null && xmlItems.Count() > 0)
             {
                 for (int counter = 0; counter < xmlItems.Count(); ++counter)
                 {
                     XElement xmlItem = Exceptions.CheckNull<XElement>(xmlItems.ElementAt(counter), "Invalid XML file");
-                    XEP_IOneMemberData item = _data.Resolver.Resolve();
+                    XEP_IOneMemberData item = customer.Resolver.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlItem);
-                    _data.SaveOneMemberData(item);
+                    customer.SaveOneMemberData(item);
                 }
             }
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
         }
     }
 
@@ -70,6 +58,7 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             _resolver = resolver;
             _xmlWorker = new XEP_StructurXml(this);
+            Intergrity(null);
         }
         #region XEP_IStructure
         public XEP_IResolver<XEP_IOneMemberData> Resolver
@@ -107,6 +96,10 @@ namespace XEP_SectionCheckCommon.DataCache
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
+        }
+        public void Intergrity(string propertyCallerName)
+        {
+
         }
         XEP_IXmlWorker _xmlWorker = null;
         public XEP_IXmlWorker XmlWorker

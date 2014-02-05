@@ -13,10 +13,9 @@ namespace XEP_SectionCheckCommon.DataCache
 
     class XEP_QuantityXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_Quantity _data = null;
-        public XEP_QuantityXml(XEP_Quantity data)
+        public XEP_QuantityXml(XEP_IQuantity data)
+            : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -26,9 +25,17 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void AddAtributes(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + "Name", _data.Name));
-            xmlElement.Add(new XAttribute(ns + "QuantityType", (int)_data.QuantityType));
-            xmlElement.Add(new XAttribute(ns + "Value", _data.Value));
+            XEP_IQuantity customer = GetXmlCustomer<XEP_IQuantity>();
+            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, customer.Name));
+            xmlElement.Add(new XAttribute(ns + XEP_Quantity.QuantityTypePropertyName, (int)customer.QuantityType));
+            if (customer.QuantityType == eEP_QuantityType.eString)
+            {
+                xmlElement.Add(new XAttribute(ns + XEP_Quantity.ValueNamePropertyName, customer.ValueName));
+            }
+            else
+            {
+                xmlElement.Add(new XAttribute(ns + XEP_Quantity.ValuePropertyName, customer.Value));
+            }
         }
         protected override void LoadElements(XElement xmlElement)
         {
@@ -37,9 +44,17 @@ namespace XEP_SectionCheckCommon.DataCache
         protected override void LoadAtributes( XElement xmlElement )
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + "Name");
-            _data.QuantityType = (eEP_QuantityType)(int)xmlElement.Attribute(ns + "QuantityType");
-            _data.Value = (double)xmlElement.Attribute(ns + "Value");
+            XEP_IQuantity customer = GetXmlCustomer<XEP_IQuantity>();
+            customer.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
+            customer.QuantityType = (eEP_QuantityType)(int)xmlElement.Attribute(ns + XEP_Quantity.QuantityTypePropertyName);
+            if (customer.QuantityType == eEP_QuantityType.eString)
+            {
+                customer.ValueName = (string)xmlElement.Attribute(ns + XEP_Quantity.ValueNamePropertyName);
+            }
+            else
+            {
+                customer.Value = (double)xmlElement.Attribute(ns + XEP_Quantity.ValuePropertyName);
+            }
         }
         #endregion
     }
@@ -51,6 +66,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _xmlWorker = new XEP_QuantityXml(this);
             _manager = manager;
             _enum2StringManager = enum2StringManager;
+            Intergrity(null);
         }
 
         #region ICloneable Members
@@ -64,6 +80,10 @@ namespace XEP_SectionCheckCommon.DataCache
         #endregion
 
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;
@@ -253,7 +273,7 @@ namespace XEP_SectionCheckCommon.DataCache
             {
                 return false;
             }
-            return (MathUtils.CompareDouble(Value, p.Value) && (QuantityType == p.QuantityType));
+            return (MathUtils.CompareDouble(_value, p.Value) && (_quantityType == p.QuantityType));
         }
         public override int GetHashCode()
         {

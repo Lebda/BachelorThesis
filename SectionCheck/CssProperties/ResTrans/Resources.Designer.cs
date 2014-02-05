@@ -304,7 +304,7 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Material properties - .
+        ///   Looks up a localized string similar to Material properties.
         /// </summary>
         public static string MAT_PROP {
             get {

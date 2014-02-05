@@ -10,33 +10,17 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_ESDiagramItemXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_ESDiagramItem _data = null;
-        public XEP_ESDiagramItemXml(XEP_ESDiagramItem data)
+        public XEP_ESDiagramItemXml(XEP_ESDiagramItem data) : base (data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
         {
             return "XEP_ESDiagramItem";
         }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StressPropertyName, _data.Stress.Value));
-            xmlElement.Add(new XAttribute(ns + XEP_ESDiagramItem.StrainPropertyName, _data.Strain.Value));
-        }
         protected override void LoadElements(XElement xmlElement)
         {
             return;
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Stress.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StressPropertyName);
-            _data.Strain.Value = (double)xmlElement.Attribute(ns + XEP_ESDiagramItem.StrainPropertyName);
         }
         #endregion
     }
@@ -50,6 +34,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _xmlWorker = new XEP_ESDiagramItemXml(this);
             AddOneQuantity(0.0, eEP_QuantityType.eStrain, StrainPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eStress, StressPropertyName);
+            Intergrity(null);
         }
         #region XEP_IESDiagramItem Members
         public XEP_IESDiagramItem CopyInstance()
@@ -75,6 +60,10 @@ namespace XEP_SectionCheckCommon.DataCache
         #endregion
 
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

@@ -29,7 +29,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             where T : XEP_IDataCacheObjectBase
         {
             Exceptions.CheckNull(matData);
-            T data = GetOneData<T>(source, matData.Id);
+            T data = GetOneData<T>(source, matData.Name);
             if (data == null)
             {
                 source.Add(matData);
@@ -39,8 +39,13 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 if (data.Name == matData.Name)
                 {
                     matData.Name += "-copy";
+                    XEP_IMaterialData dataTest = matData as XEP_IMaterialData;
+                    if (dataTest != null)
+                    {
+                        dataTest.MaterialName.ValueName += "-copy";
+                    }
                 }
-                data = matData;
+                source.Add(matData);
             }
             return eDataCacheServiceOperation.eSuccess;
         }
@@ -119,12 +124,14 @@ namespace XEP_SectionCheckCommon.Infrastructure
         }
         protected void CopyAllQuanties(XEP_ObservableObject source, XEP_IDataCacheObjectBase owner)
         {
+            Exceptions.CheckNull(source);
             _indexes = DeepCopy.Make<Dictionary<string, int>>(source._indexes);
             _data.Clear();
             foreach (var item in source._data)
             {
-                _data.Add(item.Clone() as XEP_IQuantity);
-                item.Owner = owner;
+                XEP_IQuantity clone = item.Clone() as XEP_IQuantity;
+                clone.Owner = owner;
+                _data.Add(clone);
             }
         }
         protected void AddOneQuantity(double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null, string enumName = null, string valueName = null)
@@ -197,9 +204,9 @@ namespace XEP_SectionCheckCommon.Infrastructure
             {
                 return false;
             }
-            if (valueFromBinding.Manager == null && string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
+            if (string.IsNullOrEmpty(valueFromBinding.Name) && valueFromBinding.QuantityType == eEP_QuantityType.eNoType)
             { // setting throw binding
-                valueFromBinding.Owner = propertyItem.Owner;
+                Exceptions.CheckPredicate<XEP_IDataCacheObjectBase >("Invalid binding owner can not be set !!!!", valueFromBinding.Owner, (s) => s !=null);
                 valueFromBinding.Name = propertyItem.Name;
                 valueFromBinding.QuantityType = propertyItem.QuantityType;
                 valueFromBinding.Value = valueFromBinding.Manager.GetValueManaged(valueFromBinding.Value, valueFromBinding.QuantityType);

@@ -9,10 +9,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_SetupParametersXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_SetupParameters _data = null;
-        public XEP_SetupParametersXml(XEP_SetupParameters data)
+        public XEP_SetupParametersXml(XEP_ISetupParameters data) : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -23,31 +21,9 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             return "Object represents setup parameters for calculation.";
         }
-        protected override void AddElements(XElement xmlElement)
-        {
-        }
         protected override void LoadElements(XElement xmlElement)
         {
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
-            foreach (var item in _data.Data)
-            {
-                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
-            }
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
-            foreach (var item in _data.Data)
-            {
-                item.Value = (double)xmlElement.Attribute(ns + item.Name);
-            }
+            return;
         }
         #endregion
     }
@@ -63,6 +39,7 @@ namespace XEP_SectionCheckCommon.DataCache
             AddOneQuantity(0.0, eEP_QuantityType.eNoUnit, AlphaCtPropertyName);
             AddOneQuantity( 0.0, eEP_QuantityType.eNoUnit, FiPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eNoUnit, FiEffPropertyName);
+            Intergrity(null);
         }
 
         #region XEP_ISetupParameters Members
@@ -105,6 +82,10 @@ namespace XEP_SectionCheckCommon.DataCache
         #endregion
 
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

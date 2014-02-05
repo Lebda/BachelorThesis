@@ -101,8 +101,8 @@ namespace XEP_SectionCheck.Services
         private XEP_IMaterialDataConcrete GetMaterialDataConcrete(XEP_ISetupParameters setup)
         {
             XEP_IMaterialDataConcrete item = _resolverXEP_IMaterialDataConcrete.Resolve();
-            item.MaterialName.ValueName = "C25/30";
             item.Name = "C25/30";
+            item.MaterialName.ValueName = "C25/30";
             item.Fck.Value = 25.0*1e6;
             item.FckCube.Value = 30.0*1e6;
             item.EpsC1.Value = 2.1 * 1e-3;
@@ -120,8 +120,8 @@ namespace XEP_SectionCheck.Services
         private XEP_IMaterialDataConcrete GetMaterialDataConcrete2(XEP_ISetupParameters setup)
         {
             XEP_IMaterialDataConcrete item = _resolverXEP_IMaterialDataConcrete.Resolve();
-            item.MaterialName.ValueName = "C30/37";
             item.Name = "C30/37";
+            item.MaterialName.ValueName = "C30/37";
             item.Fck.Value = 30.0 * 1e6;
             item.FckCube.Value = 37.0 * 1e6;
             item.EpsC1.Value = 2.2 * 1e-3;

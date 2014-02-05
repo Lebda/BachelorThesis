@@ -17,6 +17,5 @@ namespace XEP_SectionCheckInterfaces.DataCache
         XEP_IQuantity Hhole { get; set; }
         XEP_IQuantity Bhole { get; set; }
         string Description { get; set; }
-        void Intergrity(string propertyCallerName);
     }
 }

@@ -49,7 +49,6 @@
                               </StackPanel>
                            </telerik:RadExpander.Header>
                            <telerik:RadExpander.Content>
-                              <!--prismcommands:XEP_RowEditEndedCommandTelerik.Command="{Binding ChangeCssParamCommand}"-->
                               <telerik:RadGridView ItemsSource="{Binding ActiveSectionData.ConcreteSectionData.SectionShape.Data, Mode=TwoWay}" 
                                                    GridLinesVisibility="Horizontal"
                                                    AutoGenerateColumns="False"
@@ -128,9 +127,12 @@
                         <telerik:RadExpander IsExpanded="False" VerticalContentAlignment="Top">
                            <telerik:RadExpander.Header>
                               <StackPanel Orientation="Horizontal">
-                                 <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.MAT_PROP}" SupSubScipt="False"/>
-                                 <telerik:RadComboBox ItemsSource="{Binding MatLibNames}" VerticalAlignment="Center" DisplayMemberPath="Name"
-                                                      SelectedIndex="0" />
+                                 <smartTB:XEP_SmartTextBox SmartText="{x:Static r:Resources.MAT_PROP}" SupSubScipt="False" Margin="0,0,5,0" />
+                                 <telerik:RadComboBox ItemsSource="{Binding DataCache.MaterialLibrary.MaterialDataConcrete}" 
+                                                      DisplayMemberPath="MaterialName.ValueNameManaged"
+                                                      SelectedItem="{Binding Path=ActiveMatConcreteFromLibrary, Mode=TwoWay}"
+                                                      prismcommands:XEP_RadComboBox_SelectionChanged.Command="{Binding MaterialLibraryConcreteChangedCommand}"
+                                                      VerticalAlignment="Center" />
                               </StackPanel>
                            </telerik:RadExpander.Header>
                            <telerik:RadExpander.Content>
@@ -154,10 +156,9 @@
                                                                    Header="{x:Static r:Resources.VALUE}" UniqueName="Value" />
                                     </telerik:RadGridView.Columns>
                                  </telerik:RadGridView>
-                                 <!--<StackPanel Orientation="Horizontal">
-                                 <telerik:RadButton Content="{x:Static r:Resources.ADD_MAT_TO_LIB}" Command="{Binding Path=AddMatToLib}" Visibility="{Binding Path=ActiveMatConcrete.MatFromLibMode, Converter={StaticResource conventorVisibilityFalse}, Mode=OneWay}"
-                                 HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                                 </StackPanel>-->
+                                 <StackPanel Orientation="Horizontal">
+                                    <telerik:RadButton Content="{x:Static r:Resources.ADD_MAT_TO_LIB}" Command="{Binding Path=AddMatToLibCommand}"/>
+                                 </StackPanel>
                               </StackPanel>
                            </telerik:RadExpander.Content>
                         </telerik:RadExpander>

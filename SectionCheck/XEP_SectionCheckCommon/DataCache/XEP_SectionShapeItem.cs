@@ -10,37 +10,18 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_SectionShapeItemXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_SectionShapeItem _data = null;
-        public XEP_SectionShapeItemXml(XEP_SectionShapeItem data)
+        public XEP_SectionShapeItemXml(XEP_ISectionShapeItem data)
+            : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
         {
             return "XEP_SectionShapeItem";
         }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            foreach (var item in _data.Data)
-            {
-                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
-            }
-        }
         protected override void LoadElements(XElement xmlElement)
         {
             return;
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            foreach (var item in _data.Data)
-            {
-                item.Value = (double)xmlElement.Attribute(ns + item.Name);
-            }
         }
         #endregion
     }
@@ -57,6 +38,7 @@ namespace XEP_SectionCheckCommon.DataCache
             AddOneQuantity(0.0, eEP_QuantityType.eCssLength, YPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eCssLength, ZPropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eEnum, TypePropertyName);
+            Intergrity(null);
 
         }
         #region ICloneable Members
@@ -80,24 +62,27 @@ namespace XEP_SectionCheckCommon.DataCache
         public XEP_IQuantity Y
         {
             get { return GetOneQuantity(YPropertyName); }
-            set { SetItemWithActions(ref value, YPropertyName, null, Intergrity); }
+            set { SetItemWithActions(ref value, YPropertyName, () => !Y.Equals(value), Intergrity); }
         }
         public static readonly string ZPropertyName = "Z";
         public XEP_IQuantity Z
         {
             get { return GetOneQuantity(ZPropertyName); }
-            set { SetItemWithActions(ref value, ZPropertyName, null, Intergrity); }
+            set { SetItemWithActions(ref value, ZPropertyName, () => !Z.Equals(value), Intergrity); }
         }
         public static readonly string TypePropertyName = "Type";
         public XEP_IQuantity PointType
         {
             get { return GetOneQuantity(TypePropertyName); }
-            set { SetItemWithActions(ref value, TypePropertyName, null, Intergrity); }
+            set { SetItemWithActions(ref value, TypePropertyName, () => !PointType.Equals(value), Intergrity); }
         }
         #endregion
 
         #region METHODS
-        void Intergrity(string propertyName)
+        #endregion
+
+        #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
         {
             // Check object integrity
 
@@ -105,13 +90,10 @@ namespace XEP_SectionCheckCommon.DataCache
             if (_notificationData != null)
             {
                 _notificationData.Notifier = this;
-                _notificationData.PropertyNotifier = propertyName;
+                _notificationData.PropertyNotifier = propertyCallerName;
                 NotifyOwnerProperty(_notificationData);
             }
         }
-        #endregion
-
-        #region XEP_IDataCacheObjectBase Members
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

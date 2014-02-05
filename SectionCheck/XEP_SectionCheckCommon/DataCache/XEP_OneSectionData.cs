@@ -12,10 +12,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_OneSectionDataXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_OneSectionData _data = null;
-        public XEP_OneSectionDataXml(XEP_OneSectionData data)
+        public XEP_OneSectionDataXml(XEP_IOneSectionData data) : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -28,39 +26,29 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.InternalForces)
+            XEP_IOneSectionData customer = GetXmlCustomer<XEP_IOneSectionData>();
+            foreach (var item in customer.InternalForces)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
-            xmlElement.Add(_data.ConcreteSectionData.XmlWorker.GetXmlElement());
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
+            xmlElement.Add(customer.ConcreteSectionData.XmlWorker.GetXmlElement());
         }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlForces = xmlElement.Elements(ns + _data.ResolverForce.Resolve().XmlWorker.GetXmlElementName());
+            XEP_OneSectionData customer = GetXmlCustomer<XEP_OneSectionData>();
+            var xmlForces = xmlElement.Elements(ns + customer.ResolverForce.Resolve().XmlWorker.GetXmlElementName());
             if (xmlForces != null && xmlForces.Count() > 0)
             {
                 for (int counter = 0; counter < xmlForces.Count(); ++counter)
                 {
                     XElement xmlForce = Exceptions.CheckNull<XElement>(xmlForces.ElementAt(counter), "Invalid XML file");
-                    XEP_IInternalForceItem item = _data.ResolverForce.Resolve();
+                    XEP_IInternalForceItem item = customer.ResolverForce.Resolve();
                     item.XmlWorker.LoadFromXmlElement(xmlForce);
-                    _data.InternalForces.Add(item);
+                    customer.InternalForces.Add(item);
                 }
             }
-            _data.ConcreteSectionData.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + _data.ConcreteSectionData.XmlWorker.GetXmlElementName()));
-        }
-        protected override void LoadAtributes( XElement xmlElement )
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
+            customer.ConcreteSectionData.XmlWorker.LoadFromXmlElement(xmlElement.Element(ns + customer.ConcreteSectionData.XmlWorker.GetXmlElementName()));
         }
         #endregion
     }
@@ -78,6 +66,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _resolverForce = resolverForce;
             _xmlWorker = new XEP_OneSectionDataXml(this);
             _concreteSectionData = resolverConcrete.Resolve();
+            Intergrity(null);
         }
         public XEP_IResolver<XEP_IInternalForceItem> ResolverForce
         {
@@ -102,6 +91,10 @@ namespace XEP_SectionCheckCommon.DataCache
         #endregion
 
         #region XEP_IDataCacheObjectBase Members
+        public void Intergrity(string propertyCallerName)
+        {
+
+        }
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return null;

@@ -15,10 +15,8 @@ namespace XEP_SectionCheckCommon.DataCache
 {
     class XEP_SectionShapeXml : XEP_XmlWorkerImpl
     {
-        readonly XEP_SectionShape _data = null;
-        public XEP_SectionShapeXml(XEP_SectionShape data)
+        public XEP_SectionShapeXml(XEP_ISectionShape data) : base(data)
         {
-            _data = data;
         }
         #region XEP_XmlWorkerImpl Members
         public override string GetXmlElementName()
@@ -31,55 +29,39 @@ namespace XEP_SectionCheckCommon.DataCache
         }
         protected override void AddElements(XElement xmlElement)
         {
-            foreach (var item in _data.ShapeOuter)
+            XEP_ISectionShape customer = GetXmlCustomer<XEP_ISectionShape>();
+            foreach (var item in customer.ShapeOuter)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
             }
-            foreach (var item in _data.ShapeInner)
+            foreach (var item in customer.ShapeInner)
             {
                 xmlElement.Add(item.XmlWorker.GetXmlElement());
-            }
-        }
-        protected override void AddAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.NamePropertyName, _data.Name));
-            xmlElement.Add(new XAttribute(ns + XEP_Constants.GuidPropertyName, _data.Id));
-            foreach (var item in _data.Data)
-            {
-                xmlElement.Add(new XAttribute(ns + item.Name, item.Value));
             }
         }
         protected override void LoadElements(XElement xmlElement)
         {
             XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            var xmlElements = xmlElement.Elements(ns + _data.Resolver.Resolve().XmlWorker.GetXmlElementName());
+            XEP_SectionShape customer = GetXmlCustomer<XEP_SectionShape>();
+            var xmlElements = xmlElement.Elements(ns + customer.Resolver.Resolve().XmlWorker.GetXmlElementName());
             if (xmlElements != null && xmlElements.Count() > 0)
             {
+                customer.ShapeOuter.Clear();
+                customer.ShapeInner.Clear();
                 for (int counter = 0; counter < xmlElements.Count(); ++counter)
                 {
-                    XElement xmlForce = Exceptions.CheckNull<XElement>(xmlElements.ElementAt(counter), "Invalid XML file");
-                    XEP_ISectionShapeItem item = _data.Resolver.Resolve();
-                    item.XmlWorker.LoadFromXmlElement(xmlForce);
+                    XElement xmlObject = Exceptions.CheckNull<XElement>(xmlElements.ElementAt(counter), "Invalid XML file");
+                    XEP_ISectionShapeItem item = customer.Resolver.Resolve();
+                    item.XmlWorker.LoadFromXmlElement(xmlObject);
                     if (item.PointType.GetEnumValue<eEP_CssShapePointType>() == eEP_CssShapePointType.eOuter)
                     {
-                        _data.ShapeOuter.Add(item);
+                        customer.ShapeOuter.Add(item);
                     }
                     else
                     {
-                        _data.ShapeInner.Add(item);
+                        customer.ShapeInner.Add(item);
                     }
                 }
-            }
-        }
-        protected override void LoadAtributes(XElement xmlElement)
-        {
-            XNamespace ns = XEP_Constants.XEP_SectionCheckNs;
-            _data.Name = (string)xmlElement.Attribute(ns + XEP_Constants.NamePropertyName);
-            _data.Id = (Guid)xmlElement.Attribute(ns + XEP_Constants.GuidPropertyName);
-            foreach (var item in _data.Data)
-            {
-                item.Value = (double)xmlElement.Attribute(ns + item.Name);
             }
         }
         #endregion
@@ -176,7 +158,28 @@ namespace XEP_SectionCheckCommon.DataCache
             get { return _shapeInner; }
             set { SetMemberWithAction<ObservableCollection<XEP_ISectionShapeItem>>(ref value, ref _shapeInner, () => _shapeInner != value, Intergrity, ShapeInnerPropertyName); }
         }
+        #endregion
 
+        #region METHODS
+        string CreateDescription()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append((PolygonMode.IsTrue()) ? ("Polygon") : ("Rectangle: "));
+            if (!PolygonMode.IsTrue())
+            {
+                builder.Append(BPropertyName + "= ");
+                builder.Append(B.ManagedValue.ToString());
+                builder.Append(", ");
+                //
+                builder.Append(HPropertyName + "= ");
+                builder.Append(H.ManagedValue.ToString());
+            }
+            return builder.ToString();
+            
+        }
+        #endregion
+	
+        #region XEP_IDataCacheObjectBase Members
         public void Intergrity(string propertyCallerName)
         {
             foreach (var item in Data)
@@ -268,28 +271,6 @@ namespace XEP_SectionCheckCommon.DataCache
             RaisePropertyChanged(ShapeInnerPropertyName);
             RaisePropertyChanged(DescriptionPropertyName);
         }
-        #endregion
-
-        #region METHODS
-        string CreateDescription()
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append((PolygonMode.IsTrue()) ? ("Polygon") : ("Rectangle: "));
-            if (!PolygonMode.IsTrue())
-            {
-                builder.Append(BPropertyName + "= ");
-                builder.Append(B.ManagedValue.ToString());
-                builder.Append(", ");
-                //
-                builder.Append(HPropertyName + "= ");
-                builder.Append(H.ManagedValue.ToString());
-            }
-            return builder.ToString();
-            
-        }
-        #endregion
-	
-        #region XEP_IDataCacheObjectBase Members
         public Action<XEP_IDataCacheNotificationData> GetNotifyOwnerAction()
         {
             return (notificationData) =>
