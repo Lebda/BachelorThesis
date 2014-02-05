@@ -14,21 +14,23 @@
              xmlns:localViews="clr-namespace:XEP_CssProperties.Views"
              d:DesignHeight="300" d:DesignWidth="300">
    <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
+      <Border>
          <Grid>
-      <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-      <localViews:XEP_RepresentationView Grid.Column="0" Grid.Row="1" />
-      <localViews:XEP_CrossSectionView Grid.Column="0" Grid.Row="2" />
-      <localViews:XEP_InternalForceEditView Grid.Column="0" Grid.Row="3" />
-      <localViews:XEP_ReinforcementEditView Grid.Column="0" Grid.Row="4" />
-   </Grid>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+               <RowDefinition Height="Auto"/>
+               <RowDefinition Height="Auto"/>
+               <RowDefinition Height="Auto"/>
+               <RowDefinition Height="Auto"/>
+               <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <localViews:XEP_RepresentationView Grid.Column="0" Grid.Row="1" />
+            <localViews:XEP_CrossSectionView Grid.Column="0" Grid.Row="2" />
+            <localViews:XEP_InternalForceEditView Grid.Column="0" Grid.Row="3" />
+            <localViews:XEP_ReinforcementEditView Grid.Column="0" Grid.Row="4" />
+         </Grid>
+      </Border>
    </ScrollViewer>
 </UserControl>

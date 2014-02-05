@@ -1,7 +1,12 @@
 ﻿<Application x:Class="XEP_SectionCheck.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:commonlib="clr-namespace:XEP_CommonLibrary.Infrastructure;assembly=XEP_CommonLibrary"
+             xmlns:commonSec="clr-namespace:XEP_SectionCheckCommon.Infrastructure;assembly=XEP_SectionCheckCommon"
+             xmlns:smartTB="clr-namespace:XEP_SmartTextBox;assembly=XEP_SmartTextBox"
+             xmlns:smartCB="clr-namespace:XEP_SmartComboBox;assembly=XEP_SmartComboBox"
+             xmlns:core="clr-namespace:System;assembly=mscorlib"             
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-   
+
    <Application.Resources>
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
@@ -12,9 +17,121 @@
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.DataVisualization.xaml" />
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.GridView.xaml"/>
             <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.RibbonView.xaml"/>
-            <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Documents.xaml"/>            
+            <ResourceDictionary Source="/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Documents.xaml"/>
          </ResourceDictionary.MergedDictionaries>
+         <commonSec:XEP_BoolNegConventer x:Key="negator"/>
+         <commonSec:XEP_ValueConBoolOnVisibility x:Key="conventorVisibility" TrueOnVisible="True" />
+         <commonSec:XEP_ValueConBoolOnVisibility x:Key="conventorVisibilityFalse" TrueOnVisible="False" />
+         <commonSec:XEP_QCNameWithUnitGeneral x:Key="converterNameWithUnit"/>
+         <commonSec:XEP_QCManagedValueGeneral x:Key="converterManagedValue"/>
+         <commonSec:XEP_QCNameOnMarkGeneral x:Key="converterMark"/>
+         <commonSec:XEP_QCNameOnMarkWithUnitGeneral x:Key="converterMarkWithUnit"/>
+         <commonSec:XEP_BoolOnDoubleGeneral x:Key="converterDoubleOnBool"/>         
+         <commonSec:XEP_DoubleGeneral x:Key="converterDouble"/>
+         <DataTemplate x:Key="QuantityManagedNoModifTemplateY">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsOnlyTextBox="False" SupSubScipt="False" IsTextReadOnly="True"/>
+         </DataTemplate>
+         <DataTemplate x:Key="QuantityManagedTemplateY">
+            <TextBox Text="{Binding Path=Y, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="{Binding Path=Y.IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     />
+         </DataTemplate>
+         <DataTemplate x:Key="QuantityManagedNoModifTemplateZ">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsOnlyTextBox="False" SupSubScipt="False" IsTextReadOnly="True"/>
+         </DataTemplate>
+         <DataTemplate x:Key="QuantityManagedTemplateZ">
+            <TextBox Text="{Binding Path=Z, Converter={StaticResource converterManagedValue}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="{Binding Path=Z.IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     />
+         </DataTemplate>
+         <DataTemplate x:Key="DoubleTemplate">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=ManagedValue, Converter={StaticResource converterDouble}, Mode=TwoWay}" SupSubScipt="False"/>
+         </DataTemplate>
+         <DataTemplate x:Key="DoubleTemplateEdit">
+            <TextBox Text="{Binding Path=ManagedValue, Converter={StaticResource converterDouble}, Mode=TwoWay}" 
+                     IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     />
+         </DataTemplate>
+         <DataTemplate x:Key="BoolTemplate">
+            <CheckBox IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}" 
+                      IsChecked="{Binding Path=ManagedValue, Converter={StaticResource converterDoubleOnBool}, Mode=TwoWay}"/>
+         </DataTemplate>
+         <DataTemplate x:Key="EnumTemplate">
+            <smartCB:XEP_SmartComboBox ManagedValue_XEP="{Binding Path=ManagedValue, Mode=TwoWay}" 
+                                       Quantity_XEP="{Binding}" 
+                                       IsReadOnly_XEP="{Binding Path=IsReadOnly, Mode=OneWay}"
+                                       IsEnabled_XEP="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"/>
+         </DataTemplate>
+         <DataTemplate x:Key="StringTemplate">
+            <smartTB:XEP_SmartTextBox SmartText="{Binding Path=ValueNameManaged, Mode=TwoWay}" SupSubScipt="False"/>
+         </DataTemplate>
+         <DataTemplate x:Key="StringEditTemplate">
+            <TextBox Text="{Binding Path=ValueNameManaged, Mode=TwoWay}" 
+                     IsEnabled="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"
+                     />
+         </DataTemplate>
+
+         <commonSec:XEP_Int32IQuantity_Conventer x:Key="converterQuantityType"/>
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converterQuantityType}">
+            <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>0</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>1</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource EnumTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>2</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource StringTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>3</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+            </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+         </commonlib:XEP_ConditionalDataTemplateSelector>
+
+         <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selectorEditorTemplate" ConditionConverter="{StaticResource converterQuantityType}">
+            <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplateEdit}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>0</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource BoolTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>1</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource EnumTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>2</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+
+               <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource StringEditTemplate}">
+                  <commonlib:XEP_ConditionalDataTemplateRule.Value>
+                     <core:Int32>3</core:Int32>
+                  </commonlib:XEP_ConditionalDataTemplateRule.Value>
+               </commonlib:XEP_ConditionalDataTemplateRule>
+            </commonlib:XEP_ConditionalDataTemplateSelector.Rules>
+         </commonlib:XEP_ConditionalDataTemplateSelector>
       </ResourceDictionary>
    </Application.Resources>
-   
+
 </Application>

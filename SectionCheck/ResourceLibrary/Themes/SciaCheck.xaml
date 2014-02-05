@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  mc:Ignorable="d"
-  xmlns:local="clr-namespace:ResourceLibrary" 
-  xmlns:core="clr-namespace:System;assembly=mscorlib"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   mc:Ignorable="d"
+   xmlns:local="clr-namespace:ResourceLibrary" 
+   xmlns:core="clr-namespace:System;assembly=mscorlib"
+   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
    <Color x:Key="GradientStartColor_SC">White</Color>
    <core:Double x:Key="radiusX_SC">1</core:Double>
@@ -19,18 +19,18 @@
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
       <GradientStop Color="Chocolate" Offset="1" />
    </RadialGradientBrush>
-   
+
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfStrainPen1_SC}" 
-                  Thickness="10" LineJoin="Round" EndLineCap="Square" StartLineCap="Square">
+        Thickness="10" LineJoin="Round" EndLineCap="Square" StartLineCap="Square">
       <Pen.Brush>
          <RadialGradientBrush
-                        RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
-         <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
-         <GradientStop Color="Chocolate" Offset="1" />
-      </RadialGradientBrush>
+            RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
+            <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
+            <GradientStop Color="Chocolate" Offset="1" />
+         </RadialGradientBrush>
       </Pen.Brush>
    </Pen>
-   
+
    <RadialGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=LightGrayBackgroundBrush_SC}"
                         RadiusX="{StaticResource radiusX_SC}" RadiusY="{StaticResource radiusY_SC}" GradientOrigin="0.45,0.55">
       <GradientStop Color="{StaticResource GradientStartColor_SC}" Offset="0" />
@@ -44,7 +44,7 @@
    </RadialGradientBrush>
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ConcreteStrainPen1_SC}" 
-                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+        Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
       <Pen.Brush>
          <SolidColorBrush Color="DimGray" />
       </Pen.Brush>
@@ -55,11 +55,12 @@
       <GradientStop Color="LimeGreen" Offset="0"/>
       <GradientStop Color="White" Offset="0.75" />
    </LinearGradientBrush>
-   
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CompressPartPen1_SC}" 
-                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
-      <Pen.Brush> <SolidColorBrush Color="DarkOliveGreen" /> </Pen.Brush>
+        Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="DarkOliveGreen" />
+      </Pen.Brush>
    </Pen>
 
    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssBrush1_SC}" 
@@ -75,12 +76,14 @@
    </LinearGradientBrush>
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssPen1_SC}" 
-                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
-      <Pen.Brush> <SolidColorBrush Color="DimGray" /> </Pen.Brush>
+        Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="DimGray" />
+      </Pen.Brush>
    </Pen>
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=CssPen2_SC}" 
-                  Thickness="1" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+        Thickness="1" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
       <Pen.Brush>
          <SolidColorBrush Color="#FF07AFE2" />
       </Pen.Brush>
@@ -89,21 +92,25 @@
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=HorAxisBrush1_SC}" Color="#FFEF2222" />
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=HorAxisPen1_SC}" 
-                  Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
-      <Pen.Brush> <SolidColorBrush Color="#FFEF2222" /> </Pen.Brush>
+        Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="#FFEF2222" />
+      </Pen.Brush>
    </Pen>
 
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=VerAxisBrush1_SC}" Color="DodgerBlue" />
 
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=VerAxisPen1_SC}" 
-                  Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
-      <Pen.Brush> <SolidColorBrush Color="DodgerBlue" /> </Pen.Brush>
+        Thickness="{StaticResource penAxisThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+      <Pen.Brush>
+         <SolidColorBrush Color="DodgerBlue" />
+      </Pen.Brush>
    </Pen>
 
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=ReinfBrush1_SC}" Color="SaddleBrown" />
-   
+
    <Pen x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ReinfPen1_SC}" 
-                  Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
+        Thickness="{StaticResource penShapeThickness_SC}" LineJoin="Round" EndLineCap="Triangle" StartLineCap="Round">
       <Pen.Brush>
          <SolidColorBrush Color="SaddleBrown" />
       </Pen.Brush>
@@ -116,14 +123,14 @@
    </RadialGradientBrush>
 
    <RadialGradientBrush        
-    x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=CompressionPartBrush_SC}" 
-    RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+      x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=CompressionPartBrush_SC}" 
+      RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
       <GradientStop Color="White" Offset="0" />
       <GradientStop Color="#FFEBD84E" Offset="1" />
    </RadialGradientBrush>
 
    <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBoxAsLabelStyle_SC}"
-       TargetType="TextBox">
+           TargetType="TextBox">
       <Style.Setters>
          <Setter Property="Background" Value="Transparent" />
          <Setter Property="BorderBrush" Value="Transparent" />
@@ -133,7 +140,7 @@
    </Style>
 
    <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBoxAsLabelStyleExpressDark_SC}"
-       TargetType="TextBox">
+           TargetType="TextBox">
       <Style.Setters>
          <Setter Property="Background" Value="Transparent" />
          <Setter Property="BorderBrush" Value="Transparent" />
@@ -143,7 +150,7 @@
    </Style>
 
    <Style  x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources},ResourceId=TextBox4EditAsLabelStyle_SC}"
-     TargetType="TextBox">
+           TargetType="TextBox">
       <Style.Setters>
          <Setter Property="Background" Value="Transparent" />
          <Setter Property="BorderBrush" Value="Transparent" />

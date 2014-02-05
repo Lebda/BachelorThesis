@@ -10,25 +10,25 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:infrastructure="clr-namespace:XEP_SectionCheckInterfaces.Infrastructure;assembly=XEP_SectionCheckInterfaces"
              xmlns:prism="http://www.codeplex.com/prism">
-    <Grid>
-      <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="*"></ColumnDefinition>
-         <ColumnDefinition Width="Auto"></ColumnDefinition>
-         <ColumnDefinition Width="3*"></ColumnDefinition>
-         <ColumnDefinition Width="Auto"></ColumnDefinition>         
-         <ColumnDefinition Width="*"></ColumnDefinition>
-      </Grid.ColumnDefinitions>
+      <Grid>
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+         </Grid.ColumnDefinitions>
          <ContentControl Grid.Column ="0"
-            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.LeftContentRegionName}" />
-      <GridSplitter Grid.Row="0" Grid.Column="1"
-         Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
-         ShowsPreview="False"></GridSplitter>
-      <ContentControl Grid.Column ="2"
-            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
-      <GridSplitter Grid.Row="0" Grid.Column="3"
-         Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
-         ShowsPreview="False"></GridSplitter>
-      <ContentControl Grid.Column ="4"
-            prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.CssPropertiesRegionName}" />
-   </Grid>
+                         prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.LeftContentRegionName}" />
+         <GridSplitter Grid.Row="0" Grid.Column="1"
+                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
+                       ShowsPreview="False"></GridSplitter>
+         <ContentControl Grid.Column ="2"
+                         prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
+         <GridSplitter Grid.Row="0" Grid.Column="3"
+                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
+                       ShowsPreview="False"></GridSplitter>
+         <ContentControl Grid.Column ="4"
+                         prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.CssPropertiesRegionName}" />
+      </Grid>
 </UserControl>
