@@ -27,7 +27,7 @@ namespace SectionCheck.Services
         {
             Exceptions.CheckNull(source);
             string builder = String.Empty;
-            bool isSpecialType = (source.QuantityType == eEP_QuantityType.eBool || source.QuantityType == eEP_QuantityType.eEnum);
+            bool isSpecialType = (source.QuantityType == eEP_QuantityType.eBool || source.QuantityType == eEP_QuantityType.eEnum || source.QuantityType == eEP_QuantityType.eString);
             if (!isSpecialType)
             {
                 builder = "[" + _data[source.QuantityType].QuantityNameScale + _data[source.QuantityType].QuantityName + "]";

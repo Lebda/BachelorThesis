@@ -37,6 +37,7 @@ namespace XEP_SectionCheckInterfaces.Infrastructure
         eNoType = 0, // has to be first
         eBool,
         eEnum,
+        eString,
         eNoUnit,
         eCssLength,
         eForce,

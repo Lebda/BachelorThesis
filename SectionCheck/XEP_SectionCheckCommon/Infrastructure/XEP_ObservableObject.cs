@@ -127,11 +127,9 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 item.Owner = owner;
             }
         }
-        protected void AddOneQuantity(double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null, string enumName = null)
+        protected void AddOneQuantity(double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null, string enumName = null, string valueName = null)
         {
-            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(value, type, name, enumName);
-            data.Owner = owner;
-            data.EnumName = enumName;
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(value, type, name, owner, enumName, valueName);
             _data.Add(data);
             _indexes.Add(name, _data.Count - 1);
         }

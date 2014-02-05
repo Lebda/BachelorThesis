@@ -35,14 +35,22 @@ namespace XEP_SectionCheckCommon.DataCache
         protected XEP_QuantityFactory()
         {
         }
-        public XEP_IQuantity Create(double value, eEP_QuantityType type, string name, string enumName)
+        public XEP_IQuantity Create(double value, eEP_QuantityType type, string name, XEP_IDataCacheObjectBase owner = null, string enumName = null, string valueName = null)
         {
             Exceptions.CheckNull(_resolver);
             XEP_IQuantity newObject =_resolver.Resolve();
             newObject.Name = name;
             newObject.QuantityType = type;
             newObject.Value = value;
-            newObject.EnumName = enumName;
+            newObject.Owner = owner;
+            if (newObject.QuantityType == eEP_QuantityType.eEnum)
+            {
+                newObject.EnumName = enumName;
+            }
+            else if (newObject.QuantityType == eEP_QuantityType.eString)
+            {
+                newObject.ValueName = valueName;
+            }
             return newObject;
         }
     }

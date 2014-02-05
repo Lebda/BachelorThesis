@@ -61,7 +61,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             double result;
             if (double.TryParse(forceValue, NumberStyles.Any, culture, out result))
             {
-                XEP_IQuantity finalForce = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null, null);
+                XEP_IQuantity finalForce = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null);
                 return finalForce;
             }
             return null;
@@ -141,7 +141,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
             double result;
             if (double.TryParse(dataValue, NumberStyles.Any, culture, out result))
             {
-                XEP_IQuantity finalData = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null, null);
+                XEP_IQuantity finalData = XEP_QuantityFactory.Instance().Create(result, eEP_QuantityType.eNoType, null);
                 return finalData;
             }
             return null;

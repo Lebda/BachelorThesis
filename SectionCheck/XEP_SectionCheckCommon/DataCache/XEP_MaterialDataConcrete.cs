@@ -89,6 +89,7 @@ namespace XEP_SectionCheckCommon.DataCache
             _xmlWorker = new XEP_MaterialDataConcreteXml(this);
             _resolverDiagramItem = resolverDiagramItem;
             _resolver = resolver;
+            AddOneQuantity(0.0, eEP_QuantityType.eString, MaterialNamePropertyName, this, null, MaterialNamePropertyName);
             AddOneQuantity(0.0, eEP_QuantityType.eBool, MatFromLibPropertyName, this);
             AddOneQuantity((double)XEP_eMaterialDiagramType.BiliUls, eEP_QuantityType.eEnum, DiagramTypePropertyName, this, typeof(XEP_eMaterialDiagramType).Name);
             AddOneQuantity( 0.0, eEP_QuantityType.eStress, FckPropertyName, this);
@@ -197,6 +198,12 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _stressStrainDiagram; }
             set { SetMemberWithAction<ObservableCollection<XEP_IESDiagramItem>>(ref value, ref _stressStrainDiagram, () => _stressStrainDiagram != value, Intergrity, StressStrainDiagramPropertyName); }
+        }
+        public static readonly string MaterialNamePropertyName = "MaterialName";
+        public XEP_IQuantity MaterialName
+        {
+            get { return GetOneQuantity(MaterialNamePropertyName); }
+            set { SetItemWithActions(ref value, MaterialNamePropertyName, null, Intergrity); }
         }
         public static readonly string DiagramTypePropertyName = "DiagramType";
         public XEP_IQuantity DiagramType

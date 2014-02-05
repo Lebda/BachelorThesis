@@ -31,7 +31,7 @@ namespace XEP_SectionCheckCommon.Infrastructure
     }
 
     [ValueConversion(typeof(Int32), typeof(XEP_IQuantity))]
-    public class XEP_SBYTEIQuantity_Conventer : IValueConverter
+    public class XEP_Int32IQuantity_Conventer : IValueConverter
     {
         #region IValueConverter Members
 
@@ -47,6 +47,10 @@ namespace XEP_SectionCheckCommon.Infrastructure
                 else if (data.QuantityType == eEP_QuantityType.eEnum)
                 {
                     return 2;
+                }
+                else if (data.QuantityType == eEP_QuantityType.eString)
+                {
+                    return 3;
                 }
                 else
                 {

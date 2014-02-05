@@ -72,7 +72,7 @@
                                        IsEnabled_XEP="{Binding Path=IsReadOnly, Converter={StaticResource negator}, Mode=OneWay}"/>
          </DataTemplate>
          <commonSec:XEP_IsBoolIQuantityConventer x:Key="converter"/>
-         <commonSec:XEP_SBYTEIQuantity_Conventer x:Key="converterSBYTE"/>
+         <commonSec:XEP_Int32IQuantity_Conventer x:Key="converterSBYTE"/>
          <commonlib:XEP_ConditionalDataTemplateSelector x:Key="selector" ConditionConverter="{StaticResource converterSBYTE}">
             <commonlib:XEP_ConditionalDataTemplateSelector.Rules>
                <commonlib:XEP_ConditionalDataTemplateRule DataTemplate="{StaticResource DoubleTemplate}">

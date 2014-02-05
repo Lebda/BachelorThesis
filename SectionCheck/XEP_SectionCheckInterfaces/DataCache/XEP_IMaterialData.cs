@@ -9,6 +9,7 @@ namespace XEP_SectionCheckInterfaces.DataCache
         ObservableCollection<XEP_IESDiagramItem> StressStrainDiagram { get; set; }
         XEP_IQuantity DiagramType { get; set; }
         XEP_IQuantity MatFromLibMode { get; set; }
+        XEP_IQuantity MaterialName { get; set; }
         void CreatePoints(XEP_ISetupParameters setup);
         void ResetMatFromLib();
         void Intergrity(string propertyCallerName);

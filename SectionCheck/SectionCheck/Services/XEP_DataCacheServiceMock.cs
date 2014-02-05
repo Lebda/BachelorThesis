@@ -101,6 +101,7 @@ namespace XEP_SectionCheck.Services
         private XEP_IMaterialDataConcrete GetMaterialDataConcrete(XEP_ISetupParameters setup)
         {
             XEP_IMaterialDataConcrete item = _resolverXEP_IMaterialDataConcrete.Resolve();
+            item.MaterialName.ValueName = "C25/30";
             item.Name = "C25/30";
             item.Fck.Value = 25.0*1e6;
             item.FckCube.Value = 30.0*1e6;

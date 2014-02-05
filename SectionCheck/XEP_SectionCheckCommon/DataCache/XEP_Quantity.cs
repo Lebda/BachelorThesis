@@ -56,7 +56,7 @@ namespace XEP_SectionCheckCommon.DataCache
         #region ICloneable Members
         public object Clone()
         { // do not copy owner has to be set from outside !
-            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(_value, _quantityType, _name, _enumName);
+            XEP_IQuantity data = XEP_QuantityFactory.Instance().Create(_value, _quantityType, _name, null,_enumName, _valueName);
             data.VisibleState = _visibleState;
             data.IsReadOnly = _isReadOnly;
             return data;
@@ -145,7 +145,11 @@ namespace XEP_SectionCheckCommon.DataCache
         public string EnumName
         {
             get { return _enumName; }
-            set { SetMember<string>(ref value, ref _enumName, (_enumName == value), EnumNamePropertyName); }
+            set 
+            {
+                Exceptions.CheckPredicate<eEP_QuantityType>("XEP_IQuantity is not enum type !", _quantityType, (param => param != eEP_QuantityType.eEnum));
+                SetMember<string>(ref value, ref _enumName, (_enumName == value), EnumNamePropertyName); 
+            }
         }
         Visibility _visibleState = Visibility.Visible;
         public static readonly string VisibleStatePropertyName = "VisibleState";
@@ -168,6 +172,33 @@ namespace XEP_SectionCheckCommon.DataCache
         {
             get { return _owner; }
             set { SetMember<XEP_IDataCacheObjectBase>(ref value, ref _owner, (_owner == value), OwnerPropertyName); }
+        }
+        string _valueName = String.Empty;
+        public static readonly string ValueNamePropertyName = "ValueName";
+        public string ValueName
+        {
+            get { return _valueName; }
+            set 
+            {
+                Exceptions.CheckPredicate<eEP_QuantityType>("XEP_IQuantity is not string type !", _quantityType, (param => param != eEP_QuantityType.eString));
+                SetMember<string>(ref value, ref _valueName, (_valueName == value), ValueNamePropertyName); 
+            }
+        }
+        public static readonly string ValueNameManagedPropertyName = "ValueNameManaged";
+        public string ValueNameManaged
+        {
+            get { return _valueName; }
+            set
+            {
+                Exceptions.CheckPredicate<eEP_QuantityType>("XEP_IQuantity is not string type !", _quantityType, (param => param != eEP_QuantityType.eString));
+                RaisePropertyChanged(ValueNameManagedPropertyName); // I need it
+                if (_valueName == value)
+                {
+                    return;
+                }
+                _valueName = value;
+                ManagedValue = _valueName.GetHashCode();
+            }
         }
         public static readonly string ManagedValuePropertyName = "ManagedValue";
         public double ManagedValue
