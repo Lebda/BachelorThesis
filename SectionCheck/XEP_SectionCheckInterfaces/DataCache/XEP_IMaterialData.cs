@@ -10,6 +10,7 @@ namespace XEP_SectionCheckInterfaces.DataCache
         XEP_IQuantity DiagramType { get; set; }
         XEP_IQuantity MatFromLibMode { get; set; }
         XEP_IQuantity MaterialName { get; set; }
+        // Methods
         void CreatePoints(XEP_ISetupParameters setup);
         void ResetMatFromLib();
     }

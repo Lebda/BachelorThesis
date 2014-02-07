@@ -9,7 +9,6 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:commonlib="clr-namespace:XEP_CommonLibrary.Infrastructure;assembly=XEP_CommonLibrary"
              xmlns:commonSec="clr-namespace:XEP_SectionCheckCommon.Infrastructure;assembly=XEP_SectionCheckCommon"
-             xmlns:telerikHelp="clr-namespace:XEP_TelerikHelp;assembly=XEP_TelerikHelp"             
              xmlns:core="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:XEP_CssProperties.Infrastructure"
              xmlns:localViews="clr-namespace:XEP_CssProperties.Views"
@@ -32,7 +31,7 @@
                      <ColumnDefinition Width="Auto"></ColumnDefinition>
                      <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                  <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Background="Transparent"
                                 Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
                                 ShowsPreview="False">
                   </GridSplitter>

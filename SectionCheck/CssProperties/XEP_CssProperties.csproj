@@ -232,10 +232,6 @@
       <Project>{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}</Project>
       <Name>XEP_SmartTextBox</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XEP_TelerikHelp\XEP_TelerikHelp.csproj">
-      <Project>{7B8B678C-6F82-4361-AB00-C2CEF11A2974}</Project>
-      <Name>XEP_TelerikHelp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

@@ -74,11 +74,6 @@
                   <Path Data="M-1236,-441 L-1180,-441 -1180,-424 -1228,-424 -1230.5,-420 -1233,-424 -1236,-424 z"
                         Stretch="Fill" Fill="#23A0DA" Stroke="White" StrokeThickness="1" />
                   <StackPanel Margin="4,3,4,12" Orientation="Horizontal">
-                     <!--<StackPanel Orientation="Vertical">
-                     <TextBlock Text="{Binding Path=DataItem.Points}" FontSize="21" TextAlignment="Center" Margin="0,-4" />
-                     <TextBlock Text="pts" TextAlignment="Center" Margin="0,-2,0,0" />
-                     </StackPanel>-->
-                     <!--<Rectangle Width="1" Fill="White" Margin="3,-3" />-->
                      <StackPanel Orientation="Vertical" Margin="0,4,0,0">
                         <TextBlock>
                            <Run Text="Strain:" />
@@ -98,8 +93,8 @@
             <telerik:ChartTooltipBehavior Placement="Top" HorizontalOffset="-6"/>
             <telerik:ChartTrackBallBehavior ShowIntersectionPoints="True" TrackInfoUpdated="ChartTrackBallBehavior_TrackInfoUpdated" />
          </telerik:RadCartesianChart.Behaviors>
-         <telerik:RadCartesianChart.HorizontalAxis>
-            <telerik:LinearAxis 
+         <telerik:RadCartesianChart.HorizontalAxis >
+            <telerik:LinearAxis x:Name="_horizontalAxis"
                Title="Strain[‰]" IsInverse="True" MajorTickTemplate="{StaticResource horizontalMajorTickTemplate}">
                <telerik:LinearAxis.TitleTemplate>
                   <DataTemplate>
@@ -108,8 +103,8 @@
                </telerik:LinearAxis.TitleTemplate>
             </telerik:LinearAxis>
          </telerik:RadCartesianChart.HorizontalAxis>
-         <telerik:RadCartesianChart.VerticalAxis>
-            <telerik:LinearAxis Title="Stress[MPa]" Minimum="-20" Maximum="0" MajorStep="5" IsInverse="True"
+         <telerik:RadCartesianChart.VerticalAxis >
+            <telerik:LinearAxis Title="Stress[MPa]" IsInverse="True" x:Name="_verticalAxis"
                                 MajorTickTemplate="{StaticResource verticalMajorTickTemplate}">
                <telerik:LinearAxis.TitleTemplate>
                   <DataTemplate>
@@ -121,7 +116,12 @@
          <telerik:RadCartesianChart.Grid>
             <telerik:CartesianChartGrid MajorLinesVisibility="XY" />
          </telerik:RadCartesianChart.Grid>
-         <local:XEP_SeriesTypeSwitch.SeriesTypeNew >
+         <telerik:RadCartesianChart.Annotations>
+            <telerik:CartesianGridLineAnnotation Value="0.0" Stroke="#1B9DDE" StrokeThickness="1" Axis="{Binding ElementName=_verticalAxis}"/>
+            <telerik:CartesianGridLineAnnotation Value="0.0" Stroke="#1B9DDE" StrokeThickness="1" Axis="{Binding ElementName=_horizontalAxis}"/>
+         </telerik:RadCartesianChart.Annotations>
+
+            <local:XEP_SeriesTypeSwitch.SeriesTypeNew >
             <Binding Path="SeriesTypeUC" />
          </local:XEP_SeriesTypeSwitch.SeriesTypeNew>
       </telerik:RadCartesianChart>

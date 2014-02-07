@@ -64,30 +64,15 @@ namespace XEP_SmartControls
         // Integrity solution
         private void OnStressStrainDiagramUCChangedInternal()
         {
-
             XEP_StressStrainDiagramUC_ViewModel dataContext = this._myShellGrid.DataContext as XEP_StressStrainDiagramUC_ViewModel;
             if (dataContext == null)
             {
                 return;
             }
             dataContext.MaterialDataUC = MaterialData_XEP;
+            string old = dataContext.SeriesTypeUC;
+            dataContext.SeriesTypeUC = null;
+            dataContext.SeriesTypeUC = old;
         }
-
-
-//         static XEP_StressStrainDiagramUC()
-//         {
-//             MaterialDataSource_XEPProperty = DependencyProperty.Register(MaterialDataSource_XEPPropertyName, typeof(string), typeof(XEP_StressStrainDiagramUC),
-//                 new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnMaterialSourceDataChanged)));
-//         }
-// 
-//         // DEPENDENCY
-//         private static string MaterialDataSource_XEPPropertyName = "MaterialDataSource_XEP";
-//         public static DependencyProperty MaterialDataSource_XEPProperty;
-//         public string MaterialDataSource_XEP
-//         {
-//             get { return (string)GetValue(MaterialDataSource_XEPProperty); }
-//             set { SetValue(MaterialDataSource_XEPProperty, value); }
-// 
-//         }
     }
 }
