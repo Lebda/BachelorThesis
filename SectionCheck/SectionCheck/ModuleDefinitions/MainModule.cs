@@ -18,7 +18,7 @@ namespace XEP_SectionCheck.ModuleDefinitions
     [Module(ModuleName = "MainModule")]
     public class MainModule : MyModuleBase
     {
-        static bool _isMock = true;
+        static bool _isMock = false;
         public MainModule(IUnityContainer container, IRegionManager regionManager) : base(container, regionManager)
         {
         }

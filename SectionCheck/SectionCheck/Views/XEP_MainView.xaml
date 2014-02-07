@@ -21,12 +21,12 @@
          <ContentControl Grid.Column ="0"
                          prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.LeftContentRegionName}" />
          <GridSplitter Grid.Row="0" Grid.Column="1"
-                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
+                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF4D58B" Background="#FFF4D58B"
                        ShowsPreview="False"></GridSplitter>
          <ContentControl Grid.Column ="2"
                          prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.MiddleContentRegionName}" />
          <GridSplitter Grid.Row="0" Grid.Column="3"
-                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF6AE07" Background="#FFF6AE07"
+                       Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="#FFF4D58B" Background="#FFF4D58B"
                        ShowsPreview="False"></GridSplitter>
          <ContentControl Grid.Column ="4"
                          prism:RegionManager.RegionName="{x:Static infrastructure:XEP_Constants.CssPropertiesRegionName}" />

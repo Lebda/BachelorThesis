@@ -142,29 +142,11 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to εc₁.
-        /// </summary>
-        public static string EPS_C1_MARK {
-            get {
-                return ResourceManager.GetString("EPS_C1_MARK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to εc₂ explanation.
         /// </summary>
         public static string EPS_C2_EXPL {
             get {
                 return ResourceManager.GetString("EPS_C2_EXPL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to εc₂.
-        /// </summary>
-        public static string EPS_C2_MARK {
-            get {
-                return ResourceManager.GetString("EPS_C2_MARK", resourceCulture);
             }
         }
         
@@ -178,29 +160,11 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to εc₃.
-        /// </summary>
-        public static string EPS_C3_MARK {
-            get {
-                return ResourceManager.GetString("EPS_C3_MARK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to εcu₁ explanation.
         /// </summary>
         public static string EPS_CU1_EXPL {
             get {
                 return ResourceManager.GetString("EPS_CU1_EXPL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to εcu₁.
-        /// </summary>
-        public static string EPS_CU1_MARK {
-            get {
-                return ResourceManager.GetString("EPS_CU1_MARK", resourceCulture);
             }
         }
         
@@ -214,29 +178,11 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to εcu₂.
-        /// </summary>
-        public static string EPS_CU2_MARK {
-            get {
-                return ResourceManager.GetString("EPS_CU2_MARK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to εcu₃ explanation.
         /// </summary>
         public static string EPS_CU3_EXPL {
             get {
                 return ResourceManager.GetString("EPS_CU3_EXPL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to εcu₃.
-        /// </summary>
-        public static string EPS_CU3_MARK {
-            get {
-                return ResourceManager.GetString("EPS_CU3_MARK", resourceCulture);
             }
         }
         
@@ -250,29 +196,11 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FckCube.
-        /// </summary>
-        public static string FCK_CUBE_MARK {
-            get {
-                return ResourceManager.GetString("FCK_CUBE_MARK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fck explantion.
         /// </summary>
         public static string FCK_EXPL {
             get {
                 return ResourceManager.GetString("FCK_EXPL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fck.
-        /// </summary>
-        public static string FCK_MARK {
-            get {
-                return ResourceManager.GetString("FCK_MARK", resourceCulture);
             }
         }
         
@@ -313,6 +241,15 @@ namespace XEP_CssProperties.ResTrans {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material diagram preview.
+        /// </summary>
+        public static string MATERIAL_DIAGRAM_PREVIEW {
+            get {
+                return ResourceManager.GetString("MATERIAL_DIAGRAM_PREVIEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Material specification.
         /// </summary>
         public static string MATERIAL_SPECIFICATION {
@@ -327,15 +264,6 @@ namespace XEP_CssProperties.ResTrans {
         public static string N_EXPL {
             get {
                 return ResourceManager.GetString("N_EXPL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to N.
-        /// </summary>
-        public static string N_MARK {
-            get {
-                return ResourceManager.GetString("N_MARK", resourceCulture);
             }
         }
         

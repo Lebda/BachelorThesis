@@ -71,6 +71,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.Windows.Controls.Data, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.Data.dll</HintPath>
@@ -220,9 +224,17 @@
       <Project>{50676F5C-FD40-48F2-9E2C-8FA7D50F07CB}</Project>
       <Name>XEP_SmartComboBox</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XEP_SmartControl\XEP_SmartControls.csproj">
+      <Project>{418D33BD-3CC3-4DD4-A9FD-E28B10BC4622}</Project>
+      <Name>XEP_SmartControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XEP_SmartTextBox\XEP_SmartTextBox.csproj">
       <Project>{C3D66DD6-0F37-4C87-9008-A1F14FB7D245}</Project>
       <Name>XEP_SmartTextBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_TelerikHelp\XEP_TelerikHelp.csproj">
+      <Project>{7B8B678C-6F82-4361-AB00-C2CEF11A2974}</Project>
+      <Name>XEP_TelerikHelp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

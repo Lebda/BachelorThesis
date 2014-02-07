@@ -63,8 +63,8 @@ namespace XEP_SectionCheckCommon.DataCache
     {
         public XEP_Quantity(XEP_IQuantityManager manager, XEP_IEnum2StringManager enum2StringManager)
         {
-            _xmlWorker = new XEP_QuantityXml(this);
-            _manager = manager;
+            XmlWorker = new XEP_QuantityXml(this);
+            Manager = manager;
             _enum2StringManager = enum2StringManager;
             Intergrity(null);
         }
@@ -105,20 +105,8 @@ namespace XEP_SectionCheckCommon.DataCache
             get { return null; }
             set { return; }
         }
-        [field: NonSerialized]
-        XEP_IXmlWorker _xmlWorker = null;
-        public XEP_IXmlWorker XmlWorker
-        {
-            get { return _xmlWorker; }
-            set { _xmlWorker = value; }
-        }
-        [field: NonSerialized]
-        XEP_IQuantityManager _manager = null;
-        public XEP_IQuantityManager Manager
-        {
-            get { return _manager; }
-            set { _manager = value; }
-        }
+        public XEP_IXmlWorker XmlWorker {get;set;}
+        public XEP_IQuantityManager Manager {get;set;}
         #endregion
 
         static public object GetAsUnderlyingType(Enum enval)
@@ -153,6 +141,11 @@ namespace XEP_SectionCheckCommon.DataCache
             _value = MathUtils.GetDoubleFromBool(value);
         }
         // PROPERTIES
+        public string ManagedValueWithUnit
+        {
+            get { return ManagedValue.ToString() + " " + Manager.GetNameWithUnit(this); }
+            set { }
+        }
         XEP_IEnum2StringManager _enum2StringManager = null;
         public static readonly string Enum2StringManagerPropertyName = "Enum2StringManager";
         public XEP_IEnum2StringManager Enum2StringManager

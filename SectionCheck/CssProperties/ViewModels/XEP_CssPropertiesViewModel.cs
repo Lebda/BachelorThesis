@@ -51,6 +51,23 @@ namespace XEP_CssProperties.ViewModels
             }
         }
 
+        private string _SeriesType = "Scatter point";
+        public string SeriesType
+        {
+            get
+            {
+                return this._SeriesType;
+            }
+            set
+            {
+                if (this._SeriesType != value)
+                {
+                    this._SeriesType = value;
+                    this.RaisePropertyChanged("SeriesType");
+                }
+            }
+        }
+
         XEP_IDataCache _dataCache = null; // singleton
         public static readonly string DataCachePropertyName = "DataCache";
         public XEP_IDataCache DataCache

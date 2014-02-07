@@ -19,6 +19,7 @@ namespace XEP_SectionCheckInterfaces.DataCache
         string EnumName { get; set; }
         XEP_IQuantityManager Manager { get; set; }
         XEP_IEnum2StringManager Enum2StringManager { get; set; }
+        string ManagedValueWithUnit { get; set; } // I need set just for binding
         // Methods
         bool IsTrue();
         void SetBool(bool value);

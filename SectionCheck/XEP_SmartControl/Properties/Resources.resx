@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,7 +60,6 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -69,10 +68,9 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -87,10 +85,9 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -112,97 +109,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ADD" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="ADD_MAT_TO_LIB" xml:space="preserve">
-    <value>Add material to library</value>
-  </data>
-  <data name="COPY" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="CROSS_SECTION" xml:space="preserve">
-    <value>Cross Section</value>
-  </data>
-  <data name="CROSS_SEC_INNER_SHAPE" xml:space="preserve">
-    <value>Cross section inner shape</value>
-  </data>
-  <data name="CROSS_SEC_OUTER_SHAPE" xml:space="preserve">
-    <value>Cross section outer shape</value>
-  </data>
-  <data name="DELETE" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="DELETE_MAT_FROM_LIB" xml:space="preserve">
-    <value>Delete material from library</value>
-  </data>
-  <data name="EPS_C1_EXPL" xml:space="preserve">
-    <value>εc₁ explanation</value>
-  </data>
-  <data name="EPS_C2_EXPL" xml:space="preserve">
-    <value>εc₂ explanation</value>
-  </data>
-  <data name="EPS_C3_EXPL" xml:space="preserve">
-    <value>εc₃ explanation</value>
-  </data>
-  <data name="EPS_CU1_EXPL" xml:space="preserve">
-    <value>εcu₁ explanation</value>
-  </data>
-  <data name="EPS_CU2_EXPL" xml:space="preserve">
-    <value>εcu₂ explanation</value>
-  </data>
-  <data name="EPS_CU3_EXPL" xml:space="preserve">
-    <value>εcu₃ explanation</value>
-  </data>
-  <data name="FCK_CUBE_EXPL" xml:space="preserve">
-    <value>Fck cube explanation</value>
-  </data>
-  <data name="FCK_EXPL" xml:space="preserve">
-    <value>Fck explantion</value>
-  </data>
-  <data name="GEOMETRY" xml:space="preserve">
-    <value>Geometry</value>
-  </data>
-  <data name="INTERNAL_FORCES" xml:space="preserve">
-    <value>Internal Forces</value>
-    <comment>Css properties internal force header</comment>
-  </data>
-  <data name="MATERIAL_DIAGRAM_PREVIEW" xml:space="preserve">
-    <value>Material diagram preview</value>
-  </data>
-  <data name="MATERIAL_SPECIFICATION" xml:space="preserve">
-    <value>Material specification</value>
-  </data>
-  <data name="MAT_FROM_LIB" xml:space="preserve">
-    <value>Library material</value>
-  </data>
-  <data name="MAT_PROP" xml:space="preserve">
-    <value>Material properties</value>
-  </data>
-  <data name="NAME" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="N_EXPL" xml:space="preserve">
-    <value>N explanation</value>
-  </data>
-  <data name="PARAMETERS" xml:space="preserve">
-    <value>Parameters</value>
-  </data>
-  <data name="PASTE" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="PROPERTIES" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="TYPE" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="VALUE" xml:space="preserve">
-    <value>Value</value>
-  </data>
 </root>
