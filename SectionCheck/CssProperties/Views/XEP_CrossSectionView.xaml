@@ -27,136 +27,21 @@
          <telerik:RadExpander.Content>
             <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
                <Grid>
-                  <Grid.Resources>
-                     <Style x:Key="trackBallLineStyle" TargetType="Polyline">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                     </Style>
-                     <Style x:Key="trackBallInfoStyle" TargetType="telerik:TrackBallInfoControl">
-                        <Setter Property="Template">
-                           <Setter.Value>
-                              <ControlTemplate TargetType="telerik:TrackBallInfoControl" />
-                           </Setter.Value>
-                        </Setter>
-                     </Style>
-                     <DataTemplate x:Key="trackBallTemplate">
-                        <Ellipse Height="8" Width="8" Stroke="White" StrokeThickness="1" Fill="#1B9DDE" />
-                     </DataTemplate>
-                  </Grid.Resources>
                   <Grid.ColumnDefinitions>
                      <ColumnDefinition Width="*" />
                      <ColumnDefinition Width="Auto"></ColumnDefinition>
                      <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <Grid.RowDefinitions>
-                     <RowDefinition Height="Auto"/>
-                     <RowDefinition Height="Auto"/>
-                  </Grid.RowDefinitions>
                   <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                                 Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
                                 ShowsPreview="False">
                   </GridSplitter>
-                  <!--//// MATERIAL DIAGRAM-->
-                  <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="12,6,0,20">
-                     <TextBlock>
-                        <Run Text="STRESS:" FontFamily="Segoe UI" FontSize="10" />
-                        <Run x:Name="stressActual" Text="0.0" FontFamily="Segoe UI" FontSize="12" Foreground="#FFFB42E4" />
-                     </TextBlock>
-                     <TextBlock Margin="10,0,0,0">
-                        <Run Text="STRAIN:" FontFamily="Segoe UI" FontSize="10" />
-                        <Run x:Name="strainActual" Text="0.0" FontFamily="Segoe UI" FontSize="12" Foreground="#FFFB42E4" />
-                     </TextBlock>
-                  </StackPanel>
-
-                  <telerik:RadCartesianChart x:Name="chart1" Visibility="{Binding ElementName=MaterialPropExpander, Converter={StaticResource conventorVisibility}, Path=IsExpanded}"
-                                             Grid.Row="0" Grid.Column="0"
-                                             Palette="Windows8"
-                                             TrackBallLineStyle="{StaticResource trackBallLineStyle}"
-                                             TrackBallInfoStyle="{StaticResource trackBallInfoStyle}">
-                     <telerik:RadCartesianChart.Resources>
-                        <DataTemplate x:Key="PointTemplate">
-                           <Ellipse Height="8" Width="8" Stroke="White" StrokeThickness="1" Fill="#1B9DDE" />
-                        </DataTemplate>
-                        <DataTemplate x:Key="horizontalMajorTickTemplate">
-                           <Rectangle VerticalAlignment="Top" Height="3" Width="1" Stroke="Black" StrokeThickness="0.2" Fill="Black" />
-                        </DataTemplate>
-                        <DataTemplate x:Key="verticalMajorTickTemplate">
-                           <Rectangle HorizontalAlignment="Right" Height="1" Width="3" Stroke="Black" StrokeThickness="0.2" Fill="Black" />
-                        </DataTemplate>
-                     </telerik:RadCartesianChart.Resources>
-                     <telerik:RadCartesianChart.TooltipTemplate>
-                        <DataTemplate>
-                           <Grid>
-                              <Grid.Resources>
-                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="White" />
-                                    <Setter Property="FontFamily" Value="Segoe UI" />
-                                    <Setter Property="FontSize" Value="11" />
-                                 </Style>
-                              </Grid.Resources>
-                              <Path Data="M-1236,-441 L-1180,-441 -1180,-424 -1228,-424 -1230.5,-420 -1233,-424 -1236,-424 z"
-                                    Stretch="Fill" Fill="#23A0DA" Stroke="White" StrokeThickness="1" />
-                              <StackPanel Margin="4,3,4,12" Orientation="Horizontal">
-                                 <!--<StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Path=DataItem.Points}" FontSize="21" TextAlignment="Center" Margin="0,-4" />
-                                    <TextBlock Text="pts" TextAlignment="Center" Margin="0,-2,0,0" />
-                                 </StackPanel>-->
-                                 <!--<Rectangle Width="1" Fill="White" Margin="3,-3" />-->
-                                 <StackPanel Orientation="Vertical" Margin="0,4,0,0">
-                                    <TextBlock>
-                                       <Run Text="Strain:" />
-                                       <Run Text="{Binding Path=DataItem.Strain.ManagedValueWithUnit}" />
-                                    </TextBlock>
-                                    <TextBlock>
-                                       <Run Text="Stress:" />
-                                       <Run Text="{Binding Path=DataItem.Stress.ManagedValueWithUnit}" />
-                                    </TextBlock>
-                                 </StackPanel>
-                              </StackPanel>
-                           </Grid>
-                        </DataTemplate>
-                     </telerik:RadCartesianChart.TooltipTemplate>
-                     <telerik:RadCartesianChart.Behaviors>
-                        <telerik:ChartPanAndZoomBehavior ZoomMode="Both" />
-                        <telerik:ChartTooltipBehavior Placement="Top" HorizontalOffset="-6"/>
-                        <telerik:ChartTrackBallBehavior ShowIntersectionPoints="True" TrackInfoUpdated="ChartTrackBallBehavior_TrackInfoUpdated" />
-                     </telerik:RadCartesianChart.Behaviors>
-                     <telerik:RadCartesianChart.HorizontalAxis>
-                        <telerik:LinearAxis 
-                           Title="Strain[‰]" IsInverse="True" MajorTickTemplate="{StaticResource horizontalMajorTickTemplate}">
-                           <telerik:LinearAxis.TitleTemplate>
-                              <DataTemplate>
-                                 <TextBlock Text="{Binding}" FontSize="11" FontFamily="Segoe UI" />
-                              </DataTemplate>
-                           </telerik:LinearAxis.TitleTemplate>
-                        </telerik:LinearAxis>
-                     </telerik:RadCartesianChart.HorizontalAxis>
-                     <telerik:RadCartesianChart.VerticalAxis>
-                        <telerik:LinearAxis Title="Stress[MPa]" Minimum="-20" Maximum="0" MajorStep="5" IsInverse="True"
-                                            MajorTickTemplate="{StaticResource verticalMajorTickTemplate}">
-                           <telerik:LinearAxis.TitleTemplate>
-                              <DataTemplate>
-                                 <TextBlock Text="{Binding}" FontSize="11" FontFamily="Segoe UI" Margin="0,0,0,5" />
-                              </DataTemplate>
-                           </telerik:LinearAxis.TitleTemplate>
-                        </telerik:LinearAxis>
-                     </telerik:RadCartesianChart.VerticalAxis>
-                     <telerik:RadCartesianChart.Grid>
-                        <telerik:CartesianChartGrid MajorLinesVisibility="XY" />
-                     </telerik:RadCartesianChart.Grid>
-                     <telerikHelp:XEP_SeriesTypeSwitch.SeriesType >
-                        <Binding Path="SeriesType" />
-                     </telerikHelp:XEP_SeriesTypeSwitch.SeriesType>
-                  </telerik:RadCartesianChart>
-                  <!--<Grid Visibility="{Binding ElementName=MaterialPropExpander, Converter={StaticResource conventorVisibility}, Path=IsExpanded}">
-                  <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-                  <RowDefinition Height="Auto"/>                           
-                  </Grid.RowDefinitions>
-                  <TextBox  Text="{x:Static r:Resources.MATERIAL_DIAGRAM_PREVIEW}"/>-->
-                  <!--</Grid>-->
-                  <!--//// MATERIAL DIAGRAM-->
-                  <Viewbox Grid.Row="0" Grid.Column="0" VerticalAlignment="Top">
-                     <lib:XEP_SectionDrawerUC x:Name="drawingScene" Visibility="{Binding ElementName=MaterialPropExpander, Converter={StaticResource conventorVisibilityFalse}, Path=IsExpanded}"
+                  <smartControls:XEP_StressStrainDiagramUC Grid.Row="0" Grid.Column="0"
+                                                           Visibility="{Binding ElementName=MaterialPropExpander, Converter={StaticResource conventorVisibility}, Path=IsExpanded}"
+                                                           MaterialData_XEP="{Binding Path=ActiveSectionData.ConcreteSectionData.MaterialData, Mode=TwoWay}"/>
+                  <Viewbox Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" 
+                           Visibility="{Binding ElementName=MaterialPropExpander, Converter={StaticResource conventorVisibilityFalse}, Path=IsExpanded}">
+                     <lib:XEP_SectionDrawerUC x:Name="drawingScene"
                                               Width="200" Height="200" SnapsToDevicePixels="True" Margin="2" Padding="3"
                                               CssShape4Draw="{Binding Path=ActiveSectionData.ConcreteSectionData.SectionShape.CssShape, Mode=TwoWay}"
                                               CssAxisHorizontal4Draw="{Binding Path=CssAxisHorizontal, Mode=TwoWay}"

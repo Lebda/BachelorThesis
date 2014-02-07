@@ -143,7 +143,7 @@ namespace XEP_SectionCheckCommon.DataCache
         // PROPERTIES
         public string ManagedValueWithUnit
         {
-            get { return ManagedValue.ToString() + " " + Manager.GetNameWithUnit(this); }
+            get { return ManagedValue.ToString("0,0.00") + " " + Manager.GetNameWithUnit(this); }
             set { }
         }
         XEP_IEnum2StringManager _enum2StringManager = null;

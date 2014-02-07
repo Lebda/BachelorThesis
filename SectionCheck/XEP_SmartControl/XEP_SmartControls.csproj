@@ -44,6 +44,22 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2013.3.1204.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WPF Q3 2013\Binaries.NoXaml\WPF40\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -62,7 +78,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RadChartView\XEP_SeriesTypeSwitch.cs" />
+    <Compile Include="RadChartView\XEP_StressStrainDiagramUC_ViewModel.cs" />
     <Compile Include="XEP_CustomElipse.cs" />
+    <Compile Include="RadChartView\XEP_StressStrainDiagramUC.xaml.cs">
+      <DependentUpon>XEP_StressStrainDiagramUC.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +99,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="RadChartView\XEP_StressStrainDiagramUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLibrary\XEP_CommonLibrary.csproj">
+      <Project>{CE7EBD36-A137-41E6-ACD3-A5A9E59F2817}</Project>
+      <Name>XEP_CommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckCommon\XEP_SectionCheckCommon.csproj">
+      <Project>{15687EED-0F0C-4210-91B0-DFDD36A176D9}</Project>
+      <Name>XEP_SectionCheckCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XEP_SectionCheckInterfaces\XEP_SectionCheckInterfaces.csproj">
+      <Project>{9947B483-7749-4745-8561-51C1C66B34A7}</Project>
+      <Name>XEP_SectionCheckInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
