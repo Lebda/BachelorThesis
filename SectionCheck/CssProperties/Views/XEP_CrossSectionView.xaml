@@ -164,13 +164,6 @@
                               </telerik:RadGridView>
                               <StackPanel Orientation="Horizontal">
                                  <telerik:RadButton Content="{x:Static r:Resources.ADD_MAT_TO_LIB}" Command="{Binding Path=AddMatToLibCommand}"/>
-                                 <telerik:RadComboBox SelectedValue="{Binding SeriesType, Mode=TwoWay}" Margin="0,4" >
-                                    <core:String>Scatter point</core:String>
-                                    <core:String>Scatter line</core:String>
-                                    <core:String>Scatter spline </core:String>
-                                    <core:String>Scatter area </core:String>
-                                    <core:String>Scatter spline area </core:String>
-                                 </telerik:RadComboBox>
                               </StackPanel>
                            </StackPanel>
                         </telerik:RadExpander.Content>
